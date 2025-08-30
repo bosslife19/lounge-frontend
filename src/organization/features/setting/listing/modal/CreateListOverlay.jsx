@@ -17,7 +17,7 @@ import {
   InputGroup,
   Span,
   } from "@chakra-ui/react";
- import logo from "../../../../../assets/Image.png";
+ import logo from "../../../../../assets/userImage.jpg";
  import tick from "../../../../../assets/Verified tick2.png";
 import { FaBriefcase } from "react-icons/fa";
 import { Checkboxs } from "../../../../components/CheckboxCard/CheckboxCard";

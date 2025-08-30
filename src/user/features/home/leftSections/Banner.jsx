@@ -7,7 +7,7 @@ import { useState } from "react";
 
 // Replace with your images
 import banner1 from "../../../../assets/banner.png";
-import banner2 from "../../../../assets/Image.png";
+import banner2 from "../../../../assets/userImage.jpg";
 import banner3 from "../../../../assets/banner.png";
  import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 

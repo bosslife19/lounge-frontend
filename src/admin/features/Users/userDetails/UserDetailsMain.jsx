@@ -1,7 +1,7 @@
 import { Box, Grid } from "@chakra-ui/react"
 import { UserDetailsTabpanel } from "./TabPanelDetails"
 import { ReusableUserDetailsCard } from "../../../components/Card/UserDetailsCard"
-import avatar from "../../../../assets/Image.png"
+import avatar from "../../../../assets/userImage.jpg"
  import badge from "../../../../assets/stash_badge-verified-solid.png"
 
 export const UserDetailsMain = () => {

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import btns from "../../../../assets/btn.svg"
 import images from "../../../../assets/course.png"
-import logo from "../../../../assets/Profile.png"
+import logo from "../../../../assets/userImage.jpg"
 
 const cardData = [
   { id: 1, eImage:images, title: "Beginner’s bbe Guide to becoming a professional frontend developer", subtitle: "Subtitle One",subimage:logo,date:'july 5, 2025' },

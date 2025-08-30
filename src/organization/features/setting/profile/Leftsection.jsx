@@ -5,7 +5,7 @@ import tick from "../../../../assets/Verified tick.png";
 import { FaBriefcase } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
 import { truncateText } from '../../home/RightSide/mentorsCard';
-import logo from "../../../../assets/Image.png";
+import logo from "../../../../assets/userImage.jpg";
 import { useState } from 'react';
 import { EditProfile } from './modals/EditProfile';
 import { FirstModal } from '../../home/modal/firstmodal';

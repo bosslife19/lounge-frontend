@@ -1,7 +1,7 @@
 import { Box, Button, Flex, HStack, Image, Stack, Text } from '@chakra-ui/react'
  import images from "../../../../assets/unlocked.png"
 import { LuPencil } from 'react-icons/lu'
-import logo from "../../../../assets/Image.png";
+import logo from "../../../../assets/userImage.jpg";
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import { SwitchPage } from '../../../components/switchPage/switch';
 import { useState } from 'react';

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Button, Flex, HStack, Image, Stack, Text } from "@chakra-ui/react";
-import logo from "../../../../assets/Profile.png"
+import logo from "../../../../assets/userImage.jpg"
 import notify from '../../../../assets/laughin.png'
 import notify2 from '../../../../assets/video.png'
 import { Link, useNavigate } from "react-router-dom";

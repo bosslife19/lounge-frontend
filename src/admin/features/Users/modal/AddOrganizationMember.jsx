@@ -15,7 +15,7 @@ import {
    Text,
    Textarea,
    } from "@chakra-ui/react";
- import logo from "../../../../assets/Profile.png";
+ import logo from "../../../../assets/userImage.jpg";
 //  import tick from "../../../../assets/Verified tick2.png";
 import { FaBriefcase, FaFacebook } from "react-icons/fa";
 import { CiUser } from "react-icons/ci";

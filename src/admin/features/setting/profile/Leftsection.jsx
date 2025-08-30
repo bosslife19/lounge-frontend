@@ -5,7 +5,7 @@ import tick from "../../../../assets/Verified tick.png";
 import { FaBriefcase } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
 // import { truncateText } from '../../../home/RightSide/mentorsCard';
-import logo from "../../../../assets/Image.png";
+import logo from "../../../../assets/userImage.jpg";
 import { truncateText } from '../../../../user/features/home/RightSide/mentorsCard';
 import { RxDotsVertical } from 'react-icons/rx';
 import { CiUser } from 'react-icons/ci';

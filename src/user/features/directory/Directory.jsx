@@ -24,7 +24,7 @@ import googlesmall from "../../../assets/googlesmall.png";
 import linkedin from "../../../assets/skill-icons_linkedin.png";
 import facebk from "../../../assets/logos_facebook.png";
  import images from "../../../assets/course.png"
-import logo from "../../../assets/Profile.png"
+import logo from "../../../assets/userImage.jpg"
 import { LuUser } from "react-icons/lu";
 import { SelectOption } from "../../components/select/Select";
 import { Dropdown } from "../../components/select/Dropdown";

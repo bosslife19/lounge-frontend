@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-  import Avatars from "../../../../assets/Profile.png";
+  import Avatars from "../../../../assets/userImage.jpg";
 import { Box, Button, Image, Text } from "@chakra-ui/react";
 import Notfyimage from '../../../../assets/Notification.png'
 // import { AuthContext } from "../../../context/AuthContext";

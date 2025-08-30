@@ -13,7 +13,7 @@ import {
   Textarea,
   Field,
 } from "@chakra-ui/react";
- import logo from "../../../../assets/Image.png";
+ import logo from "../../../../assets/userImage.jpg";
 import { MdAddCircleOutline } from "react-icons/md";
 import { RxDotsVertical } from "react-icons/rx";
 import { FiPlusCircle } from "react-icons/fi";

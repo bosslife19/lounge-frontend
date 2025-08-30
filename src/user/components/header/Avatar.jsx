@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
-  import Avatars from "../../../assets/Profile.png";
+import React, { useState, useEffect, useRef, useContext } from "react";
+  import Avatars from "../../../assets/userImage.jpg";
 import { Box, Button, Image, Text } from "@chakra-ui/react";
 import Notfyimage from '../../../assets/Notification.png'
-// import { AuthContext } from "../../../context/AuthContext";
+ import { AuthContext } from "../../../context/AuthContext";
 
 const Avatar = ({ options }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
-
+const {userDetails} = useContext(AuthContext)
   const closeDropdown = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
@@ -32,7 +32,7 @@ const Avatar = ({ options }) => {
           {/* <span>{userDetails?.name||'Admin'}</span> */}
           <Text fontFamily={'InterRegular'} fontSize={{base:'12px',md:'16px'}}>Mentors</Text>
         </Box>
-        <Image w={{base:6,lg:10}} h={{base:6,lg:10}} src={Avatars} alt="Avatar" className="object-cover  rounded-full" />
+        <Image w={{base:6,lg:10}} h={{base:6,lg:10}} src={userDetails.profile_picture || Avatars} alt="Avatar" className="object-cover  rounded-full" />
        
       </div>
 

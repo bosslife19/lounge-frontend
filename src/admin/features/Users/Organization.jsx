@@ -1,7 +1,7 @@
 import { Box, Menu, Button, Portal, HStack, Text } from "@chakra-ui/react";
 import { BottomTable } from "../../components/BottomTable";
 import { useState } from "react";
-import img from "../../../assets/Profile.png";
+import img from "../../../assets/userImage.jpg";
 import { IoIosArrowDown, IoMdCheckboxOutline } from "react-icons/io";
 import { MdOutlineCancel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";

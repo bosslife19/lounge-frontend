@@ -10,7 +10,7 @@ import {
   Text,
 } from "@chakra-ui/react";
  import { BiPlus } from "react-icons/bi";
-import logo from "../../../../assets/Image.png";
+import logo from "../../../../assets/userImage.jpg";
 import { CiCirclePlus } from "react-icons/ci";
 
 // Dummy Data

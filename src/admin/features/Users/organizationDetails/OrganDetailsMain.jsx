@@ -1,7 +1,7 @@
 import { Box, Button, Grid } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import { ReusableUserDetailsCard } from "../../../components/Card/UserDetailsCard"
-import avatar from "../../../../assets/Image.png"
+import avatar from "../../../../assets/userImage.jpg"
 import badge from "../../../../assets/MdBusinessCenter.png"
 import { OrgDetailsTabpanel } from "./OrgTabPanelDetails"
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md"

@@ -1,5 +1,5 @@
  import images from "../assets/course.png"
-import logo from "../assets/Profile.png"
+import logo from "../assets/userImage.jpg"
 
 export const cardData = [
   { id: 1, eImage:images, title: "Beginner’s bbe Guide to becoming a professional frontend developer",

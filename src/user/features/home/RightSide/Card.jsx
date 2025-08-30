@@ -2,7 +2,7 @@ import { Box, Heading,  HStack, Image, Text, Button, Stack } from "@chakra-ui/re
 import { Emojione_fire } from "../../../../assets/emojione_fire";
 import divider from "../../../../assets/Divider.svg"
 import { CiClock2 } from "react-icons/ci";
-import logo from "../../../../assets/Image.png";
+import logo from "../../../../assets/userImage.jpg";
 import tick from "../../../../assets/check.png";
 import lightdivider from "../../../../assets/lightDivider.png"
 

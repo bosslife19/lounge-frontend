@@ -1,5 +1,5 @@
 import { Box, Button, Field, Fieldset, Flex, HStack, Image, Input, InputGroup, Stack, Text } from '@chakra-ui/react'
- import logo from "../../../../assets/Image.png";
+ import logo from "../../../../assets/userImage.jpg";
   import { useState } from 'react';
  import { CiLock } from 'react-icons/ci';
 
