@@ -41,7 +41,7 @@ const MentorsBoxPage = () => {
       {/* Header */}
       <Flex justify="space-between" align="center" mb={6}>
         <Text fontSize="xl" fontWeight="bold" color="#202020">
-          My Projects
+          My Mentors
         </Text>
         <Button
           bg="transparent"

@@ -3,10 +3,25 @@ import React, { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import { Spinner } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
+import axiosClient from '../../axiosClient'
 
 
 const ProtectedRoute = ({ children }) => {
+
+   const Loader = ()=>{
+  return (
+     <Flex
+            align="center"
+            justify="center"
+            h="100vh"
+            w="full"
+            color="#0A2EE2"
+          >
+            <Spinner size="xl" thickness="4px" speed="0.65s" />
+          </Flex>
+  )
+ }
   const token = localStorage.getItem("ACCESS_TOKEN");
   const {userDetails, setUserDetails} = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
@@ -20,12 +35,8 @@ const ProtectedRoute = ({ children }) => {
       }
 
       try {
-        const res = await axios("/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("Fetched user:", res.data);
+       const res = await axiosClient.get('/user');
+    
         setUserDetails(res.data); // store user in AuthContext
         setIsAuthenticated(true);
       } catch (error) {
@@ -40,7 +51,7 @@ const ProtectedRoute = ({ children }) => {
     fetchUser();
   }, []);
 
-  if (loading) return <Spinner/>;
+  if (loading) return <Loader/>;
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
 

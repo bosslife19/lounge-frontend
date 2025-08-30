@@ -12,7 +12,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 export const FirstModal = ({ isOpen, onClose,onStartCreating  }) => {
  const {userDetails} = useContext(AuthContext);
- console.log("userDetails",userDetails);
+
   return (
     <Dialog.Root open={isOpen}  >
       <Portal >
@@ -51,14 +51,14 @@ export const FirstModal = ({ isOpen, onClose,onStartCreating  }) => {
             Create your profile in just 5 minutes and start enjoying our professional platform.
         </Text>
         </Fieldset.Content>
-          {/* Button */}
-            {/* <Button mx={'auto'} onClick={onStartCreating} 
+           
+             <Button mx={'auto'} onClick={onStartCreating} 
              p={7}  
              fontSize={{base:17,md:20}}
              rounded={10}
              bg={'#2B362F'} >
             Start Creating
-          </Button> */}
+          </Button> 
           </Fieldset.Root>
           </Dialog.Content>
         </Dialog.Positioner>

@@ -37,7 +37,7 @@ import { AdminContent } from './admin/features/Contents/TopTabPanel';
  
 function App() {
  const Home = lazy(() => import("./user/features/home/Homes"));
- 
+
   return (
     <BrowserRouter>
         <Suspense fallback={<Spinner />}>

@@ -10,6 +10,7 @@ const Avatar = ({ options }) => {
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
+
   const closeDropdown = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
