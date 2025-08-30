@@ -17,14 +17,16 @@ import {
   InputGroup,
   Span,
   } from "@chakra-ui/react";
- import logo from "../../../../../assets/Image.png";
- import tick from "../../../../../assets/Verified tick2.png";
+ import logo from "../../../../assets/Image.png";
+ import tick from "../../../../assets/Verified tick2.png";
 import { FaBriefcase } from "react-icons/fa";
-import { Checkboxs } from "../../../../components/CheckboxCard/CheckboxCard";
-import { PhoneInput } from "../../../../components/phoneINput/PhoneInput";
+// import { Checkboxs } from "../../../../components/CheckboxCard/CheckboxCard";
+// import { PhoneInput } from "../../../../components/phoneINput/PhoneInput";
  import { CiCalendar } from "react-icons/ci";
+import { Checkboxs } from "../../../../user/components/CheckboxCard/CheckboxCard";
+import { PhoneInput } from "../../../../user/components/phoneINput/PhoneInput";
 
-export const CreateListOverlay = ({ isOpen, onClose }) => {
+export const EditMentor = ({ isOpen, onClose }) => {
  
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
@@ -189,7 +191,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
              Cancel
            </Button>
            <Button py={6} w={{base:'60%'}} bg={'#2B362F'} >
-            Create List 
+            Save Changes
           </Button>
          </HStack>
          </Fieldset.Root>

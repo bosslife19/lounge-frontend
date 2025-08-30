@@ -3,24 +3,28 @@ import {
   Box,
   Button,
   Card,
+  createListCollection,
   Flex,
   Heading,
   IconButton,
   Input,
   InputGroup,
+  Menu,
+  Portal,
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { cardData } from "../../../hooks/useData";
 import { MentoringDetails } from "./MentoringDetails";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { SelectOption } from "../../components/select/Select";
-import { CiSearch } from "react-icons/ci";
 import { Dropdown } from "../../components/select/Dropdown";
 import { IoIosArrowBack } from "react-icons/io";
+import { CiSearch } from "react-icons/ci";
+import { BiDotsVerticalRounded, BiPencil, BiTrash } from "react-icons/bi";
+import { EditMentor } from "./modal/Editoverlay";
 
-export const OrganizationMentoring = () => {
+export const AdminMentor = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -34,6 +38,24 @@ export const OrganizationMentoring = () => {
     setSelectedCard(null);
   };
 
+    const frameworks = createListCollection({
+    items: [
+      { label: "Experience", value: "Experience" },
+      { label: "finances", value: "finances" },
+      { label: "Angular", value: "angular" },
+      { label: "Svelte", value: "svelte" },
+    ],
+  })
+
+    const [isOpened, setIsOpened] = useState(false);
+
+      const handleAction = () => {
+     setIsOpened(true);
+  };
+
+  const handleClosed = () => {
+    setIsOpened(false);
+   };
   return (
     <Box bg={'#F5F6FA'} h={"100%"} p={3}>
       <Heading display={'flex'} pb={4} gap={2} alignItems={'center'}>
@@ -67,6 +89,7 @@ export const OrganizationMentoring = () => {
          </InputGroup>
 
         <Dropdown
+        frameworks={frameworks}
         // title={'finance'}
         
         />
@@ -88,6 +111,35 @@ export const OrganizationMentoring = () => {
                 <Avatar.Image src={card.eImage} />
                 <Avatar.Fallback name={card.name} />
               </Avatar.Root>
+               <Menu.Root >
+                      <Menu.Trigger 
+                         position={'absolute'}
+                         right={5}
+                          top={5}  asChild>
+                          <Button 
+                          p={0}
+                          rounded={30}
+                          bg={'#6C3433'}  size="sm">
+                           <BiDotsVerticalRounded size={10}/>
+                          </Button>
+                         </Menu.Trigger>
+                        <Portal>
+                         <Menu.Positioner>
+                           <Menu.Content>
+                            <Menu.Item 
+                             onClick={() => handleAction()} 
+                            value="new-txt">
+                              <BiPencil/>
+                              Edit
+                            </Menu.Item>
+                            <Menu.Item value="new-file">
+                              <BiTrash/>
+                              Delete
+                         </Menu.Item>
+                       </Menu.Content>
+                     </Menu.Positioner>
+                   </Portal>
+                </Menu.Root>
               <Text textAlign={"center"}
               color={'#070416'}
               fontSize={{base:12,md:16}}
@@ -128,19 +180,7 @@ export const OrganizationMentoring = () => {
               </Card.Description>
               </Button>
             </Card.Body>
-            <Card.Footer>
-              <Button
-                w={"full"}
-                fontFamily="InterRegular"
-                fontSize={12}
-                bg={"#F2F2F2"}
-                color={"#333333B2"}
-                rounded={20}
-                p={5}
-              >
-               Request Session
-              </Button>
-            </Card.Footer>
+             
           </Card.Root>
         ))}
       </SimpleGrid>
@@ -153,6 +193,10 @@ export const OrganizationMentoring = () => {
           profile={selectedCard}
         />
       )}
+      <EditMentor 
+       isOpen={isOpened}
+          onClose={handleClosed}
+      />
     </Box>
   );
 };

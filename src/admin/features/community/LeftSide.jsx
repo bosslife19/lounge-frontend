@@ -22,7 +22,7 @@ import { GrMicrophone } from "react-icons/gr";
 import { CiImageOn } from "react-icons/ci";
 
 
-export const LeftSide = () => {
+export const AdminLeftSide = () => {
 const actions = [
   { id: 1, image: like },
   { id: 2, image: heart },

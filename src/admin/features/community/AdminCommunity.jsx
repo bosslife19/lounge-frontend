@@ -1,21 +1,19 @@
 import { Box, Heading, HStack } from "@chakra-ui/react"
-import { LeftSide } from "./LeftSide"
-import { RightSide } from "./RightSide"
+import { AdminLeftSide } from "./LeftSide"
+import { AdminRightSide } from "./RightSide"
 
-export const OrganizationCommunity = () => {
+export const AdminCommunity = () => {
   return (
     <Box>
-    <Heading p={4}>
-       Community
-    </Heading>
+    
    <HStack 
    justifyContent={'space-between'} 
    flexDirection={{base:'column',md:'row'}} 
    gap={5} 
    alignItems={'center'} 
    px={4}>
-    <LeftSide/>
-    <RightSide />
+    <AdminLeftSide/>
+    <AdminRightSide />
    </HStack>
    </Box>
   )

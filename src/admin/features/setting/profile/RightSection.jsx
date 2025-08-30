@@ -1,11 +1,7 @@
-import { Box, Button, Flex, HStack, Image, Stack, Text } from '@chakra-ui/react'
- import images from "../../../../assets/unlocked.png"
-import { LuPencil } from 'react-icons/lu'
-import logo from "../../../../assets/Image.png";
-import { IoIosNotificationsOutline } from 'react-icons/io';
-import { SwitchPage } from '../../../components/switchPage/switch';
-import { useState } from 'react';
-import { UpdatePasword } from './modals/updatePassword';
+import { Box, Button, Field, Fieldset, Flex, HStack, Image, Input, InputGroup, Stack, Text } from '@chakra-ui/react'
+ import logo from "../../../../assets/Image.png";
+  import { useState } from 'react';
+ import { CiLock } from 'react-icons/ci';
 
 export const RightSectionProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,135 +31,69 @@ export const RightSectionProfile = () => {
     
 
   return (
-    <Box mb={'auto'} w={'100%'} >
-        {/* profile name */}
-        <Box 
-        shadow={'xs'}
-        bg={'#fff'} 
-        rounded={10} p={6} 
-        w={{base:'100%',xl:475}}
-        border={'1px solid #EDEDF2'}>
-        <Flex 
-        alignItems={'center'}
-        justifyContent={'space-between'}>
-          <HStack >
-           <IoIosNotificationsOutline size={20} />
-              <Stack >
-             <Text
-               color={"#191919"}
-               fontSize={{ base: 10, md: 14 }}
-               fontFamily="InterBold"
-              >
-                 Become a Metor
-              </Text>
-             <Text
-               mt={-3}
-               color={"#475467"}
-               fontWeight={'normal'}
-               fontSize={{ base: 10, md: 14 }}
-               fontFamily="InterRegular"
-               display={'flex'}
-               alignItems={'center'}
-               gap={2}
-               py={1}
-              >
-               We will Approve your mentorship status
-             </Text>
+    <Box 
+    shadow={'xs'}
+        bg={'#FCFCFC'} 
+        rounded={10} p={3} 
         
-          </Stack>
-         </HStack>
-         <SwitchPage/>
-        </Flex>
-        </Box>
-
-        {/* Security */}
-        <Box 
-          mt={5}
-        shadow={'xs'}
-        bg={'#fff'} 
-        rounded={10} p={5} 
-        w={{base:'100%',xl:475}}
-        border={'1px solid #EDEDF2'}>
-        <Flex 
-        alignItems={'center'}
-        justifyContent={'space-between'}>
-          <HStack >
-            <Image
-            src={images}
-            alt="Update"
-                //  boxSize={30}
-            objectFit={'contain'}
-             w={'15%'} />
-              <Stack >
-             <Text
-               color={"#191919"}
-               fontSize={{ base: 10, md: 14 }}
-               fontFamily="InterBold"
-              >
-                 Security
-              </Text>
-             <Text
-               mt={-3}
-               color={"#475467"}
-               fontWeight={'normal'}
-               fontSize={{ base: 10, md: 14 }}
-               fontFamily="InterRegular"
-               py={1}
-              >
-                Change Password
-             </Text>
-            </Stack>
-         </HStack>
-         <Button onClick={handleCardClick} color={'#475367'} bg={'transparent'}>
-          <LuPencil />
-         </Button>
-        </Flex>
-        </Box>
-
-        {/* Notification */}
-        <Box 
-        // mt={5}
-        shadow={'xs'}
-        bg={'#fff'} 
-        rounded={10} p={6} 
-        w={{base:'100%',xl:475}}
-        border={'1px solid #EDEDF2'}>
-        <Flex 
-        alignItems={'center'}
-        justifyContent={'space-between'}>
-          <HStack >
-           <IoIosNotificationsOutline size={20} />
-              <Stack >
-             <Text
-               color={"#191919"}
-               fontSize={{ base: 10, md: 14 }}
-               fontFamily="InterBold"
-              >
-                 Notification
-              </Text>
-             <Text
-               mt={-3}
-               color={"#475467"}
-               fontWeight={'normal'}
-               fontSize={{ base: 10, md: 14 }}
-               fontFamily="InterRegular"
-               display={'flex'}
-               alignItems={'center'}
-               gap={2}
-               py={1}
-              >
-               Mute from non-transactional emails
-             </Text>
+        w={{base:'100%'}} 
+        border={'1px solid #EDEDF2'}
+         mb={'auto'}  >
+         <Fieldset.Root size={{base:'sm',md:"lg"}}  >
+                 <Stack>
+                  <Fieldset.Legend
+                  fontWeight={'400'}
+                   fontSize={{base:15,md:20}}
+                   fontFamily="InterBold"
+                   color={'#1A1A21'}
+                  >Update Password</Fieldset.Legend>
+                  <Text 
+                  fontWeight={'400'}
+                   fontSize={{base:12,md:14}}
+                   fontFamily="InterRegular"
+                   color={'#8C94A6'}
+                  >
+                    Enter your current password to make update
+                  </Text>
+                   </Stack>
+                      
+               <Fieldset.Content>
+                {/* title */}
+                <Field.Root>
+                  <Field.Label
+                  fontWeight={'400'}
+                   fontSize={{base:12,md:14}}
+                   fontFamily="InterMedium"
+                   color={'#101928'}
+                  >Current Password</Field.Label>
+                   <InputGroup startElement={<CiLock />}>
+                     <Input placeholder="Enter Password" />
+                   </InputGroup>
+                </Field.Root>
         
-          </Stack>
-         </HStack>
-         <SwitchPage/>
-        </Flex>
-        </Box>
-        <UpdatePasword
-         isOpen={isOpen}
-         onClose={handleClose}
-        />
+                <Field.Root>
+                  <Field.Label
+                  fontWeight={'400'}
+                   fontSize={{base:12,md:14}}
+                   fontFamily="InterMedium"
+                   color={'#101928'}
+                  >New Password</Field.Label>
+                   <InputGroup startElement={<CiLock />}>
+                     <Input placeholder="Enter New Password" />
+                   </InputGroup>
+                </Field.Root>
+                </Fieldset.Content>
+        
+                  {/* Button */}
+                  <HStack justifyContent={'end'}>
+                   <Button  
+                   p={5}  
+                   fontSize={{base:12,md:14}}
+                     bg={'#2B362F'} >
+                    Update Password
+              </Button>
+            </HStack>
+        </Fieldset.Root>
     </Box>
   )
 }

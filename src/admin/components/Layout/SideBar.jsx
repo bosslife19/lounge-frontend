@@ -11,7 +11,7 @@ import { IoMdClock, IoMdClose, IoMdSettings } from "react-icons/io";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { LuCalendarDays } from "react-icons/lu";
 import { BiLogOut, BiSolidCopyAlt } from "react-icons/bi";
-import { FaUser, FaUsers } from "react-icons/fa";
+import { FaGifts, FaUser, FaUsers } from "react-icons/fa";
 import logo from "../../../assets/logos.png";
 import { Balance } from "../../../assets/Balance";
 
@@ -70,8 +70,9 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
       { text: "Dashboard", link: "/admin/dashboard", icon: IoMdClock },
       { text: "Users", link: "/admin/users", icon: FaUser },
       { text: "Contents", link: "/admin/contents", icon: LuCalendarDays },
-      { text: "Mentoring", link: "/admin/mentoring", icon: BiSolidCopyAlt },
+      { text: "Mentor Lists", link: "/admin/mentor-list", icon: BiSolidCopyAlt },
       { text: "Community", link: "/admin/community", icon: FaUsers },
+      { text: "Benefits", link: "/admin/benefits", icon: FaGifts  },
       { text: "Settings", link: "/admin/settings", icon: IoMdSettings },
       { text: "Logout", link: "/admin/Logout", icon: BiLogOut },
     ],
@@ -203,11 +204,12 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
           const isCommunity = item.text === "Community";
            const isLogout = item.text === "Logout";
              const isSettings = item.text === "Settings";
+               const Benefits = item.text === "Benefits";
 
            return (
            <Box
             key={mainIndex}
-            mb={isCommunity || isLogout ? "100px" : "0"}  
+            mb={Benefits || isLogout ? "100px" : "0"}  
             >
             {isSettings && (
           <Text
