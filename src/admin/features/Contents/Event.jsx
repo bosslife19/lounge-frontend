@@ -1,142 +1,201 @@
-// "use client";
-
-// import React, { useState } from "react";
-// import { Calendar, momentLocalizer, Event } from "react-big-calendar";
-// import moment from "moment";
-// import "react-big-calendar/lib/css/react-big-calendar.css";
-// import {
-//   Box,
-//   Button,
-//   Drawer,
-//   Input,
-//   VStack,
-//   Heading,
-//   FormLabel,
-//   CloseButton,
-//   Portal,
-// } from "@chakra-ui/react";
-
-// const localizer = momentLocalizer(moment);
-
  
-// export default function FullPageScheduler() {
-//   const [events, setEvents] = useState ([
-//     {
-//       id: 1,
-//       title: "Team Meeting",
-//       start: new Date(),
-//       end: new Date(moment().add(1, "hours").toDate()),
-//     },
-//   ]);
+import React, { useState } from "react";
+import { Calendar, momentLocalizer, Views } from "react-big-calendar";
+import moment from "moment";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import {
+  Box,
+  Button,
+  Card,
+  Heading,
+  HStack,
+  Image,
+  Stack,
+  Text,
+//   useToast,
+} from "@chakra-ui/react";
+import { MdKeyboardArrowRight } from "react-icons/md";
+import imgs from "../../../assets/adults.png"
+import { EditEvent } from "./Modal/EditEvent";
+import { CreateEvent } from "./Modal/CreateEvent";
+const localizer = momentLocalizer(moment);
 
-//   const [newEvent, setNewEvent] = useState({
-//     title: "",
-//     start: new Date(),
-//     end: new Date(),
-//   });
+export default function EventsAdmin() {
+  const [events, setEvents] = useState([
+    {
+      id: 1,
+      title: "Team Meeting",
+      start: new Date(),
+      end: new Date(moment().add(1, "hours").toDate()),
+    },
+  ]);
 
-//   const handleAddEvent = () => {
-//     if (!newEvent.title) return;
-//     setEvents([
-//       ...events,
-//       { id: events.length + 1, title: newEvent.title, start: newEvent.start, end: newEvent.end },
-//     ]);
-//   };
+//   const toast = useToast();
 
-//   return (
-//     <Box display="flex" h="100vh" w="100vw">
-//       {/* Left Sidebar */}
-//       <Box
-//         w="260px"
-//         bg="gray.100"
-//         borderRight="1px solid"
-//         borderColor="gray.200"
-//         p={6}
-//       >
-//         <Heading size="md" mb={6}>
-//           Scheduler
-//         </Heading>
+  // Create event via sidebar button
+  const handleCreateEvent = () => {
+    const title = window.prompt("Enter event title");
+    if (title) {
+      const newEvent = {
+        id: events.length + 1,
+        title,
+        start: new Date(),
+        end: new Date(moment().add(1, "hours").toDate()),
+      };
+      setEvents([...events, newEvent]);
+    //   toast({
+    //     title: "Event Created",
+    //     description: `"${title}" scheduled now`,
+    //     status: "success",
+    //     duration: 2000,
+    //     isClosable: true,
+    //   });
+    }
+  };
 
-//         <Drawer.Root placement="left">
-//           <Drawer.Trigger asChild>
-//             <Button colorScheme="blue" w="full">
-//               + Create New Event
-//             </Button>
-//           </Drawer.Trigger>
+  // Create event when user clicks on calendar slot
+  const handleSelectSlot = ({ start, end }) => {
+    const title = window.prompt("Enter a new event name");
+    if (title) {
+      setEvents([...events, { id: events.length + 1, title, start, end }]);
+    //   toast({
+    //     title: "Event Created",
+    //     description: `"${title}" scheduled on ${moment(start).format("LLL")}`,
+    //     status: "success",
+    //     duration: 2000,
+    //     isClosable: true,
+    //   });
+    }
+  };
 
-//           <Portal>
-//             <Drawer.Backdrop />
-//             <Drawer.Positioner>
-//               <Drawer.Content>
-//                 <Drawer.Header>
-//                   <Drawer.Title>Add New Event</Drawer.Title>
-//                 </Drawer.Header>
+  // When clicking an existing event
+  const handleSelectEvent = (event) => {
+    // toast({
+    //   title: "Event Selected",
+    //   description: event.title,
+    //   status: "info",
+    //   duration: 2000,
+    //   isClosable: true,
+    // });
+  };
 
-//                 <Drawer.Body>
-//                   <VStack spacing={4} align="stretch">
-//                     <Box>
-//                       <FormLabel>Event Title</FormLabel>
-//                       <Input
-//                         placeholder="Enter title"
-//                         value={newEvent.title}
-//                         onChange={(e) =>
-//                           setNewEvent({ ...newEvent, title: e.target.value })
-//                         }
-//                       />
-//                     </Box>
-//                     <Box>
-//                       <FormLabel>Start Date & Time</FormLabel>
-//                       <Input
-//                         type="datetime-local"
-//                         onChange={(e) =>
-//                           setNewEvent({
-//                             ...newEvent,
-//                             start: new Date(e.target.value),
-//                           })
-//                         }
-//                       />
-//                     </Box>
-//                     <Box>
-//                       <FormLabel>End Date & Time</FormLabel>
-//                       <Input
-//                         type="datetime-local"
-//                         onChange={(e) =>
-//                           setNewEvent({
-//                             ...newEvent,
-//                             end: new Date(e.target.value),
-//                           })
-//                         }
-//                       />
-//                     </Box>
-//                   </VStack>
-//                 </Drawer.Body>
+    const [isOpen, setIsOpen] = useState(false);
+    const [isOpened, setIsOpened] = useState(false);
 
-//                 <Drawer.Footer>
-//                   <Button variant="outline">Cancel</Button>
-//                   <Button colorScheme="blue" onClick={handleAddEvent}>
-//                     Add Event
-//                   </Button>
-//                 </Drawer.Footer>
+     
+        const handleCardClick = () => {
+       setIsOpen(true);
+    };
+  
+    const handleClose = () => {
+      setIsOpen(false);
+     };
+        
+           const handleCardClicked = () => {
+          setIsOpened(true);
+       };
+     
+       const handleCloseed = () => {
+         setIsOpened(false);
+        };
 
-//                 <Drawer.CloseTrigger asChild>
-//                   <CloseButton size="sm" />
-//                 </Drawer.CloseTrigger>
-//               </Drawer.Content>
-//             </Drawer.Positioner>
-//           </Portal>
-//         </Drawer.Root>
-//       </Box>
+  return (
+    <Box
+      h="100vh"
+      bg={'transparent'}
+    >
+      {/* Left Sidebar */}
+      <Box
+      display="flex"
+      px={5}
+      alignItems={'center'}
+       w={{base:'100%',xl:"100vw"}}
+        gap={5}
+      flexDir={{ base: "column", xl: "row" }}
+      >
+        <Box
+         mb={'auto'} 
+        w={{ base: "100%", xl: "300px" }}
+        flexShrink={0}
+       
+      >
+         
+        <Button   ml={'auto'} 
+        colorScheme="blue" 
+        w={{base:'auto',xl:"full"}} onClick={handleCardClick}>
+          + Create New Event
+        </Button>
+     <Card.Root
+      maxW={'100%'}
+      mt={5}
+      border="1px solid"
+      borderColor="gray.200"
+      rounded="xl"
+      shadow="md"
+      overflow="hidden"
+      _hover={{ shadow: "lg" }}
+    >
+      <Image
+        src={imgs}
+        alt="Web Developers Summit"
+        objectFit="cover"
+        w="100%"
+        h="180px"
+      />
 
-//       {/* Right Calendar */}
-//       <Box flex="1" p={4}>
-//         <Calendar
-//           localizer={localizer}
-//           events={events}
-//           startAccessor="start"
-//           endAccessor="end"
-//           style={{ height: "100%" }}
-//         />
-//       </Box>
-//     </Box>
-//   );
-// }
+      <Card.Body>
+        <Stack spacing={3}>
+          <Heading size="md">
+            The 2025 Web Developers Summit: Beginners’ Guide to Coding
+          </Heading>
+          <Text fontWeight="medium" color="gray.600">
+            Friday 6 July, 2025
+          </Text>
+          <Text color="gray.500">11:00AM - 12:00PM (1HR)</Text>
+          <Button 
+          onClick={handleCardClicked}
+          justifyContent={'space-between'}
+          flexDirection={'row'}
+          color={'#919191'}
+          bg={'transparent'}>
+            <Text>
+                Edit Event
+            </Text>
+            <MdKeyboardArrowRight />
+          </Button>
+        </Stack>
+      </Card.Body>
+    </Card.Root>
+          
+       </Box>
+
+      {/* Right Calendar */}
+      <Box w={{base: '100%',xl:600}}  h={{base:500,md:700}} bg={'#fff'}rounded={20} shadow={'md'} p={4} overflow="hidden">
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          selectable
+          onSelectSlot={handleSelectSlot}
+          onSelectEvent={handleSelectEvent}
+          popup
+          defaultView={Views.MONTH} // Start in month view
+          views={[Views.MONTH, Views.WEEK, Views.DAY, Views.AGENDA]}
+          longPressThreshold={1} // allow single click to create
+        //   style={{ width: "100%",height:700 }}
+        />
+      </Box>
+      </Box>
+
+      <CreateEvent
+      isOpen={isOpen}
+      onClose={handleClose}
+      />
+      <EditEvent
+      isOpen={isOpened}
+      onClose={handleCloseed}
+      />
+    </Box>
+  );
+}

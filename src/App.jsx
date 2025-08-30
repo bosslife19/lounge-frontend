@@ -32,6 +32,10 @@ import { UsersHome } from './admin/features/Users/users';
 import { UserDetailsMain } from './admin/features/Users/userDetails/UserDetailsMain';
 import { OrganDetailsAdminMain } from './admin/features/Users/organizationDetails/OrganDetailsMain';
 import { AdminContent } from './admin/features/Contents/TopTabPanel';
+import { AdminMentor } from './admin/features/mentoring/Mentoring';
+import { AdminCommunity } from './admin/features/community/AdminCommunity';
+import { AdminBenfitsTabPanels } from './admin/features/BeneFits/AdminBenfitsTabPanels';
+import { AdminSettingsTab } from './admin/features/setting/SettingsTabpanel';
 // import AdminProfileDetails from './admin/features/home/ProfileDetails';
 // import AdminPostHistory from './admin/features/home/postHistory';
  
@@ -98,6 +102,10 @@ function App() {
               <Route path="/admin/user-details" element={<UserDetailsMain />} />
               <Route path="/admin/organization-details" element={<OrganDetailsAdminMain />} />
               <Route path="/admin/contents" element={<AdminContent />} />
+              <Route path="/admin/mentor-list" element={<AdminMentor />} />
+              <Route path="/admin/community" element={<AdminCommunity />} />
+               <Route path="/admin/benefits" element={<AdminBenfitsTabPanels />} />
+              <Route path="/admin/settings" element={<AdminSettingsTab />} />
 
             {/* Admin */}
             </Route>

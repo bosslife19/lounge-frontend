@@ -12,16 +12,14 @@ import {
   Textarea,
 } from "@chakra-ui/react";
   import { cardData } from "../../../hooks/useData";
- import { BsThreeDots } from "react-icons/bs";
- import like from "../../../assets/streamline_like-1-solid.png"
+  import like from "../../../assets/streamline_like-1-solid.png"
  import heart from "../../../assets/solar_heart-angle-bold.png"
  import bulb from "../../../assets/fluent-color_lightbulb-filament-20.png"
-import { GrMicrophone } from "react-icons/gr";
-import { CiImageOn } from "react-icons/ci";
+ import { CiImageOn } from "react-icons/ci";
 import { PiTelegramLogoLight } from "react-icons/pi";
 
 
-export const RightSide = () => {
+export const AdminRightSide = () => {
 const actions = [
   { id: 1, image: like },
   { id: 2, image: heart },

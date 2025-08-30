@@ -2,10 +2,8 @@ import { Box, Heading, IconButton, Link, Tabs } from "@chakra-ui/react"
 import { IoIosArrowBack } from "react-icons/io"
 import { SettingsProfile } from "./profile/profile"
 import { SettingsPosts } from "./posts/Posts"
-import { SettingHelp } from "./help/SettingHelp"
-import { SettingsListing } from "./listing/Listing"
  
-export const OrganizationSettingsTab = () => {
+export const AdminSettingsTab = () => {
   return (
     <Box bg={'#F5F6FA'}>
      <Heading pl={5} display={'flex'} pb={4} gap={2} alignItems={'center'}>
@@ -34,16 +32,7 @@ export const OrganizationSettingsTab = () => {
             posts
           </Link>
         </Tabs.Trigger>
-         <Tabs.Trigger fontSize={{base:10,md:14}} value="listings" asChild>
-          <Link unstyled href="#listings">
-            Listings
-          </Link>
-        </Tabs.Trigger>
-         <Tabs.Trigger fontSize={{base:10,md:14}} value="help" asChild>
-          <Link unstyled href="#help">
-            Help
-          </Link>
-        </Tabs.Trigger>
+         
       </Tabs.List>
       <Tabs.Content value="profile">
         {/* profile */}
@@ -53,14 +42,7 @@ export const OrganizationSettingsTab = () => {
         {/* posts */}
        <SettingsPosts/>
         </Tabs.Content>
-        <Tabs.Content value="listings">
-          {/* listing */}
-        <SettingsListing/>
-        </Tabs.Content>
-        <Tabs.Content value="help">
-          {/* help */}
-       <SettingHelp/>
-        </Tabs.Content>
+          
     </Tabs.Root>
     </Box>
   )
