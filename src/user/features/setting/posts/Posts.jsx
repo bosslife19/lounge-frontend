@@ -13,15 +13,52 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-  import { BsThreeDots } from "react-icons/bs";
+  // import { BsThreeDots } from "react-icons/bs";
  import like from "../../../../assets/streamline_like-1-solid.png"
  import heart from "../../../../assets/solar_heart-angle-bold.png"
  import bulb from "../../../../assets/fluent-color_lightbulb-filament-20.png"
  import globe from "../../../../assets/Globe.png"
 import { cardData } from "../../../../hooks/useData";
+import { useContext, useEffect, useState } from "react";
+import axiosClient from "../../../../axiosClient";
+import { AuthContext } from "../../../../context/AuthContext";
+import { formatTime } from "../../../../lib/formatTime";
+// import { LuDelete } from "react-icons/lu";
+import { BiTrash } from "react-icons/bi";
+import { toast } from "react-toastify";
 
+export const userAvatar = "https://www.w3schools.com/howto/img_avatar.png";
 
 export const SettingsPosts = () => {
+  
+  const {userDetails} = useContext(AuthContext);
+  const [userPosts, setUserPosts] = useState([]);
+  useEffect(()=>{
+    const getPosts = async ()=>{
+      const res = await axiosClient.get(`/posts/${userDetails?.id}`);
+    
+      setUserPosts(res.data.posts);
+
+    }
+
+    getPosts();
+
+  }, [])
+
+  const handleDeletePost = async (postId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+    if(confirmDelete){
+      try {
+        await axiosClient.delete(`/posts/${postId}`);
+        // Remove the deleted post from the state
+        setUserPosts(userPosts.filter(post => post.id !== postId));
+        toast.success("Post deleted successfully");
+      } catch (error) {
+        console.error("Error deleting post:", error);
+        alert("Failed to delete the post. Please try again.");
+      }
+  }
+}
 const actions = [
   { id: 1, image: like },
   { id: 2, image: heart },
@@ -30,7 +67,8 @@ const actions = [
   return (
       <Stack px={6} py={4} w={{base:'100%',md:600}} mb={'auto'} gap={7}>
         
-      {cardData.map((card, idx) => (
+      {userPosts? userPosts.map((card, idx) => 
+      (
         <Card.Root
           key={idx}
           bg={"#fff"}
@@ -44,7 +82,7 @@ const actions = [
                <HStack>
                    <Stack position={"relative"}>
                            <Image
-                            src={card.eImage}
+                            src={userDetails?.profile_picture||"https://www.w3schools.com/howto/img_avatar.png"}
                             alt="Update"
                             boxSize="50px"
                              rounded={20}
@@ -56,7 +94,7 @@ const actions = [
                             fontSize={{ base: 10, md: 14 }}
                             fontFamily="InterBold"
                          >
-                           John
+                           {userDetails?.first_name} {userDetails?.last_name}
                          </Text>
                          <Text
                          mt={-3}
@@ -64,7 +102,7 @@ const actions = [
                             fontSize={{ base: 10, md: 14 }}
                             fontFamily="InterMedium"
                          >
-                           Banker
+                           {userDetails?.profession || "N/A"}
                          </Text>
                         <HStack mt={"-2"} alignItems={'center'}>
                             <Text
@@ -73,14 +111,15 @@ const actions = [
                            fontSize={{ base: 10, md: 13 }}
                         //    a
                        >
-                          20h
+                          {formatTime(new Date(card?.created_at))}
                         </Text>
                         <Image src={globe} w={4} />
                         </HStack>
                       </Stack>
                 </HStack>
-                <Button color={'#212121'} bg={'transparent'}>
-                    <BsThreeDots />
+                <Button color={'#212121'} bg={'transparent'} onClick={()=>handleDeletePost(card.id)}>
+                    {/* <BsThreeDots /> */}
+                    <BiTrash/>
                 </Button>
                 </Flex>
                   
@@ -88,19 +127,19 @@ const actions = [
                   color={'#070416'}
                   fontSize={{base:12,md:16}}
                     fontFamily="InterRegular">
-                    {card.desc3}
+                    {card?.body}
                   </Text>
                   <Text  
                    color={'#0966C2'}
                    fontSize={{base:12,md:16}}
                     fontFamily="InterMedium"
                     >
-                  #hastag #hastag #hashtag 
+                  {/* #hastag #hastag #hashtag  */}
                   </Text>
                   
                 </Card.Body>
                  <Image 
-                   src={card.eImage}
+                   src={card.post_image}
                       boxSize={'100%'}
                       h={220}
                       fit="cover"
@@ -115,13 +154,13 @@ const actions = [
                         <Text 
                         color={'#707070'}
                         fontSize={{base:12,md:14}}>
-                            88 Comments
+                            {card.comments.length} Comments
                         </Text>
                     </HStack>
                 <Card.Footer borderTop={'1px solid #E9E5DF'} mt={1} >
       </Card.Footer>
       </Card.Root>
-    ))}
+    )): "No Posts Yet"}
     </Stack>
    )
 }

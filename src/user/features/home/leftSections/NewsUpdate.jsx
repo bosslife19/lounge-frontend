@@ -5,6 +5,8 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import btns from "../../../../assets/btn.svg"
 import images from "../../../../assets/course.png"
 import logo from "../../../../assets/userImage.jpg"
+import axiosClient from "../../../../axiosClient";
+import {formatTime} from '../../../../lib/formatTime'
 
 const cardData = [
   { id: 1, eImage:images, title: "Beginner’s bbe Guide to becoming a professional frontend developer", subtitle: "Subtitle One",subimage:logo,date:'july 5, 2025' },
@@ -16,11 +18,25 @@ const cardData = [
   { id: 7, eImage: images,  title: "Beginner’s Guide to becoming a professional frontend developer", subtitle: "Subtitle Seven",subimage:logo,date:'july 5, 2025' },
 ];
 
+
+
+
+
 const NewsUpdate = () => {
+  const [news, setNews] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [cardWidth, setCardWidth] = useState(0);
 
   // Responsive breakpoints (adjust how many cards per screen)
+  useEffect(()=>{
+  const getPosts = async ()=>{
+    const res = await axiosClient.get('/get-all-posts');
+   
+    setNews(res.data.posts)
+  }
+  getPosts();
+}, [])
+
   const getVisibleCards = () => {
     if (window.innerWidth < 640) return 1; // mobile
     if (window.innerWidth < 1024) return 2; // tablet
@@ -28,13 +44,13 @@ const NewsUpdate = () => {
   };
 
   const [visibleCards, setVisibleCards] = useState(getVisibleCards());
-  const totalCards = cardData.length;
+  const totalCards = news?.length;
 
   // Clone edges for infinite loop
   const extendedCards = [
-    ...cardData.slice(-visibleCards),
-    ...cardData,
-    ...cardData.slice(0, visibleCards),
+    ...news?.slice(-visibleCards),
+    ...news,
+    ...news?.slice(0, visibleCards),
   ];
 
   const [index, setIndex] = useState(visibleCards);
@@ -131,8 +147,8 @@ const updateLayout = () => {
             >
               <Image
                 roundedTop={10}
-                src={card.eImage}
-                alt={card.title}
+                src={card.post_image}
+                alt={'post image'}
                 className="w-full h-40 object-cover"
               />
               <button
@@ -142,7 +158,7 @@ const updateLayout = () => {
                 <Image
                 roundedTop={10}
                 src={btns}
-                alt={card.title}
+                alt={'buttons'}
                 className="w-full h-40 object-cover"
               />
                 {/* <FaHeart
@@ -155,7 +171,7 @@ const updateLayout = () => {
                 // fontFamily="LatoRegular" 
                 fontSize={{base:12,md:14}} 
                 lineHeight={-2}
-                className="font-semibold">{card.title}</Text>
+                className="font-semibold">{card.body}</Text>
                </Box>
               <HStack 
                     // px={6}
@@ -166,7 +182,7 @@ const updateLayout = () => {
                     align="flex-start">
                       <Stack position={'relative'}>
                       <Image
-                        src={card.subimage}
+                        src={card?.user.profile_picture}
                         alt="Update"
                         boxSize="30px"
                          rounded={20}
@@ -178,13 +194,13 @@ const updateLayout = () => {
                         color={'#202020'}
                         fontSize={{base:8,md:10}}
                           fontFamily="InterMedium">
-                          {card.subtitle}
+                          {card?.user.first_name} {card?.user.last_name}
                         </Text>
                       <Text 
                         color={'#202020'}
                         fontSize={{base:8,md:10}} 
                         mt={'-2'}  >
-                       {card.date}
+                       {formatTime(card?.created_at)}
                       </Text>
                      </Stack>
               </HStack>

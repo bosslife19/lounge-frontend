@@ -16,6 +16,7 @@ import {
   Textarea,
   InputGroup,
   Span,
+  Spinner,
   } from "@chakra-ui/react";
  import logo from "../../../../../assets/userImage.jpg";
  import tick from "../../../../../assets/Verified tick2.png";
@@ -23,8 +24,34 @@ import { FaBriefcase } from "react-icons/fa";
 import { Checkboxs } from "../../../../components/CheckboxCard/CheckboxCard";
 import { PhoneInput } from "../../../../components/phoneINput/PhoneInput";
  import { CiCalendar, CiLock } from "react-icons/ci";
+ import { useRequest } from "../../../../../hooks/useRequest";
+import { useRef } from "react";
+import { toast } from "react-toastify";
 
 export const UpdatePasword = ({ isOpen, onClose }) => {
+  const {makeRequest, loading} = useRequest();
+  const currentPasswordRef = useRef('');
+  const newPasswordRef = useRef('');
+
+  const handleChangePassword = async ()=>{
+
+if(!currentPasswordRef.current.value || !newPasswordRef.current.value){
+  return toast.error("Please fill all fields")
+}
+
+
+
+  const res = await makeRequest('/change-password', {
+    currentPassword: currentPasswordRef.current.value,
+    newPassword: newPasswordRef.current.value
+  })
+
+  if(res.error) return;
+
+  toast.success('Password Changed Successfully');
+  onClose();
+
+}
  
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
@@ -62,7 +89,7 @@ export const UpdatePasword = ({ isOpen, onClose }) => {
            color={'#101928'}
           >Current Password</Field.Label>
            <InputGroup startElement={<CiLock />}>
-             <Input placeholder="Enter Password" />
+             <Input placeholder="Enter Password"  ref={currentPasswordRef}/>
            </InputGroup>
         </Field.Root>
 
@@ -74,18 +101,20 @@ export const UpdatePasword = ({ isOpen, onClose }) => {
            color={'#101928'}
           >New Password</Field.Label>
            <InputGroup startElement={<CiLock />}>
-             <Input placeholder="Enter New Password" />
+             <Input placeholder="Enter New Password" ref={newPasswordRef} />
            </InputGroup>
         </Field.Root>
         </Fieldset.Content>
 
           {/* Button */}
           <HStack justifyContent={'end'}>
-           <Button onClick={()=>onClose()} 
+           <Button onClick={handleChangePassword} 
            p={5}  
            fontSize={{base:12,md:14}}
              bg={'#2B362F'} >
-            Update Password
+            {
+              loading? <Spinner/>:'Update Password'
+            }
           </Button>
          </HStack>
          </Fieldset.Root>

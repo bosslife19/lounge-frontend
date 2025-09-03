@@ -1,0 +1,24 @@
+  export const formatTime = (timestamp) =>{
+  const now = new Date();
+  const past = new Date(timestamp);
+  const diff = Math.floor((now - past) / 1000); // difference in seconds
+
+  if (diff < 60) {
+    return `${diff} sec${diff !== 1 ? 's' : ''} ago`;
+  } else if (diff < 3600) {
+    const mins = Math.floor(diff / 60);
+    return `${mins} min${mins !== 1 ? 's' : ''} ago`;
+  } else if (diff < 86400) {
+    const hours = Math.floor(diff / 3600);
+    return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+  } else if (diff < 2592000) {
+    const days = Math.floor(diff / 86400);
+    return `${days} day${days !== 1 ? 's' : ''} ago`;
+  } else if (diff < 31536000) {
+    const months = Math.floor(diff / 2592000);
+    return `${months} month${months !== 1 ? 's' : ''} ago`;
+  } else {
+    const years = Math.floor(diff / 31536000);
+    return `${years} year${years !== 1 ? 's' : ''} ago`;
+  }
+}

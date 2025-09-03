@@ -29,7 +29,10 @@ import { LuUser } from "react-icons/lu";
 import { SelectOption } from "../../components/select/Select";
 import { Dropdown } from "../../components/select/Dropdown";
 import { BiSearch } from "react-icons/bi";
+import axiosClient from "../../../axiosClient";
+import userImage from '../../../assets/userImage.jpg'
 // ✅ Directory Data (dynamic)
+
 const DirectoryData = [
   {
     id: 1,
@@ -78,8 +81,21 @@ export const frameworks = createListCollection({
 })
 const Directory = () => {
   const navigate = useNavigate();
-  const [selected, setSelected] = useState(DirectoryData[0]); // default profile
 
+const [directoryData, setDirectoryData] = useState([]);
+  const [selected, setSelected] = useState(directoryData[0]||null); // default profile
+
+  console.log("selected", selected);
+
+useEffect(()=>{
+  const getAllProfessionals = async ()=>{
+    const res = await axiosClient.get('/users');
+    setDirectoryData(res.data.users);
+   
+    setSelected(res.data.users[0]||null)
+  }
+  getAllProfessionals();
+}, [])
   
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -120,7 +136,7 @@ const Directory = () => {
           templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
           gap={3}
         >
-          {DirectoryData.map((card) => (
+          {directoryData?.map((card, idx) => (
             <Grid
               key={card.id}
               px={4}
@@ -132,12 +148,12 @@ const Directory = () => {
               rounded={10}
               className="bg-white relative"
               onClick={() => setSelected(card)}
-                  border={selected.id === card.id ? "1px solid #2B362F" : "1px solid transparent"} 
+                  border={selected?.id === card.id ? "1px solid #2B362F" : "1px solid transparent"} 
             >
               <HStack>
                 <Stack position={"relative"}>
                   <Image
-                    src={card.avatar}
+                    src={card.profile_picture}
                     alt="Update"
                     boxSize="50px"
                     rounded={20}
@@ -149,7 +165,7 @@ const Directory = () => {
                     fontSize={{ base: 10, md: 14 }}
                     fontFamily="InterMedium"
                   >
-                    {card.name}
+                    {card.first_name} {card.last_name}
                   </Text>
                   <Text
                     color={"#626262"}
@@ -157,7 +173,7 @@ const Directory = () => {
                     fontSize={{ base: 10, md: 13 }}
                     mt={"-2"}
                   >
-                    {card.role}
+                    {card?.profession}
                   </Text>
                 </Stack>
               </HStack>
@@ -165,7 +181,7 @@ const Directory = () => {
               {/* Location & Experience */}
               <HStack mt={3}>
                 <Stack position={"relative"}>
-                  <Image src={card.subimage} alt="Company" boxSize="35px" />
+                  <Image src={googlebig} alt="Company" boxSize="35px" />
                 </Stack>
                 <Stack>
                   <HStack mb={-2} alignItems={"center"}>
@@ -178,7 +194,7 @@ const Directory = () => {
                       fontSize={{ base: 10, md: 12 }}
                       fontFamily="InterRegular"
                     >
-                      {card.location}
+                      {card.city}
                     </Text>
                   </HStack>
                   <List.Root
@@ -188,15 +204,15 @@ const Directory = () => {
                     pl={3}
                     color={"#7C7C7C"}
                   >
-                    {card.experience.map((exp, idx) => (
+                    
                       <List.Item
                         key={idx}
                         fontSize={11}
                         fontFamily="InterRegular"
                       >
-                        {exp}
+                        {card.years_of_experience} years of Experience
                       </List.Item>
-                    ))}
+                  
                   </List.Root>
                 </Stack>
               </HStack>
@@ -222,25 +238,29 @@ const Directory = () => {
         >
           <Card.Body gap="2">
             <Avatar.Root mx={"auto"} boxSize={20} rounded={50}>
-              <Avatar.Image src={selected.avatar} />
-              <Avatar.Fallback name={selected.name} />
+              <Avatar.Image src={selected?.profile_picture || userImage} />
+              <Avatar.Fallback name={selected?.name} />
             </Avatar.Root>
             <Card.Title
               mt="2"
               textAlign={"center"}
               fontFamily="InterBold"
             >
-              {selected.name}
+              {selected?.first_name} {selected?.last_name}
             </Card.Title>
             <Card.Description textAlign={"center"}>
               <HStack justifyContent={"center"} mb={-1} alignItems={"center"}>
-                <Image boxSize={5} src={selected.companyLogo} alt="company" />
+                {/* todo: put organization logo */}
+                <Image boxSize={5} src={googlebig} alt="company" />
                 <Text
                   color={"#7C7C7C"}
                   fontSize={{ base: 10, md: 12 }}
                   fontFamily="InterRegular"
                 >
-                  {selected.company}
+                  {/* {selected.company} */}
+                  {/* to do : put organization name here */}
+                  Company
+
                 </Text>
               </HStack>
               <HStack justifyContent={"center"} mt={2} alignItems={"center"}>
@@ -253,7 +273,7 @@ const Directory = () => {
                   fontSize={{ base: 10, md: 12 }}
                   fontFamily="InterRegular"
                 >
-                  {selected.location}
+                  {selected?.city}
                 </Text>
               </HStack>
             </Card.Description>
@@ -279,11 +299,14 @@ const Directory = () => {
             </Heading>
           </Card.Header>
           <Card.Body mt={-3} color="fg.muted">
-            <List.Root fontFamily="InterRegular" fontSize={12}>
+            {/* <List.Root fontFamily="InterRegular" fontSize={12}>
               {selected.bio.map((item, idx) => (
                 <List.Item key={idx}>{item}</List.Item>
               ))}
-            </List.Root>
+            </List.Root> */}
+            <Text fontFamily="InterRegular" fontSize={12} color={'#202020'}>
+              {selected?.bio}
+            </Text>
           </Card.Body>
         </Card.Root>
 
@@ -301,9 +324,9 @@ const Directory = () => {
           </Card.Header>
           <Card.Body mt={-2} color="fg.muted">
             <List.Root>
-              {selected.expRole.map((item, idx) => (
-                <List.Item key={idx}>{item}</List.Item>
-              ))}
+              
+                <List.Item>{selected?.years_of_experience} Years of Experience</List.Item>
+            
             </List.Root>
           </Card.Body>
         </Card.Root>
@@ -314,9 +337,13 @@ const Directory = () => {
             <Heading size="md">Connect on Socials</Heading>
           </Card.Header>
           <Card.Body flexDirection={"row"} gap={4} color="fg.muted">
-            {selected.socials.map((src, idx) => (
+            {/* {selected.socials.map((src, idx) => (
               <Image key={idx} src={src} boxSize={5} />
-            ))}
+            ))} */}
+            {/* to do: put social images and link */}
+            <Text fontFamily="InterRegular" fontSize={12} color={'#202020'}>  
+              Socials
+              </Text>
           </Card.Body>
         </Card.Root>
       </Box>

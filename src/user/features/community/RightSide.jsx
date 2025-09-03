@@ -28,6 +28,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
 
 export const RightSide = () => {
+  const [isLoading, setIsLoading] = useState(false);
 // const actions = [
 //   { id: 1, image: like },
 //   { id: 2, image: heart },
@@ -51,15 +52,20 @@ const postRef = useRef(null);
       formData.append("file", postImage);
       formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
             try {
+            setIsLoading(true);
         const res = await axios.post(
           "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
           formData
         );
         image = res.data.secure_url;
+
+      
        
       } catch (error) {
         console.error("Image upload failed", error);
+        setIsLoading(false);
         toast.error("Image Upload Failed. Please try again.");
+        return;
       }
     }
 
@@ -73,6 +79,7 @@ const postRef = useRef(null);
     if(response.error) return;
 
     toast.success('Post uploaded successfully');
+    setIsLoading(false);
     postRef.current.value = '';
     setPostImage(null);
 
@@ -108,7 +115,7 @@ const postRef = useRef(null);
                <HStack ml={-5}>
                    <Stack position={"relative"}>
                            <Image
-                            src={userImage}
+                            src={userDetails?.profile_picture||userImage}
                             alt="Update"
                             boxSize="40px"
                              rounded={20}
@@ -168,7 +175,7 @@ const postRef = useRef(null);
                       fontFamily="InterRegular"
                      ml={'auto'} onClick={handlePost}>
                        {
-                        loading? <Spinner/>:'Post'
+                        loading || isLoading? <Spinner/>:'Post'
                        }
                 <PiTelegramLogoLight />               
             </Button>

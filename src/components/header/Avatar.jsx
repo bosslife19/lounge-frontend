@@ -33,6 +33,7 @@ const Avatar = ({ options }) => {
           <Text fontFamily={'inter'} fontSize={{base:'12px',md:'16px'}}>Mentors</Text>
         </Box>
         <img src={Avatars} alt="Avatar" className="object-cover w-10 h-10 rounded-full" />
+        <input type="file" hidden />
        
       </div>
 

@@ -54,7 +54,7 @@ export const RightSectionProfile = () => {
                fontSize={{ base: 10, md: 14 }}
                fontFamily="InterBold"
               >
-                 Become a Metor
+                 Become a Mentor
               </Text>
              <Text
                mt={-3}

@@ -36,6 +36,7 @@ import { AdminMentor } from './admin/features/mentoring/Mentoring';
 import { AdminCommunity } from './admin/features/community/AdminCommunity';
 import { AdminBenfitsTabPanels } from './admin/features/BeneFits/AdminBenfitsTabPanels';
 import { AdminSettingsTab } from './admin/features/setting/SettingsTabpanel';
+import Logout from './user/Logout';
 // import AdminProfileDetails from './admin/features/home/ProfileDetails';
 // import AdminPostHistory from './admin/features/home/postHistory';
  
@@ -112,6 +113,7 @@ function App() {
 
             {/* Public routes */}
              <Route path="/login" element={<Login />} />
+             <Route path="/logout" element={<Logout/>} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/otp" element={<Otp />} />
             <Route path="/forgot-password" element={<ForgotEmail />} />

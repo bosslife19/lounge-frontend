@@ -73,7 +73,7 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
       { text: "Mentoring", link: "/mentoring", icon: BiSolidCopyAlt },
       { text: "Community", link: "/community", icon: FaUsers },
       { text: "Settings", link: "/settings", icon: IoMdSettings },
-      { text: "Logout", link: "Logout", icon: BiLogOut },
+      { text: "Logout", link: "/logout", icon: BiLogOut },
     ],
     []
   );

@@ -6,13 +6,15 @@ import { FaBriefcase } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
 import { truncateText } from '../../home/RightSide/mentorsCard';
 import logo from "../../../../assets/userImage.jpg";
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { EditProfile } from './modals/EditProfile';
 import { FirstModal } from '../../home/modal/firstmodal';
+import { AuthContext } from '../../../../context/AuthContext';
+import userImage from '../../../../assets/userImage.jpg'
 
 export const LeftSectionProfile = () => {
 
-      
+     const {userDetails, setUserDetails} = useContext(AuthContext);
    const [isOpen, setIsOpen] = useState(false);
    
     const handleCardClick = () => {
@@ -53,7 +55,7 @@ export const LeftSectionProfile = () => {
           <HStack >
            <Stack position={"relative"}>
                <Image
-                 src={images}
+                 src={userDetails?.profile_picture||userImage}
                  alt="Update"
                  boxSize="60px"
                  rounded={30}
@@ -75,7 +77,7 @@ export const LeftSectionProfile = () => {
                fontSize={{ base: 10, md: 14 }}
                fontFamily="InterBold"
               >
-                 John Joe
+                 {userDetails?.first_name} {userDetails?.last_name}
               </Text>
              <Text
                mt={-3}
@@ -88,7 +90,7 @@ export const LeftSectionProfile = () => {
                gap={2}
                py={1}
               >
-              <FaBriefcase />  Financial Analyst
+              <FaBriefcase />  {userDetails?.profession || "Not Specified"}
              </Text>
               <Text
                mt={-3}
@@ -101,7 +103,7 @@ export const LeftSectionProfile = () => {
                gap={2}
               >
                 <FaLocationDot />
-                Berlin, Germany.
+                {userDetails?.city}
              </Text>
                          
           </Stack>
@@ -129,7 +131,7 @@ export const LeftSectionProfile = () => {
         alignItems={'center'}
         justifyContent={'space-between'}>
           <HStack >
-           <Stack position={"relative"}>
+           {/* <Stack position={"relative"}>
                <Image
                  src={images}
                  alt="Update"
@@ -146,8 +148,8 @@ export const LeftSectionProfile = () => {
                     borderRadius="md"
                     objectFit="cover"
                 />
-               </Stack>
-              <Stack >
+               </Stack> */}
+              {/* <Stack >
              <Text
                color={"#191919"}
                fontSize={{ base: 10, md: 14 }}
@@ -182,9 +184,9 @@ export const LeftSectionProfile = () => {
                 Berlin, Germany.
              </Text>
                          
-          </Stack>
+          </Stack> */}
          </HStack>
-         <LuPencil />
+         {/* <LuPencil /> */}
         </Flex>
          <Box shadow={'xl'} 
          mt={4} 
@@ -196,10 +198,13 @@ export const LeftSectionProfile = () => {
         pt={5}
         pb={2}
         justifyContent={'space-between'}>
-            About Company
+            About {userDetails?.first_name} {userDetails?.last_name}
             <LuPencil/>
         </Heading>
-             <List.Root gap={2}>
+        <Text>
+          {userDetails?.bio}
+        </Text>
+             {/* <List.Root gap={2}>
                <List.Item fontSize={14} color={'#7C7C7C'}>
                 Bachelor's degree in Design, related field, or equivalent practical experience.
                </List.Item>
@@ -209,7 +214,7 @@ export const LeftSectionProfile = () => {
                <List.Item fontSize={14} color={'#7C7C7C'}>
                 Experience in representing and advocating for UX the and users.
                </List.Item>
-             </List.Root>
+             </List.Root> */}
         </Box>
 
         {/*company members*/}
@@ -223,7 +228,8 @@ export const LeftSectionProfile = () => {
         pb={2}
         textAlign={'center'}
         >
-            Company Members
+            {/* Company Members */}
+            Mentors
          </Heading>
              <Stack spacing={6}>
                   {cardData.map((card) => (
