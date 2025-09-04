@@ -48,6 +48,9 @@ function Login() {
     toast.success('Login Successful');
 
     setTimeout(()=>{
+      if(res.response.user.role ==='admin'){
+        return navigate("/admin/dashboard")
+      }
 navigate("/dashboard")
     }, 2000);
 

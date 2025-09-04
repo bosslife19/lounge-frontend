@@ -34,7 +34,7 @@ const Avatar = ({ options }) => {
          </Button>
          <Box py={2} px={{base:2,md:6}} rounded={{base:10,md:50}} border={{base:'2px solid #F3F2F3',md:'6px solid #F3F2F3'}} className="flex-col flex px-2 items-center border">
           {/* <span>{userDetails?.name||'Admin'}</span> */}
-          <Text fontFamily={'InterMedium'} fontSize={{base:'10px',md:'16px'}}>Mentors</Text>
+          <Text fontFamily={'InterMedium'} fontSize={{base:'10px',md:'16px'}}>Admin</Text>
         </Box>
         <Image 
          w={{base:8,md:10}} 

@@ -7,7 +7,7 @@ import { Flex, Spinner } from "@chakra-ui/react";
 import axiosClient from '../../axiosClient'
 
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedOrganizationRoute= ({ children }) => {
 
    const Loader = ()=>{
   return (
@@ -53,10 +53,13 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) return <Loader/>;
 
+  if (userDetails?.role === 'user') return <Navigate to="/dashboard" replace />;
+  if (userDetails?.role === 'admin') return <Navigate to="/admin/dashboard" replace />;
+
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   
 
   return children;
 };
 
-export default ProtectedRoute;
+export default ProtectedOrganizationRoute;

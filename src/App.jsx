@@ -37,6 +37,8 @@ import { AdminCommunity } from './admin/features/community/AdminCommunity';
 import { AdminBenfitsTabPanels } from './admin/features/BeneFits/AdminBenfitsTabPanels';
 import { AdminSettingsTab } from './admin/features/setting/SettingsTabpanel';
 import Logout from './user/Logout';
+import ProtectedAdminRoute from './components/Layout/ProtectedAdminRoute';
+import ProtectedOrganizationRoute from './components/Layout/ProtectedOrganizationRoute';
 // import AdminProfileDetails from './admin/features/home/ProfileDetails';
 // import AdminPostHistory from './admin/features/home/postHistory';
  
@@ -73,9 +75,9 @@ function App() {
             <Route
             path='/organization'
               element={
-                // <ProtectedRoute>
+                 <ProtectedOrganizationRoute>
                   <AppLayouts />
-                // </ProtectedRoute>
+                 </ProtectedOrganizationRoute>
               } 
             >
               <Route path="/organization/dashboard" index element={<OrganizationHome />} />
@@ -93,9 +95,9 @@ function App() {
             <Route
             path='/admin'
               element={
-                // <ProtectedRoute>
+                 <ProtectedAdminRoute>
                   <AdminLayout />
-                // </ProtectedRoute>
+                 </ProtectedAdminRoute>
               } 
             >
               <Route path="/admin/dashboard" index element={<AdminHome />} />

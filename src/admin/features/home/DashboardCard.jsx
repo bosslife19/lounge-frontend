@@ -3,8 +3,28 @@ import logo from "../../../assets/Icon.png";
  
 import { ReusableCard } from "../../components/Card/ReusableCard";
 import { IoIosTrendingDown, IoIosTrendingUp } from "react-icons/io";
+import { useEffect, useState } from "react";
+import axiosClient from "../../../axiosClient";
 
 export function DashboardCard() {
+  const [users, setUsers] = useState([]);
+  const [listings, setListings] = useState([]);
+  const [mentors, setMentors] = useState([]);
+  const [organizations, setOrganizations] = useState([]);
+
+  useEffect(()=>{
+    const getAllData = async ()=>{
+      try{
+       const userRes = await axiosClient.get('/users');
+       setUsers(userRes.data.users);
+        
+
+      }catch(err){
+        console.log(err)
+      }
+    }
+    getAllData();
+  },[]);
   return (
     <Grid templateColumns={{base:"repeat(1, 1fr)",
     md:"repeat(2, 1fr)",
@@ -12,7 +32,7 @@ export function DashboardCard() {
     xl:"repeat(4, 1fr)"}} gap="2">
     <ReusableCard
     title={'Total users'}
-     description={'40,689'}
+     description={users? users.length : '0'}
      image={logo}
      rate={'8.5%'}
      current={'up'}
@@ -21,7 +41,7 @@ export function DashboardCard() {
      timestamp={'yesterday'}
     />
     <ReusableCard
-    title={'Total users'}
+    title={'Total Organizations'}
      description={'40,689'}
      image={logo}
      rate={'8.5%'}
@@ -31,7 +51,7 @@ export function DashboardCard() {
      timestamp={'yesterday'}
     />
     <ReusableCard
-    title={'Total users'}
+    title={'Total Mentors'}
      description={'40,689'}
       color={'#00B69B'}
     arrows={<IoIosTrendingDown />}
@@ -41,7 +61,7 @@ export function DashboardCard() {
      timestamp={'yesterday'}
     />
     <ReusableCard
-    title={'Total users'}
+    title={'Total Listings'}
      description={'40,689'}
      image={logo}
      rate={'8.5%'}
