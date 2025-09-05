@@ -37,8 +37,6 @@ import axiosClient from "../../../../axiosClient";
 export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
   const { userDetails, setUserDetails } = useContext(AuthContext);
 
-  
-
   const { makeRequest, loading } = useRequest();
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState(null);
@@ -58,23 +56,64 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
   const pronounsRef = useRef("He/Him");
   const genderRef = useRef("Male");
   const organizationNameRef = useRef();
+  const temporalLogo = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKgAAACUCAMAAAAwLZJQAAAAY1BMVEX///8AAADY2Nh+fn5KSkqTk5OoqKglJSWkpKTq6uo+Pj5OTk7y8vL8/PyGhobAwMANDQ20tLRaWloVFRXi4uKbm5vIyMhfX181NTV2dnZTU1MqKipmZmZvb2+MjIzS0tIdHR11wAe4AAAEIUlEQVR4nO2ca5uqIBCAl+6WaV4yy9rt///Ks26nA+KADCL4nJ33q2y9Cw4Mtz4+CIIgiF/JMcqS/LAKTH7NoqPWs1qyuXBJ1ZpxcgqtJ3KLFZ5lHVpN4vkFekaH0GI9tiUURnloLYAn0Pq70FIgSS/44ya0E8xCFt2ENlJwld/Qa2gjFXLXJLR8sglNIthIbb/gT85g5+WXlI88WfcJF62jMG5d+Niz6T7goqtZiO7/+ey6D0jUEhJ1DYm6xl40qrIsq6D8cBIsRePzqim+nxXNPin1s66QomXCRK7wBCG8aCZPpQoP2QBe9JiwPnfV/DCg6BrwZOwx9YuKFj2DnowtJzbFii4gyR+kNDGwqGYKXUxbpUjRTOnJ2HpGoseHRvQw6VCLE400noxV8xFNtaKTdvs4Uaiv5+TYL68QwwROVL9stkV67tjdvKfAie4hPw7W8zufMa7TcKKvodi4TnGiF61ng/F8r8GZDr04UTghefNAePJPupi1Pk600opKn6BDXCQ2S7xcdvjmiX43BTNKZpFDqG7XKTeOYDlVvBjUKTIp0Q1Nxi3fT2kfw/8jNh9VZyW1qecn8MfDEYUVVb+lpikJvNkyGFHoqYgq8KXlVSVQfbbkA0kifnIH75b0t39gVFOuwTHKYl6fARu5a0NP3Yhx19apzQLEl7xH2mg2qI09Gbvp/lurJZ14sxU+/7Q2nYOo2/2FrpeyXc3Lkrwu2Km+LTfGOaU+7W7RjBn2y45xufhalIgJ3VB9tqgjyt9C7nB9ttxUX+ZNVB9HHFXr+xJV9fN9LvDXeRI1a/cX8BEXP6Km7f4CzE+9iGLPTkGLQz5EcfXZAmR904uCS+mDddrbFppe1DzeO6ZynToSVa4iHe08+/mpG9H0tFcUsj+DKEWUE9HqBLTVD/g44nR7fheir0y6AYqNO9O5EiPKgWhVvMr1ez/b9/ONOEaNF02Ld8Ftt/W1qxVmCP3paFHuKZe06T8lhEYaKyp6MibEvlU/P51oVnQ/mR/mcnK0z5lofzXiXXhsHLkVhfbxira0q6OSjkRT8Eh5W9zF++lOFFoxaXmWzs7uOxGV44ijfBBEFG53xzgQ9XMCeryofvd2PqK+TpSPFVXF+9xEdec15iS68Xd1aJSov/ocJ+r1ZsYIUZ/1OUbU89Uha1HfN3KsRX3fwbMWHThTQqIkSqIkSqIkSqIk6kd09dz65Jnbii48I9zp+gV37jxDoq4hUdf8T6KNt9u0Ogx+sYAtJ79LOchR2PiXzoBGwrieL0Nz5zJMehMdbGJPhFzbftftzOnfQfSd05nx7Ie2py0aJNDFvjm+pXvoyO4Mf/enhnvKWHdfNQSqY2DAnf+QNJ8qzW/K8yq031/qde+3s6T2L9PzOjTnrAw/jhMEQRAEQRAE5w/6VlvVhOzL/AAAAABJRU5ErkJggg=='
   const [organizationShow, setOrganizationShow] = useState(false);
-  const [organizationList , setOrganizationList] = useState([]);
-  const [organization, setOrganization] = useState('')
+  const [organizationList, setOrganizationList] = useState([]);
+  const [organization, setOrganization] = useState("");
+  const logoInputRef = useRef(null);
+  const organizationDescRef = useRef("");
+  const organizationEmailRef = useRef("");
+  const organizationLocationRef = useRef("");
+  const organizationWebsiteRef = useRef("");
+  const [organizationLogo, setOrganizationLogo] = useState("");
+  const [organizationLogoPreview, setOrganizationLogoPreview] = useState(null);
+  const [createOrg, setCreateOrg] = useState(false);
 
-  useEffect(()=>{
-    const getOrganizations = async ()=>{
-      const res = await axiosClient.get('/get-organizations');
+  useEffect(() => {
+    const getOrganizations = async () => {
+      const res = await axiosClient.get("/get-organizations");
       setOrganizationList(res.data.organizations);
     };
 
     getOrganizations();
-  }, [])
+  }, []);
 
-  const organizationOptions = organizationList?.map(org => org.name);
+  const organizationOptions = organizationList?.map((org) => org.name);
 
+  const handleLogoClick = () => {
+    if (logoInputRef.current) {
+      logoInputRef.current.click(); // open file picker
+    }
+  };
+  const handleLogoChange = async (event) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // show preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setOrganizationLogoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
 
+      // TODO: send `file` to your backend API for upload
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
 
+      try {
+        const res = await axios.post(
+          "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
+          formData
+        );
+
+        const imageUrl = res.data.secure_url;
+        setOrganizationLogo(imageUrl);
+      } catch (error) {
+        console.error("Image upload failed", error);
+        toast.error("Image Upload Failed. Please try again.");
+      }
+    }
+  };
   const handleImageClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click(); // open file picker
@@ -135,6 +174,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
     ) {
       return toast.error("Please fill all required fields");
     }
+
+    if(createOrg){
+      if(!organizationDescRef.current.value || !organizationEmailRef.current.value || !organizationLocationRef.current.value || !organizationLogo || !organizationWebsiteRef.current.value || !organizationNameRef.current.value)
+return toast.error('All fields are required to create an organization')
+    }
     const profileData = {
       firstName: firstNameRef.current.value,
       lastName: lastNameRef.current.value,
@@ -151,13 +195,17 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
       pronouns: pronounsRef.current.value,
       profilePic: profileImage,
       organizationName: organizationNameRef.current?.value,
+      organizationDescription: organizationDescRef.current?.value,
+      organizationEmail: organizationEmailRef.current.value,
+      organizationLocation: organizationLocationRef.current.value,
+      organizationWebsite: organizationWebsiteRef.current.value,
+      organzationLogo: organizationLogo,
       organization: organization,
     };
 
-    if(!organizationNameRef.current?.value && !organization){
+    if (!organizationNameRef.current?.value && !organization) {
       return toast.error("Please select or create an organization");
     }
-
 
     const res = await makeRequest("/profile", profileData);
 
@@ -561,18 +609,17 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     >
                       Organization
                     </Field.Label>
-                   
-                      {/* <Input
+
+                    {/* <Input
                         py={6}
                         fontFamily="InterRegular"
                         placeholder="Living Springs Finance LTD"
                       /> */}
-                       <SearchableDropdown
-        options={organizationOptions}
-        placeholder="Search organizations..."
-        onSelect={(value) => setOrganization(value)}
-      />
-                   
+                    <SearchableDropdown
+                      options={organizationOptions}
+                      placeholder="Search organizations..."
+                      onSelect={(value) => setOrganization(value)}
+                    />
 
                     <Text
                       fontWeight={"400"}
@@ -589,7 +636,10 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     py={6}
                     color={"#333333CC"}
                     bg={"#DFDFDF"}
-                    onClick={() => setOrganizationShow(true)}
+                    onClick={() => {
+                      setCreateOrg(true);
+                      setOrganizationShow(true);
+                    }}
                   >
                     <GoPlusCircle color="#1D1B20" />
                     Create Organization
@@ -598,18 +648,105 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
 
                 {/* Bio */}
                 {organizationShow && (
-                  <Field.Root>
-                    <Field.Label
-                      fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
-                      fontFamily="InterMedium"
-                      color={"#101928"}
-                    >
-                      Organization Name{" "}
-                    </Field.Label>
+                  <>
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: 12, md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
+                      >
+                        Organization Name{" "}
+                      </Field.Label>
 
-                    <Input py={6} placeholder="" ref={organizationNameRef} />
-                  </Field.Root>
+                      <Input py={6} placeholder="" ref={organizationNameRef} />
+                    </Field.Root>
+
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: 12, md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
+                      >
+                        Description{" "}
+                      </Field.Label>
+
+                      <Input py={6} placeholder="" ref={organizationDescRef} />
+                    </Field.Root>
+                    <Stack  position={"relative"}>
+                      <Text
+                        fontWeight={"400"}
+                        fontSize={{ base: 12, md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
+                      >
+                        Organization Logo{" "}
+                      </Text>
+                      <Image
+                        src={organizationLogoPreview || temporalLogo} // fallback to default image
+                        alt="logo"
+                        boxSize={{ base: "10px", md: "40px" }}
+                        borderRadius="full"
+                        objectFit="cover"
+                        cursor="pointer"
+                        onClick={handleLogoClick}
+                      />
+
+                      <input
+                        type="file"
+                        accept="image/*"
+                        ref={logoInputRef}
+                        style={{ display: "none" }}
+                        onChange={handleLogoChange}
+                      />
+                    </Stack>
+
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: 12, md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
+                      >
+                        Organization Location{" "}
+                      </Field.Label>
+
+                      <Input
+                        py={6}
+                        placeholder=""
+                        ref={organizationLocationRef}
+                      />
+                    </Field.Root>
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: 12, md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
+                      >
+                        Organization Email{" "}
+                      </Field.Label>
+
+                      <Input py={6} placeholder="" ref={organizationEmailRef} />
+                    </Field.Root>
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: 12, md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
+                      >
+                        Organization Website{" "}
+                      </Field.Label>
+
+                      <Input
+                        py={6}
+                        placeholder=""
+                        ref={organizationWebsiteRef}
+                      />
+                    </Field.Root>
+                  </>
                 )}
 
                 <Field.Root>
