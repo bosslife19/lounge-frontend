@@ -30,8 +30,8 @@ import { toast } from "react-toastify";
 
 
 
-export const LeftSide = () => {
-  const [posts, setPosts] = useState([]); 
+export const LeftSide = ({posts, setPosts}) => {
+
   const {userDetails} = useContext(AuthContext);
   const [refresh, setRefresh] = useState(false);
   const [comment, setComment] = useState('');
@@ -128,7 +128,7 @@ const actions = [
               <HStack>
                 <Stack position={"relative"}>
                   <Image
-                    src={card.user.profile_picture || userImage}
+                    src={card.user?.profile_picture || userImage}
                     alt="Update"
                     boxSize="50px"
                     rounded={20}
@@ -140,7 +140,7 @@ const actions = [
                     fontSize={{ base: 10, md: 14 }}
                     fontFamily="InterBold"
                   >
-                    {card.user.first_name} {card.user.last_name}
+                    {card.user?.first_name} {card.user?.last_name}
                   </Text>
                   <Text
                     mt={-3}
@@ -148,7 +148,7 @@ const actions = [
                     fontSize={{ base: 10, md: 14 }}
                     fontFamily="InterMedium"
                   >
-                    {card.user.profession}
+                    {card.user?.profession}
                   </Text>
                   <Text
                     color={"#626262"}

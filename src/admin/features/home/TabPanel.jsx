@@ -27,26 +27,26 @@ export const DashboardTabpanel = () => {
           color={'#999999'}
           value="NewOrganization">
             New Organization
-            <Box 
+            {/* <Box 
             bg={'#F56630'} 
             px={3} 
             color={'#fff'} 
             rounded={'full'}>
               2
-            </Box>
+            </Box> */}
           </Tabs.Trigger>
           <Tabs.Trigger 
            _selected={{color:'#2B362F'}}
           color={'#999999'}
           value="RewardRequest">
             Reward Request
-             <Box 
+             {/* <Box 
             bg={'#F56630'} 
             px={3} 
             color={'#fff'} 
             rounded={'full'}>
               2
-            </Box>
+            </Box> */}
           </Tabs.Trigger>
         </Tabs.List>
 

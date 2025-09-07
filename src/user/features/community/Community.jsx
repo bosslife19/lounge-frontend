@@ -1,8 +1,20 @@
 import { Box, Heading, HStack } from "@chakra-ui/react"
 import { LeftSide } from "./LeftSide"
 import { RightSide } from "./RightSide"
+import { useEffect, useState } from "react";
+import axiosClient from "../../../axiosClient";
 
 export const Community = () => {
+  const [posts, setPosts] = useState([])
+  useEffect(()=>{
+      const getPosts = async()=>{
+        const res = await axiosClient.get('/get-all-posts');
+        
+        setPosts(res.data.posts);
+  
+      }
+      getPosts();
+    },[]);
   return (
     <Box>
     <Heading p={4}>
@@ -14,8 +26,8 @@ export const Community = () => {
    gap={5} 
    alignItems={'center'} 
    px={4}>
-    <LeftSide/>
-    <RightSide />
+    <LeftSide posts={posts} setPosts={setPosts}/>
+    <RightSide posts={posts} setPosts={setPosts} />
    </HStack>
    </Box>
   )

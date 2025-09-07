@@ -27,7 +27,8 @@ import { useRequest } from "../../../hooks/useRequest";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
 
-export const RightSide = () => {
+export const RightSide = ({ setPosts, posts}) => {
+  
   const [isLoading, setIsLoading] = useState(false);
 // const actions = [
 //   { id: 1, image: like },
@@ -77,10 +78,13 @@ const postRef = useRef(null);
     })
 
     if(response.error) return;
-
+  
+ setPosts(prev=>[ response.response.post, ...prev]);
     toast.success('Post uploaded successfully');
     setIsLoading(false);
     postRef.current.value = '';
+    
+  
     setPostImage(null);
 
   }
