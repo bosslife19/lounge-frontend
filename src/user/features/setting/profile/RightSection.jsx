@@ -6,6 +6,7 @@ import { IoIosNotificationsOutline } from 'react-icons/io';
 import { SwitchPage } from '../../../components/switchPage/switch';
 import { useState } from 'react';
 import { UpdatePasword } from './modals/updatePassword';
+import { NotificationSwitch } from '../../../components/switchPage/NotificationSwitch';
 
 export const RightSectionProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -157,7 +158,7 @@ export const RightSectionProfile = () => {
         
           </Stack>
          </HStack>
-         <SwitchPage/>
+         <NotificationSwitch/>
         </Flex>
         </Box>
         <UpdatePasword

@@ -17,6 +17,10 @@ export function DashboardCard() {
       try{
        const userRes = await axiosClient.get('/users');
        setUsers(userRes.data.users);
+       const orgRes = await axiosClient.get("/get-organizations");
+       setOrganizations(orgRes.data.organization);
+       const mentorRes = await axiosClient.get("/get-mentors");
+       setMentors(mentorRes.data.mentors);
         
 
       }catch(err){
@@ -37,12 +41,12 @@ export function DashboardCard() {
      rate={'8.5%'}
      current={'up'}
      color={'#00B69B'}
-     arrows={<IoIosTrendingUp />}
+    //  arrows={<IoIosTrendingUp />}
      timestamp={'yesterday'}
     />
     <ReusableCard
     title={'Total Organizations'}
-     description={'40,689'}
+     description={organizations?organizations.length:'0'}
      image={logo}
      rate={'8.5%'}
       color={'#00B69B'}
@@ -52,7 +56,7 @@ export function DashboardCard() {
     />
     <ReusableCard
     title={'Total Mentors'}
-     description={'40,689'}
+     description={mentors?mentors.length:"0"}
       color={'#00B69B'}
     arrows={<IoIosTrendingDown />}
      image={logo}

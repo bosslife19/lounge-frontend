@@ -85,7 +85,7 @@ export const Organization = () => {
                     > 
                       <IoMdCheckboxOutline /> Approve
                     </Menu.Item>
-                    <Menu.Item color="#333333CC" onClick={() => navigate(`/admin/organization-details`)}>View Details</Menu.Item>
+                    {/* <Menu.Item color="#333333CC" onClick={() => navigate(`/admin/organization-details`)}>View Details</Menu.Item> */}
                     <Menu.Item
                       color="#333333CC"
                       onClick={() => handleSelect(row.UserId, "Decline", "red.500", <MdOutlineCancel boxSize={3} />)}

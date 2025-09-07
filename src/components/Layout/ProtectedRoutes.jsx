@@ -54,6 +54,7 @@ const ProtectedRoute = ({ children }) => {
   if (loading) return <Loader/>;
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if(userDetails?.role==='admin') return <Navigate to="/admin/dashboard"/>
   
 
   return children;

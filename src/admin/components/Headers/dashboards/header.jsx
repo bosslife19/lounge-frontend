@@ -26,7 +26,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
 
     "/admin/mentor-listss": "Settings",
 
-    "/admin/logout": "Logout",
+    "/logout": "Logout",
   };
 
   // Find the title based on current pathname

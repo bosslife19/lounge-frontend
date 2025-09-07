@@ -84,7 +84,7 @@ const Avatar = ({ options }) => {
          </Button>
          <Box py={2} px={6} rounded={50} border={'6px solid #F3F2F3'} className="flex-col flex px-2 items-center border">
           {/* <span>{userDetails?.name||'Admin'}</span> */}
-          <Text fontFamily={'InterRegular'} fontSize={{base:'12px',md:'16px'}}>Mentors</Text>
+          <Text fontFamily={'InterRegular'} fontSize={{base:'12px',md:'16px'}}>{userDetails?.first_name}</Text>
         </Box>
         <Image onClick={handleImageClick} w={{base:6,lg:10}} h={{base:6,lg:10}} src={preview || userDetails?.profile_picture || Avatars} alt="Avatar" className="object-cover  rounded-full" />
         <input type="file" hidden onChange={handleFileChange} ref={fileInputRef} />

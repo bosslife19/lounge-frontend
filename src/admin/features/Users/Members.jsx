@@ -102,12 +102,12 @@ const dataTable = useMemo(() => {
                     >
                       <IoMdCheckboxOutline /> Send mail
                     </Menu.Item>
-                    <Menu.Item
+                    {/* <Menu.Item
                       color="#333333CC"
                       onClick={() => navigate(`/admin/user-details`)}
                     >
                       View Details
-                    </Menu.Item>
+                    </Menu.Item> */}
                     <Menu.Item
                       color="#333333CC"
                       onClick={() =>

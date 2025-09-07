@@ -176,9 +176,10 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
     }
 
     if(createOrg){
-      if(!organizationDescRef.current.value || !organizationEmailRef.current.value || !organizationLocationRef.current.value || !organizationLogo || !organizationWebsiteRef.current.value || !organizationNameRef.current.value)
+      if(!organizationDescRef.current.value || !organizationEmailRef.current.value || !organizationLocationRef.current.value || !organizationWebsiteRef.current.value || !organizationNameRef.current.value)
 return toast.error('All fields are required to create an organization')
     }
+    
     const profileData = {
       firstName: firstNameRef.current.value,
       lastName: lastNameRef.current.value,
@@ -199,7 +200,7 @@ return toast.error('All fields are required to create an organization')
       organizationEmail: organizationEmailRef.current.value,
       organizationLocation: organizationLocationRef.current.value,
       organizationWebsite: organizationWebsiteRef.current.value,
-      organzationLogo: organizationLogo,
+      organizationLogo: organizationLogo,
       organization: organization,
     };
 
@@ -672,7 +673,12 @@ return toast.error('All fields are required to create an organization')
                         Description{" "}
                       </Field.Label>
 
-                      <Input py={6} placeholder="" ref={organizationDescRef} />
+                      <Textarea
+                    resize="none"
+                    h={200}
+                    placeholder="Type here"
+                    ref={organizationDescRef}
+                  />
                     </Field.Root>
                     <Stack  position={"relative"}>
                       <Text

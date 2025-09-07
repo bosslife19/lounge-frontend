@@ -74,7 +74,7 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
       { text: "Community", link: "/admin/community", icon: FaUsers },
       { text: "Benefits", link: "/admin/benefits", icon: FaGifts  },
       { text: "Settings", link: "/admin/settings", icon: IoMdSettings },
-      { text: "Logout", link: "/admin/Logout", icon: BiLogOut },
+      { text: "Logout", link: "/logout", icon: BiLogOut },
     ],
     []
   );
