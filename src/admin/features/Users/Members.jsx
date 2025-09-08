@@ -37,7 +37,7 @@ const [users, setUsers] = useState([]);
   useEffect(()=>{
     const getUsers = async ()=>{
       const res = await axiosClient.get('/users');
-      console.log(res.data.users)
+     
       setUsers(res.data.users);
       
     }
@@ -50,7 +50,7 @@ const [users, setUsers] = useState([]);
   };
 
 const dataTable = useMemo(() => {
- console.log("Rebuilding dataTable with", users.length, "users");
+
   return {
     col: {
       col_1: { col_1_1: "User ID" },
@@ -61,7 +61,7 @@ const dataTable = useMemo(() => {
       col_6: { col_6_1: "Action" },
     },
     row: users.map((row, index) => {
-      console.log(row)
+     
       const selected = rowActions[row.id] || { label: "Action", color: "gray.600", icon: null };
       const uniqueKey = `${row.id}-${index}`;
       return {
@@ -129,7 +129,7 @@ const dataTable = useMemo(() => {
 
   return (
     <Box w={'full'} bg="#F5F6FA"  py={{base:1,md:6}} >
-      <Button
+      {/* <Button
           mb={4}
            position={'absolute'}
            right={0}
@@ -152,7 +152,7 @@ const dataTable = useMemo(() => {
                   Add New User
                 </Text>
               </HStack>
-            </Button>
+            </Button> */}
 
              <CreateNewUser 
                     isOpen={isOpen}

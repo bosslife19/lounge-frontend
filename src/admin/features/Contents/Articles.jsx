@@ -20,7 +20,7 @@ import { ProfileDetailsModal } from "./profileDetails";
 import { BiDotsVerticalRounded, BiPencil, BiTrash } from "react-icons/bi";
 import { EditArticle } from "./Modal/EditArticle";
  
-export const AdminArticles = () => {
+export const AdminArticles = ({articles, setArticles}) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
@@ -46,7 +46,7 @@ export const AdminArticles = () => {
     <Box px={4} py={6}>
 
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} gap={7}>
-        {cardData.map((card, idx) => (
+        {articles?.map((card, idx) => (
           <Box
             key={`${card.id}-${idx}`}
             cursor="pointer"
@@ -58,7 +58,7 @@ export const AdminArticles = () => {
           >
             <Image
               roundedTop={10}
-              src={card.eImage}
+              src={card.image}
               alt={card.title}
               h="100px"
               className="w-full h-30 object-cover"
@@ -137,6 +137,7 @@ export const AdminArticles = () => {
           isOpen={isOpen}
           onClose={handleClose}
           profile={selectedCard}
+          setArticles={setArticles}
         />
       )}
 

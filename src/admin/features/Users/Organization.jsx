@@ -1,19 +1,39 @@
 import { Box, Menu, Button, Portal, HStack, Text } from "@chakra-ui/react";
 import { BottomTable } from "../../components/BottomTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import img from "../../../assets/userImage.jpg";
 import { IoIosArrowDown, IoMdCheckboxOutline } from "react-icons/io";
 import { MdOutlineCancel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { FaUserPlus } from "react-icons/fa";
 import { CreateOrganization } from "./modal/CreateOrganization";
+import axiosClient from "../../../axiosClient";
+import { useRequest } from "../../../hooks/useRequest";
+import { toast } from "react-toastify";
 
 export const Organization = () => {
   const [pageSize, setPageSize] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowActions, setRowActions] = useState({});
   const navigate = useNavigate();
-
+  const [organizations, setOrganizations] = useState([]);
+  const {makeRequest} = useRequest()
+  const [refresh,setRefresh] = useState(false);
+  useEffect(()=>{
+    const getOrgs = async()=>{
+      const res = await axiosClient.get('/get-organizations');
+      
+      setOrganizations(res.data.organizations);
+    }
+    getOrgs()
+  },[refresh])
+const handleDelete = async(id)=>{
+  const res = await makeRequest('/remove-organization',{approved:false, orgId:id});
+  if(res.error) return;
+  toast.success('Organization Removed successfully');
+  handleSelect(id, "Decline", "red.500", <MdOutlineCancel boxSize={3} />)
+  setRefresh(prev=>!prev);
+}
    const [isOpen, setIsOpen] = useState(false);
     
         const handleAddUser = () => {
@@ -38,26 +58,26 @@ export const Organization = () => {
   const dataTable = {
     col: {
       col_1: { col_1_1: "User ID" },
-      col_2: { col_2_1: "Name & Image" },
-      col_3: { col_3_1: "Industry" },
-      col_4: { col_4_1: "URL" },
+      col_2: { col_2_1: "Name & Logo" },
+      col_3: { col_3_1: "Location" },
+      col_4: { col_4_1: "Website" },
       col_5: { col_5_1: "Members" },
       col_6: { col_6_1: "Action" },
     },
-    row: tableData.map((row, index) => {
-      const selected = rowActions[row.UserId] || { label: "Action", color: "gray.600", icon: null };
-      const uniqueKey = `${row.UserId}-${index}`;
+    row: organizations.length>0? organizations.map((row, index) => {
+      const selected = rowActions[row.id] || { label: "Action", color: "gray.600", icon: null };
+      const uniqueKey = `${row.id}-${index}`;
       return {
         row_0: uniqueKey,
-        row_1: { row_1_1: row.UserId },
-        row_2: { row_2_1: row.image, row_2_2: row.Name },
-        row_3: { row_3_1: row.Profession },
+        row_1: { row_1_1: row.id },
+        row_2: { row_2_1: row.logo, row_2_2: row.name },
+        row_3: { row_3_1: row.location },
         row_4: { row_4_1: (
           <Text textDecoration={'underline'}>
-            Manuel Neuer.com
+            {row.website_url}
           </Text>
         ) },
-        row_5: { row_5_1: row.Experience },
+        row_5: { row_5_1: row.users?.length },
         row_6: {
           row_6_1: (
             <Menu.Root key={uniqueKey}>
@@ -79,18 +99,18 @@ export const Organization = () => {
               <Portal>
                 <Menu.Positioner>
                   <Menu.Content cursor="pointer" rounded={20}>
-                    <Menu.Item
+                    {/* <Menu.Item
                       color="#333333CC"
                       onClick={() => handleSelect(row.UserId, "Approve", "green.500", <IoMdCheckboxOutline boxSize={3} />)}
                     > 
-                      <IoMdCheckboxOutline /> Approve
-                    </Menu.Item>
+                      <IoMdCheckboxOutline /> Remove
+                    </Menu.Item> */}
                     {/* <Menu.Item color="#333333CC" onClick={() => navigate(`/admin/organization-details`)}>View Details</Menu.Item> */}
                     <Menu.Item
                       color="#333333CC"
-                      onClick={() => handleSelect(row.UserId, "Decline", "red.500", <MdOutlineCancel boxSize={3} />)}
+                      onClick={() => handleDelete(row.id)}
                     >
-                      <MdOutlineCancel /> Decline
+                      <MdOutlineCancel /> Remove
                     </Menu.Item>
                   </Menu.Content>
                 </Menu.Positioner>
@@ -99,7 +119,7 @@ export const Organization = () => {
           ),
         },
       };
-    }),
+    }):<Text>No Organizations Yet</Text>,
   };
 
   return (
@@ -134,13 +154,16 @@ export const Organization = () => {
            isOpen={isOpen}
            onClose={handleClose}
          />
-      <BottomTable
+         {
+          organizations.length>0 ?<BottomTable
         dataTable={dataTable}
         pageSize={pageSize}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         setPageSize={setPageSize}
-      />
+      />:<Text>No organizations yet</Text>
+         }
+     
     </Box>
   );
 };

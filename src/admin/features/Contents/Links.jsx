@@ -4,8 +4,8 @@ import { CiSearch } from 'react-icons/ci';
 import { RxDotsVertical } from 'react-icons/rx';
 import { CreateLink } from './Modal/CreateLink';
 import { useState } from 'react';
- 
-export const AdminLinks = () => {
+ import {userAvatar} from '../../../user/features/setting/posts/Posts'
+export const AdminLinks = ({articles, setArticles}) => {
     const truncateTexts = (text, maxLength) => {
   if (!text) return "";
   return text.length <= maxLength ? text : text.substring(0, maxLength) + "...";
@@ -23,7 +23,7 @@ export const AdminLinks = () => {
   return (
     <Box  h={'120%'} mb={'10%'}  p={5}>
      
-    {cardData.map((card, idx) => (
+    {articles.length>0 ? articles.map((card, idx) => (
       <HStack>
         <Box w={{base:'100%',md:700}} 
         rounded={10} 
@@ -35,7 +35,7 @@ export const AdminLinks = () => {
         border={'1px solid #3E67A52E'}>
           <HStack>
                   <Image
-                   src={card.subimage} 
+                   src={userAvatar} 
                    alt="Speaker" 
                    boxSize="40px" 
                    rounded="full" />
@@ -49,7 +49,8 @@ export const AdminLinks = () => {
                     color="#808291" mt={-1} 
                     textDecoration={'underline'}
                     fontSize={{ base: 9, md: 11 }}>
-                    {truncateTexts(card.title)}
+                    {/* {truncateTexts(card.link)} */}
+                    {card.link}
                     </Text>
                   </Stack>
              </HStack>
@@ -65,11 +66,12 @@ export const AdminLinks = () => {
        <RxDotsVertical size={10}/>
       </Button> 
        </HStack>
-     ))}
+     )):<Text>No links yet</Text>}
      
      <CreateLink
      isOpen={isOpen}
      onClose={handleClose}
+     
      />
     </Box>
      

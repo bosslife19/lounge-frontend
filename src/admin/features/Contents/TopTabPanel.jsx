@@ -4,18 +4,29 @@ import { MdAttachFile, MdStars } from "react-icons/md"
 import { RiCalendarEventFill } from "react-icons/ri"
 import { CiCirclePlus } from "react-icons/ci"
 import { FaRegCalendar } from "react-icons/fa"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { AdminArticles } from "./Articles"
 import { AdminProgram } from "./Program"
 import { AdminLinks } from "./Links"
 import EventsAdmin from "./Event"
 import { CreateArticle } from "./Modal/CreateContent"
+import axiosClient from "../../../axiosClient"
 
 export const AdminContent = () => {
   const [isOpened, setIsOpened] = useState(false);
 
   const handleAction = () => setIsOpened(true);
   const handleClosed = () => setIsOpened(false);
+  const [articles, setArticles] = useState([]);
+
+  useEffect(()=>{
+    const getArticles = async ()=>{
+      const res = await axiosClient.get('/get-articles');
+     
+      setArticles(res.data.articles);
+    }
+getArticles()
+  },[]);
 
   return (
     <Box w="100%" h="100%" bg="#F5F6FA">
@@ -44,7 +55,7 @@ export const AdminContent = () => {
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
           >
             <LuCircleAlert />
-            Informations
+            Articles
           </Tabs.Trigger>
 
           <Tabs.Trigger
@@ -112,21 +123,21 @@ export const AdminContent = () => {
           <Tabs.Indicator rounded="lg" />
         </Tabs.List>
 
-        <Tabs.Content value="articles">
-          <AdminArticles />
+        <Tabs.Content value="articles" >
+          <AdminArticles articles={articles} setArticles={setArticles} />
         </Tabs.Content>
         <Tabs.Content value="projects">
           <AdminProgram />
         </Tabs.Content>
         <Tabs.Content value="tasks">
-          <AdminLinks />
+          <AdminLinks articles={articles} setArticles={setArticles} />
         </Tabs.Content>
         <Tabs.Content value="events">
           <EventsAdmin />
         </Tabs.Content>
       </Tabs.Root>
 
-      <CreateArticle isOpen={isOpened} onClose={handleClosed} />
+      <CreateArticle isOpen={isOpened} onClose={handleClosed} setArticles={setArticles} />
     </Box>
   )
 }

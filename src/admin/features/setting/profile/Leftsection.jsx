@@ -1,4 +1,4 @@
-import { Box, Button, Field, Flex, Heading, HStack, Image, Input, InputGroup, List, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Field, Flex, Heading, HStack, Image, Input, InputGroup, List, Spinner, Stack, Text } from '@chakra-ui/react'
  import images from "../../../../assets/course.png"
 import { LuPencil } from 'react-icons/lu'
 import tick from "../../../../assets/Verified tick.png";
@@ -11,8 +11,21 @@ import { RxDotsVertical } from 'react-icons/rx';
 import { CiUser } from 'react-icons/ci';
 import { MdOutlineEmail } from 'react-icons/md';
 import { IoCallOutline } from 'react-icons/io5';
+import { useRef } from 'react';
+import { useRequest } from '../../../../hooks/useRequest';
+import { toast } from 'react-toastify';
  
 export const LeftSectionProfile = () => {
+  const emailRef = useRef('');
+  const {makeRequest, loading} = useRequest();
+
+  const updateEmail = async ()=>{
+    if(!emailRef.current.value) return toast.error("Please fill the email field first");
+    const res = await makeRequest('/update-admin-email', {email: emailRef?.current.value});
+    if(res.error) return;
+    toast.success('Email updated successfully');
+    emailRef.current.value = "";
+  }
 
       
     // Dummy Data
@@ -35,7 +48,7 @@ export const LeftSectionProfile = () => {
   return (
     <Box  mb={'auto'} w={'100%'} >
         {/* profile name */}
-        <Box 
+        {/* <Box 
         shadow={'xs'}
         bg={'#fff'} 
         rounded={10} p={3} 
@@ -135,22 +148,22 @@ export const LeftSectionProfile = () => {
                 </InputGroup>
            </Field.Root>
 
-           {/* button */}
+
               <HStack pt={4} w={'100%'}>
                 <Button 
                     flex={0.4}
                       onClick={()=>onClose()}
                       py={6} 
                       px={{base:5,md:50}}
-                      // w={{base:'35%'}}
+                      
                       bg={'#fff'} color={'#2B362F'} border={"1px solid #2B362F"} >
                         Cancel
                      </Button>
                  <Button
-                 //   onClick={onFinish}
+
                   py={6}
                   flex={1}
-                  // w={{ base: "100%" }}
+                 
                   rounded={5}
                   bg={"#2B362F"}
                   color="white"
@@ -158,7 +171,7 @@ export const LeftSectionProfile = () => {
                   Save Changes 
                 </Button>
             </HStack>
-        </Box>
+        </Box> */}
 
         {/* Help Info */}
          <Box 
@@ -177,11 +190,11 @@ export const LeftSectionProfile = () => {
               color={'#101928'} >Email</Field.Label>
                <InputGroup startElement={<MdOutlineEmail/>}>
                    <Input type='email' py={6} fontSize={{base:10,md:13}} 
-                     placeholder="" />
+                     placeholder="" ref={emailRef} />
                 </InputGroup>
            </Field.Root>
 
-            <Field.Root>
+            {/* <Field.Root>
             <Field.Label
               fontWeight={'400'}
               fontSize={{base:11,md:14}}
@@ -193,7 +206,7 @@ export const LeftSectionProfile = () => {
                    fontSize={{base:10,md:13}} 
                    placeholder="" />
                 </InputGroup>
-           </Field.Root>
+           </Field.Root> */}
 
            {/* button */}
               <HStack pt={4} w={'100%'}>
@@ -214,8 +227,11 @@ export const LeftSectionProfile = () => {
                   rounded={5}
                   bg={"#2B362F"}
                   color="white"
+                  onClick={updateEmail}
                  >
-                  Save Changes 
+                  {
+                    loading? <Spinner/>:'Save Changes '
+                  }
                 </Button>
             </HStack>
         </Box>
