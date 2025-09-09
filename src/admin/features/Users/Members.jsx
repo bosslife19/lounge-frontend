@@ -9,14 +9,24 @@ import { FaUserPlus } from "react-icons/fa";
 import { CreateNewUser } from "./modal/CreateUser";
 import axiosClient from "../../../axiosClient";
 import { formatTime } from "../../../lib/formatTime";
+import { useRequest } from "../../../hooks/useRequest";
+import { toast } from "react-toastify";
+
 
 
 export const Members = () => {
   const [pageSize, setPageSize] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
+  const {makeRequest} = useRequest();
   const handleAddUser = () => {
          setIsOpen(true);
        };
+       const handleDelete = async(id)=>{
+        const res = await makeRequest('/delete-user', {userId:id});
+        if(res.error) return;
+        setUsers(prev=>prev.filter(item=>item.id!==id));
+        toast.success('User Removed successfully');
+       }
         const handleClose = () => {
         setIsOpen(false);
         };
@@ -49,28 +59,29 @@ const [users, setUsers] = useState([]);
     setRowActions((prev) => ({ ...prev, [userId]: { label, color, icon } }));
   };
 
-const dataTable = useMemo(() => {
-
-  return {
+const dataTable = {
     col: {
       col_1: { col_1_1: "User ID" },
-      col_2: { col_2_1: "Name & Image" },
-      col_3: { col_3_1: "Profession" },
-      col_4: { col_4_1: "Experience" },
-      col_5: { col_5_1: "Last Visited" },
+      col_2: { col_2_1: "Name & Logo" },
+      col_3: { col_3_1: "Email" },
+      col_4: { col_4_1: "Profession" },
+      col_5: { col_5_1: "Years of Experience" },
       col_6: { col_6_1: "Action" },
     },
-    row: users.map((row, index) => {
-     
+    row: users.length>0? users.map((row, index) => {
       const selected = rowActions[row.id] || { label: "Action", color: "gray.600", icon: null };
       const uniqueKey = `${row.id}-${index}`;
       return {
         row_0: uniqueKey,
         row_1: { row_1_1: row.id },
-        row_2: { row_2_1: row.profile_picture, row_2_2: row.name },
-        row_3: { row_3_1: row.profession },
-        row_4: { row_4_1: row.years_of_experience },
-        row_5: { row_5_1: formatTime(row.last_visited) },
+        row_2: { row_2_1: row?.profile_picture||img, row_2_2: row?.name },
+        row_3: { row_3_1: row.email },
+        row_4: { row_4_1: (
+          <Text>
+            {row.profession}
+          </Text>
+        ) },
+        row_5: { row_5_1: row.years_of_experience },
         row_6: {
           row_6_1: (
             <Menu.Root key={uniqueKey}>
@@ -84,9 +95,7 @@ const dataTable = useMemo(() => {
                 >
                   <HStack spacing={1}>
                     {selected.icon && selected.icon}
-                    <Text fontSize="13px" fontWeight="400" fontFamily="OutfitRegular">
-                      {selected.label}
-                    </Text>
+                    <Text fontSize="13px" fontWeight="400" fontFamily="OutfitRegular">{selected.label}</Text>
                     {!selected.icon && <IoIosArrowDown />}
                   </HStack>
                 </Button>
@@ -94,27 +103,18 @@ const dataTable = useMemo(() => {
               <Portal>
                 <Menu.Positioner>
                   <Menu.Content cursor="pointer" rounded={20}>
-                    <Menu.Item
-                      color="#333333CC"
-                      onClick={() =>
-                        handleSelect(row.id, "Approve", "green.500", <IoMdCheckboxOutline boxSize={3} />)
-                      }
-                    >
-                      <IoMdCheckboxOutline /> Send mail
-                    </Menu.Item>
                     {/* <Menu.Item
                       color="#333333CC"
-                      onClick={() => navigate(`/admin/user-details`)}
-                    >
-                      View Details
+                      onClick={() => handleSelect(row.UserId, "Approve", "green.500", <IoMdCheckboxOutline boxSize={3} />)}
+                    > 
+                      <IoMdCheckboxOutline /> Remove
                     </Menu.Item> */}
+                    {/* <Menu.Item color="#333333CC" onClick={() => navigate(`/admin/organization-details`)}>View Details</Menu.Item> */}
                     <Menu.Item
                       color="#333333CC"
-                      onClick={() =>
-                        handleSelect(row.id, "Decline", "red.500", <MdOutlineCancel boxSize={3} />)
-                      }
+                      onClick={() => handleDelete(row.id)}
                     >
-                      <MdOutlineCancel /> Deactivate
+                      <MdOutlineCancel /> Remove
                     </Menu.Item>
                   </Menu.Content>
                 </Menu.Positioner>
@@ -123,9 +123,8 @@ const dataTable = useMemo(() => {
           ),
         },
       };
-    }),
+    }):<Text>No Organizations Yet</Text>,
   };
-}, [users, rowActions]);
 
   return (
     <Box w={'full'} bg="#F5F6FA"  py={{base:1,md:6}} >

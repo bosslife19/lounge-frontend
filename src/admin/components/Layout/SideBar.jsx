@@ -70,7 +70,7 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
       { text: "Dashboard", link: "/admin/dashboard", icon: IoMdClock },
       { text: "Users", link: "/admin/users", icon: FaUser },
       { text: "Contents", link: "/admin/contents", icon: LuCalendarDays },
-      { text: "Mentor Lists", link: "/admin/mentor-list", icon: BiSolidCopyAlt },
+      { text: "Mentor Listings", link: "/admin/mentor-list", icon: BiSolidCopyAlt },
       { text: "Community", link: "/admin/community", icon: FaUsers },
       { text: "Benefits", link: "/admin/benefits", icon: FaGifts  },
       { text: "Settings", link: "/admin/settings", icon: IoMdSettings },

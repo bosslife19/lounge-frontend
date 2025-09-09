@@ -55,7 +55,8 @@ const SearchableDropdown = ({ options, placeholder = "Select...", onSelect }) =>
                 onSelect(opt);
                 setShowDropdown(false);
               }}
-              className="px-3 py-2 cursor-pointer hover:bg-gray-100"
+              className="px-3 py-5 cursor-pointer hover:bg-gray-100"
+              style={{paddingTop:15, paddingBottom:15, paddingLeft:5}}
             >
               {opt}
             </li>

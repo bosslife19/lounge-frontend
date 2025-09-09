@@ -13,7 +13,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import { cardData } from "../../../hooks/useData";
 // import { MentoringDetails } from "./MentoringDetails";
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -24,11 +24,27 @@ import { cardData } from "../../../../hooks/useData";
 import { CiCirclePlus } from "react-icons/ci";
 import { CreateListOverlay } from "./modal/CreateListOverlay";
 import { EditList } from "./modal/EditList";
+import axiosClient from "../../../../axiosClient";
+import { AuthContext } from "../../../../context/AuthContext";
+import { userAvatar } from "../posts/Posts";
 
 export const SettingsListing = () => {
 //   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setisEdit] = useState(false);
+  const [listings, setListings] = useState([])
+  const [beingEdited, setBeingEdited] = useState(null);
+ 
+  
+
+  useEffect(()=>{
+    const getMyListings = async()=>{
+      const res = await axiosClient.get("/get-my-listings");
+      console.log(res.data)
+      setListings(res.data.listings)
+    }
+    getMyListings()
+  }, [])
 
   const handleCardClick = () => {
      setIsOpen(true);
@@ -100,9 +116,9 @@ export const SettingsListing = () => {
         </Button>
         </HStack>
       <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={6} gap={5}>
-        {cardData.map((card, idx) => (
+        {listings.length>0? listings.map((card, idx) => (
           <Card.Root
-            key={idx}
+            key={idx+card.id}
             bg={"#fff"}
             shadowColor={"#080F340F"}
             shadow={"sm"}
@@ -111,21 +127,21 @@ export const SettingsListing = () => {
           >
             <Card.Body gap="2">
               <Avatar.Root mx={"auto"} boxSize={20} rounded={50}>
-                <Avatar.Image src={card.eImage} />
+                <Avatar.Image src={card.user.profile_picture||userAvatar} />
                 <Avatar.Fallback name={card.name} />
               </Avatar.Root>
               <Text textAlign={"center"}
               color={'#070416'}
               fontSize={{base:12,md:16}}
                 fontFamily="InterRegular">
-                Manuel Neuer
+                {card.user.name}
               </Text>
               <Text textAlign={"center"}
                color={'#64626D'}
                fontSize={{base:12,md:16}}
                 fontFamily="LatoRegular"
                 >
-               Web Developer
+               {card.user.profession}
               </Text>
               <Card.Title
                 mt="2"
@@ -137,7 +153,10 @@ export const SettingsListing = () => {
                 {card.title}
               </Card.Title>
               <Button 
-              onClick={() => handleCardClicks()} 
+              onClick={() =>{
+                setBeingEdited(card);
+                 handleCardClicks();
+              }} 
               bg={'transparent'}>
               <Card.Description 
                py={1}
@@ -149,14 +168,14 @@ export const SettingsListing = () => {
                 <Text color={'#64626D'} 
                 fontSize={{base:12,md:16}}
                 fontFamily="InterRegular"
-                textAlign={"left"}>View Details</Text>
+                textAlign={"left"}>Edit Listing</Text>
                 <MdKeyboardArrowRight />
               </Card.Description>
               </Button>
             </Card.Body>
              
           </Card.Root>
-        ))}
+        )):<Text>You have no listings yet</Text>}
       </SimpleGrid>
 
       {/* Modal */}
@@ -168,6 +187,7 @@ export const SettingsListing = () => {
          <EditList
           isOpen={isEdit}
           onClose={handleCloses}
+          card={beingEdited}
          />
     
     </Box>

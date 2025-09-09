@@ -2,7 +2,7 @@ import { Link, Tabs } from "@chakra-ui/react"
 import { Articles } from "./Articles"
 import { VideosPage } from "./Videos"
 
-export const TabPanel = () => {
+export const TabPanel = ({articles, setArticles}) => {
   return (
     <Tabs.Root defaultValue="articles" bg={'#F5F6FA'}>
       <Tabs.List mx={4}>
@@ -18,7 +18,7 @@ export const TabPanel = () => {
         </Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content value="articles">
-        <Articles/>
+        <Articles articles={articles} setArticles={setArticles}/>
         </Tabs.Content>
       <Tabs.Content value="videos">
        <VideosPage/>

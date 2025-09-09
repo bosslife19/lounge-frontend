@@ -1,8 +1,9 @@
 import { Box, HStack, Image, Input, InputGroup, Stack, Text } from '@chakra-ui/react'
 import { cardData } from '../../../hooks/useData'
 import { CiSearch } from 'react-icons/ci';
+import { userAvatar } from '../setting/posts/Posts';
  
-export const Links = () => {
+export const Links = ({articles}) => {
     const truncateTexts = (text, maxLength) => {
   if (!text) return "";
   return text.length <= maxLength ? text : text.substring(0, maxLength) + "...";
@@ -23,7 +24,7 @@ export const Links = () => {
       placeholder="Search..."
      />
      </InputGroup>
-    {cardData.map((card, idx) => (
+    {articles?.map((card, idx) => (
         <Box w={{base:'100%',md:700}} 
         rounded={10} 
         my={4} 
@@ -34,7 +35,7 @@ export const Links = () => {
         border={'1px solid #3E67A52E'}>
           <HStack>
                   <Image
-                   src={card.subimage} 
+                   src={userAvatar} 
                    alt="Speaker" 
                    boxSize="40px" 
                    rounded="full" />
@@ -48,7 +49,7 @@ export const Links = () => {
                     color="#808291" mt={-1} 
                     textDecoration={'underline'}
                     fontSize={{ base: 9, md: 11 }}>
-                    {truncateTexts(card.title)}
+                    {card.link}
                     </Text>
                   </Stack>
              </HStack>

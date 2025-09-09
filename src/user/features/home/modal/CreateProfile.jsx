@@ -179,7 +179,9 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
       if(!organizationDescRef.current.value || !organizationEmailRef.current.value || !organizationLocationRef.current.value || !organizationWebsiteRef.current.value || !organizationNameRef.current.value)
 return toast.error('All fields are required to create an organization')
     }
-    
+    // if(organization && createOrg){
+    //   return toast.error('You cannot be in more than one organizations');
+    // }
     const profileData = {
       firstName: firstNameRef.current.value,
       lastName: lastNameRef.current.value,
@@ -618,8 +620,9 @@ return toast.error('All fields are required to create an organization')
                       /> */}
                     <SearchableDropdown
                       options={organizationOptions}
-                      placeholder="Search organizations..."
-                      onSelect={(value) => setOrganization(value)}
+                     placeholder="Search organizations..."
+                      
+                       onSelect={(value) => setOrganization(value)}
                     />
 
                     <Text

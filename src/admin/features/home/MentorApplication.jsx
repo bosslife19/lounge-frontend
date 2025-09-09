@@ -52,8 +52,8 @@ const handleReject = async (id)=>{
   
 }
 
-  const handleSelect = (userId, label, color, icon = null) => {
-    setRowActions((prev) => ({ ...prev, [userId]: { label, color, icon } }));
+  const handleSelect = (id, label, color, icon = null) => {
+    setRowActions((prev) => ({ ...prev, [id]: { label, color, icon } }));
   };
 
   const dataTable = {
@@ -71,7 +71,7 @@ const handleReject = async (id)=>{
       return {
         row_0: uniqueKey,
         row_1: { row_1_1: row.id },
-        row_2: { row_2_1: row.user.profile_picture, row_2_2: row.name },
+        row_2: { row_2_1: row.user.profile_picture||img, row_2_2: row.name },
         row_3: { row_3_1: row.user.profession },
         row_4: { row_4_1: row.user.years_of_experience },
         row_5: { row_5_1: formatTime(row.user.last_visited) },

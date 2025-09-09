@@ -11,6 +11,7 @@ export function DashboardCard() {
   const [listings, setListings] = useState([]);
   const [mentors, setMentors] = useState([]);
   const [organizations, setOrganizations] = useState([]);
+  
 
   useEffect(()=>{
     const getAllData = async ()=>{
@@ -18,10 +19,15 @@ export function DashboardCard() {
        const userRes = await axiosClient.get('/users');
        setUsers(userRes.data.users);
        const orgRes = await axiosClient.get("/get-organizations");
-       setOrganizations(orgRes.data.organization);
+       
+       setOrganizations(orgRes.data.organizations);
        const mentorRes = await axiosClient.get("/get-mentors");
        setMentors(mentorRes.data.mentors);
         
+       const listRes = await axiosClient.get('/get-all-listings');
+     
+       setListings(listRes.data.listings)
+
 
       }catch(err){
         console.log(err)
@@ -66,7 +72,7 @@ export function DashboardCard() {
     />
     <ReusableCard
     title={'Total Listings'}
-     description={'40,689'}
+     description={listings?listings.length:"0"}
      image={logo}
      rate={'8.5%'}
      current={'up'}

@@ -15,10 +15,13 @@ import btns from "../../../assets/btn.svg";
 import { cardData } from "../../../hooks/useData";
 import { ProfileDetailsModal } from "./profileDetails";
 // import { ProfileDetailsModal } from "./profileDetails";
+import { userAvatar } from "../../../user/features/setting/posts/Posts";
 
-export const Articles = () => {
+
+export const Articles = ({articles, setArticles}) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  console.log(articles);
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -47,7 +50,7 @@ export const Articles = () => {
       </InputGroup>
 
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} gap={7}>
-        {cardData.map((card, idx) => (
+        {articles.length>0 ? articles.map((card, idx) => (
           <Box
             key={`${card.id}-${idx}`}
             cursor="pointer"
@@ -59,7 +62,7 @@ export const Articles = () => {
           >
             <Image
               roundedTop={10}
-              src={card.eImage}
+              src={card.image}
               alt={card.title}
               h="100px"
               className="w-full h-30 object-cover"
@@ -86,7 +89,7 @@ export const Articles = () => {
               <HStack>
                 <Stack position="relative">
                   <Image
-                    src={card.subimage}
+                    src={userAvatar}
                     alt="Update"
                     boxSize="30px"
                     rounded="full"
@@ -108,7 +111,7 @@ export const Articles = () => {
               <MdKeyboardArrowRight />
             </HStack>
           </Box> 
-        ))}
+        )):<Text>No articles yet</Text>}
       </SimpleGrid>
 
       {/* Modal */}

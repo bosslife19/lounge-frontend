@@ -1,8 +1,9 @@
 import { Checkbox } from "@chakra-ui/react"
 import { useState } from "react"
 
-export const Checkboxs = () => {
-  const [checked, setChecked] = useState(false)
+export const Checkboxs = ({checked, setChecked}) => {
+ 
+  
   return ( 
     <Checkbox.Root
       checked={checked}

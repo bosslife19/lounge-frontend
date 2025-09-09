@@ -5,8 +5,20 @@ import { MdAttachFile, MdStars } from "react-icons/md"
 import { Program } from "./Program"
 import { Links } from "./Links"
 import { IoIosArrowBack } from "react-icons/io"
+import { useEffect, useState } from "react"
+import axiosClient from '../../../axiosClient'
 
 export const TopTabs = () => {
+   const [articles, setArticles] = useState([]);
+  
+    useEffect(()=>{
+      const getArticles = async ()=>{
+        const res = await axiosClient.get('/get-articles');
+       
+        setArticles(res.data.articles);
+      }
+  getArticles()
+    },[]);
   return (
     <Box bg={'#F5F6FA'}>
     <Heading pl={5} display={'flex'} pb={4} gap={2} alignItems={'center'}>
@@ -77,7 +89,7 @@ export const TopTabs = () => {
 
       <Tabs.Content value="articles">
         <Box>
-          <TabPanel />
+          <TabPanel articles={articles} setArticles={setArticles} />
         </Box>
       </Tabs.Content>
       <Tabs.Content value="projects">
@@ -86,7 +98,7 @@ export const TopTabs = () => {
         </Box>
       </Tabs.Content>
       <Tabs.Content value="tasks">
-         <Links/>
+         <Links articles={articles} setArticles={setArticles}/>
       </Tabs.Content>
     </Tabs.Root>
      </Box>

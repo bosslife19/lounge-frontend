@@ -12,7 +12,7 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cardData } from "../../../hooks/useData";
 import { MentoringDetails } from "./MentoringDetails";
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -20,11 +20,13 @@ import { SelectOption } from "../../components/select/Select";
 import { CiSearch } from "react-icons/ci";
 import { Dropdown } from "../../components/select/Dropdown";
 import { IoIosArrowBack } from "react-icons/io";
+import axiosClient from "../../../axiosClient";
+import { userAvatar } from "../setting/posts/Posts";
 
 export const Mentoring = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-
+const [listings, setListings] = useState([]);
   const handleCardClick = (card) => {
     setSelectedCard(card);
     setIsOpen(true);
@@ -34,6 +36,15 @@ export const Mentoring = () => {
     setIsOpen(false);
     setSelectedCard(null);
   };
+
+  useEffect(()=>{
+    const getAlllistings = async ()=>{
+      const res = await axiosClient.get('/get-all-listings');
+      console.log(res.data.listings);
+      setListings(res.data.listings);
+    }
+    getAlllistings();
+  }, [])
 
  const frameworks = createListCollection({
     items: [
@@ -82,9 +93,9 @@ export const Mentoring = () => {
         </Flex>
         
       <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={6} gap={5}>
-        {cardData.map((card, idx) => (
+        {listings.length>0 ? listings.map((card, idx) => (
           <Card.Root
-            key={idx}
+            key={idx+card.id}
             bg={"#fff"}
             shadowColor={"#080F340F"}
             shadow={"sm"}
@@ -93,21 +104,21 @@ export const Mentoring = () => {
           >
             <Card.Body gap="2">
               <Avatar.Root mx={"auto"} boxSize={20} rounded={50}>
-                <Avatar.Image src={card.eImage} />
-                <Avatar.Fallback name={card.name} />
+                <Avatar.Image src={card.user.profile_picture || userAvatar} />
+                <Avatar.Fallback name={card.user.name} />
               </Avatar.Root>
               <Text textAlign={"center"}
               color={'#070416'}
               fontSize={{base:12,md:16}}
                 fontFamily="InterRegular">
-                Manuel Neuer
+                {card.user.first_name} {card.user.last_name}
               </Text>
               <Text textAlign={"center"}
                color={'#64626D'}
                fontSize={{base:12,md:16}}
                 fontFamily="LatoRegular"
                 >
-               Web Developer
+               {card.user.profession} with {card.user.years_of_experience} of experience
               </Text>
               <Card.Title
                 mt="2"
@@ -150,7 +161,7 @@ export const Mentoring = () => {
               </Button>
             </Card.Footer>
           </Card.Root>
-        ))}
+        )):<Text>No Listings yet</Text>}
       </SimpleGrid>
 
       {/* Modal */}
