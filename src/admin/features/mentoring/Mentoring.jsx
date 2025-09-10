@@ -14,7 +14,7 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import  { useState } from "react";
+import  { useEffect, useState } from "react";
 import { cardData } from "../../../hooks/useData";
 import { MentoringDetails } from "./MentoringDetails";
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -23,10 +23,33 @@ import { IoIosArrowBack } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import { BiDotsVerticalRounded, BiPencil, BiTrash } from "react-icons/bi";
 import { EditMentor } from "./modal/Editoverlay";
+import axiosClient from "../../../axiosClient";
+import { userAvatar } from "../../../user/features/setting/posts/Posts";
+import { useRequest } from "../../../hooks/useRequest";
+import { toast } from "react-toastify";
 
 export const AdminMentor = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [listings, setListings] = useState([]);
+
+  const {makeRequest} = useRequest();
+
+  const handleDelete = async (id)=>{
+    const res = await makeRequest('/delete-listing', {listingId:id});
+    if(res.error) return;
+    toast.success('Listing deleted successfully');
+    setListings(prev=>prev.filter(item=>item.id!==id));
+  }
+
+  useEffect(()=>{
+    const getListings = async()=>{
+      const res = await axiosClient.get('/get-all-listings');
+      console.log(res.data.listings);
+      setListings(res.data.listings);
+    }
+    getListings();
+  }, [])
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -97,7 +120,7 @@ export const AdminMentor = () => {
         </Flex>
         
       <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={6} gap={5}>
-        {cardData.map((card, idx) => (
+        {listings.length>0? listings.map((card, idx) => (
           <Card.Root
             key={idx}
             bg={"#fff"}
@@ -108,8 +131,8 @@ export const AdminMentor = () => {
           >
             <Card.Body gap="2">
               <Avatar.Root mx={"auto"} boxSize={20} rounded={50}>
-                <Avatar.Image src={card.eImage} />
-                <Avatar.Fallback name={card.name} />
+                <Avatar.Image src={card.user.profile_picture||userAvatar} />
+                <Avatar.Fallback name={card.user.name} />
               </Avatar.Root>
                <Menu.Root >
                       <Menu.Trigger 
@@ -126,13 +149,8 @@ export const AdminMentor = () => {
                         <Portal>
                          <Menu.Positioner>
                            <Menu.Content>
-                            <Menu.Item 
-                             onClick={() => handleAction()} 
-                            value="new-txt">
-                              <BiPencil/>
-                              Edit
-                            </Menu.Item>
-                            <Menu.Item value="new-file">
+                           
+                            <Menu.Item value="new-file" onClick={()=>handleDelete(card.id)}>
                               <BiTrash/>
                               Delete
                          </Menu.Item>
@@ -144,14 +162,14 @@ export const AdminMentor = () => {
               color={'#070416'}
               fontSize={{base:12,md:16}}
                 fontFamily="InterRegular">
-                Manuel Neuer
+                {card.user.first_name} {card.user.last_name}
               </Text>
               <Text textAlign={"center"}
                color={'#64626D'}
                fontSize={{base:12,md:16}}
                 fontFamily="LatoRegular"
                 >
-               Web Developer
+               {card.user.profession}
               </Text>
               <Card.Title
                 mt="2"
@@ -182,7 +200,7 @@ export const AdminMentor = () => {
             </Card.Body>
              
           </Card.Root>
-        ))}
+        )):<Text>No Listings available yet</Text>}
       </SimpleGrid>
 
       {/* Modal */}

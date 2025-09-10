@@ -13,29 +13,69 @@ import {
 } from "@chakra-ui/react";
 import { LuClock3 } from "react-icons/lu";
 import { AiFillPlayCircle } from "react-icons/ai";
-import { useState } from "react";
-
-// Replace with your images
-import banner1 from "../../../../assets/banner.png";
-import banner2 from "../../../../assets/userImage.jpg";
-import banner3 from "../../../../assets/banner.png";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { useState, useEffect } from "react";
+import axiosClient from "../../../../axiosClient";
+
+// 🔹 Utility: format date properly
+function formatEventDate(dateStr) {
+  // Example backend format: "2025-09-11-01"
+  const cleanDate = dateStr.replace(/-\d{2}$/, ""); // remove trailing "-01"
+  const date = new Date(cleanDate);
+
+  return date.toLocaleDateString("en-US", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
 
 export function Banner() {
-  const images = [banner1, banner2, banner3];
+  const [events, setEvents] = useState([]);
   const [current, setCurrent] = useState(0);
 
-  const prevImage = () => {
-    setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  // 🔹 Fetch events on mount
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        const res = await axiosClient.get("/get-events"); // change to your real endpoint
+       
+        setEvents(res.data.events);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+      }
+    }
+    fetchEvents();
+  }, []);
+
+  const prevEvent = () => {
+    setCurrent((prev) => (prev === 0 ? events.length - 1 : prev - 1));
   };
 
-  const nextImage = () => {
-    setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  const nextEvent = () => {
+    setCurrent((prev) => (prev === events.length - 1 ? 0 : prev + 1));
   };
+
+  // 🔹 If no events yet, show placeholder
+  if (events.length === 0) {
+    return (
+      <Box
+        bg="linear-gradient(135deg, #2B362F, #2B362F)"
+        borderRadius="2xl"
+        p={8}
+        color="white"
+        textAlign="center"
+      >
+        <Text>No upcoming events yet</Text>
+      </Box>
+    );
+  }
+
+  const event = events[current];
 
   return (
     <Box
-      // flex="1"
       bg="linear-gradient(135deg, #2B362F, #2B362F)"
       borderRadius="2xl"
       p={8}
@@ -59,7 +99,7 @@ export function Banner() {
           fontFamily="InterRegular"
           textTransform="uppercase"
         >
-          UPCOMING EVENT
+          UPCOMING EVENTS
         </Text>
         <Heading
           fontFamily="LatoBold"
@@ -67,7 +107,7 @@ export function Banner() {
           textAlign={{ base: "center", md: "left" }}
           fontWeight="600"
         >
-          The 2025 Web Developers Summit: Beginners’ Guide to Coding
+          {event.title}
         </Heading>
         <Flex gap={3} alignItems="center">
           <Text
@@ -76,7 +116,7 @@ export function Banner() {
             fontSize={{ base: "xs", md: "sm" }}
             fontWeight="medium"
           >
-            Friday, 6 July
+            {formatEventDate(event.event_date)}
           </Text>
           <LuClock3 />
           <Text
@@ -85,10 +125,13 @@ export function Banner() {
             fontSize={{ base: "xs", md: "sm" }}
             fontWeight="medium"
           >
-            11.30 - 12.00 (30 min)
+            {event.start_time} - {event.end_time}
           </Text>
         </Flex>
         <Button
+        as="a"
+  href={event.event_link}       // 👈 the link from your backend
+  target="_blank" 
           bg="#202020"
           color="#fff"
           _hover={{ bg: "gray.800" }}
@@ -103,11 +146,11 @@ export function Banner() {
         </Button>
       </VStack>
 
-      {/* Right Image Slider */}
+      {/* Right Event Image */}
       <Box textAlign="center">
         <Image
-          src={images[current]}
-          alt={`Event Banner ${current + 1}`}
+          src={event.event_image}
+          alt={event.title}
           boxSize={{ base: "100%", md: "200px" }}
           borderRadius="xl"
           objectFit="cover"
@@ -117,7 +160,7 @@ export function Banner() {
         <HStack justify="end" spacing={4}>
           <IconButton
             aria-label="Previous"
-            onClick={prevImage}
+            onClick={prevEvent}
             rounded="full"
             bg="white"
             _hover={{ bg: "whiteAlpha.500" }}
@@ -127,7 +170,7 @@ export function Banner() {
           </IconButton>
           <IconButton
             aria-label="Next"
-            onClick={nextImage}
+            onClick={nextEvent}
             rounded="full"
             bg="white"
             _hover={{ bg: "whiteAlpha.500" }}

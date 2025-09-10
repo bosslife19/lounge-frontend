@@ -5,10 +5,68 @@ import { CiClock2 } from "react-icons/ci";
 import logo from "../../../../assets/userImage.jpg";
 import tick from "../../../../assets/check.png";
 import lightdivider from "../../../../assets/lightDivider.png"
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../../context/AuthContext";
+import { supabase } from "../../../../lib/SupabaseClient";
+import { formatTimestamp } from "../../../../lib/FormatTimestamps";
 
 export function Card() {
+  const {userDetails} = useContext(AuthContext);
+  const [notifications, setNotifications] = useState([]);
+  const [currentNotification, setCurrentNotification] = useState(null);
+  const [realTime, setRealTime] = useState(false);
+  
+useEffect(()=>{
+ if(!realTime &&notifications){
+  setCurrentNotification(notifications[0]);
+ }
+}, [notifications])
+  useEffect(() => {
+    // 1. Fetch existing notifications
+    const fetchNotifications = async () => {
+      const { data, error } = await supabase
+        .from("notifications")
+        .select("*")
+        .eq("type", 'mentor_matching')
+        .eq("user_id", userDetails?.id)
+        .order("created_at", { ascending: false });
+
+      if (!error) setNotifications(data);
+    };
+
+    fetchNotifications();
+
+    // 2. Subscribe to real-time notifications
+    const channel = supabase
+      .channel("notifications-channel")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "notifications",
+          filter: `user_id=eq.${userDetails.id},type=eq.mentor_matching`,
+
+        },
+        (payload) => {
+          console.log("New notification:", payload.new);
+          setNotifications((prev) => [payload.new, ...prev]);
+          setRealTime(true);
+          setCurrentNotification(payload.new);
+        }
+      )
+      .subscribe();
+
+    // 3. Cleanup subscription
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [userDetails.id]);
+
   return (
-    <Box
+    <>
+    {
+      currentNotification && <Box
       w={'100%'}
       bg="#6C343314"
       // h={'100%'}
@@ -18,7 +76,7 @@ export function Card() {
     >
       {/* Card Title */}
       <Heading 
-      fontSize={{base:'18px',md:"21px" }}
+      fontSize={{base:'14px',md:"16px" }}
       mb={2} 
       px={5}
       pt={5}
@@ -31,7 +89,7 @@ export function Card() {
       alignItems={'center'} 
       flexDirection={'row'}
       >
-        You have Matched <Emojione_fire/>
+        {currentNotification.message} <Emojione_fire/>
       </Heading>
       <Image
           src={divider}
@@ -46,7 +104,7 @@ export function Card() {
         pb={2}
         >
           <Text fontSize={{base:12,md:13}} fontWeight={'bold'} fontFamily="InterMedium">
-            Friday, 6 July
+           {formatTimestamp(currentNotification.created_at)}
           </Text>
           <Text fontFamily="InterRegular" fontSize={{base:12,md:13}}  display={'flex'} color={'#475367'} gap={2} alignItems={'center'}>
           <CiClock2 />  11.30 - 12.00 (30 min)
@@ -61,7 +119,7 @@ export function Card() {
       align="flex-start">
         <Stack position={'relative'}>
         <Image
-          src={logo}
+          src={currentNotification.profile_picture||logo}
           alt="Update"
           boxSize="40px"
           borderRadius="md"
@@ -82,10 +140,10 @@ export function Card() {
           
          <Stack>
           <Text fontSize={{base:11,md:15}} fontFamily="InterMedium">
-            Friday, 6 July
+           {currentNotification.first_name}
           </Text>
         <Text mt={'-2'} fontSize={{base:11,md:12}} color="gray.700">
-         General Practioner 
+         {currentNotification.profession}
         </Text>
          </Stack>
       </HStack>
@@ -111,5 +169,7 @@ export function Card() {
       </Button>
      </Box>
     </Box>
+    }
+    </>
   );
 }

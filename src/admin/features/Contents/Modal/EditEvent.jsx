@@ -12,11 +12,77 @@ import {
    Field,
    InputGroup,
    FileUpload,
+   Spinner,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { useRef, useState } from "react";
 import { BiUpload } from "react-icons/bi";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import { useRequest } from "../../../../hooks/useRequest";
+import { toast } from "react-toastify";
  
-export const EditEvent = ({ isOpen, onClose }) => {
+export const EditEvent = ({ isOpen, onClose,  eventId }) => {
+  const titleRef = useRef('');
+  const fileRef = useRef(null);
+  const dateRef= useRef();
+  const memberRef = useRef('');
+  const startTimeRef = useRef('');
+  const endTimeRef = useRef('')
+  const [isLoading, setIsLoading] = useState(false);
+  const {makeRequest, loading} = useRequest();
+  const linkRef = useRef("")
+ 
+  let eventImage;
+
+  const handleCreateEvent = async ()=>{
+    if(!titleRef.current.value||!dateRef.current.value||!startTimeRef.current.value||!endTimeRef.current.value||!linkRef.current.value){
+      return toast.error('Please fill in all required fields')
+    }
+    eventImage = fileRef.current?.files[0];
+   if(eventImage){
+     const formData = new FormData();
+          formData.append("file", eventImage);
+          formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
+                try {
+                setIsLoading(true);
+            const res = await axios.post(
+              "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
+              formData
+            );
+            eventImage = res.data.secure_url;
+            console.log(eventImage)
+    
+          setIsLoading(false);
+           
+          } catch (error) {
+            console.error("Image upload failed", error);
+            setIsLoading(false);
+            toast.error("Image Upload Failed. Please try again.");
+            return;
+          }
+   }
+   const members = memberRef.current?.value
+        .split(',')
+        .map(email => email.trim())
+        .filter(email => email.length > 0);
+   const res = await makeRequest('/edit-event', {
+    title:titleRef.current.value,
+    eventDate:dateRef.current.value + '-01',
+    startTime: startTimeRef.current.value,
+    endTime: endTimeRef.current.value,
+    members:JSON.stringify(members),
+    eventImage,
+    link: linkRef.current.value,
+    eventId
+   });
+   if(res.error) return;
+
+   toast.success('Event Edited Successfully');
+   
+   onClose()
+   
+
+  }
  
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
@@ -27,152 +93,155 @@ export const EditEvent = ({ isOpen, onClose }) => {
             <Dialog.CloseTrigger rounded={30} border={'1px solid #9E9E9E'} asChild>
               <CloseButton size="xs" color={'#9E9E9E'} />
             </Dialog.CloseTrigger>
-            <Stack  spacing={0}>
-              <Heading>
-               Edit Event
-              </Heading>
-              <Text>
-                Title
-                 </Text>
-                  <Input type="text" placeholder="Add title" />
-                  
-                    <FileUpload.Root>
-                    <FileUpload.HiddenInput />
-                <FileUpload.Trigger asChild>
-                     <Field.Root>
-                  <Field.Label
-                   fontWeight={'400'}
-                   fontSize={{base:11,md:14}}
-                   fontFamily="InterMedium"
-                   color={'#101928'} >Event image</Field.Label>
-                   <InputGroup endElement={<BiUpload/>}>
-                     <Input  py={6} fontSize={{base:10,md:13}} 
-                      />
-                   </InputGroup>
-                  </Field.Root>
-                </FileUpload.Trigger>
-                <FileUpload.List />
-              </FileUpload.Root>
-
-              {/* created Date  */}
-                <Field.Root>
-                  <Field.Label
-                   fontWeight={'400'}
-                   fontSize={{base:11,md:14}}
-                   fontFamily="InterMedium"
-                   color={'#101928'} >Created Date </Field.Label>
-                   <InputGroup >
-                     <Input type="month"  py={6} fontSize={{base:10,md:13}} 
-                      />
-                   </InputGroup>
-                  </Field.Root>
-
-              <HStack spacing={6}>
-              {/* Start Time */}
-            <Field.Root>
-          <Field.Label
-          fontWeight="400"
-          fontSize={{ base: 11, md: 14 }}
+ <Stack spacing={4}>
+      <Heading>Edit Event</Heading>
+      
+      <Field.Root>
+        <Field.Label
+          fontWeight={'400'}
+          fontSize={{base:11,md:14}}
           fontFamily="InterMedium"
-          color="#101928"
+          color={'#101928'}
         >
-          Start Time
+          Title
+        </Field.Label>
+        <Input 
+          ref={titleRef}
+          type="text" 
+          placeholder="Add title" 
+        />
+      </Field.Root>
+            <Field.Root>
+        <Field.Label
+          fontWeight={'400'}
+          fontSize={{base:11,md:14}}
+          fontFamily="InterMedium"
+          color={'#101928'}
+        >
+          Event Link
+        </Field.Label>
+        <Input 
+          ref={linkRef}
+          type="text" 
+          placeholder="Paste link to event (zoom,google meet, microsoft teams, etc.)" 
+        />
+      </Field.Root>
+
+      <FileUpload.Root>
+        <FileUpload.HiddenInput ref={fileRef} />
+        <FileUpload.Trigger asChild>
+          <Field.Root>
+            <Field.Label
+              fontWeight={'400'}
+              fontSize={{base:11,md:14}}
+              fontFamily="InterMedium"
+              color={'#101928'}
+            >
+              Event image
+            </Field.Label>
+            <InputGroup endElement={<BiUpload/>}>
+              <Input py={6} fontSize={{base:10,md:13}} />
+            </InputGroup>
+          </Field.Root>
+        </FileUpload.Trigger>
+        <FileUpload.List />
+      </FileUpload.Root>
+
+      <Field.Root>
+        <Field.Label
+          fontWeight={'400'}
+          fontSize={{base:11,md:14}}
+          fontFamily="InterMedium"
+          color={'#101928'}
+        >
+          Event Date
         </Field.Label>
         <InputGroup>
-          <HStack>
-            <Input
-              type="number"
-              placeholder="MM"
-              min={1}
-              max={12}
-              maxLength={2}
-              py={6}
-              w="60px"
-              fontSize={{ base: 10, md: 13 }}
-            />
-            <Text>/</Text>
-            <Input
-              type="number"
-              placeholder="YY"
-              min={0}
-              max={99}
-              maxLength={2}
-              py={6}
-              w="60px"
-              fontSize={{ base: 10, md: 13 }}
-            />
-          </HStack>
+          <Input 
+            ref={dateRef}
+            type="date" 
+            py={6} 
+            fontSize={{base:10,md:13}} 
+          />
         </InputGroup>
       </Field.Root>
 
-      {/* End Time */}
+      <HStack spacing={6}>
+        <Field.Root>
+          <Field.Label
+            fontWeight="400"
+            fontSize={{ base: 11, md: 14 }}
+            fontFamily="InterMedium"
+            color="#101928"
+          >
+            Start Time
+          </Field.Label>
+          <InputGroup>
+            <Input
+              ref={startTimeRef}
+              type="time"
+            />
+          </InputGroup>
+        </Field.Root>
+
+        <Field.Root>
+          <Field.Label
+            fontWeight="400"
+            fontSize={{ base: 11, md: 14 }}
+            fontFamily="InterMedium"
+            color="#101928"
+          >
+            End Time
+          </Field.Label>
+          <InputGroup>
+            <Input
+              ref={endTimeRef}
+              type="time"
+            />
+          </InputGroup>
+        </Field.Root>
+      </HStack>
+
       <Field.Root>
         <Field.Label
-          fontWeight="400"
-          fontSize={{ base: 11, md: 14 }}
+          fontWeight={'400'}
+          fontSize={{base:11,md:14}}
           fontFamily="InterMedium"
-          color="#101928"
+          color={'#101928'}
         >
-          End Time
+          Notify Members
         </Field.Label>
         <InputGroup>
-          <HStack>
-            <Input
-              type="number"
-              placeholder="MM"
-              min={1}
-              max={12}
-              maxLength={2}
-              py={6}
-              w="60px"
-              fontSize={{ base: 10, md: 13 }}
-            />
-            <Text>/</Text>
-            <Input
-              type="number"
-              placeholder="YY"
-              min={0}
-              max={99}
-              maxLength={2}
-              py={6}
-              w="60px"
-              fontSize={{ base: 10, md: 13 }}
-            />
-               </HStack>
-              </InputGroup>
-             </Field.Root>
-              </HStack>
+          <Input 
+            ref={memberRef}
+            placeholder="Member email addresses (comma separated)" 
+            py={6} 
+            fontSize={{base:10,md:13}} 
+          />
+        </InputGroup>
+      </Field.Root>
 
-                 <Field.Root>
-                  <Field.Label
-                   fontWeight={'400'}
-                   fontSize={{base:11,md:14}}
-                   fontFamily="InterMedium"
-                   color={'#101928'} >Add Member </Field.Label>
-                   <InputGroup >
-                     <Input placeholder="Member email address"  
-                       py={6} fontSize={{base:10,md:13}} 
-                      />
-                   </InputGroup>
-                  </Field.Root>
-
-                   <HStack justifyContent={'space-between'}>
-                     <Button 
-                     onClick={()=>onClose()}
-                         mr={'auto'}
-                       bg={'#fff'} color={'#2B362F'} border={"1px solid #2B362F"} >
-                        Cancel
-                        </Button>
-                           <Button
-                           py={6}
-                         rounded={5}
-                         bg={"#2B362F"}
-                        color="white"
-                       >
-                    Create Now <IoIosArrowRoundForward/>
-                    </Button>
-                 </HStack>
-            </Stack>
+      <HStack justifyContent={'space-between'}>
+        <Button 
+          onClick={() => onClose()}
+          mr={'auto'}
+          bg={'#fff'} 
+          color={'#2B362F'} 
+          border={"1px solid #2B362F"}
+        >
+          Cancel
+        </Button>
+        <Button
+          onClick={handleCreateEvent}
+          py={6}
+          rounded={5}
+          bg={"#2B362F"}
+          color="white"
+        >
+        {loading||isLoading?<Spinner/>:"Edit"} <IoIosArrowRoundForward/>
+        </Button>
+      </HStack>
+    </Stack>
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>

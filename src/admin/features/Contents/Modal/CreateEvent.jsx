@@ -21,7 +21,7 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import { useRequest } from "../../../../hooks/useRequest";
 import { toast } from "react-toastify";
  
-export const CreateEvent = ({ isOpen, onClose }) => {
+export const CreateEvent = ({ isOpen, onClose, events, setEvents }) => {
   const titleRef = useRef('');
   const fileRef = useRef(null);
   const dateRef= useRef();
@@ -30,11 +30,12 @@ export const CreateEvent = ({ isOpen, onClose }) => {
   const endTimeRef = useRef('')
   const [isLoading, setIsLoading] = useState(false);
   const {makeRequest, loading} = useRequest();
+  const linkRef = useRef("")
  
   let eventImage;
 
   const handleCreateEvent = async ()=>{
-    if(!titleRef.current.value||!dateRef.current.value||!startTimeRef.current.value||!endTimeRef.current.value){
+    if(!titleRef.current.value||!dateRef.current.value||!startTimeRef.current.value||!endTimeRef.current.value||!linkRef.current.value){
       return toast.error('Please fill in all required fields')
     }
     eventImage = fileRef.current?.files[0];
@@ -70,11 +71,13 @@ export const CreateEvent = ({ isOpen, onClose }) => {
     startTime: startTimeRef.current.value,
     endTime: endTimeRef.current.value,
     members:JSON.stringify(members),
-    eventImage
+    eventImage,
+    link: linkRef.current.value
    });
    if(res.error) return;
 
    toast.success('Event Created Successfully');
+   setEvents(prev=>[res.response.event, ...prev]);
    onClose()
    
 
@@ -105,6 +108,21 @@ export const CreateEvent = ({ isOpen, onClose }) => {
           ref={titleRef}
           type="text" 
           placeholder="Add title" 
+        />
+      </Field.Root>
+            <Field.Root>
+        <Field.Label
+          fontWeight={'400'}
+          fontSize={{base:11,md:14}}
+          fontFamily="InterMedium"
+          color={'#101928'}
+        >
+          Event Link
+        </Field.Label>
+        <Input 
+          ref={linkRef}
+          type="text" 
+          placeholder="Paste link to event (zoom,google meet, microsoft teams, etc.)" 
         />
       </Field.Root>
 

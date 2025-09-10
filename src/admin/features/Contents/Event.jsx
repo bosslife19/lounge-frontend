@@ -1,5 +1,5 @@
  
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -18,6 +18,8 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import imgs from "../../../assets/adults.png"
 import { EditEvent } from "./Modal/EditEvent";
 import { CreateEvent } from "./Modal/CreateEvent";
+import axiosClient from "../../../axiosClient";
+import { formattedDate } from "../../../lib/formatDate";
 const localizer = momentLocalizer(moment);
 
 export default function EventsAdmin() {
@@ -29,6 +31,16 @@ export default function EventsAdmin() {
       end: new Date(moment().add(1, "hours").toDate()),
     },
   ]);
+  const [eventId, setEventId] = useState(0)
+
+  useEffect(()=>{
+    const getEvents = async()=>{
+      const res = await axiosClient.get('/get-events');
+      
+      setEvents(res.data.events)
+    }
+    getEvents();
+  }, [])
 
 //   const toast = useToast();
 
@@ -91,7 +103,8 @@ export default function EventsAdmin() {
       setIsOpen(false);
      };
         
-           const handleCardClicked = () => {
+           const handleCardClicked = (id) => {
+            setEventId(id);
           setIsOpened(true);
        };
      
@@ -105,6 +118,11 @@ export default function EventsAdmin() {
       bg={'transparent'}
     >
       {/* Left Sidebar */}
+                      <Button   ml={'auto'} 
+        colorScheme="blue" 
+        w={{base:'auto',}} onClick={handleCardClick} style={{marginLeft:10}}>
+          + Create New Event
+        </Button>
       <Box
       display="flex"
       px={5}
@@ -112,19 +130,20 @@ export default function EventsAdmin() {
        w={{base:'100%',xl:"100vw"}}
         gap={5}
       flexDir={{ base: "column", xl: "row" }}
+      flexWrap={{base:'wrap', xl:'wrap'}}
       >
-        <Box
+
+        {
+          events.length>0?events.map((event, index)=>(
+ <Box
          mb={'auto'} 
-        w={{ base: "100%", xl: "300px" }}
+        w={{ base: "100%", xl: "25%" }}
         flexShrink={0}
+        key={event.id}
        
       >
          
-        <Button   ml={'auto'} 
-        colorScheme="blue" 
-        w={{base:'auto',xl:"full"}} onClick={handleCardClick}>
-          + Create New Event
-        </Button>
+
      <Card.Root
       maxW={'100%'}
       mt={5}
@@ -136,7 +155,7 @@ export default function EventsAdmin() {
       _hover={{ shadow: "lg" }}
     >
       <Image
-        src={imgs}
+        src={event.event_image}
         alt="Web Developers Summit"
         objectFit="cover"
         w="100%"
@@ -146,14 +165,15 @@ export default function EventsAdmin() {
       <Card.Body>
         <Stack spacing={3}>
           <Heading size="md">
-            The 2025 Web Developers Summit: Beginners’ Guide to Coding
+            {event.title}
           </Heading>
           <Text fontWeight="medium" color="gray.600">
-            Friday 6 July, 2025
+
+            {formattedDate(event?.event_date)}
           </Text>
-          <Text color="gray.500">11:00AM - 12:00PM (1HR)</Text>
+          <Text color="gray.500">{event.start_time} - {event.end_time}</Text>
           <Button 
-          onClick={handleCardClicked}
+          onClick={()=>handleCardClicked(event.id)}
           justifyContent={'space-between'}
           flexDirection={'row'}
           color={'#919191'}
@@ -168,9 +188,12 @@ export default function EventsAdmin() {
     </Card.Root>
           
        </Box>
+          )):<Text>No Events yet</Text>
+        }
+       
 
-      {/* Right Calendar */}
-      <Box w={{base: '100%',xl:600}}  h={{base:500,md:700}} bg={'#fff'}rounded={20} shadow={'md'} p={4} overflow="hidden">
+     
+      {/* <Box w={{base: '100%',xl:600}}  h={{base:500,md:700}} bg={'#fff'}rounded={20} shadow={'md'} p={4} overflow="hidden">
         <Calendar
           localizer={localizer}
           events={events}
@@ -182,19 +205,21 @@ export default function EventsAdmin() {
           popup
           defaultView={Views.MONTH} // Start in month view
           views={[Views.MONTH, Views.WEEK, Views.DAY, Views.AGENDA]}
-          longPressThreshold={1} // allow single click to create
-        //   style={{ width: "100%",height:700 }}
+          longPressThreshold={1} 
         />
-      </Box>
+      </Box> */}
       </Box>
 
       <CreateEvent
       isOpen={isOpen}
       onClose={handleClose}
+      setEvents={setEvents}
       />
       <EditEvent
       isOpen={isOpened}
       onClose={handleCloseed}
+      setEvents={setEvents}
+      eventId={eventId}
       />
     </Box>
   );

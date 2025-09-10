@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import viewProfile from "../../../assets/viewProfile.png";
 import { FaLocationDot } from "react-icons/fa6";
+import { userAvatar } from "../../../user/features/setting/posts/Posts";
 
 export const MentoringDetails = ({ isOpen, onClose, profile }) => {
   if (!profile) return null;
@@ -45,21 +46,21 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
               >
                 <Card.Body  gap="2">
                   <Avatar.Root mx={"auto"} boxSize={20} rounded={50}>
-                    <Avatar.Image src={profile.eImage} />
-                    <Avatar.Fallback name={profile.title} />
+                    <Avatar.Image src={profile.user.profile_picture||userAvatar} />
+                    <Avatar.Fallback name={profile.user.name} />
                   </Avatar.Root>
                   <Text textAlign={"center"}
                         color={'#070416'}
                         fontSize={{base:12,md:16}}
                         fontFamily="InterRegular">
-                        Manuel Neuer
+                        {profile.user.first_name} {profile.user.last_name} 
                      </Text>
                     <Text textAlign={"center"}
                       color={'#64626D'}
                       fontSize={{base:12,md:16}}
                       fontFamily="LatoRegular"
                       >
-                       Web Developer
+                       {profile.user.profession}
                      </Text>
                      <Card.Title
                        mt="2"
@@ -81,9 +82,9 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                   >
                     Request Session
                   </Button>
-                  <Button bg={'transparent'}>
+                  {/* <Button bg={'transparent'}>
                     <Image src={viewProfile} w={120} />
-                  </Button>
+                  </Button> */}
                 </Card.Footer>
               </Card.Root>
 
@@ -96,7 +97,7 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                     Price
                   </Heading>
                   <Text>
-                    E500
+                    E{profile.price}
                   </Text>
                 </Card.Header>
                 {/* <Card.Body mt={-3} color="fg.muted">
@@ -128,17 +129,18 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                   <Heading size="md">Description</Heading>
                 </Card.Header>
                 <Card.Body mt={-2} color="fg.muted">
-                  <List.Root>
+                  {/* <List.Root>
                        <List.Item >{profile.desc}</List.Item>
                        <List.Item >{profile.desc2}</List.Item>
                        <List.Item >{profile.desc3}</List.Item>
                 
-                  </List.Root>
+                  </List.Root> */}
+                  <Text>{profile.description}</Text>
                 </Card.Body>
               </Card.Root>
 
               {/* SOCIALS */}
-              <Card.Root shadow={'sm'} size="sm" px={2} rounded={20} mt={4}>
+              {/* <Card.Root shadow={'sm'} size="sm" px={2} rounded={20} mt={4}>
                 <Card.Header>
                   <Heading size="md">Connect on Socials</Heading>
                 </Card.Header>
@@ -154,7 +156,7 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                        <List.Item color="#6C3433">Business</List.Item>
                   </List.Root>
                 </Card.Body>
-              </Card.Root>
+              </Card.Root> */}
             </Box>
           </Dialog.Content>
         </Dialog.Positioner>
