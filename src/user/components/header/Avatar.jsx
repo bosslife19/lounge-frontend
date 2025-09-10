@@ -66,7 +66,18 @@ const Avatar = ({ options }) => {
     }
   
 
-
+    const handleAccept = async(id, notId)=>{
+      const res = await makeRequest('/respond-to-match', {marchId:id, response:'accepted'});
+      if(res.error) return;
+      toast.success("Match accepted successfully");
+      setNotifications(prev=>prev.filter(item=>item.id !==notId));
+    }
+        const handleReject = async(id, notId)=>{
+      const res = await makeRequest('/respond-to-match', {marchId:id, response:'rejected'});
+      if(res.error) return;
+      toast.success("Match Rejected");
+      setNotifications(prev=>prev.filter(item=>item.id !==notId));
+    }
     const handleImageClick = () => {
       if (fileInputRef.current) {
         fileInputRef.current.click(); // open file picker
@@ -209,7 +220,7 @@ const Avatar = ({ options }) => {
       {notifications.length > 0 ? (
         notifications.map((n, idx) => (
           <div
-            key={idx}
+            key={n.id}
             style={{
               padding: "16px",
               borderRadius: "12px",
@@ -230,7 +241,7 @@ const Avatar = ({ options }) => {
             <div style={{ marginTop: "12px", display: "flex", gap: "12px" }}>
               <Button
                 size="sm"
-                onClick={() => onAccept(n)}
+                onClick={() => handleAccept(n.match_id, n.id)}
                 style={{
                   backgroundColor: "#202020",
                   color: "#fff",
@@ -244,7 +255,7 @@ const Avatar = ({ options }) => {
               </Button>
               <Button
                 size="sm"
-                onClick={() => onReject(n)}
+                onClick={() => handleReject(n.match_id, n.id)}
                 style={{
                   backgroundColor: "#dc2626",
                   color: "#fff",

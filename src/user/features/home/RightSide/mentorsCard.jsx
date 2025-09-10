@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -12,6 +12,7 @@ import {
  import { BiPlus } from "react-icons/bi";
 import logo from "../../../../assets/userImage.jpg";
 import { CiCirclePlus } from "react-icons/ci";
+import axiosClient from "../../../../axiosClient";
 
 // Dummy Data
 const cardData = [
@@ -35,7 +36,19 @@ export const truncateText = (text, maxLength) => {
   return text.length <= maxLength ? text : text.substring(0, maxLength) + "...";
 };
 
+
 const MentorsBoxPage = () => {
+  const [mentors, setMentors] = useState([]);
+
+useEffect(()=>{
+  const getMentors = async()=>{
+    const res = await axiosClient.get("/my-mentors");
+    console.log(res.data.mentors);
+    setMentors(res.data.mentors);
+
+  }
+  getMentors()
+}, []);
   return (
     <Box  w={'100%'} p={6} >
       {/* Header */}
@@ -55,7 +68,7 @@ const MentorsBoxPage = () => {
 
       {/* Grid 2x */}
       <Stack   spacing={6}>
-        {cardData.map((card) => (
+        {mentors.length>0?mentors.map((card) => (
           <Box
             key={card.id}
             transition="all 0.2s ease-in-out"
@@ -64,17 +77,19 @@ const MentorsBoxPage = () => {
           >
             <HStack spacing={4} align="center">
               <Image
-                src={card.image}
-                alt={card.title}
+                src={card.profile_picture||logo}
+                alt={card.name}
                 boxSize="20px"
                 rounded="full"
               />
               <Stack spacing={0} flex="1">
                 <Text fontSize={12} fontWeight="semibold" color="#111827">
-                  {truncateText(card.title)}
+                  {/* {truncateText(card.)} */}
+                  {card.name}
                 </Text>
                 <Text mt={-2} fontSize={9} color="#6B7280">
-                  {truncateText(card.subtitle)}
+                  {/* {truncateText(card.subtitle)} */}
+                  {card.profession}
                 </Text>
               </Stack>
               <Button
@@ -88,7 +103,7 @@ const MentorsBoxPage = () => {
               </Button>
             </HStack>
           </Box>
-        ))}
+        )):<Text>No Mentors Yet</Text>}
       </Stack>
     </Box>
   );
