@@ -45,7 +45,7 @@ export const AdminMentor = () => {
   useEffect(()=>{
     const getListings = async()=>{
       const res = await axiosClient.get('/get-all-listings');
-      console.log(res.data.listings);
+      
       setListings(res.data.listings);
     }
     getListings();

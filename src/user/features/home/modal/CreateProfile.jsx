@@ -600,6 +600,30 @@ return toast.error('All fields are required to create an organization')
                     <Input py={6} placeholder="City" ref={locationRef} />
                   </InputGroup>
                 </Field.Root>
+                 <Field.Root>
+                  <Field.Label
+                    fontWeight={"400"}
+                    fontSize={{ base: 12, md: 14 }}
+                    fontFamily="InterMedium"
+                    color={"#101928"}
+                  >
+                    Bio
+                  </Field.Label>
+                  <Textarea
+                    resize="none"
+                    h={200}
+                    placeholder="Type here"
+                    ref={bioRef}
+                  />
+                  <Text
+                    fontWeight={"400"}
+                    fontSize={{ base: 12, md: 14 }}
+                    fontFamily="InterRegular"
+                    color={"#667185"}
+                  >
+                    Tell us About Yourself
+                  </Text>
+                </Field.Root>
 
                 {/* Organization */}
                 <HStack gap={5}>
@@ -649,6 +673,7 @@ return toast.error('All fields are required to create an organization')
                     Create Organization
                   </Button>
                 </HStack>
+                
 
                 {/* Bio */}
                 {organizationShow && (
@@ -758,30 +783,7 @@ return toast.error('All fields are required to create an organization')
                   </>
                 )}
 
-                <Field.Root>
-                  <Field.Label
-                    fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
-                    fontFamily="InterMedium"
-                    color={"#101928"}
-                  >
-                    Bio
-                  </Field.Label>
-                  <Textarea
-                    resize="none"
-                    h={200}
-                    placeholder="Type here"
-                    ref={bioRef}
-                  />
-                  <Text
-                    fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
-                    fontFamily="InterRegular"
-                    color={"#667185"}
-                  >
-                    Tell us About Yourself
-                  </Text>
-                </Field.Root>
+               
               </Fieldset.Content>
 
               {/* Button */}

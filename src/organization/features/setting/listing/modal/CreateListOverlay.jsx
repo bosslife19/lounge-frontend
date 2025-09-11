@@ -129,7 +129,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
             fontSize={{base:12,md:14}}
             fontFamily="InterRegular"
             color={'#667185'}
-           >Tell us About the listing</Text>
+           >Tell us About the listingss</Text>
          </Field.Root>
          {/* check */}
          <Checkboxs/>

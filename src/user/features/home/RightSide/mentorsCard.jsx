@@ -43,7 +43,7 @@ const MentorsBoxPage = () => {
 useEffect(()=>{
   const getMentors = async()=>{
     const res = await axiosClient.get("/my-mentors");
-    console.log(res.data.mentors);
+    
     setMentors(res.data.mentors);
 
   }

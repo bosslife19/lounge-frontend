@@ -37,12 +37,14 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
   const descriptionRef = useRef("");
   const emailRef = useRef("");
   const [value, setValue] = useState(0);
+  const categoryRef= useRef("");
   const calendlyRef = useRef("");
   const prepRef = useRef("");
   const [isFree, setIsfree] = useState(false);
 
   const handleCreateListing = async ()=>{
-    if(!titleRef.current.value||!descriptionRef.current.value||!emailRef.current.value||!calendlyRef.current.value){
+    
+    if(!titleRef.current.value||!descriptionRef.current.value||!emailRef.current.value||!calendlyRef.current.value||!categoryRef.current.value){
       return toast.error('One or more required fields not filled');
     }
     const res = await makeRequest('/create-listing', {
@@ -53,6 +55,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
       preparatoryNote: prepRef.current.value,
       isFree,
       accessEmail: emailRef.current.value,
+      category:categoryRef.current.value
 
 
     });
@@ -133,7 +136,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                 </Field.Root>
 
                 {/* Category */}
-                {/* <Field.Root>
+                <Field.Root>
   <Field.Label
    fontWeight={'400'}
    fontSize={{base:12,md:14}}
@@ -146,10 +149,10 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
       <FaBriefcase />
     </Box>
 
-     <NativeSelect.Field name="country" pl="10">
-       <For each={["Finance", "others1", "others2"]}>
+     <NativeSelect.Field name="country" pl="10" ref={categoryRef}>
+       <For each={["Finance", "Engineering", "others2"]}>
           {(item) => (
-           <option key={item} value={item}>
+           <option key={item} value={item} >
             {item}
            </option>
            )}
@@ -157,7 +160,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
           </NativeSelect.Field>
           <NativeSelect.Indicator />
           </NativeSelect.Root>
-         </Field.Root> */}
+         </Field.Root>
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}

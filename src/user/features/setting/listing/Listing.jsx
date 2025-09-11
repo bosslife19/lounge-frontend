@@ -40,7 +40,7 @@ export const SettingsListing = () => {
   useEffect(()=>{
     const getMyListings = async()=>{
       const res = await axiosClient.get("/get-my-listings");
-      console.log(res.data)
+      
       setListings(res.data.listings)
     }
     getMyListings()

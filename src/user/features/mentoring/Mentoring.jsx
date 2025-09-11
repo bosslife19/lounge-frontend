@@ -10,6 +10,7 @@ import {
   Input,
   InputGroup,
   SimpleGrid,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -22,6 +23,8 @@ import { Dropdown } from "../../components/select/Dropdown";
 import { IoIosArrowBack } from "react-icons/io";
 import axiosClient from "../../../axiosClient";
 import { userAvatar } from "../setting/posts/Posts";
+import { useRequest } from "../../../hooks/useRequest";
+import { toast } from "react-toastify";
 
 export const Mentoring = () => {
   const [selectedCard, setSelectedCard] = useState(null);
@@ -31,16 +34,23 @@ const [listings, setListings] = useState([]);
     setSelectedCard(card);
     setIsOpen(true);
   };
+  const {makeRequest, loading} = useRequest()
 
   const handleClose = () => {
     setIsOpen(false);
     setSelectedCard(null);
   };
+  const handleRequestSession = async (id)=>{
+      const res = await makeRequest('/request-session', {mentorId:id});
+      if(res.error)return;
+      toast.success('Session Requested successfully');
+      
+    }
 
   useEffect(()=>{
     const getAlllistings = async ()=>{
       const res = await axiosClient.get('/get-all-listings');
-      console.log(res.data.listings);
+      
       setListings(res.data.listings);
     }
     getAlllistings();
@@ -156,8 +166,12 @@ const [listings, setListings] = useState([]);
                 color={"#333333B2"}
                 rounded={20}
                 p={5}
+
+                onClick={()=>handleRequestSession(card.user.id)}
               >
-               Request Session
+               {
+                loading?<Spinner/>:'Request Session'
+               }
               </Button>
             </Card.Footer>
           </Card.Root>

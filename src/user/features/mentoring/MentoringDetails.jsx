@@ -12,13 +12,25 @@ import {
   Button,
   Heading,
   List,
+  Spinner,
 } from "@chakra-ui/react";
 import viewProfile from "../../../assets/viewProfile.png";
 import { FaLocationDot } from "react-icons/fa6";
 import { userAvatar } from "../setting/posts/Posts";
+import { useRequest } from "../../../hooks/useRequest";
+import { toast } from "react-toastify";
 
 export const MentoringDetails = ({ isOpen, onClose, profile }) => {
+  
   if (!profile) return null;
+  const {makeRequest, loading} = useRequest()
+
+  const handleRequestSession = async (id)=>{
+    const res = await makeRequest('/request-session', {mentorId:id});
+    if(res.error)return;
+    toast.success('Session Requested successfully');
+    onClose();
+  }
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
@@ -79,8 +91,12 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                     fontSize={12}
                     rounded={20}
                     p={6}
+
+                    onClick={()=>handleRequestSession(profile.user.id)}
                   >
-                    Request Session
+                    {
+                      loading?<Spinner/>:'Request Session'
+                    }
                   </Button>
                   {/* <Button bg={'transparent'}>
                     <Image src={viewProfile} w={120} />
@@ -140,10 +156,10 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
               </Card.Root>
 
               {/* SOCIALS */}
-              <Card.Root shadow={'sm'} size="sm" px={2} rounded={20} mt={4} py={4}>
-                <Card.Header>
+              {/* <Card.Root shadow={'sm'} size="sm" px={2} rounded={20} mt={4} py={4}> */}
+                {/* <Card.Header>
  <a href={profile.calendly} style={{textDecoration:'underline', fontWeight:'700'}}>Calendly Link</a>
-                </Card.Header>
+                </Card.Header> */}
                 {/* <Card.Body flexDirection={{base:'row',md:'column'}} color="#6C3433" gap={4} >
                  <List.Root  color="#6C3433" flexDirection={{base:'column',md:'row'}} gap={10} px={5}>
                        <List.Item color="#6C3433">Finance</List.Item>
@@ -162,7 +178,7 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                   marginLeft:5,
                 }}>{profile.calendly}</Text> */}
                
-              </Card.Root>
+              {/* </Card.Root> */}
             </Box>
           </Dialog.Content>
         </Dialog.Positioner>
