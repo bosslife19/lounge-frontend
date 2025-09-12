@@ -1,16 +1,16 @@
-import { Tabs, Box, Button } from "@chakra-ui/react"
-import { LuCircleAlert } from "react-icons/lu"
-import { MdAttachFile, MdStars } from "react-icons/md"
-import { RiCalendarEventFill } from "react-icons/ri"
-import { CiCirclePlus } from "react-icons/ci"
-import { FaRegCalendar } from "react-icons/fa"
-import { useEffect, useState } from "react"
-import { AdminArticles } from "./Articles"
-import { AdminProgram } from "./Program"
-import { AdminLinks } from "./Links"
-import EventsAdmin from "./Event"
-import { CreateArticle } from "./Modal/CreateContent"
-import axiosClient from "../../../axiosClient"
+import { Tabs, Box, Button } from "@chakra-ui/react";
+import { LuCircleAlert } from "react-icons/lu";
+import { MdAttachFile, MdStars } from "react-icons/md";
+import { RiCalendarEventFill } from "react-icons/ri";
+import { CiCirclePlus } from "react-icons/ci";
+import { FaRegCalendar } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { AdminArticles } from "./Articles";
+import { AdminProgram } from "./Program";
+import { AdminLinks } from "./Links";
+import EventsAdmin from "./Event";
+import { CreateArticle } from "./Modal/CreateContent";
+import axiosClient from "../../../axiosClient";
 
 export const AdminContent = () => {
   const [isOpened, setIsOpened] = useState(false);
@@ -19,19 +19,20 @@ export const AdminContent = () => {
   const handleClosed = () => setIsOpened(false);
   const [articles, setArticles] = useState([]);
 
-  useEffect(()=>{
-    const getArticles = async ()=>{
-      const res = await axiosClient.get('/get-articles');
-     
+  useEffect(() => {
+    const getArticles = async () => {
+      const res = await axiosClient.get("/get-articles");
+
       setArticles(res.data.articles);
-    }
-getArticles()
-  },[]);
+    };
+    getArticles();
+  }, []);
 
   return (
     <Box w="100%" h="100%" bg="#F5F6FA">
       <Tabs.Root
         defaultValue="articles"
+        variant="unstyled"
         bg="#F5F6FA"
         rounded={20}
       >
@@ -43,19 +44,19 @@ getArticles()
           p="13px"
           bg="#F5F6FA"
           border="none"
-          rounded={20}
+          rounded={30}
         >
           <Tabs.Trigger
             value="articles"
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
             fontSize={{ base: 10, md: 14 }}
-            rounded={5}
+            rounded={30}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
           >
             <LuCircleAlert />
-            Articles
+            Information
           </Tabs.Trigger>
 
           <Tabs.Trigger
@@ -63,7 +64,7 @@ getArticles()
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
             fontSize={{ base: 10, md: 14 }}
-            rounded={5}
+            rounded={30}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
           >
@@ -76,7 +77,7 @@ getArticles()
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
             fontSize={{ base: 10, md: 14 }}
-            rounded={5}
+            rounded={30}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
           >
@@ -89,7 +90,7 @@ getArticles()
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
             fontSize={{ base: 10, md: 14 }}
-            rounded={5}
+            rounded={30}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
           >
@@ -100,8 +101,9 @@ getArticles()
           <Button
             bg="transparent"
             border="1px solid #E4E4E4"
-            p={5}
+            p={6}
             color="#212121"
+            rounded={30}
             onClick={handleAction}
           >
             <CiCirclePlus />
@@ -120,10 +122,10 @@ getArticles()
             </Button>
           </Box>
 
-          <Tabs.Indicator rounded="lg" />
+          {/* <Tabs.Indicator rounded="lg" /> */}
         </Tabs.List>
 
-        <Tabs.Content value="articles" >
+        <Tabs.Content value="articles">
           <AdminArticles articles={articles} setArticles={setArticles} />
         </Tabs.Content>
         <Tabs.Content value="projects">
@@ -137,7 +139,11 @@ getArticles()
         </Tabs.Content>
       </Tabs.Root>
 
-      <CreateArticle isOpen={isOpened} onClose={handleClosed} setArticles={setArticles} />
+      <CreateArticle
+        isOpen={isOpened}
+        onClose={handleClosed}
+        setArticles={setArticles}
+      />
     </Box>
-  )
-}
+  );
+};
