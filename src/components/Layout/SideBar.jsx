@@ -15,12 +15,18 @@ import { LuCalendarDays } from "react-icons/lu";
 import { BiLogOut, BiSolidCopyAlt } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
 import logo from "../../assets/logos.png";
-import { Balance } from "../../assets/Balance";
+import  Balance  from "../Balance";
+
 
 const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
+ 
+  
   const history = useNavigate();
   const trigger = useRef(null);
   const sidebar = useRef(null);
+  
+  
+  
 
   const [activeMainIndex, setActiveMainIndex] = useState(
     parseInt(localStorage.getItem("activeMainIndex") || "0")
@@ -263,7 +269,8 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
         );
         })}
          <Link to={'#'}>
-        <Balance />
+
+        <Balance/>
         </Link>
       </Flex>
         {/* Balance Component */}
