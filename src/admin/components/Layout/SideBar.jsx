@@ -13,7 +13,7 @@ import { LuCalendarDays } from "react-icons/lu";
 import { BiLogOut, BiSolidCopyAlt } from "react-icons/bi";
 import { FaGifts, FaUser, FaUsers } from "react-icons/fa";
 import logo from "../../../assets/logos.png";
-import { Balance } from "../../../assets/Balance";
+import  Balance  from "../../../components/Balance";
 
 const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
   const history = useNavigate();

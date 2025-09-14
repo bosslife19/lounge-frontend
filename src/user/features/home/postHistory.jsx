@@ -2,13 +2,29 @@
 import { Box, Image, Text, Stack, HStack, Button, Flex } from "@chakra-ui/react";
 import { IoIosArrowBack } from "react-icons/io";
 import { cardData } from "../../../hooks/useData";
+import logo from '../../../assets/userImage.jpg'
   import btns from "../../../assets/btn.svg"
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Card } from "./RightSide/Card";
 import MentorsBoxPage from "./RightSide/mentorsCard";
+import axiosClient from "../../../axiosClient";
+import {formatTime} from '../../../lib/formatTime';
+
+import { AuthContext } from "../../../context/AuthContext";
  
 const PostHistory = () => {
    const navigate = useNavigate();
+   const [histories, setHistories] = useState([]);
+   const {userDetails} = useContext(AuthContext)
+ 
+   useEffect(()=>{
+    const getHistories = async ()=>{
+      const res = await axiosClient.get(`/points-histories/${userDetails.id}`);
+      
+      setHistories(res.data.histories);
+    }
+    getHistories();
+   }, [])
  
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -32,7 +48,7 @@ const PostHistory = () => {
       </Button>
       {/* Profile Info */}
       <Box >
-        {cardData.map((card, idx) => (
+        {histories.length>0? histories.map((card, idx) => (
            <Box
              key={`${card.id}-${idx}`}
                 flexShrink={0}
@@ -55,7 +71,7 @@ const PostHistory = () => {
                           <HStack>
                             <Stack position={'relative'}>
                           <Image
-                            src={card.subimage}
+                            src={userDetails?.profile_picture||logo}
                             alt="Update"
                             boxSize="50px"
                              rounded={20}
@@ -66,14 +82,14 @@ const PostHistory = () => {
                             color={'#202020'}
                             fontSize={{base:8,md:10}}
                               fontFamily="InterRegular">
-                              Coffee Roulette
+                              {card.title}
                             </Text>
                           <Text 
                             color={'#808291'}
                             fontFamily="InterRegular"
                             fontSize={{base:10,md:14}} 
                             mt={'-2'}  >
-                           You matched with Carolina Gomez
+                           {card.description}
                           </Text>
                          </Stack>
                           </HStack>
@@ -81,18 +97,18 @@ const PostHistory = () => {
                             color={'#202020'}
                             fontSize={{base:10,md:14}} 
                             mt={'-2'}  >
-                           {card.date}
+                           {formatTime(card.created_at)}
                           </Text>
                            <Text 
                            fontFamily="InterBold"
                             color={'#179F3B'}
                             fontSize={{base:14,md:18}} 
                             mt={'-2'}  >
-                           +30
+                           {card.addition}
                           </Text>
                   </HStack>
                 </Box>
-              ))}
+              )):<Text>No Points Histories yet</Text>}
     </Box>
     </Box>
     {/* small cards */}

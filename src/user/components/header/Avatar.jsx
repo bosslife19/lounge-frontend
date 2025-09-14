@@ -84,8 +84,8 @@ useEffect(() => {
     }
   
 
-    const handleAccept = async(id, notId)=>{
-      const res = await makeRequest('/respond-to-match', {marchId:id, response:'accepted', notId});
+    const handleAccept = async(id, notId, is_meeting)=>{
+      const res = await makeRequest('/respond-to-match', {marchId:id, response:'accepted', notId,isMeeting:is_meeting });
       if(res.error) return;
       // toast.success("Match accepted successfully");
       setNotifications(prev=>prev.filter(item=>item.id !==notId));
@@ -289,7 +289,7 @@ useEffect(() => {
                <div style={{ marginTop: "12px", display: "flex", gap: "12px" }}>
               <Button
                 size="sm"
-                onClick={() => handleAccept(n.match_id, n.id)}
+                onClick={() => handleAccept(n.match_id, n.id, n.is_meeting)}
                 style={{
                   backgroundColor: "#202020",
                   color: "#fff",
@@ -303,7 +303,7 @@ useEffect(() => {
               </Button>
               <Button
                 size="sm"
-                onClick={() => handleReject(n.match_id, n.id)}
+                onClick={() => handleReject(n.match_id, n.id, n.is_meeting)}
                 style={{
                   backgroundColor: "#dc2626",
                   color: "#fff",

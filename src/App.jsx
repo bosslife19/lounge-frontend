@@ -60,7 +60,7 @@ function App() {
             <Route path="/dashboard" index element={<Homes />} />
             <Route path="/" index element={<Homes />} />
             <Route path="/profile/:id" element={<ProfileDetails />} />
-            <Route path="/post-history" element={<PostHistory />} />
+            <Route path="/points-history" element={<PostHistory />} />
             <Route path="/directory" element={<Directory />} />
             <Route path="/learning-hub" element={<TopTabs />} />
             <Route path="/mentoring" element={<Mentoring />} />
@@ -121,6 +121,9 @@ function App() {
               <ProtectedAdminRoute>
                 <AdminLayout />
               </ProtectedAdminRoute>
+                <ProtectedAdminRoute>
+              <AdminLayout />
+               </ProtectedAdminRoute>
             }
           >
             <Route path="/admin/dashboard" index element={<AdminHome />} />

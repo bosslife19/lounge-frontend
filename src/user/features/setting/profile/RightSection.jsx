@@ -1,12 +1,13 @@
-import { Box, Button, Flex, HStack, Image, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, HStack, Image, Stack, Text, Tooltip } from '@chakra-ui/react'
  import images from "../../../../assets/unlocked.png"
 import { LuPencil } from 'react-icons/lu'
 import logo from "../../../../assets/userImage.jpg";
-import { IoIosNotificationsOutline } from 'react-icons/io';
+import { IoIosNotificationsOutline, } from 'react-icons/io';
 import { SwitchPage } from '../../../components/switchPage/switch';
 import { useState } from 'react';
 import { UpdatePasword } from './modals/updatePassword';
 import { NotificationSwitch } from '../../../components/switchPage/NotificationSwitch';
+import { FaCoffee } from 'react-icons/fa';
 
 export const RightSectionProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,6 +39,61 @@ export const RightSectionProfile = () => {
   return (
     <Box mb={'auto'} w={'100%'} >
         {/* profile name */}
+ <Box
+      shadow={"xs"}
+      bg={"#fff"}
+      rounded={10}
+      p={6}
+      w={{ base: "100%", xl: 475 }}
+      mb={5}
+      border={"1px solid #EDEDF2"}
+    >
+      <Flex alignItems={"center"} justifyContent={"space-between"}>
+        <HStack>
+          <FaCoffee size={20} />
+          <Stack spacing={0}>
+            <Flex align="center" gap={2}>
+              <Text
+                color={"#191919"}
+                fontSize={{ base: 10, md: 14 }}
+                fontFamily="InterBold"
+              >
+                Coffee Roulette Participation
+              </Text>
+
+              {/* Simple ? with hover explanation */}
+              <Text
+                as="span"
+                fontWeight="bold"
+                cursor="pointer"
+                color="gray.500"
+                fontSize="sm"
+                title="Coffee Roulette is an opt-in feature that pairs a mentor with a non-mentor once a week for a 15-minute virtual coffee chat. It helps build connections, share knowledge, and strengthen community bonds."
+              >
+                ?
+              </Text>
+            </Flex>
+
+            <Text
+              mt={-1}
+              color={"#475467"}
+              fontWeight={"normal"}
+              fontSize={{ base: 10, md: 14 }}
+              fontFamily="InterRegular"
+              display={"flex"}
+              alignItems={"center"}
+              gap={2}
+              py={1}
+            >
+              Opt-in for our weekly coffee roulette
+            </Text>
+          </Stack>
+        </HStack>
+
+        <SwitchPage coffee={true}/>
+      </Flex>
+    </Box>
+
         <Box 
         shadow={'xs'}
         bg={'#fff'} 
@@ -73,7 +129,7 @@ export const RightSectionProfile = () => {
         
           </Stack>
          </HStack>
-         <SwitchPage/>
+         <SwitchPage coffee={false}/>
         </Flex>
         </Box>
 

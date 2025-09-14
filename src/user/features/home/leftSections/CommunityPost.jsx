@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Flex, HStack, Image, Stack, Text } from "@chakra-ui/react";
 import logo from "../../../../assets/userImage.jpg"
 import notify from '../../../../assets/laughin.png'
 import notify2 from '../../../../assets/video.png'
 import { Link, useNavigate } from "react-router-dom";
+import axiosClient from "../../../../axiosClient";
+import { formatTime } from "../../../../lib/formatTime";
 const cardData = [
   { id: 1, image: logo,notificationImage:notify, title: "Card One", subtitle: "2 hours",para:"Kindly resolve the discrepancies, this is the blank empty state to start with nothing to share ju....." },
   { id: 2, image: logo,notificationImage:notify2, title: "Card Two", subtitle: "2 hours",para:"Kindly resolve the discrepancies, this is the blank empty state to start with nothing to share ju....." },
@@ -17,6 +19,17 @@ const cardData = [
 const CommunityPost = () => {
   const [favorites, setFavorites] = useState ([]);
   const [pointsHistory, setPoinstsHistory] = useState([])
+  const [posts, setPosts] = useState([])
+
+  useEffect(()=>{
+    const getPosts = async()=>{
+      const res = await axiosClient.get('/get-all-posts');
+      
+      setPosts(res.data.posts);
+    }
+    getPosts()
+  }, [])
+
 
 const truncateText = (text, maxLength) => {
   if (!text) return "";
@@ -48,16 +61,16 @@ const truncateTexts = (text, maxLength) => {
     <Box flex="3" className="mx-auto p-6">
       <Flex justifyContent={'space-between'}>
         <Button bg={'transparent'} color={'#202224'}    >
-       Points History
+       Latest Posts
       </Button>
-      <Button onClick={handleNavigate} bg={'transparent'} color={'#3366CC'} textDecoration={'underline'}>
+      <Button onClick={()=>navigate('/community')} bg={'transparent'} color={'#3366CC'} textDecoration={'underline'}>
       See all
       </Button>
       </Flex>
       
       <Box className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
         
-        {/* {displayedCards.map((card) => (
+        {posts.length>0? posts.map((card) => (
           <Box
           px={3}
             key={card.id}
@@ -72,7 +85,7 @@ const truncateTexts = (text, maxLength) => {
                            align="center">
                               <Stack position={'relative'}>
                                 <Image
-                                  src={card.image}
+                                  src={card.user.profile_picture||logo}
                                     alt="Update"
                                     boxSize="30px"
                                      rounded={20}
@@ -83,22 +96,22 @@ const truncateTexts = (text, maxLength) => {
                                     color={'#202020'}
                                     fontSize={{base:8,md:12}}
                                       fontFamily="InterMedium">
-                                      {truncateTexts(card.title)}
+                                      {truncateTexts(card.user.name)}
                                     </Text>
                                   <Text 
                                     color={'#98A2B3'}
                                     fontSize={{base:8,md:12}}
                                       >
-                               {card.subtitle} ago 
+                               {formatTime(card.created_at)}
                         </Text>
                      </HStack>
               </HStack>
               <Text fontFamily="InterRegular" 
               fontSize={{base:12,md:13}}
               color={'#475367'} 
-              className="font-semibold"> {truncateText(card.para, 90)}</Text>
+              className="font-semibold"> {truncateText(card.body, 90)}</Text>
 
-            <HStack rounded={10} mb={2} py={1} pl={2} pr={3} w={{base:10,md:110}} bg={'#fff'} border={'1px solid #F0F2F5'}>
+            {/* <HStack rounded={10} mb={2} py={1} pl={2} pr={3} w={{base:10,md:110}} bg={'#fff'} border={'1px solid #F0F2F5'}>
                <Image
                  src={card.notificationImage}
                  alt="Update"
@@ -111,74 +124,13 @@ const truncateTexts = (text, maxLength) => {
                >
                 Video.MP3
                </Text>
-            </HStack>
-            <Button fontFamily="LatoBold" rounded={5} fontSize={12} py={0}  mb={2} border={'1px solid #D0D5DD'} bg={'#fff'} color={'#344054'}>
+            </HStack> */}
+            {/* <Button fontFamily="LatoBold" rounded={5} fontSize={12} py={0}  mb={2} border={'1px solid #D0D5DD'} bg={'#fff'} color={'#344054'}>
               See Message
-            </Button>
+            </Button> */}
           </Box>
-        ))} */}
-                {pointsHistory.length > 0 ? pointsHistory.map((card) => (
-          <Box
-          px={3}
-            key={card.id}
-            border={'1px solid #F0F2F5'}
-            className="bg-[#F9FAFB] rounded-2xl  relative overflow-hidden"
-          >
-             <HStack 
-                    pt={5}
-                    
-                       pb={2}  
-                        spacing={4} 
-                           align="center">
-                              <Stack position={'relative'}>
-                                <Image
-                                  src={card.image}
-                                    alt="Update"
-                                    boxSize="30px"
-                                     rounded={20}
-                                   />
-                                  </Stack>
-                                   <HStack alignItems={'center'}>
-                                    <Text 
-                                    color={'#202020'}
-                                    fontSize={{base:8,md:12}}
-                                      fontFamily="InterMedium">
-                                      {truncateTexts(card.title)}
-                                    </Text>
-                                  <Text 
-                                    color={'#98A2B3'}
-                                    fontSize={{base:8,md:12}}
-                                      >
-                               {card.subtitle} ago 
-                        </Text>
-                     </HStack>
-              </HStack>
-              <Text fontFamily="InterRegular" 
-              fontSize={{base:12,md:13}}
-              color={'#475367'} 
-              className="font-semibold"> {truncateText(card.para, 90)}</Text>
-
-            <HStack rounded={10} mb={2} py={1} pl={2} pr={3} w={{base:10,md:110}} bg={'#fff'} border={'1px solid #F0F2F5'}>
-               <Image
-                 src={card.notificationImage}
-                 alt="Update"
-                 boxSize="22px"
-                rounded={0}
-                />
-               <Text
-                color={'#344054'}
-                fontSize={{base:8,md:11}}
-               >
-                Video.MP3
-               </Text>
-            </HStack>
-            <Button fontFamily="LatoBold" rounded={5} fontSize={12} py={0}  mb={2} border={'1px solid #D0D5DD'} bg={'#fff'} color={'#344054'}>
-              See Message
-            </Button>
-          </Box>
-        )):(
-          <Text>No Points yet</Text>
-        )}
+        )):<Text>No Posts yet</Text>}
+        
       </Box>
     </Box>
   );
