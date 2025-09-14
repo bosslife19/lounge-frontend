@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, HStack, IconButton, Image, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, HStack, IconButton, Image, Stack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import btns from "../../../../assets/btn.svg"
@@ -134,6 +134,9 @@ const updateLayout = () => {
           className={`flex gap-4 ${isTransitioning ? "transition-transform duration-500" : ""}`}
           style={{ transform: `translateX(-${index * cardWidth}px)` }}
         >
+           <Button bg={'transparent'} color={'#202224'}    >
+                 News & Updates
+                </Button>
           {extendedCards.map((card, idx) => (
             <Box
               key={`${card.id}-${idx}`}

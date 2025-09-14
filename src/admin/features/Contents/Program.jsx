@@ -6,349 +6,471 @@ import {
   HStack,
   IconButton,
   Image,
-  Input,
-  InputGroup,
   Stack,
   Text,
 } from '@chakra-ui/react'
 import React, { useState, useEffect, useRef } from 'react'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
-import { cardData } from '../../../hooks/useData'
-import { CiClock2, CiSearch } from 'react-icons/ci'
-import tick from "../../../assets/check.png";
-import file from "../../../assets/fileattach.png";
+import { CiClock2 } from 'react-icons/ci'
+import tick from "../../../assets/check.png"
+import file from "../../../assets/fileattach.png"
 import { RiPencilLine } from 'react-icons/ri'
 import { EditProgram } from './Modal/EditProgram'
 import { EditSpeakerHighlight } from './Modal/EditSpeakerHighlights'
 import { EditSpeakerHeader } from './Modal/Edit2SpeakersForm'
 import { EditSession } from './Modal/EditSession'
+import CreateProgram from './Modal/CreateProgram'
+import axiosClient from '../../../axiosClient'
+import { formattedDate } from '../../../lib/formatDate'
+
+
+import { formatTimeToString } from '../../../lib/formatTimeTostring'
+import { CreateSpeakerHighlight } from './Modal/CreateSpeakerHighlight'
 
 export const AdminProgram = () => {
-  // ---------- News Slider ----------
-  const newsItems = [
+  // ---------- News Data (will come from backend) ----------
+  
+  const [newsData, setNewsData] = useState([
     {
+      id: 1,
       title: 'Corporate Finance & Capital Markets Program',
       description:
-        'The is also known as the Roseline Etuokwu Sigma Secondary School Quiz Competition is one of the philanthropic activities of the club to bring the club closer to the grassroots. It is the club’s believe that the secondary school students would grow to become University students. As such, introducing the club to them right from their secondary school days would guide them in manners to act and way of life to live as a student of higher institutions.',
+        'The is also known as the Roseline Etuokwu Sigma Secondary School Quiz Competition ...',
+      sessions: [
+        {
+          id: 1,
+          title: 'Capital Market Basics',
+          description: 'This session explores debt and equities...',
+          date: 'Friday, 6 July',
+          time: '11.30 - 12.00 (30 min)',
+          speaker: { name: 'The Lounge Team', date: '2025-07-06', image: tick },
+        },
+      ],
+      speakers: [
+        {
+          id: 1,
+          name: 'John Doe',
+          date: '2025-07-06',
+          image: tick,
+          highlight: 'Highlight for John Doe...',
+        },
+      ],
     },
     {
+      id: 2,
       title: 'Entrepreneurship & Innovation Program',
       description:
-        'This program empowers young entrepreneurs by providing resources, mentorship, and guidance to scale their business ideas into reality.',
+        'This program empowers young entrepreneurs by providing resources...',
+      sessions: [
+        {
+          id: 2,
+          title: 'Startup Funding',
+          description: 'Explore ways to raise funding for startups...',
+          date: 'Monday, 10 July',
+          time: '10.00 - 11.00 (1 hr)',
+          speaker: { name: 'Jane Smith', date: '2025-07-10', image: tick },
+        },
+      ],
+      speakers: [
+        {
+          id: 2,
+          name: 'Jane Smith',
+          date: '2025-07-10',
+          image: tick,
+          highlight: 'Highlight for Jane Smith...',
+        },
+      ],
     },
-    {
-      title: 'Leadership & Personal Development Workshop',
-      description:
-        'A workshop focused on building leadership qualities, self-awareness, and communication skills to prepare participants for real-world challenges.',
-    },
-  ]
+  ])
+  const [spOpen, setSpOpen] = useState(false);
 
+  const closeSpOpen = ()=>{
+    setSpOpen(false);
+  }
+
+  // ---------- State ----------
   const [newsIndex, setNewsIndex] = useState(0)
-  const newsRef = useRef(null)
-  const newsSlides = [...newsItems, ...newsItems] // duplicate for smooth looping
+  const currentNews = newsData[newsIndex] || {}
+  const currentSessions = currentNews.sections || []
+  const currentSpeakers = currentNews.speaker_highlights || []
+  const [refresh, setRefresh] = useState(false)
 
-  const handleNewsPrev = () => setNewsIndex(prev => prev - 1)
-  const handleNewsNext = () => setNewsIndex(prev => prev + 1)
+  const [sessionIndex, setSessionIndex] = useState(0)
+  const [speakerIndex, setSpeakerIndex] = useState(0)
 
+  // Reset sessions/speakers when news changes
   useEffect(() => {
-    if (newsIndex < 0) setTimeout(() => setNewsIndex(newsItems.length - 1), 300)
-    else if (newsIndex >= newsItems.length) setTimeout(() => setNewsIndex(0), 300)
+    setSessionIndex(0)
+    setSpeakerIndex(0)
   }, [newsIndex])
 
-  // ---------- Speaker Slider ----------
-  const [speakerIndex, setSpeakerIndex] = useState(0)
-  const speakerRef = useRef(null)
-  const visibleSpeakerCards = 5
-  const speakerSlides = [...cardData, ...cardData]
+  // ---------- Modals ----------
+  const [isOpened, setIsOpened] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [isOpens, setIsOpens] = useState(false)
+  const [isOpenin, setIsOpenin] = useState(false)
+  const [open, setOpen] = useState(false);
 
-  const handleSpeakerPrev = () => setSpeakerIndex(prev => prev - 1)
-  const handleSpeakerNext = () => setSpeakerIndex(prev => prev + 1)
+  const closeModal = ()=>setOpen(false)
 
-  useEffect(() => {
-    if (speakerIndex < 0) setTimeout(() => setSpeakerIndex(cardData.length - 1), 300)
-    else if (speakerIndex >= cardData.length) setTimeout(() => setSpeakerIndex(0), 300)
-  }, [speakerIndex])
+  // ---------- Handlers ----------
+  const handleNewsPrev = () =>
+    setNewsIndex(prev => (prev <= 0 ? newsData.length - 1 : prev - 1))
+  const handleNewsNext = () =>
+    setNewsIndex(prev => (prev >= newsData.length - 1 ? 0 : prev + 1))
 
-  // ---------- Session Slider ----------
-  const [sessionIndex, setSessionIndex] = useState(0)
-  const sessionRef = useRef(null)
-  const visibleSessionCards = 3
-  const sessionSlides = [...cardData, ...cardData] // use separate data if available
+  const handleSpeakerPrev = () =>
+    setSpeakerIndex(prev =>
+      prev <= 0 ? currentSpeakers.length - 1 : prev - 1
+    )
+  const handleSpeakerNext = () =>
+    setSpeakerIndex(prev =>
+      prev >= currentSpeakers.length - 1 ? 0 : prev + 1
+    )
 
-  const handleSessionPrev = () => setSessionIndex(prev => prev - 1)
-  const handleSessionNext = () => setSessionIndex(prev => prev + 1)
+  const handleSessionPrev = () =>
+    setSessionIndex(prev =>
+      prev <= 0 ? currentSessions.length - 1 : prev - 1
+    )
+  const handleSessionNext = () =>
+    setSessionIndex(prev =>
+      prev >= currentSessions.length - 1 ? 0 : prev + 1
+    )
 
-  useEffect(() => {
-    if (sessionIndex < 0) setTimeout(() => setSessionIndex(cardData.length - 1), 300)
-    else if (sessionIndex >= cardData.length) setTimeout(() => setSessionIndex(0), 300)
-  }, [sessionIndex])
-    
-     const [isOpened, setIsOpened] = useState(false);
-       const [isOpen, setIsOpen] = useState(false);
-      const [isOpens, setIsOpens] = useState(false);
-      const [isOpenin, setIsOpenin] = useState(false);
-
-     const handleCardClick = (card) => {
-      setIsOpen(true);
-     };
-
-  const handleClose = () => {
-    setIsOpen(false);
-    };
-
-     const handleSession = () => {
-      setIsOpenin(true);
-     };
-
-  const handleSessionClose = () => {
-    setIsOpenin(false);
-    };
-
-    
-     const handleCardClicks= () => {
-      setIsOpens(true);
-     };
-
-  const handleCloses = () => {
-    setIsOpens(false);
-    };
-   
-     const handleAction = () => {
-     setIsOpened(true);
-  };
-
-  const handleClosed = () => {
-    setIsOpened(false);
-   };
+    useEffect(()=>{
+        const getPrograms = async ()=>{
+          const res = await axiosClient.get('/programs');
+          
+          setNewsData(res.data.programs);
+        }
+        getPrograms();
+    }, [refresh])
 
   return (
     <Box h={'120%'} mb={'10%'} px={5}>
-       <Flex alignItems={'center'} justifyContent={'space-between'}>
-         
+      {/* ---------- News Section ---------- */}
+      <Button   ml={'auto'} 
+              colorScheme="blue" 
+              w={{base:'auto',}} onClick={()=>setOpen(true)} style={{marginLeft:10}}>
+                + Create New Program
+              </Button>
+      <Flex alignItems={'center'} justifyContent={'space-between'}>
         <HStack w={'100%'} justifyContent={'flex-end'} gap={2}>
-          <IconButton bg="#fff" border="1px solid #9E9E9E" rounded={20} aria-label="Prev" onClick={handleNewsPrev}>
+          <IconButton
+            bg="#fff"
+            border="1px solid #9E9E9E"
+            rounded={20}
+            aria-label="Prev"
+            onClick={handleNewsPrev}
+          >
             <IoIosArrowBack color="#9E9E9E" />
           </IconButton>
-          <IconButton bg="#fff" border="1px solid #9E9E9E" rounded={20} aria-label="Next" onClick={handleNewsNext}>
+          <IconButton
+            bg="#fff"
+            border="1px solid #9E9E9E"
+            rounded={20}
+            aria-label="Next"
+            onClick={handleNewsNext}
+          >
             <IoIosArrowForward color="#9E9E9E" />
           </IconButton>
         </HStack>
       </Flex>
 
-      <Flex 
-       overflowX="hidden"    
-       overflowY="auto"   
-       my={5}
-      mr={{ base: 0, md: 100 }} 
-         >
-        <Flex
-          ref={newsRef}
-          transform={`translateX(-${newsIndex * 100}%)`}
-          transition="transform 0.5s ease-in-out"
-          width={`${(newsSlides.length / newsItems.length) * 100}%`}
+      {currentNews && (
+        <Box
+          key={currentNews.id}
+          minW="100%"
+          position="relative"
+          h="auto"
+          overflow="visible"
+          bg="white"
+          p={10}
+          border="1px solid #080F340F"
+          rounded={20}
+          my={5}
         >
-          {newsSlides.map((item, idx) => (
-            <Box key={idx} minW="100%" position="relative"   h="auto" overflow="visible"  bg="white" p={10} border="1px solid #080F340F" rounded={20}>
-              <Heading  whiteSpace="normal"   wordBreak="break-word"  color="#202020" fontWeight="bold" fontSize={{ base: 18, md: 24 }} fontFamily="LatoBold">
-                {item.title}
-              </Heading>
-              <Text mt={3} flexWrap={'wrap'}   wordBreak="break-word" whiteSpace="normal"   color="#1C1C1CB2" fontWeight="medium" fontSize={{ base: 14, md: 16 }} fontFamily="LatoRegular">
-                {item.description}
-              </Text>
-               <Button
-               position={'absolute'}
-               top={0}
-               bg={'transparent'}
-               color={'#212121'}
-               right={0}
-               onClick={() => handleAction()} 
-               >
-             <RiPencilLine/> 
-            </Button>
-            </Box>
-          ))}
-         
-        </Flex>
-        
-      </Flex>
+          <Heading
+            whiteSpace="normal"
+            wordBreak="break-word"
+            color="#202020"
+            fontWeight="bold"
+            fontSize={{ base: 18, md: 24 }}
+            fontFamily="LatoBold"
+          >
+            {currentNews.title}
+          </Heading>
+          <Text
+            mt={3}
+            flexWrap={'wrap'}
+            wordBreak="break-word"
+            whiteSpace="normal"
+            color="#1C1C1CB2"
+            fontWeight="medium"
+            fontSize={{ base: 14, md: 16 }}
+            fontFamily="LatoRegular"
+          >
+            {currentNews.content}
+          </Text>
+          <Button
+            position={'absolute'}
+            top={0}
+            bg={'transparent'}
+            color={'#212121'}
+            right={0}
+            onClick={() => setIsOpened(true)}
+          >
+            <RiPencilLine />
+          </Button>
+        </Box>
+      )}
 
-       <Flex alignItems={'center'} justifyContent={'space-between'}>
+      {/* ---------- Speaker Slider ---------- */}
+      <Button   ml={'auto'} 
+              colorScheme="blue" 
+              onClick={()=>setSpOpen(true)} style={{marginLeft:10}}>
+                + Add Speaker Highlight
+              </Button>
+      <Flex alignItems={'center'} justifyContent={'space-between'}>
         <Flex alignItems={'center'}>
-            <Button
-               
-               bg={'transparent'}
-               color={'#212121'}
-                onClick={() => handleCardClicks()} 
-               >
-             <RiPencilLine/> 
-            </Button>
-             <Text color="#202020" fontWeight={'medium'} fontSize={{ base: 14, md: 16 }} fontFamily="LatoRegular">
-             Speaker’s Highlights
-            </Text>
+          <Button bg={'transparent'} color={'#212121'} onClick={() => setIsOpens(true)}>
+            <RiPencilLine />
+          </Button>
+          <Text
+            color="#202020"
+            fontWeight={'medium'}
+            fontSize={{ base: 14, md: 16 }}
+            fontFamily="LatoRegular"
+          >
+            Speaker’s Highlights
+          </Text>
         </Flex>
-       
         <HStack gap={2}>
-          <IconButton bg="#fff" border="1px solid #9E9E9E" rounded={20} aria-label="Prev" onClick={handleSpeakerPrev}>
+          <IconButton
+            bg="#fff"
+            border="1px solid #9E9E9E"
+            rounded={20}
+            aria-label="Prev"
+            onClick={handleSpeakerPrev}
+          >
             <IoIosArrowBack color="#9E9E9E" />
           </IconButton>
-          <IconButton bg="#fff" border="1px solid #9E9E9E" rounded={20} aria-label="Next" onClick={handleSpeakerNext}>
+          <IconButton
+            bg="#fff"
+            border="1px solid #9E9E9E"
+            rounded={20}
+            aria-label="Next"
+            onClick={handleSpeakerNext}
+          >
             <IoIosArrowForward color="#9E9E9E" />
           </IconButton>
         </HStack>
       </Flex>
 
       <Flex overflow="hidden" my={5}>
-        <Flex
-          ref={speakerRef}
-          transform={`translateX(-${(speakerIndex * (100 / visibleSpeakerCards)) % (100 * (cardData.length / visibleSpeakerCards))}%)`}
-          transition="transform 0.5s ease-in-out"
-        >
-          {speakerSlides.map((card, idx) => (
-            <Box key={idx} flex={`0 0 ${100 / visibleSpeakerCards}%`} p={2}>
-              <Box position={'relative'} bg="white" p={5} border="1px solid #080F340F" rounded={20} h="100%">
-                <HStack>
-                  <Image src={card.subimage} alt="Speaker" boxSize="40px" rounded="full" />
-                  <Stack spacing={0}>
-                    <Text color="#202020" fontSize={{ base: 10, md: 12 }} fontFamily="InterMedium">
-                      The Lounge Team
-                    </Text>
-                    <Text color="#202020" mt={-1} fontSize={{ base: 9, md: 11 }}>
-                      {card.date}
-                    </Text>
-                  </Stack>
-                </HStack>
-                <Text mt={3} fontFamily="InterRegular" fontWeight={'normal'} fontSize={{ base: 12, md: 14 }} color="#333333E5">
-                  {card.title || 'Highlight details...'}
-                </Text>
-                  <Button
-               position={'absolute'}
-               top={0}
-               bg={'transparent'}
-               color={'#212121'}
-               right={0}
-               onClick={() => handleCardClick()} 
-               >
-             <RiPencilLine/> 
-            </Button>
-              </Box>
-             
+
+        {currentSpeakers.length > 0 && (
+          <Box flex="1">
+            <Box
+              position={'relative'}
+              bg="white"
+              p={5}
+              border="1px solid #080F340F"
+              rounded={20}
+              h="100%"
+            >
+              <HStack>
+                <Image
+                  src='https://www.w3schools.com/howto/img_avatar.png'
+                  alt="Speaker"
+                  boxSize="40px"
+                  rounded="full"
+                />
+                <Stack spacing={0}>
+                  <Text
+                    color="#202020"
+                    fontSize={{ base: 10, md: 12 }}
+                    fontFamily="InterMedium"
+                  >
+                    {currentSpeakers[speakerIndex]?.speaker_name}
+                  </Text>
+                  <Text
+                    color="#202020"
+                    mt={-1}
+                    fontSize={{ base: 9, md: 11 }}
+                  >
+                    {formattedDate(currentSpeakers[speakerIndex]?.created_at)}
+                  </Text>
+                </Stack>
+              </HStack>
+              <Text
+                mt={3}
+                fontFamily="InterRegular"
+                fontWeight={'normal'}
+                fontSize={{ base: 12, md: 14 }}
+                color="#333333E5"
+              >
+                {currentSpeakers[speakerIndex]?.highlight}
+              </Text>
+              <Button
+                position={'absolute'}
+                top={0}
+                bg={'transparent'}
+                color={'#212121'}
+                right={0}
+                onClick={() => setIsOpen(true)}
+              >
+                <RiPencilLine />
+              </Button>
             </Box>
-          ))}
-        </Flex>
+          </Box>
+        )}
       </Flex>
 
-      {/* -------- Session Slider -------- */}
+      {/* ---------- Session Slider ---------- */}
       <Flex alignItems={'center'} justifyContent={'space-between'}>
-        <Text color="#202020" fontWeight={'medium'} fontSize={{ base: 14, md: 16 }} fontFamily="LatoRegular">
+        <Text
+          color="#202020"
+          fontWeight={'medium'}
+          fontSize={{ base: 14, md: 16 }}
+          fontFamily="LatoRegular"
+        >
           Session
         </Text>
         <HStack gap={2}>
-          <IconButton bg="#fff" border="1px solid #9E9E9E" rounded={20} aria-label="Prev" onClick={handleSessionPrev}>
+          <IconButton
+            bg="#fff"
+            border="1px solid #9E9E9E"
+            rounded={20}
+            aria-label="Prev"
+            onClick={handleSessionPrev}
+          >
             <IoIosArrowBack color="#9E9E9E" />
           </IconButton>
-          <IconButton bg="#fff" border="1px solid #9E9E9E" rounded={20} aria-label="Next" onClick={handleSessionNext}>
+          <IconButton
+            bg="#fff"
+            border="1px solid #9E9E9E"
+            rounded={20}
+            aria-label="Next"
+            onClick={handleSessionNext}
+          >
             <IoIosArrowForward color="#9E9E9E" />
           </IconButton>
         </HStack>
       </Flex>
 
       <Flex overflow="hidden" my={5}>
-        <Flex
-          ref={sessionRef}
-          transform={`translateX(-${(sessionIndex * (100 / visibleSessionCards)) % (100 * (cardData.length / visibleSessionCards))}%)`}
-          transition="transform 0.5s ease-in-out"
-        >
-          {sessionSlides.map((card, idx) => (
-            <Box   key={idx} overflow={'hidden'} border="1px solid #080F340F" rounded={20} h="100%" mr={5} 
-            flex={`0 0 ${53 / visibleSessionCards}%`}
-            >
-              <Stack position={'relative'} p={5} roundedTop={20} bg={'#000'}>
-                <Text fontFamily="InterBold" fontSize={{ base: 17, md: 20 }} color={'#fff'}>
-                  Session 2
-                </Text>
-                 <Button
-               position={'absolute'}
-               top={0}
-               bg={'transparent'}
-               color={'#212121'}
-               right={0}
-               onClick={() => handleSession()} 
-               >
-             <RiPencilLine  color={'#fff'}/> 
-            </Button>
-              </Stack>
-              <Box bg="white" p={5} borderBottom={'2px solid #E8E8E8'}>
-                <Text fontFamily="LatoRegular" fontSize={{ base: 13, md: 16 }} color={'#10192899'}>
-                  This session explores the meaning of capital markets, the definition of debt and equities and their various forms.
-                </Text>
-              </Box>
-              <Flex bg="white" pt={3} pl={4}>
-                <Text fontSize={{ base: 12, md: 14 }} fontWeight={'bold'} fontFamily="InterMedium">
-                  Friday, 6 July
-                </Text>
-                <Text fontFamily="InterRegular" display={'flex'} fontSize={{ base: 12, md: 14 }} color={'#475367'} gap={2} alignItems={'center'}>
-                  <CiClock2 /> 11.30 - 12.00 (30 min)
-                </Text>
-              </Flex>
-              <Box p={5} bg="white">
-                <HStack>
-                    <Stack position={'relative'}>
-                  <Image 
-                  src={card.subimage} 
-                  alt="Speaker" 
-                  boxSize="40px" 
-                    rounded="full" />
-                    <Image
-                          src={tick}
-                          alt="tick"
-                          w={4}
-                           position={'absolute'}
-                           bottom={'0'}
-                           right={'-1'}
-                          borderRadius="md"
-                          objectFit="cover"
-                        /> 
-                    </Stack>
-                  
-                  <Stack spacing={0}>
-                    <Text color="#202020" fontSize={{ base: 10, md: 12 }} fontFamily="InterMedium">
-                      The Lounge Team
-                    </Text>
-                    <Text color="#202020" mt={-1} fontSize={{ base: 9, md: 11 }}>
-                      {card.date}
-                    </Text>
-                  </Stack>
-                </HStack>
-                <Text mt={3} fontFamily="InterRegular" fontWeight={'normal'} fontSize={{ base: 12, md: 14 }} color="#333333E5">
-                  {card.title || 'Highlight details...'}
-                </Text>
-              </Box>
-              <Box bg="white" pb={2}>
-              <Image pl={4} src={file} alt="Speaker" w={110} rounded="full" />
-              </Box>
-              
+        {currentSessions.length > 0 && (
+          <Box
+            overflow={'hidden'}
+            border="1px solid #080F340F"
+            rounded={20}
+            h="100%"
+            mr={5}
+            flex="1"
+          >
+            <Stack position={'relative'} p={5} roundedTop={20} bg={'#000'}>
+              <Text
+                fontFamily="InterBold"
+                fontSize={{ base: 17, md: 20 }}
+                color={'#fff'}
+              >
+                {currentSessions[sessionIndex]?.title}
+              </Text>
+              <Button
+                position={'absolute'}
+                top={0}
+                bg={'transparent'}
+                color={'#212121'}
+                right={0}
+                onClick={() => setIsOpenin(true)}
+              >
+                <RiPencilLine color={'#fff'} />
+              </Button>
+            </Stack>
+            <Box bg="white" p={5} borderBottom={'2px solid #E8E8E8'}>
+              <Text
+                fontFamily="LatoRegular"
+                fontSize={{ base: 13, md: 16 }}
+                color={'#10192899'}
+              >
+                {currentSessions[sessionIndex]?.description}
+              </Text>
             </Box>
-          ))}
-        </Flex>
+            <Flex bg="white" pt={3} pl={4}>
+              <Text
+                fontSize={{ base: 12, md: 14 }}
+                fontWeight={'bold'}
+                fontFamily="InterMedium"
+              >
+                {formattedDate(currentSessions[sessionIndex]?.date)}
+              </Text>
+              <Text
+                fontFamily="InterRegular"
+                display={'flex'}
+                fontSize={{ base: 12, md: 14 }}
+                color={'#475367'}
+                gap={2}
+                alignItems={'center'}
+              >
+                <CiClock2 /> {formatTimeToString(currentSessions[sessionIndex]?.time)}
+              </Text>
+            </Flex>
+            <Box p={5} bg="white">
+              <HStack>
+                <Stack position={'relative'}>
+                  <Image
+                    src={currentSessions[sessionIndex]?.speaker?.image||'https://www.w3schools.com/howto/img_avatar.png'}
+                    alt="Speaker"
+                    boxSize="40px"
+                    rounded="full"
+                  />
+                  <Image
+                    src={tick}
+                    alt="tick"
+                    w={4}
+                    position={'absolute'}
+                    bottom={'0'}
+                    right={'-1'}
+                    borderRadius="md"
+                    objectFit="cover"
+                  />
+                </Stack>
+                <Stack spacing={0}>
+                  <Text
+                    color="#202020"
+                    fontSize={{ base: 10, md: 12 }}
+                    fontFamily="InterMedium"
+                  >
+                    {/* {currentSessions[sessionIndex]?.speaker?.name} */}
+                    The Lounge Team
+                  </Text>
+                  <Text
+                    color="#202020"
+                    mt={-1}
+                    fontSize={{ base: 9, md: 11 }}
+                  >
+                    {formattedDate(currentSessions[sessionIndex]?.created_at)}
+                  </Text>
+                </Stack>
+              </HStack>
+            </Box>
+            <Box bg="white" pb={2}>
+              <a href={currentSessions[sessionIndex]?.video_link}> <Image pl={4} src={file} alt="file" w={110} rounded="full" /></a>
+             
+            </Box>
+          </Box>
+        )}
       </Flex>
 
-       <EditProgram
-         isOpen={isOpened}
-         onClose={handleClosed}
-       />
+      {/* ---------- Modals ---------- */}
+      <EditProgram isOpen={isOpened} onClose={() => setIsOpened(false)} />
+      <EditSpeakerHeader isOpen={isOpens} onClose={() => setIsOpens(false)} />
+      <EditSpeakerHighlight isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <EditSession isOpen={isOpenin} onClose={() => setIsOpenin(false)} />
+      <CreateProgram onClose={closeModal} open={open} setNewsData={setNewsData}/>
+      <CreateSpeakerHighlight onClose={closeSpOpen} isOpen={spOpen} refresh={()=>setRefresh(prev=>!prev)} programId={currentNews.id}/>
 
-       <EditSpeakerHeader
-        isOpen={isOpens}
-         onClose={handleCloses}
-       />
-       <EditSpeakerHighlight
-        isOpen={isOpen}
-         onClose={handleClose}
-       />
-       <EditSession
-        isOpen={isOpenin}
-         onClose={handleSessionClose}
-       />
     </Box>
   )
 }

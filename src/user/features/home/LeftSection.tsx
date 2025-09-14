@@ -13,7 +13,7 @@ const LeftSection = () => {
       display={"flex"}
     >
       <Banner />
-      {/* <NewsUpdate /> */}
+      <NewsUpdate />
       <CommunityPost />
       <BottomBanner />
     </Box>
