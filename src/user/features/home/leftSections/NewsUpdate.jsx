@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -10,9 +9,6 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-=======
-import { Box, Button, HStack, IconButton, Image, Stack, Text } from "@chakra-ui/react";
->>>>>>> 484e710c9ff0744934e38d5180b31485ce39e8e1
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import btns from "../../../../assets/btn.svg";
@@ -138,9 +134,9 @@ const NewsUpdate = () => {
             width: `${(extendedCards.length * 100) / visibleCards}%`,
           }}
         >
-           <Button bg={'transparent'} color={'#202224'}    >
-                 News & Updates
-                </Button>
+          <Button bg={"transparent"} color={"#202224"}>
+            News & Updates
+          </Button>
           {extendedCards.map((card, idx) => (
             <Box
               key={`${card.id}-${idx}`}

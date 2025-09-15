@@ -97,7 +97,7 @@ export const LeftSide = ({ posts, setPosts }) => {
   ];
 
   return (
-    <Stack w={"100%"} mb={"auto"} gap={7}>
+    <Stack w={"100%"} mb={"auto"} gap={0}>
       {posts?.map((card) => (
         <Card.Root
           key={card.id}
@@ -107,7 +107,7 @@ export const LeftSide = ({ posts, setPosts }) => {
           rounded={20}
           border={"1px solid #fff"}
         >
-          <Card.Body gap="2">
+          <Card.Body gap="2" mt={-2} mx={-2}>
             <Flex alignItems={"flex-start"} justifyContent={"space-between"}>
               <HStack>
                 <Stack position={"relative"}>
@@ -115,7 +115,7 @@ export const LeftSide = ({ posts, setPosts }) => {
                     src={card.user?.profile_picture || userImage}
                     alt="Update"
                     boxSize="50px"
-                    rounded={20}
+                    rounded={50}
                   />
                 </Stack>
                 <Stack>
@@ -146,26 +146,27 @@ export const LeftSide = ({ posts, setPosts }) => {
                   </Text>
                 </Stack>
               </HStack>
-              <Button color={"#212121"} bg={"transparent"}>
+              <Button p={0} mt={-2} color={"#707070"} bg={"transparent"}>
                 <BsThreeDots />
               </Button>
             </Flex>
 
             {/* Post content */}
             <Text
-              textAlign={"center"}
+              // textAlign={"center"}
               color={"#070416"}
+              fontWeight={"400"}
               fontSize={{ base: 12, md: 16 }}
               fontFamily="InterRegular"
             >
-              {card.desc3}
+              {card.body}
             </Text>
             <Text
               color={"#0966C2"}
               fontSize={{ base: 12, md: 16 }}
               fontFamily="InterMedium"
             >
-              {card.body}
+              {card.desc3}
             </Text>
           </Card.Body>
 
