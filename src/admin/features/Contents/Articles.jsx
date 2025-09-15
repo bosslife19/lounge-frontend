@@ -119,7 +119,10 @@ export const AdminArticles = ({articles, setArticles}) => {
                     fontSize={{ base: 10, md: 12 }}
                     fontFamily="InterMedium"
                   >
-                    View Article
+                    {console.log(card.type, card)}
+                    {
+                      card.type=='article'?'View Article':"View Update"
+                    }
                   </Text>
                   <Text color="#202020" mt={-2} fontSize={{ base: 9, md: 11 }}>
                     {card.date}

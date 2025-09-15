@@ -69,7 +69,7 @@ export const AdminContent = () => {
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
           >
             <LuCircleAlert />
-            Information
+            Updates & Articles
           </Tabs.Trigger>
 
           <Tabs.Trigger
