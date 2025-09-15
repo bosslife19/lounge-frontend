@@ -14,21 +14,78 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import btns from "../../../../assets/btn.svg";
 import axiosClient from "../../../../axiosClient";
 import { formatTime } from "../../../../lib/formatTime";
+import { userAvatar } from "../../setting/posts/Posts";
+
+const cardData = [
+  {
+    id: 1,
+    eImage: images,
+    title: "Beginner’s bbe Guide to becoming a professional frontend developer",
+    subtitle: "Subtitle One",
+    subimage: logo,
+    date: "july 5, 2025",
+  },
+  {
+    id: 2,
+    eImage: images,
+    title: "Beginner’s Guide to becoming a professional frontend developer",
+    subtitle: "Subtitle Two",
+    subimage: logo,
+    date: "july 5, 2025",
+  },
+  {
+    id: 3,
+    eImage: images,
+    title: "Beginner’s Guide to becoming a professional frontend developer",
+    subtitle: "Subtitle Three",
+    subimage: logo,
+    date: "july 5, 2025",
+  },
+  {
+    id: 4,
+    eImage: images,
+    title: "Beginner’s Guide to becoming a professional frontend developer",
+    subtitle: "Subtitle Four",
+    subimage: logo,
+    date: "july 5, 2025",
+  },
+  {
+    id: 5,
+    eImage: images,
+    title: "Beginner’s Guide to becoming a professional frontend developer",
+    subtitle: "Subtitle Five",
+    subimage: logo,
+    date: "july 5, 2025",
+  },
+  {
+    id: 6,
+    eImage: images,
+    title: "Beginner’s Guide to becoming a professional frontend developer",
+    subtitle: "Subtitle Six",
+    subimage: logo,
+    date: "july 5, 2025",
+  },
+  {
+    id: 7,
+    eImage: images,
+    title: "Beginner’s Guide to becoming a professional frontend developer",
+    subtitle: "Subtitle Seven",
+    subimage: logo,
+    date: "july 5, 2025",
+  },
+];
 
 const NewsUpdate = () => {
   const [news, setNews] = useState([]);
   const [favorites, setFavorites] = useState([]);
-  const [visibleCards, setVisibleCards] = useState(3);
-  const [index, setIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [cardWidth, setCardWidth] = useState(0);
 
-  const navigate = useNavigate();
-
-  // Fetch posts
+  // Responsive breakpoints (adjust how many cards per screen)
   useEffect(() => {
     const getPosts = async () => {
-      const res = await axiosClient.get("/get-all-posts");
-      setNews(res.data.posts);
+      const res = await axiosClient.get("/updates");
+
+      setNews(res.data.articles);
     };
     getPosts();
   }, []);
@@ -122,7 +179,15 @@ const NewsUpdate = () => {
       </Flex>
 
       {/* Slider */}
-      <Box className="overflow-hidden w-full" pb={3}>
+      <Box
+        className="overflow-hidden w-full"
+        w={"100%"}
+        overflow={"hidden"}
+        pb={4}
+      >
+        <Button bg={"transparent"} color={"#202224"}>
+          News & Updates
+        </Button>
         <Box
           className={`flex gap-4 ${
             isTransitioning ? "transition-transform duration-500" : ""
@@ -134,9 +199,6 @@ const NewsUpdate = () => {
             width: `${(extendedCards.length * 100) / visibleCards}%`,
           }}
         >
-          <Button bg={"transparent"} color={"#202224"}>
-            News & Updates
-          </Button>
           {extendedCards.map((card, idx) => (
             <Box
               key={`${card.id}-${idx}`}
@@ -144,16 +206,14 @@ const NewsUpdate = () => {
               px={4}
               pt={4}
               cursor={"pointer"}
-              w={`${100 / extendedCards.length}%`}
-              maxW={{ base: 180, md: 250 }}
-              rounded={{ base: 5, md: 20 }}
-              className="bg-white  relative"
-              onClick={() => navigate(`/profile/${card.id}`)}
+              style={{ width: `${cardWidth}px`, maxWidth: "280px" }}
+              className="bg-white   rounded-2xl shadow-lg relative"
+              onClick={() => navigate(`/news/${card.id}`)}
             >
               <Image
                 roundedTop={10}
-                src={card.post_image}
-                alt="post image"
+                src={card.image}
+                alt={"post image"}
                 className="w-full h-40 object-cover"
               />
               <button
@@ -170,24 +230,44 @@ const NewsUpdate = () => {
                 />
               </button>
               <Box pt={2}>
-                <Text fontSize={{ base: 12, md: 14 }} className="font-semibold">
-                  {card.body}
+                <Text
+                  // fontFamily="LatoRegular"
+                  fontSize={{ base: 12, md: 14 }}
+                  lineHeight={-2}
+                  className="font-semibold"
+                >
+                  {card.content}
                 </Text>
               </Box>
-              <HStack pt={4} pb={2} spacing={4} align="flex-start">
-                <Stack>
+              <HStack
+                // px={6}
+                pt={4}
+                pb={2}
+                spacing={4}
+                align="flex-start"
+              >
+                <Stack position={"relative"}>
                   <Image
-                    src={card?.user.profile_picture}
+                    src={userAvatar}
                     alt="Update"
                     boxSize="30px"
                     rounded={20}
+                    // objectFit="cover"
                   />
                 </Stack>
                 <Stack>
-                  <Text fontSize={{ base: 8, md: 10 }}>
-                    {card?.user.first_name} {card?.user.last_name}
+                  <Text
+                    color={"#202020"}
+                    fontSize={{ base: 8, md: 10 }}
+                    fontFamily="InterMedium"
+                  >
+                    The Lounge Team
                   </Text>
-                  <Text fontSize={{ base: 8, md: 10 }} mt="-2">
+                  <Text
+                    color={"#202020"}
+                    fontSize={{ base: 8, md: 10 }}
+                    mt={"-2"}
+                  >
                     {formatTime(card?.created_at)}
                   </Text>
                 </Stack>

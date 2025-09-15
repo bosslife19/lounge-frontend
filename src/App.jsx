@@ -9,7 +9,7 @@ import ResetPassword from "./modules/auth/forgotpassword";
 import { Homes } from "./user/features/home/Homes";
 import AppLayout from "./user/components/Layout/AppLayout";
 import Spinner from "./user/components/spinner/spinner";
-import ProfileDetails from "./user/features/home/ProfileDetails";
+import ProfileDetails from "./user/features/home/NewsDetails";
 import PostHistory from "./user/features/home/postHistory";
 import Directory from "./user/features/directory/Directory";
 import { TopTabs } from "./user/features/LearningHub/TopTabPanel";
@@ -39,6 +39,8 @@ import { AdminSettingsTab } from "./admin/features/setting/SettingsTabpanel";
 import Logout from "./user/Logout";
 import ProtectedAdminRoute from "./components/Layout/ProtectedAdminRoute";
 import ProtectedOrganizationRoute from "./components/Layout/ProtectedOrganizationRoute";
+import NewsDetails from "./user/features/home/NewsDetails";
+import PostDetails from "./user/features/home/PostDetails";
 // import AdminProfileDetails from './admin/features/home/ProfileDetails';
 // import AdminPostHistory from './admin/features/home/postHistory';
 
@@ -59,7 +61,10 @@ function App() {
           >
             <Route path="/dashboard" index element={<Homes />} />
             <Route path="/" index element={<Homes />} />
-            <Route path="/profile/:id" element={<ProfileDetails />} />
+            <Route path="/news/:id" element={<NewsDetails />} />
+            <Route path="/post/:id" element={<PostDetails />} />
+            {/* <Route path="/profile/:id" element={<ProfileDetails />} />
+            <Route path="/profile/:id" element={<ProfileDetails />} /> */}
             <Route path="/points-history" element={<PostHistory />} />
             <Route path="/directory" element={<Directory />} />
             <Route path="/learning-hub" element={<TopTabs />} />

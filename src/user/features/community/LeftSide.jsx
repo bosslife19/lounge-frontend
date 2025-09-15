@@ -25,6 +25,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useRequest } from "../../../hooks/useRequest";
 import { toast } from "react-toastify";
+import useTruncate from "../../../hooks/useTruncate";
 
 export const LeftSide = ({ posts, setPosts }) => {
   const { userDetails } = useContext(AuthContext);
@@ -32,6 +33,7 @@ export const LeftSide = ({ posts, setPosts }) => {
   const [comment, setComment] = useState("");
   const { makeRequest } = useRequest();
   const [openComments, setOpenComments] = useState({}); // track which posts are expanded
+  const trucateText = useTruncate();
 
   const toggleComments = (postId) => {
     setOpenComments((prev) => ({
@@ -166,7 +168,7 @@ export const LeftSide = ({ posts, setPosts }) => {
               fontSize={{ base: 12, md: 16 }}
               fontFamily="InterMedium"
             >
-              {card.desc3}
+              {trucateText(card.body, card.id)}
             </Text>
           </Card.Body>
 

@@ -1,14 +1,33 @@
- import { useParams, useNavigate } from "react-router-dom";
+ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Box, Image, Text, Stack, HStack, Button, Flex } from "@chakra-ui/react";
 import { IoIosArrowBack } from "react-icons/io";
 import { cardData } from "../../../hooks/useData";
   import btns from "../../../assets/btn.svg"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { formatTime } from "../../../lib/formatTime";
+import axiosClient from "../../../axiosClient";
  
-const ProfileDetails = () => {
+const NewsDetails = () => {
   const { id } = useParams();
+  console.log(id)
   const navigate = useNavigate();
   const profile = cardData.find((item) => item.id === Number(id));
+   
+   const [moreNews, setMoreNews] = useState([])
+   
+   const [update, setUpdate] = useState(null)
+   useEffect(()=>{
+    const getMoreNews = async()=>{
+      const res = await axiosClient.get('/updates');
+     
+      const same = res.data.articles.filter(item=>item.id == id)
+      setUpdate(same[0]);
+      setMoreNews(res.data.articles)
+    }
+    getMoreNews()
+   }, [])
+  
+
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -34,8 +53,8 @@ const ProfileDetails = () => {
       {/* Profile Info */}
       <Stack bg={'#fff'} p={4} borderRadius={10} spacing={4} mb={4}>
          <Image
-        src={profile.eImage}
-        alt={profile.title}
+        src={update?.image}
+        alt={update?.title}
         w="100%"
         h={{ base: "200px", md: "300px" }}
         objectFit="cover"
@@ -46,11 +65,11 @@ const ProfileDetails = () => {
           <Text fontWeight="bold"  
           fontFamily="LatoBold" 
           fontSize={{base:18,md:24}}
-           color={'#202020'}>{profile.title}</Text>
+           color={'#202020'}>{update?.title}</Text>
           <Text fontFamily="LatoRegular" 
           fontSize={{base:14,md:16}}
            color={'#1C1C1CB2'}>
-            {profile.subtitle}
+            {update?.content}
           </Text>
              </Stack>
                    <HStack 
@@ -80,7 +99,7 @@ const ProfileDetails = () => {
                             color={'#202020'}
                             fontSize={{base:8,md:10}} 
                             mt={'-2'}  >
-                           {profile.date}
+                           {formatTime(update?.created_at)}
                        </Text>
                    </Stack>
             </HStack>
@@ -90,7 +109,7 @@ const ProfileDetails = () => {
     <Box w={{base:'100%',md:'30%'}}  className="pb={4}">
           <Text pl={4} pt={3} mb={-2} color={'#101928'} fontWeight={'medium'}>More News & Updates</Text>
           <Box >
-              {cardData.map((card, idx) => (
+              {moreNews.length>0 && moreNews.map((card, idx) => (
                 <Box
                   key={`${card.id}-${idx}`}
                   flexShrink={0}
@@ -100,11 +119,11 @@ const ProfileDetails = () => {
                   cursor={'pointer'}
                   
                   className="bg-white   rounded-2xl shadow-lg relative"
-                  onClick={() => navigate(`/profile/${card.id}`)}
+                  onClick={() =>setUpdate(card)}
                 >
                   <Image
                     roundedTop={10}
-                    src={card.eImage}
+                    src={card.image}
                     alt={card.title}
                     className="w-full h-40 object-cover"
                   />
@@ -135,7 +154,7 @@ const ProfileDetails = () => {
                         align="flex-start">
                           <Stack position={'relative'}>
                           <Image
-                            src={card.subimage}
+                            src={profile.subimage}
                             alt="Update"
                             boxSize="30px"
                              rounded={20}
@@ -153,7 +172,7 @@ const ProfileDetails = () => {
                             color={'#202020'}
                             fontSize={{base:8,md:10}} 
                             mt={'-2'}  >
-                           {card.date}
+                           {formatTime(card.created_at)}
                           </Text>
                          </Stack>
                   </HStack>
@@ -165,4 +184,4 @@ const ProfileDetails = () => {
   );
 };
 
-export default ProfileDetails;
+export default NewsDetails;
