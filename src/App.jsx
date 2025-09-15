@@ -121,9 +121,6 @@ function App() {
               <ProtectedAdminRoute>
                 <AdminLayout />
               </ProtectedAdminRoute>
-                <ProtectedAdminRoute>
-              <AdminLayout />
-               </ProtectedAdminRoute>
             }
           >
             <Route path="/admin/dashboard" index element={<AdminHome />} />

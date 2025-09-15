@@ -3,41 +3,35 @@ import {
   Box,
   Button,
   Card,
-   Flex,
-   Heading,
-   HStack,
-   Image,
-   Input,
-   InputGroup,
-   Stack,
+  Flex,
+  Heading,
+  HStack,
+  Image,
+  Input,
+  InputGroup,
+  Stack,
   Text,
   Textarea,
 } from "@chakra-ui/react";
-  import { cardData } from "../../../hooks/useData";
- import { BsThreeDots } from "react-icons/bs";
- import like from "../../../assets/streamline_like-1-solid.png"
- import heart from "../../../assets/solar_heart-angle-bold.png"
- import bulb from "../../../assets/fluent-color_lightbulb-filament-20.png"
+import { cardData } from "../../../hooks/useData";
+import { BsThreeDots } from "react-icons/bs";
+import like from "../../../assets/streamline_like-1-solid.png";
+import heart from "../../../assets/solar_heart-angle-bold.png";
+import bulb from "../../../assets/fluent-color_lightbulb-filament-20.png";
 import { GrMicrophone, GrSend } from "react-icons/gr";
-import { CiImageOn } from "react-icons/ci";
 import axiosClient from "../../../axiosClient";
-import userImage from '../../../assets/userImage.jpg'
+import userImage from "../../../assets/userImage.jpg";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useRequest } from "../../../hooks/useRequest";
 import { toast } from "react-toastify";
 
-
-
-
-export const LeftSide = ({posts, setPosts}) => {
-
-  const {userDetails} = useContext(AuthContext);
+export const LeftSide = ({ posts, setPosts }) => {
+  const { userDetails } = useContext(AuthContext);
   const [refresh, setRefresh] = useState(false);
-  const [comment, setComment] = useState('');
-  const {makeRequest} = useRequest();
+  const [comment, setComment] = useState("");
+  const { makeRequest } = useRequest();
   const [openComments, setOpenComments] = useState({}); // track which posts are expanded
-  
 
   const toggleComments = (postId) => {
     setOpenComments((prev) => ({
@@ -46,74 +40,64 @@ export const LeftSide = ({posts, setPosts}) => {
     }));
   };
 
-  useEffect(()=>{
-    const getPosts = async()=>{
-      const res = await axiosClient.get('/get-all-posts');
-      
+  useEffect(() => {
+    const getPosts = async () => {
+      const res = await axiosClient.get("/get-all-posts");
+
       setPosts(res.data.posts);
-
-    }
+    };
     getPosts();
-  },[refresh]);
+  }, [refresh]);
 
-  
   const commentRef = useRef();
   function timeAgo(timestamp) {
-  const now = new Date();
-  const past = new Date(timestamp);
-  const diff = Math.floor((now - past) / 1000); // difference in seconds
+    const now = new Date();
+    const past = new Date(timestamp);
+    const diff = Math.floor((now - past) / 1000); // difference in seconds
 
-  if (diff < 60) {
-    return `${diff} sec${diff !== 1 ? 's' : ''} ago`;
-  } else if (diff < 3600) {
-    const mins = Math.floor(diff / 60);
-    return `${mins} min${mins !== 1 ? 's' : ''} ago`;
-  } else if (diff < 86400) {
-    const hours = Math.floor(diff / 3600);
-    return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
-  } else if (diff < 2592000) {
-    const days = Math.floor(diff / 86400);
-    return `${days} day${days !== 1 ? 's' : ''} ago`;
-  } else if (diff < 31536000) {
-    const months = Math.floor(diff / 2592000);
-    return `${months} month${months !== 1 ? 's' : ''} ago`;
-  } else {
-    const years = Math.floor(diff / 31536000);
-    return `${years} year${years !== 1 ? 's' : ''} ago`;
-  }
-}
-
-
-const handleComment = async(id)=>{
-
- 
-  
-  if(!comment){
-    return;
+    if (diff < 60) {
+      return `${diff} sec${diff !== 1 ? "s" : ""} ago`;
+    } else if (diff < 3600) {
+      const mins = Math.floor(diff / 60);
+      return `${mins} min${mins !== 1 ? "s" : ""} ago`;
+    } else if (diff < 86400) {
+      const hours = Math.floor(diff / 3600);
+      return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
+    } else if (diff < 2592000) {
+      const days = Math.floor(diff / 86400);
+      return `${days} day${days !== 1 ? "s" : ""} ago`;
+    } else if (diff < 31536000) {
+      const months = Math.floor(diff / 2592000);
+      return `${months} month${months !== 1 ? "s" : ""} ago`;
+    } else {
+      const years = Math.floor(diff / 31536000);
+      return `${years} year${years !== 1 ? "s" : ""} ago`;
+    }
   }
 
-  const res = await makeRequest('/comment', {
-    post_id: id,
-    body:comment
+  const handleComment = async (id) => {
+    if (!comment) {
+      return;
+    }
 
-  })
-  if(res.error) return;
+    const res = await makeRequest("/comment", {
+      post_id: id,
+      body: comment,
+    });
+    if (res.error) return;
 
-  setRefresh(prev=>!prev);
- setComment('');
-  // toast.success("Comment added successfully");
+    setRefresh((prev) => !prev);
+    setComment("");
+    // toast.success("Comment added successfully");
+  };
+  const actions = [
+    { id: 1, image: like },
+    { id: 2, image: heart },
+    { id: 3, image: bulb },
+  ];
 
-}
-const actions = [
-  { id: 1, image: like },
-  { id: 2, image: heart },
-  { id: 3, image: bulb},
-   ];
-
-  
-   
   return (
- <Stack w={"100%"} mb={"auto"} gap={7}>
+    <Stack w={"100%"} mb={"auto"} gap={7}>
       {posts?.map((card) => (
         <Card.Root
           key={card.id}
@@ -138,15 +122,17 @@ const actions = [
                   <Text
                     color={"#191919"}
                     fontSize={{ base: 10, md: 14 }}
-                    fontFamily="InterBold"
+                    fontFamily="InterMedium"
+                    fontWeight={"medium"}
                   >
                     {card.user?.first_name} {card.user?.last_name}
                   </Text>
                   <Text
                     mt={-3}
-                    color={"#202020"}
-                    fontSize={{ base: 10, md: 14 }}
-                    fontFamily="InterMedium"
+                    color={"#707070"}
+                    fontSize={{ base: 10, md: 12 }}
+                    fontFamily="InterRegular"
+                    lineHeight={"16px"}
                   >
                     {card.user?.profession}
                   </Text>
@@ -212,9 +198,7 @@ const actions = [
                 card.comments.map((c, idx) => (
                   <Flex key={idx} gap={3} mb={3} alignItems="flex-start">
                     <Avatar.Root size="sm">
-                      <Avatar.Image
-                        src={c.user_profile_picture || userImage}
-                      />
+                      <Avatar.Image src={c.user_profile_picture || userImage} />
                     </Avatar.Root>
                     <Box>
                       <Text fontWeight="bold" fontSize="sm">
@@ -258,7 +242,6 @@ const actions = [
               }
               startElement={
                 <Avatar.Root ml={-2} mt={-2} size="xs">
-
                   <Avatar.Image
                     src={userDetails?.profile_picture || userImage}
                   />
@@ -289,5 +272,5 @@ const actions = [
         </Card.Root>
       ))}
     </Stack>
-   )
-}
+  );
+};

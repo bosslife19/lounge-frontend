@@ -11,16 +11,15 @@ import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 
 export const Homes = () => {
-  const [isOpen, setIsOpen] = useState(false);       // First modal
+  const [isOpen, setIsOpen] = useState(false); // First modal
   const [isCreateOpen, setIsCreateOpen] = useState(false); // Second modal
   const [isFinishOpen, setIsFinishOpen] = useState(false); // Third modal
-  const {userDetails} = useContext(AuthContext)
+  const { userDetails } = useContext(AuthContext);
   // Show first popup automatically when page loads
   useEffect(() => {
-    if(userDetails?.profile_status ==="incomplete"){
-setIsOpen(true);
+    if (userDetails?.profile_status === "incomplete") {
+      setIsOpen(true);
     }
-    
   }, []);
 
   // Step 1 -> Step 2

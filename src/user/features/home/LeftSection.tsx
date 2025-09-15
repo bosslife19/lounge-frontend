@@ -8,12 +8,14 @@ const LeftSection = () => {
   return (
     <Box
       w={{ base: "100%", xl: "70%" }}
+      // h={{ base: "100%" }}
       flexDirection={"column"}
-      gap={5}
+      // gap={4}
+
       display={"flex"}
     >
       <Banner />
-      {/* <NewsUpdate /> */}
+      <NewsUpdate />
       <CommunityPost />
       <BottomBanner />
     </Box>
