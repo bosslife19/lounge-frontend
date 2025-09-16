@@ -21,10 +21,21 @@ import { EditProfile } from "./modals/EditProfile";
 import { FirstModal } from "../../home/modal/firstmodal";
 import { AuthContext } from "../../../../context/AuthContext";
 import userImage from "../../../../assets/userImage.jpg";
+import axiosClient from "../../../../axiosClient";
+import { redirect } from "react-router-dom";
 
 export const LeftSectionProfile = () => {
   const { userDetails, setUserDetails } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(()=>{
+    const getUser = async ()=>{
+      const res = await axiosClient.get("/me/" + userDetails.id);
+      
+      setUserDetails(res.data.user);
+    }  
+    getUser();
+  }, [])
 
   const handleCardClick = () => {
     setIsOpen(true);
@@ -140,7 +151,7 @@ export const LeftSectionProfile = () => {
           <HStack>
             <Stack position={"relative"}>
               <Image
-                src={images}
+                src={userDetails.organization.logo}
                 alt="Update"
                 boxSize={{ base: "40px", md: "72px" }}
                 objectFit={"cover"}
@@ -163,7 +174,7 @@ export const LeftSectionProfile = () => {
                 fontSize={{ base: 10, md: 14 }}
                 fontFamily="InterBold"
               >
-                Living Springs Finance LTD
+                {userDetails.organization.name}
               </Text>
               <Text
                 mt={-3}
@@ -189,7 +200,7 @@ export const LeftSectionProfile = () => {
                 gap={2}
               >
                 <FaLocationDot />
-                Berlin, Germany.
+                {userDetails.organization.location}
               </Text>
             </Stack>
           </HStack>
@@ -209,7 +220,7 @@ export const LeftSectionProfile = () => {
             <LuPencil size={17} />
           </Heading>
           {/* <Text>{userDetails?.bio}</Text> */}
-          <List.Root ml={"1vw"} gap={2}>
+          {/* <List.Root ml={"1vw"} gap={2}>
             <List.Item fontSize={14} color={"#7C7C7C"}>
               Bachelor's degree in Design, related field, or equivalent
               practical experience.
@@ -220,7 +231,8 @@ export const LeftSectionProfile = () => {
             <List.Item fontSize={14} color={"#7C7C7C"}>
               Experience in representing and advocating for UX the and users.
             </List.Item>
-          </List.Root>
+          </List.Root> */}
+          <Text>{userDetails.organization.description}</Text>
         </Box>
 
         {/*company members*/}

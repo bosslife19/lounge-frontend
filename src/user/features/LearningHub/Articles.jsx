@@ -16,15 +16,17 @@ import { cardData } from "../../../hooks/useData";
 import { ProfileDetailsModal } from "./profileDetails";
 // import { ProfileDetailsModal } from "./profileDetails";
 import { userAvatar } from "../../../user/features/setting/posts/Posts";
+import { useNavigate } from "react-router-dom";
 
 export const Articles = ({ articles, setArticles }) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  
+  const navigate = useNavigate()
 
   const handleCardClick = (card) => {
-    setSelectedCard(card);
-    setIsOpen(true);
+    // setSelectedCard(card);
+    // setIsOpen(true);
+    navigate(`/articles/${card.id}`)
   };
 
   const handleClose = () => {

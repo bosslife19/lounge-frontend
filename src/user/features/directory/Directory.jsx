@@ -45,12 +45,42 @@ const Directory = () => {
 
   const [directoryData, setDirectoryData] = useState([]);
   const [selected, setSelected] = useState(directoryData[0] || null); // default profile
+  const [search, setSearch] = useState('');
+  const [locationSearch, setLocationSearch] = useState('')
+const [filteredResults, setFilteredResults] = useState([])
 
-  console.log("selected", selected);
+  useEffect(() => {
+  if (search) {
+    const lowerSearch = search.toLowerCase();
+    const results = directoryData.filter((item) =>
+      [item.first_name, item.last_name, item.name, item.organization.name]
+        .filter(Boolean) // removes null/undefined
+        .some((field) => field.toLowerCase().includes(lowerSearch))
+    );
+    setFilteredResults(results);
+  } else {
+    setFilteredResults(directoryData); // if no search, show all
+  }
+}, [search, directoryData]);
+ useEffect(() => {
+  if (locationSearch) {
+    
+    const lowerSearch = locationSearch.toLowerCase();
+    const results = directoryData.filter((item) =>
+      [item.city, item.organization.location]
+        .filter(Boolean) // removes null/undefined
+        .some((field) => field.toLowerCase().includes(lowerSearch))
+    );
+    setFilteredResults(results);
+  } else {
+    setFilteredResults(directoryData); // if no search, show all
+  }
+}, [locationSearch, directoryData]);
 
   useEffect(() => {
     const getAllProfessionals = async () => {
       const res = await axiosClient.get("/users");
+    
       setDirectoryData(res.data.users);
 
       setSelected(res.data.users[0] || null);
@@ -77,6 +107,8 @@ const Directory = () => {
             fontSize={10}
             borderRadius={10}
             placeholder="Name & Organization"
+            onChange={e=>setSearch(e.target.value)}
+            
           />
         </InputGroup>
         <InputGroup startElement={<FaLocationDot size={10} />}>
@@ -85,6 +117,7 @@ const Directory = () => {
             fontSize={10}
             borderRadius={10}
             placeholder="Location"
+            onChange={e=>setLocationSearch(e.target.value)}
           />
         </InputGroup>
       </Stack>
@@ -96,7 +129,7 @@ const Directory = () => {
         {/* LEFT SIDE LIST */}
         <Box w={{ base: "100%", md: "65%" }} pr={4}>
           <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3}>
-            {directoryData?.map((card, idx) => (
+            {filteredResults?.map((card, idx) => (
               <Grid
                 key={card.id}
                 px={4}
@@ -148,7 +181,7 @@ const Directory = () => {
                   <Stack position={"relative"}>
                     <Image
                       rounded={12}
-                      src={googlebig}
+                      src={card.organization?.logo || googlebig}
                       alt="Company"
                       boxSize="50px"
                     />
@@ -159,7 +192,7 @@ const Directory = () => {
                       fontSize={{ base: 10, md: 16 }}
                       fontFamily="InterRegular"
                     >
-                      Organization
+                      {card.organization?.name}
                     </Text>
                     <HStack mt={-2} alignItems={"center"}>
                       <FaLocationDot
@@ -171,7 +204,7 @@ const Directory = () => {
                         fontSize={{ base: 10, md: 12 }}
                         fontFamily="InterRegular"
                       >
-                        {card.city}
+                        {card.organization?.location||''}
                       </Text>
                     </HStack>
 
@@ -231,7 +264,7 @@ const Directory = () => {
                   <Image
                     boxSize={"24px"}
                     rounded={30}
-                    src={googlebig}
+                    src={selected?.organization?.logo ||googlebig}
                     alt="company"
                   />
                   <Text
@@ -239,9 +272,9 @@ const Directory = () => {
                     fontSize={{ base: 12, md: 15 }}
                     fontFamily="InterMedium"
                   >
-                    {selected?.company}
+                    {selected?.organization.name}
                     {/* to do : put organization name here */}
-                    Company
+                    {/* Company */}
                   </Text>
                 </HStack>
                 <HStack
@@ -259,7 +292,7 @@ const Directory = () => {
                     fontSize={{ base: 10, md: 12 }}
                     fontFamily="InterRegular"
                   >
-                    {selected?.city}
+                    {selected?.organization?.location}
                   </Text>
                 </HStack>
               </Card.Description>
@@ -330,13 +363,13 @@ const Directory = () => {
               <Heading size="md">Connect on Socials</Heading>
             </Card.Header>
             <Card.Body flexDirection={"row"} gap={4} color="#7C7C7C">
-              {/* {selected.socials.map((src, idx) => (
-              <Image key={idx} src={src} boxSize={5} />
-            ))} */}
+             <a href={selected?.linkedin_url}>
+              <Image  src={linkedin} boxSize={5} />
+             </a>
+                <a href={selected?.facebook_url}><Image  src={facebk} boxSize={5} /></a>
+
               {/* to do: put social images and link */}
-              <Text fontFamily="InterRegular" fontSize={12} color={"#202020"}>
-                Socials
-              </Text>
+             
             </Card.Body>
           </Card.Root>
         </Box>

@@ -8,6 +8,7 @@ import ForgotEmail from "./modules/auth/forgotEmail";
 import ResetPassword from "./modules/auth/forgotpassword";
 // import { Homes } from "./user/features/home/Homes";
 import Spinner from "./user/components/spinner/spinner";
+import ArticleDetails from "./user/features/home/ArticlesDetails";
 
 // User
 const AppLayout = lazy(() => import("./user/components/Layout/AppLayout"));
@@ -105,6 +106,7 @@ function App() {
             <Route index element={<Homess />} />
             <Route path="dashboard" element={<Homess />} />
             <Route path="/news/:id" element={<NewsDetails />} />
+            <Route path="/articles/:id" element={<ArticleDetails />} />
             <Route path="/post/:id" element={<PostDetails />} />
             {/* <Route path="/profile/:id" element={<ProfileDetails />} />
             <Route path="/profile/:id" element={<ProfileDetails />} /> */}
@@ -191,7 +193,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/testing" element={<VideoTest/>} />
+          
           
           <Route path="/otp" element={<Otp />} />
           <Route path="/forgot-password" element={<ForgotEmail />} />

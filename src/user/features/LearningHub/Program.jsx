@@ -1,124 +1,157 @@
 import {
   Box,
+  Button,
   Flex,
   Heading,
   HStack,
   IconButton,
   Image,
-  Input,
-  InputGroup,
   Stack,
   Text,
-} from "@chakra-ui/react";
-import React, { useState, useEffect, useRef } from "react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { cardData } from "../../../hooks/useData";
-import { CiClock2, CiSearch } from "react-icons/ci";
-import tick from "../../../assets/check.png";
-import file from "../../../assets/fileattach.png";
+} from '@chakra-ui/react'
+import React, { useState, useEffect, useRef } from 'react'
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
+import { CiClock2 } from 'react-icons/ci'
+import tick from "../../../assets/check.png"
+import file from "../../../assets/fileattach.png"
+// import { RiPencilLine } from 'react-icons/ri'
+
+import axiosClient from '../../../axiosClient'
+import { formattedDate } from '../../../lib/formatDate'
+
+
+import { formatTimeToString } from '../../../lib/formatTimeTostring'
+// import { CreateSpeakerHighlight } from './Modal/CreateSpeakerHighlight'
 
 export const Program = () => {
-  // ---------- News Slider ----------
-  const newsItems = [
+  // ---------- News Data (will come from backend) ----------
+  
+  const [newsData, setNewsData] = useState([
     {
-      title: "Corporate Finance & Capital Markets Program",
+      id: 1,
+      title: 'Corporate Finance & Capital Markets Program',
       description:
-        "The is also known as the Roseline Etuokwu Sigma Secondary School Quiz Competition is one of the philanthropic activities of the club to bring the club closer to the grassroots. It is the club’s believe that the secondary school students would grow to become University students. As such, introducing the club to them right from their secondary school days would guide them in manners to act and way of life to live as a student of higher institutions.",
+        'The is also known as the Roseline Etuokwu Sigma Secondary School Quiz Competition ...',
+      sessions: [
+        {
+          id: 1,
+          title: 'Capital Market Basics',
+          description: 'This session explores debt and equities...',
+          date: 'Friday, 6 July',
+          time: '11.30 - 12.00 (30 min)',
+          speaker: { name: 'The Lounge Team', date: '2025-07-06', image: tick },
+        },
+      ],
+      speakers: [
+        {
+          id: 1,
+          name: 'John Doe',
+          date: '2025-07-06',
+          image: tick,
+          highlight: 'Highlight for John Doe...',
+        },
+      ],
     },
     {
-      title: "Entrepreneurship & Innovation Program",
+      id: 2,
+      title: 'Entrepreneurship & Innovation Program',
       description:
-        "This program empowers young entrepreneurs by providing resources, mentorship, and guidance to scale their business ideas into reality.",
+        'This program empowers young entrepreneurs by providing resources...',
+      sessions: [
+        {
+          id: 2,
+          title: 'Startup Funding',
+          description: 'Explore ways to raise funding for startups...',
+          date: 'Monday, 10 July',
+          time: '10.00 - 11.00 (1 hr)',
+          speaker: { name: 'Jane Smith', date: '2025-07-10', image: tick },
+        },
+      ],
+      speakers: [
+        {
+          id: 2,
+          name: 'Jane Smith',
+          date: '2025-07-10',
+          image: tick,
+          highlight: 'Highlight for Jane Smith...',
+        },
+      ],
     },
-    {
-      title: "Leadership & Personal Development Workshop",
-      description:
-        "A workshop focused on building leadership qualities, self-awareness, and communication skills to prepare participants for real-world challenges.",
-    },
-  ];
+  ])
+  const [spOpen, setSpOpen] = useState(false);
 
-  const [newsIndex, setNewsIndex] = useState(0);
-  const newsRef = useRef(null);
-  const newsSlides = [...newsItems, ...newsItems]; // duplicate for smooth looping
+  const closeSpOpen = ()=>{
+    setSpOpen(false);
+  }
 
-  const handleNewsPrev = () => setNewsIndex((prev) => prev - 1);
-  const handleNewsNext = () => setNewsIndex((prev) => prev + 1);
+  // ---------- State ----------
+  const [newsIndex, setNewsIndex] = useState(0)
+  const currentNews = newsData[newsIndex] || {}
+  const currentSessions = currentNews.sections || []
+  const currentSpeakers = currentNews.speaker_highlights || []
+  const [refresh, setRefresh] = useState(false)
 
+  const [sessionIndex, setSessionIndex] = useState(0)
+  const [speakerIndex, setSpeakerIndex] = useState(0)
+
+  // Reset sessions/speakers when news changes
   useEffect(() => {
-    if (newsIndex < 0)
-      setTimeout(() => setNewsIndex(newsItems.length - 1), 300);
-    else if (newsIndex >= newsItems.length)
-      setTimeout(() => setNewsIndex(0), 300);
-  }, [newsIndex]);
+    setSessionIndex(0)
+    setSpeakerIndex(0)
+  }, [newsIndex])
 
-  // ---------- Speaker Slider ----------
-  const [speakerIndex, setSpeakerIndex] = useState(0);
-  const speakerRef = useRef(null);
-  const visibleSpeakerCards = 5;
-  const speakerSlides = [...cardData, ...cardData];
+  // ---------- Modals ----------
+  const [isOpened, setIsOpened] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [isOpens, setIsOpens] = useState(false)
+  const [isOpenin, setIsOpenin] = useState(false)
+  const [open, setOpen] = useState(false);
 
-  const handleSpeakerPrev = () => setSpeakerIndex((prev) => prev - 1);
-  const handleSpeakerNext = () => setSpeakerIndex((prev) => prev + 1);
+  const closeModal = ()=>setOpen(false)
 
-  useEffect(() => {
-    if (speakerIndex < 0)
-      setTimeout(() => setSpeakerIndex(cardData.length - 1), 300);
-    else if (speakerIndex >= cardData.length)
-      setTimeout(() => setSpeakerIndex(0), 300);
-  }, [speakerIndex]);
+  // ---------- Handlers ----------
+  const handleNewsPrev = () =>
+    setNewsIndex(prev => (prev <= 0 ? newsData.length - 1 : prev - 1))
+  const handleNewsNext = () =>
+    setNewsIndex(prev => (prev >= newsData.length - 1 ? 0 : prev + 1))
 
-  // ---------- Session Slider ----------
-  const [sessionIndex, setSessionIndex] = useState(0);
-  const sessionRef = useRef(null);
-  const visibleSessionCards = 3;
-  const sessionSlides = [...cardData, ...cardData]; // use separate data if available
+  const handleSpeakerPrev = () =>
+    setSpeakerIndex(prev =>
+      prev <= 0 ? currentSpeakers.length - 1 : prev - 1
+    )
+  const handleSpeakerNext = () =>
+    setSpeakerIndex(prev =>
+      prev >= currentSpeakers.length - 1 ? 0 : prev + 1
+    )
 
-  const handleSessionPrev = () => setSessionIndex((prev) => prev - 1);
-  const handleSessionNext = () => setSessionIndex((prev) => prev + 1);
+  const handleSessionPrev = () =>
+    setSessionIndex(prev =>
+      prev <= 0 ? currentSessions.length - 1 : prev - 1
+    )
+  const handleSessionNext = () =>
+    setSessionIndex(prev =>
+      prev >= currentSessions.length - 1 ? 0 : prev + 1
+    )
 
-  useEffect(() => {
-    if (sessionIndex < 0)
-      setTimeout(() => setSessionIndex(cardData.length - 1), 300);
-    else if (sessionIndex >= cardData.length)
-      setTimeout(() => setSessionIndex(0), 300);
-  }, [sessionIndex]);
+    useEffect(()=>{
+        const getPrograms = async ()=>{
+          const res = await axiosClient.get('/programs');
+          
+          setNewsData(res.data.programs);
+        }
+        getPrograms();
+    }, [refresh])
 
   return (
-    <Box px={5} h={"100vw"}>
-      {/* Header */}
-      {/* <HStack gap={5} mb={5}>
-        <IconButton bg="#fff" border="1px solid #9E9E9E" rounded={20} aria-label="back">
-          <IoIosArrowBack color="#9E9E9E" />
-        </IconButton>
-        <Text color="#202020" fontWeight={'medium'} fontSize={{ base: 17, md: 24 }} fontFamily="InterMedium">
-          Learning Hub
-        </Text>
-      </HStack> */}
-      {/* <InputGroup w={300} mt={-5} mb={5} startElement={<CiSearch size={15} />}>
-        <Input
-          py={15}
-          fontSize={10}
-          borderRadius={10}
-          placeholder="Search..."
-        />
-      </InputGroup> */}
-
-      {/* -------- News & Updates Slider -------- */}
-      <Flex alignItems={"center"} justifyContent={"space-between"}>
-        <Text
-          color="#202020"
-          fontWeight={"medium"}
-          fontSize={{ base: 14, md: 16 }}
-          fontFamily="LatoRegular"
-        >
-          News & Updates
-        </Text>
-        <HStack gap={2}>
+    <Box h={'120%'} mb={'10%'} px={5}>
+      {/* ---------- News Section ---------- */}
+      
+      <Flex alignItems={'center'} justifyContent={'space-between'}>
+        <HStack w={'100%'} justifyContent={'flex-end'} gap={2}>
           <IconButton
             bg="#fff"
             border="1px solid #9E9E9E"
             rounded={20}
-            size={"xs"}
             aria-label="Prev"
             onClick={handleNewsPrev}
           >
@@ -128,7 +161,6 @@ export const Program = () => {
             bg="#fff"
             border="1px solid #9E9E9E"
             rounded={20}
-            size={"xs"}
             aria-label="Next"
             onClick={handleNewsNext}
           >
@@ -137,73 +169,76 @@ export const Program = () => {
         </HStack>
       </Flex>
 
-      <Flex
-        overflowX="hidden" // ✅ only hide horizontal overflow
-        overflowY="auto" // ✅ allow vertical scroll if content is taller
-        my={5}
-        mr={{ base: 0, md: 100 }}
-      >
-        <Flex
-          ref={newsRef}
-          transform={`translateX(-${newsIndex * 100}%)`}
-          transition="transform 0.5s ease-in-out"
-          width={`${(newsSlides.length / newsItems.length) * 100}%`}
+      {currentNews && (
+        <Box
+          key={currentNews.id}
+          minW="100%"
+          position="relative"
+          h="auto"
+          overflow="visible"
+          bg="white"
+          p={10}
+          border="1px solid #080F340F"
+          rounded={20}
+          my={5}
         >
-          {newsSlides.map((item, idx) => (
-            <Box
-              key={idx}
-              minW="100%"
-              h="auto"
-              overflow="visible"
-              bg="white"
-              p={10}
-              border="1px solid #080F340F"
-              rounded={20}
-            >
-              <Heading
-                whiteSpace="normal"
-                wordBreak="break-word"
-                color="#202020"
-                fontWeight="bold"
-                fontSize={{ base: 18, md: 24 }}
-                fontFamily="LatoBold"
-              >
-                {item.title}
-              </Heading>
-              <Text
-                mt={3}
-                flexWrap={"wrap"}
-                wordBreak="break-word"
-                whiteSpace="normal"
-                color="#1C1C1CB2"
-                fontWeight="normal"
-                fontSize={{ base: 14, md: 16 }}
-                fontFamily="LatoRegular"
-              >
-                {item.description}
-              </Text>
-            </Box>
-          ))}
-        </Flex>
-      </Flex>
+          <Heading
+            whiteSpace="normal"
+            wordBreak="break-word"
+            color="#202020"
+            fontWeight="bold"
+            fontSize={{ base: 18, md: 24 }}
+            fontFamily="LatoBold"
+          >
+            {currentNews.title}
+          </Heading>
+          <Text
+            mt={3}
+            flexWrap={'wrap'}
+            wordBreak="break-word"
+            whiteSpace="normal"
+            color="#1C1C1CB2"
+            fontWeight="medium"
+            fontSize={{ base: 14, md: 16 }}
+            fontFamily="LatoRegular"
+          >
+            {currentNews.content}
+          </Text>
+          {/* <Button
+            position={'absolute'}
+            top={0}
+            bg={'transparent'}
+            color={'#212121'}
+            right={0}
+            onClick={() => setIsOpened(true)}
+          >
+            <RiPencilLine />
+          </Button> */}
+        </Box>
+      )}
 
-      {/* -------- Speaker’s Highlights Slider -------- */}
-      <Flex alignItems={"center"} justifyContent={"space-between"}>
-        <Text
-          color="#202020"
-          fontWeight={"medium"}
-          fontSize={{ base: 14, md: 16 }}
-          fontFamily="LatoRegular"
-        >
-          Speaker’s Highlights
-        </Text>
+      {/* ---------- Speaker Slider ---------- */}
+
+      <Flex alignItems={'center'} justifyContent={'space-between'}>
+        <Flex alignItems={'center'}>
+          {/* <Button bg={'transparent'} color={'#212121'} onClick={() => setIsOpens(true)}>
+            <RiPencilLine />
+          </Button> */}
+          <Text
+            color="#202020"
+            fontWeight={'medium'}
+            fontSize={{ base: 14, md: 16 }}
+            fontFamily="LatoRegular"
+          >
+            Speaker’s Highlights
+          </Text>
+        </Flex>
         <HStack gap={2}>
           <IconButton
             bg="#fff"
             border="1px solid #9E9E9E"
             rounded={20}
             aria-label="Prev"
-            size={"xs"}
             onClick={handleSpeakerPrev}
           >
             <IoIosArrowBack color="#9E9E9E" />
@@ -213,7 +248,6 @@ export const Program = () => {
             border="1px solid #9E9E9E"
             rounded={20}
             aria-label="Next"
-            size={"xs"}
             onClick={handleSpeakerNext}
           >
             <IoIosArrowForward color="#9E9E9E" />
@@ -221,72 +255,71 @@ export const Program = () => {
         </HStack>
       </Flex>
 
-      <Flex overflow="hidden" my={2}>
-        <Flex
-          ref={speakerRef}
-          transform={`translateX(-${
-            (speakerIndex * (100 / visibleSpeakerCards)) %
-            (100 * (cardData.length / visibleSpeakerCards))
-          }%)`}
-          transition="transform 0.5s ease-in-out"
-        >
-          {speakerSlides.map((card, idx) => (
-            <Box key={idx} flex={`0 0 ${80 / visibleSpeakerCards}%`} p={2}>
-              <Box
-                bg="white"
-                p={5}
-                border="1px solid #080F340F"
-                rounded={20}
-                h="100%"
+      <Flex overflow="hidden" my={5}>
+
+        {currentSpeakers.length > 0 && (
+          <Box flex="1">
+            <Box
+              position={'relative'}
+              bg="white"
+              p={5}
+              border="1px solid #080F340F"
+              rounded={20}
+              h="100%"
+            >
+              <HStack>
+                <Image
+                  src='https://www.w3schools.com/howto/img_avatar.png'
+                  alt="Speaker"
+                  boxSize="40px"
+                  rounded="full"
+                />
+                <Stack spacing={0}>
+                  <Text
+                    color="#202020"
+                    fontSize={{ base: 10, md: 12 }}
+                    fontFamily="InterMedium"
+                  >
+                    {currentSpeakers[speakerIndex]?.speaker_name}
+                  </Text>
+                  <Text
+                    color="#202020"
+                    mt={-1}
+                    fontSize={{ base: 9, md: 11 }}
+                  >
+                    {formattedDate(currentSpeakers[speakerIndex]?.created_at)}
+                  </Text>
+                </Stack>
+              </HStack>
+              <Text
+                mt={3}
+                fontFamily="InterRegular"
+                fontWeight={'normal'}
+                fontSize={{ base: 12, md: 14 }}
+                color="#333333E5"
               >
-                <HStack>
-                  <Image
-                    src={card.subimage}
-                    alt="Speaker"
-                    boxSize="40px"
-                    rounded="full"
-                  />
-                  <Stack spacing={0}>
-                    <Text
-                      color="#202020"
-                      fontSize={{ base: 10, md: 12 }}
-                      fontFamily="InterMedium"
-                    >
-                      The Lounge Team
-                    </Text>
-                    <Text
-                      color="#202020"
-                      mt={-1}
-                      fontSize={{ base: 9, md: 11 }}
-                    >
-                      {card.date}
-                    </Text>
-                  </Stack>
-                </HStack>
-                <Text
-                  mt={1}
-                  mb={-3}
-                  fontFamily="InterRegular"
-                  fontWeight={"normal"}
-                  fontSize={{ base: 12, md: 14 }}
-                  color="#333333E5"
-                  // maxW={{ base: 167, md: 267 }}
-                >
-                  {/* {card.title || "Highlight details..."} */}
-                  Served over 10 years in the finance industry analysing
-                  international markets & economics.
-                </Text>
-              </Box>
+                {currentSpeakers[speakerIndex]?.highlight}
+              </Text>
+              {/* <Button
+                position={'absolute'}
+                top={0}
+                bg={'transparent'}
+                color={'#212121'}
+                right={0}
+                onClick={() => setIsOpen(true)}
+              >
+                <RiPencilLine />
+              </Button> */}
             </Box>
-          ))}
-        </Flex>
+          </Box>
+        )}
       </Flex>
 
-      {/* -------- Session Slider -------- */}
-      <Flex alignItems={"center"} justifyContent={"space-between"}>
+      {/* ---------- Session Slider ---------- */}
+      <Flex alignItems={'center'} justifyContent={'space-between'}>
         <Text
           color="#202020"
-          fontWeight={"medium"}
+          fontWeight={'medium'}
           fontSize={{ base: 14, md: 16 }}
           fontFamily="LatoRegular"
         >
@@ -298,7 +331,6 @@ export const Program = () => {
             border="1px solid #9E9E9E"
             rounded={20}
             aria-label="Prev"
-            size={"xs"}
             onClick={handleSessionPrev}
           >
             <IoIosArrowBack color="#9E9E9E" />
@@ -308,7 +340,6 @@ export const Program = () => {
             border="1px solid #9E9E9E"
             rounded={20}
             aria-label="Next"
-            size={"xs"}
             onClick={handleSessionNext}
           >
             <IoIosArrowForward color="#9E9E9E" />
@@ -317,127 +348,117 @@ export const Program = () => {
       </Flex>
 
       <Flex overflow="hidden" my={5}>
-        <Flex
-          ref={sessionRef}
-          transform={`translateX(-${
-            (sessionIndex * (100 / visibleSessionCards)) %
-            (100 * (cardData.length / visibleSessionCards))
-          }%)`}
-          transition="transform 0.5s ease-in-out"
-        >
-          {sessionSlides.map((card, idx) => (
-            <Box
-              key={idx}
-              overflow={"hidden"}
-              border="1px solid #080F340F"
-              rounded={20}
-              h="100%"
-              mr={5}
-              flex={`0 0 ${58 / visibleSessionCards}%`}
-            >
-              <Stack pt={5} pb={2} px={5} roundedTop={20} bg={"#2B362F"}>
-                <Text
-                  fontFamily="InterSemiBold"
-                  fontSize={{ base: 17, md: 20 }}
-                  color={"#fff"}
-                >
-                  Session 2
-                </Text>
-              </Stack>
-              <Box
-                bg="white"
-                pt={2}
-                pb={2}
-                px={5}
-                borderBottom={"2px solid #E8E8E8"}
+        {currentSessions.length > 0 && (
+          <Box
+            overflow={'hidden'}
+            border="1px solid #080F340F"
+            rounded={20}
+            h="100%"
+            mr={5}
+            flex="1"
+          >
+            <Stack position={'relative'} p={5} roundedTop={20} bg={'#000'}>
+              <Text
+                fontFamily="InterBold"
+                fontSize={{ base: 17, md: 20 }}
+                color={'#fff'}
               >
-                <Text
-                  fontFamily="LatoRegular"
-                  fontSize={{ base: 13, md: 15 }}
-                  fontWeight={"normal"}
-                  color={"#10192899/80"}
-                >
-                  This session explores the meaning of capital markets, the
-                  definition of debt and equities and their various forms.
-                </Text>
-              </Box>
-              <Flex bg="white" pt={3} pl={4}>
-                <Text
-                  fontSize={{ base: 12, md: 14 }}
-                  fontWeight={"bold"}
-                  fontFamily="InterMedium"
-                >
-                  Friday, 6 July
-                </Text>
-                <Text
-                  fontFamily="InterRegular"
-                  display={"flex"}
-                  fontSize={{ base: 12, md: 13 }}
-                  color={"#475367"}
-                  gap={2}
-                  ml={3}
-                  alignItems={"center"}
-                >
-                  <CiClock2 color="#667185" /> 11.30 - 12.00 (30 min)
-                </Text>
-              </Flex>
-              <Box p={5} bg="white">
-                <HStack>
-                  <Stack position={"relative"}>
-                    <Image
-                      src={card.subimage}
-                      alt="Speaker"
-                      boxSize="40px"
-                      rounded="full"
-                    />
-                    <Image
-                      src={tick}
-                      alt="tick"
-                      w={"16px"}
-                      position={"absolute"}
-                      bottom={"0"}
-                      right={"-1"}
-                      borderRadius="md"
-                      objectFit="cover"
-                    />
-                  </Stack>
-
-                  <Stack spacing={0}>
-                    <Text
-                      color="#202020"
-                      fontSize={{ base: 10, md: 12 }}
-                      fontFamily="InterMedium"
-                    >
-                      The Lounge Team
-                    </Text>
-                    <Text
-                      color="#475367B2/70"
-                      mt={-1}
-                      fontFamily={"LatoRegular"}
-                      fontWeight={"normal"}
-                      fontSize={{ base: 9, md: 11 }}
-                    >
-                      General Practitioner
-                    </Text>
-                  </Stack>
-                </HStack>
-                {/* <Text
-                  mt={3}
-                  fontFamily="InterRegular"
-                  fontWeight={"normal"}
-                  fontSize={{ base: 12, md: 14 }}
-                  color="#333333E5"
-                >
-                  {card.title || "Highlight details..."}
-                </Text> */}
-              </Box>
-              <Box bg="white" borderTop={"1px solid #E8E8E8"} py={2}>
-                <Image pl={4} src={file} alt="Speaker" w={110} rounded="full" />
-              </Box>
+                {currentSessions[sessionIndex]?.title}
+              </Text>
+              {/* <Button
+                position={'absolute'}
+                top={0}
+                bg={'transparent'}
+                color={'#212121'}
+                right={0}
+                onClick={() => setIsOpenin(true)}
+              >
+                <RiPencilLine color={'#fff'} />
+              </Button> */}
+            </Stack>
+            <Box bg="white" p={5} borderBottom={'2px solid #E8E8E8'}>
+              <Text
+                fontFamily="LatoRegular"
+                fontSize={{ base: 13, md: 16 }}
+                color={'#10192899'}
+              >
+                {currentSessions[sessionIndex]?.description}
+              </Text>
             </Box>
-          ))}
-        </Flex>
+            <Flex bg="white" pt={3} pl={4}>
+              <Text
+                fontSize={{ base: 12, md: 14 }}
+                fontWeight={'bold'}
+                fontFamily="InterMedium"
+              >
+                {formattedDate(currentSessions[sessionIndex]?.date)}
+              </Text>
+              <Text
+                fontFamily="InterRegular"
+                display={'flex'}
+                fontSize={{ base: 12, md: 14 }}
+                color={'#475367'}
+                gap={2}
+                alignItems={'center'}
+              >
+                <CiClock2 /> {formatTimeToString(currentSessions[sessionIndex]?.time)}
+              </Text>
+            </Flex>
+            <Box p={5} bg="white">
+              <HStack>
+                <Stack position={'relative'}>
+                  <Image
+                    src={currentSessions[sessionIndex]?.speaker?.image||'https://www.w3schools.com/howto/img_avatar.png'}
+                    alt="Speaker"
+                    boxSize="40px"
+                    rounded="full"
+                  />
+                  <Image
+                    src={tick}
+                    alt="tick"
+                    w={4}
+                    position={'absolute'}
+                    bottom={'0'}
+                    right={'-1'}
+                    borderRadius="md"
+                    objectFit="cover"
+                  />
+                </Stack>
+                <Stack spacing={0}>
+                  <Text
+                    color="#202020"
+                    fontSize={{ base: 10, md: 12 }}
+                    fontFamily="InterMedium"
+                  >
+                    {/* {currentSessions[sessionIndex]?.speaker?.name} */}
+                    The Lounge Team
+                  </Text>
+                  <Text
+                    color="#202020"
+                    mt={-1}
+                    fontSize={{ base: 9, md: 11 }}
+                  >
+                    {formattedDate(currentSessions[sessionIndex]?.created_at)}
+                  </Text>
+                </Stack>
+              </HStack>
+            </Box>
+            <Box bg="white" pb={2}>
+              <a href={currentSessions[sessionIndex]?.video_link}> <Image pl={4} src={file} alt="file" w={110} rounded="full" /></a>
+             
+            </Box>
+          </Box>
+        )}
       </Flex>
+
+      {/* ---------- Modals ---------- */}
+      {/* <EditProgram isOpen={isOpened} onClose={() => setIsOpened(false)} />
+      <EditSpeakerHeader isOpen={isOpens} onClose={() => setIsOpens(false)} />
+      <EditSpeakerHighlight isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <EditSession isOpen={isOpenin} onClose={() => setIsOpenin(false)} />
+      <CreateProgram onClose={closeModal} open={open} setNewsData={setNewsData}/> */}
+      {/* <CreateSpeakerHighlight onClose={closeSpOpen} isOpen={spOpen} refresh={()=>setRefresh(prev=>!prev)} programId={currentNews.id}/> */}
+
     </Box>
-  );
-};
+  )
+}
