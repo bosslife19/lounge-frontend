@@ -6,48 +6,90 @@ import SignUp from "./modules/auth/SignupScreen";
 import Otp from "./modules/auth/Otp";
 import ForgotEmail from "./modules/auth/forgotEmail";
 import ResetPassword from "./modules/auth/forgotpassword";
-import { Homes } from "./user/features/home/Homes";
-import AppLayout from "./user/components/Layout/AppLayout";
+// import { Homes } from "./user/features/home/Homes";
 import Spinner from "./user/components/spinner/spinner";
-import ProfileDetails from "./user/features/home/NewsDetails";
-import PostHistory from "./user/features/home/postHistory";
-import Directory from "./user/features/directory/Directory";
-import { TopTabs } from "./user/features/LearningHub/TopTabPanel";
-import { Mentoring } from "./user/features/mentoring/Mentoring";
-import { Community } from "./user/features/community/Community";
-import { SettingsTab } from "./user/features/setting/SettingsTabpanel";
-import AppLayouts from "./organization/components/Layout/AppLayout";
-import { OrganizationHome } from "./organization/features/home/Homes";
-import OrganizationProfileDetails from "./organization/features/home/ProfileDetails";
-import OrganizationPostHistory from "./organization/features/home/postHistory";
-import OrganizationDirectory from "./organization/features/directory/Directory";
-import { OrganizationTopTabs } from "./organization/features/LearningHub/TopTabPanel";
-import { OrganizationMentoring } from "./organization/features/mentoring/Mentoring";
-import { OrganizationCommunity } from "./organization/features/community/Community";
-import { OrganizationSettingsTab } from "./organization/features/setting/SettingsTabpanel";
-import AdminLayout from "./admin/components/Layout/AppLayout";
-import { AdminHome } from "./admin/features/home/Homes";
-import ProtectedRoute from "./components/Layout/ProtectedRoutes";
-import { UsersHome } from "./admin/features/Users/users";
-import { UserDetailsMain } from "./admin/features/Users/userDetails/UserDetailsMain";
-import { OrganDetailsAdminMain } from "./admin/features/Users/organizationDetails/OrganDetailsMain";
-import { AdminContent } from "./admin/features/Contents/TopTabPanel";
-import { AdminMentor } from "./admin/features/mentoring/Mentoring";
-import { AdminCommunity } from "./admin/features/community/AdminCommunity";
-import { AdminBenfitsTabPanels } from "./admin/features/BeneFits/AdminBenfitsTabPanels";
-import { AdminSettingsTab } from "./admin/features/setting/SettingsTabpanel";
-import Logout from "./user/Logout";
-import ProtectedAdminRoute from "./components/Layout/ProtectedAdminRoute";
-import ProtectedOrganizationRoute from "./components/Layout/ProtectedOrganizationRoute";
-import NewsDetails from "./user/features/home/NewsDetails";
-import PostDetails from "./user/features/home/PostDetails";
-import VideoTest from "./user/features/LearningHub/TestReactPlayer";
-// import AdminProfileDetails from './admin/features/home/ProfileDetails';
-// import AdminPostHistory from './admin/features/home/postHistory';
+
+// User
+const AppLayout = lazy(() => import("./user/components/Layout/AppLayout"));
+const PostHistory = lazy(() => import("./user/features/home/postHistory"));
+const Directory = lazy(() => import("./user/features/directory/Directory"));
+const TopTabs = lazy(() => import("./user/features/LearningHub/TopTabPanel"));
+const Mentoring = lazy(() => import("./user/features/mentoring/Mentoring"));
+const Community = lazy(() => import("./user/features/community/Community"));
+const SettingsTab = lazy(() =>
+  import("./user/features/setting/SettingsTabpanel")
+);
+const Logout = lazy(() => import("./user/Logout"));
+const NewsDetails = lazy(() => import("./user/features/home/NewsDetails"));
+const PostDetails = lazy(() => import("./user/features/home/PostDetails"));
+
+// Organization
+const AppLayouts = lazy(() =>
+  import("./organization/components/Layout/AppLayout")
+);
+const OrganizationHome = lazy(() =>
+  import("./organization/features/home/Homes")
+);
+const OrganizationProfileDetails = lazy(() =>
+  import("./organization/features/home/ProfileDetails")
+);
+const OrganizationPostHistory = lazy(() =>
+  import("./organization/features/home/postHistory")
+);
+const OrganizationDirectory = lazy(() =>
+  import("./organization/features/directory/Directory")
+);
+const OrganizationTopTabs = lazy(() =>
+  import("./organization/features/LearningHub/TopTabPanel")
+);
+const OrganizationMentoring = lazy(() =>
+  import("./organization/features/mentoring/Mentoring")
+);
+const OrganizationCommunity = lazy(() =>
+  import("./organization/features/community/Community")
+);
+const OrganizationSettingsTab = lazy(() =>
+  import("./organization/features/setting/SettingsTabpanel")
+);
+
+// Admin
+const AdminLayout = lazy(() => import("./admin/components/Layout/AppLayout"));
+const AdminHome = lazy(() => import("./admin/features/home/Homes"));
+const UsersHome = lazy(() => import("./admin/features/Users/users"));
+const UserDetailsMain = lazy(() =>
+  import("./admin/features/Users/userDetails/UserDetailsMain")
+);
+const OrganDetailsAdminMain = lazy(() =>
+  import("./admin/features/Users/organizationDetails/OrganDetailsMain")
+);
+const AdminContent = lazy(() =>
+  import("./admin/features/Contents/TopTabPanel")
+);
+const AdminMentor = lazy(() => import("./admin/features/mentoring/Mentoring"));
+const AdminCommunity = lazy(() =>
+  import("./admin/features/community/AdminCommunity")
+);
+const AdminBenfitsTabPanels = lazy(() =>
+  import("./admin/features/BeneFits/AdminBenfitsTabPanels")
+);
+const AdminSettingsTab = lazy(() =>
+  import("./admin/features/setting/SettingsTabpanel")
+);
+
+// Routes (guards)
+const ProtectedRoute = lazy(() =>
+  import("./components/Layout/ProtectedRoutes")
+);
+const ProtectedAdminRoute = lazy(() =>
+  import("./components/Layout/ProtectedAdminRoute")
+);
+const ProtectedOrganizationRoute = lazy(() =>
+  import("./components/Layout/ProtectedOrganizationRoute")
+);
+
+const Homess = lazy(() => import("./user/features/home/Homes"));
 
 function App() {
-  const Home = lazy(() => import("./user/features/home/Homes"));
-
   return (
     <BrowserRouter>
       <Suspense fallback={<Spinner />}>
@@ -60,8 +102,8 @@ function App() {
               </ProtectedRoute>
             }
           >
-            <Route path="/dashboard" index element={<Homes />} />
-            <Route path="/" index element={<Homes />} />
+            <Route index element={<Homess />} />
+            <Route path="dashboard" element={<Homess />} />
             <Route path="/news/:id" element={<NewsDetails />} />
             <Route path="/post/:id" element={<PostDetails />} />
             {/* <Route path="/profile/:id" element={<ProfileDetails />} />
@@ -124,9 +166,9 @@ function App() {
           <Route
             path="/admin"
             element={
-                <ProtectedAdminRoute>
-              <AdminLayout />
-               </ProtectedAdminRoute>
+              <ProtectedAdminRoute>
+                <AdminLayout />
+              </ProtectedAdminRoute>
             }
           >
             <Route path="/admin/dashboard" index element={<AdminHome />} />

@@ -15,34 +15,34 @@ export const NewOrganization = () => {
   const [pageSize, setPageSize] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowActions, setRowActions] = useState({});
-  const {makeRequest} = useRequest()
+  const { makeRequest } = useRequest();
   const [organizationRequests, setOrganizationRequests] = useState([]);
 
   const navigate = useNavigate();
   useEffect(() => {
     const getRequests = async () => {
       const res = await axiosClient.get("/organization-requests");
-      
+
       setOrganizationRequests(res.data.requests);
     };
     getRequests();
   }, []);
-  const handleApprove = async (id)=>{
-    const res = await makeRequest('/approve-organization-request',{
+  const handleApprove = async (id) => {
+    const res = await makeRequest("/approve-organization-request", {
       organizationId: id,
-      approved:true
-    })
-    if(res.response.status){
-      toast.success('Organization request approved successfully');
+      approved: true,
+    });
+    if (res.response.status) {
+      toast.success("Organization request approved successfully");
     }
-    if(res.error) return;
-  }
+    if (res.error) return;
+  };
 
   const handleSelect = (userId, label, color, icon = null) => {
     setRowActions((prev) => ({ ...prev, [userId]: { label, color, icon } }));
   };
 
-  const dataTable =  {
+  const dataTable = {
     col: {
       col_1: { col_1_1: "ID" },
       col_2: { col_2_1: "Organization Name/Logo" },
@@ -94,8 +94,8 @@ export const NewOrganization = () => {
                   <Menu.Content cursor="pointer" rounded={20}>
                     <Menu.Item
                       color="#333333CC"
-                      cursor='pointer'
-                      onClick={()=>handleApprove(row.id)}
+                      cursor="pointer"
+                      onClick={() => handleApprove(row.id)}
                     >
                       <IoMdCheckboxOutline /> Approve
                     </Menu.Item>
@@ -107,7 +107,7 @@ export const NewOrganization = () => {
                     </Menu.Item> */}
                     <Menu.Item
                       color="#333333CC"
-                      cursor={'pointer'}
+                      cursor={"pointer"}
                       onClick={() =>
                         handleSelect(
                           row.id,
@@ -130,7 +130,7 @@ export const NewOrganization = () => {
   };
 
   return (
-    <Box bg="#F5F6FA" p={6}>
+    <Box bg="#F5F6FA" p={2}>
       {organizationRequests.length > 0 ? (
         <BottomTable
           dataTable={dataTable}
@@ -139,8 +139,9 @@ export const NewOrganization = () => {
           setCurrentPage={setCurrentPage}
           setPageSize={setPageSize}
         />
-      ):
-      <Text>No Organization Requests yet</Text>}
+      ) : (
+        <Text>No Organization Requests yet</Text>
+      )}
     </Box>
   );
 };

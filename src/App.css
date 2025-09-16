@@ -12,7 +12,7 @@
   font-weight: 400;
   font-style: normal;
 }
-
+ 
 /* Lato Medium */
 @font-face {
   font-family: "LatoMedium";
@@ -45,7 +45,12 @@
   font-weight: 500;
   font-style: normal;
 }
-
+@font-face {
+  font-family: "InterSemiBold";
+  src: url("./assets/font/inter/Inter-SemiBold.otf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
 /* Lato Bold */
 @font-face {
   font-family: "InterBold";
@@ -106,6 +111,38 @@
 @font-face {
   font-family: "nunitoBold";
   src: url("./assets/font/nunito/Nunito-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+/* Roboto */
+@font-face {
+  font-family: "robotoRegular";
+  src: url("./assets/font/roboto/Roboto-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Roboto medium */
+@font-face {
+  font-family: "robotoMedium";
+  src: url("./assets/font/roboto/Roboto-Medium.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+/* Semi Bold */
+@font-face {
+  font-family: "robotoSemiBold";
+  src: url("./assets/font/roboto/Roboto-Medium.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* bold */
+@font-face {
+  font-family: "robotoBold";
+  src: url("./assets/font/roboto/Roboto-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
 }

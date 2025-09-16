@@ -3,7 +3,7 @@ import {
   Portal,
   CloseButton,
   Stack,
-   Field,
+  Field,
   Fieldset,
   For,
   Input,
@@ -18,13 +18,13 @@ import {
   Span,
   Spinner,
   NumberInput,
-  } from "@chakra-ui/react";
- import logo from "../../../../../assets/userImage.jpg";
- import tick from "../../../../../assets/Verified tick2.png";
+} from "@chakra-ui/react";
+import logo from "../../../../../assets/userImage.jpg";
+import tick from "../../../../../assets/Verified tick2.png";
 import { FaBriefcase } from "react-icons/fa";
 
 import { PhoneInput } from "../../../../components/phoneINput/PhoneInput";
- import { CiCalendar } from "react-icons/ci";
+import { CiCalendar } from "react-icons/ci";
 import { useContext, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../../../context/AuthContext";
@@ -32,37 +32,40 @@ import { useRequest } from "../../../../../hooks/useRequest";
 import { Checkboxs } from "../../../../components/CheckboxCard/CheckboxCard";
 
 export const EditList = ({ isOpen, onClose, card }) => {
- const titleRef = useRef("");
+  const titleRef = useRef("");
   const descriptionRef = useRef("");
   const emailRef = useRef("");
   const [value, setValue] = useState(0);
   const calendlyRef = useRef("");
   const prepRef = useRef("");
   const [isFree, setIsfree] = useState(false);
-  const {userDetails} = useContext(AuthContext)
-  const {makeRequest, loading} = useRequest();
+  const { userDetails } = useContext(AuthContext);
+  const { makeRequest, loading } = useRequest();
 
-    const handleEditListing = async ()=>{
-         if(!titleRef.current.value||!descriptionRef.current.value||!emailRef.current.value||!calendlyRef.current.value){
-      return toast.error('One or more required fields not filled');
+  const handleEditListing = async () => {
+    if (
+      !titleRef.current.value ||
+      !descriptionRef.current.value ||
+      !emailRef.current.value ||
+      !calendlyRef.current.value
+    ) {
+      return toast.error("One or more required fields not filled");
     }
-      const res = await makeRequest('/edit-listing', {
-        title:titleRef.current.value,
-        description: descriptionRef.current.value,
-        price: value,
-        calendly: calendlyRef.current.value,
-        preparatoryNote: prepRef.current.value,
-        isFree,
-        accessEmail: emailRef.current.value,
-        listingId: card?.id,
-  
-  
-      });
-      if(res.error) return;
-      toast.success('Listing Edited Successfully');
-      onClose();
-    }
- 
+    const res = await makeRequest("/edit-listing", {
+      title: titleRef.current.value,
+      description: descriptionRef.current.value,
+      price: value,
+      calendly: calendlyRef.current.value,
+      preparatoryNote: prepRef.current.value,
+      isFree,
+      accessEmail: emailRef.current.value,
+      listingId: card?.id,
+    });
+    if (res.error) return;
+    toast.success("Listing Edited Successfully");
+    onClose();
+  };
+
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
@@ -91,7 +94,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
                   src={userDetails.profile_picture || logo}
                   alt="Update"
                   boxSize="100px"
-                  borderRadius="md"
+                  rounded={"full"}
                   objectFit="cover"
                 />
                 {/* <Button 
@@ -118,7 +121,11 @@ export const EditList = ({ isOpen, onClose, card }) => {
                   >
                     Title
                   </Field.Label>
-                  <Input name="title" ref={titleRef} placeholder={card?.title} />
+                  <Input
+                    name="title"
+                    ref={titleRef}
+                    placeholder={card?.title}
+                  />
                 </Field.Root>
 
                 {/* Email */}
@@ -131,7 +138,12 @@ export const EditList = ({ isOpen, onClose, card }) => {
                   >
                     Access Email
                   </Field.Label>
-                  <Input name="email" type="email" ref={emailRef} placeholder={card?.access_email} />
+                  <Input
+                    name="email"
+                    type="email"
+                    ref={emailRef}
+                    placeholder={card?.access_email}
+                  />
                 </Field.Root>
 
                 {/* Category */}
@@ -204,7 +216,6 @@ export const EditList = ({ isOpen, onClose, card }) => {
                 <NumberInput.Root
                   // maxW="200px"
                   value={value}
-                  
                   onValueChange={(e) => setValue(e.value)}
                 >
                   <NumberInput.Control />
@@ -223,7 +234,11 @@ export const EditList = ({ isOpen, onClose, card }) => {
                   Calendly Link
                 </Span>
                 <InputGroup startElement={<CiCalendar />}>
-                  <Input placeholder={card?.calendly} outline={"none"} ref={calendlyRef}  />
+                  <Input
+                    placeholder={card?.calendly}
+                    outline={"none"}
+                    ref={calendlyRef}
+                  />
                 </InputGroup>
                 <Text
                   fontWeight={"400"}
@@ -267,7 +282,12 @@ export const EditList = ({ isOpen, onClose, card }) => {
                 >
                   Cancel
                 </Button>
-                <Button py={6} w={{ base: "60%" }} bg={"#2B362F"} onClick={handleEditListing}>
+                <Button
+                  py={6}
+                  w={{ base: "60%" }}
+                  bg={"#2B362F"}
+                  onClick={handleEditListing}
+                >
                   {loading ? <Spinner /> : "Edit Listing"}
                 </Button>
               </HStack>

@@ -49,7 +49,7 @@ export const VideosPage = () => {
           borderRadius={10}
           placeholder="Search..."
         />
-      </InputGroup>
+      </InputGroup> 
 
       {/* Video Grid */}
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} gap={7}>
