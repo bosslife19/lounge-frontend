@@ -1,4 +1,4 @@
-import { Box, Heading,  HStack, Image, Text, Button, Stack } from "@chakra-ui/react";
+import { Box, Heading,  HStack, Image, Text, Button, Stack, Spinner } from "@chakra-ui/react";
 import { Emojione_fire } from "../../../../assets/emojione_fire";
 import divider from "../../../../assets/Divider.svg"
 import { CiClock2 } from "react-icons/ci";
@@ -9,12 +9,21 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 import { supabase } from "../../../../lib/SupabaseClient";
 import { formatTimestamp } from "../../../../lib/FormatTimestamps";
+import { useRequest } from "../../../../hooks/useRequest";
 
 export function Card() {
   const {userDetails} = useContext(AuthContext);
   const [notifications, setNotifications] = useState([]);
   const [currentNotification, setCurrentNotification] = useState(null);
   const [realTime, setRealTime] = useState(false);
+const {makeRequest, loading} = useRequest()
+
+   const handleAccept = async(id, notId, is_meeting)=>{
+      const res = await makeRequest('/respond-to-match', {marchId:id, response:'accepted', notId,isMeeting:is_meeting,stay:true });
+      if(res.error) return;
+       toast.success("Match accepted successfully");
+      
+    }
   
 useEffect(()=>{
  if(!realTime &&notifications){
@@ -89,7 +98,7 @@ useEffect(()=>{
       alignItems={'center'} 
       flexDirection={'row'}
       >
-        {currentNotification.message} <Emojione_fire/>
+        {currentNotification.title} <Emojione_fire/>
       </Heading>
       <Image
           src={divider}
@@ -164,8 +173,10 @@ useEffect(()=>{
        w={'100%'}
        pt={4}
       >
-       <Button fontSize={{base:8,md:13}}   colorScheme="blue" size="lg" rounded="lg" shadow="xs">
-        Confirm Appointment
+       <Button fontSize={{base:8,md:13}}   colorScheme="blue" size="lg" rounded="lg" shadow="xs" onClick={()=>handleAccept(currentNotification.match_id, currentNotification.id, currentNotification.is_meeting)}>
+      {
+        loading? <Spinner/>:'Confirm Appointment'
+      }
       </Button>
      </Box>
     </Box>
