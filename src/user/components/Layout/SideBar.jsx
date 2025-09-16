@@ -1,19 +1,18 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Box,
-  Flex,
-  Text,
-  IconButton,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, IconButton } from "@chakra-ui/react";
 import { IoMdClock, IoMdClose, IoMdSettings } from "react-icons/io";
-import { RiErrorWarningLine, RiHome5Fill, RiInboxArchiveLine } from "react-icons/ri";
+import {
+  RiErrorWarningLine,
+  RiHome5Fill,
+  RiInboxArchiveLine,
+} from "react-icons/ri";
 import { LuCalendarDays, LuFolderOpenDot } from "react-icons/lu";
 import { BiLogOut, BiSolidCopyAlt } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
 import logo from "../../../assets/logos.png";
-import Balance  from "../../../components/Balance";
+import Balance from "../../../components/Balance";
 
 const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
   const history = useNavigate();
@@ -119,13 +118,10 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
                 history(subItem.link);
                 setSidebarOpen(false);
               }}
-
-              color={
-                activeSubIndex === subIndex ? "blue.600" : "gray.500"
-              }
+              color={activeSubIndex === subIndex ? "blue.600" : "gray.500"}
               fontWeight={activeSubIndex === subIndex ? "semibold" : "normal"}
             >
-              <Box  as={subItem.icon} mr={2} />
+              <Box as={subItem.icon} mr={2} />
               <Text fontSize="sm">{subItem.text}</Text>
             </Flex>
           ))}
@@ -177,7 +173,7 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
           <IconButton
             ref={trigger}
             aria-label="Close Sidebar"
-             onClick={() => setSidebarOpen(!sidebarOpen)}
+            onClick={() => setSidebarOpen(!sidebarOpen)}
             display={{ base: "flex", lg: "none" }}
             size="sm"
             rounded="full"
@@ -186,86 +182,88 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
           >
             <IoMdClose />
           </IconButton>
-        </Flex>        
+        </Flex>
 
         {/* Sidebar Items */}
-        <Flex className="no-scrollbar  flex flex-col overflow-y-auto scroll-container " direction="column" mt={4} flex="1" overflowY="auto">
-        <Text
-          fontWeight="semibold"
-          textTransform="uppercase"
-          mt={5}
-          mb={3}
-          fontSize={{ base: "13px", md: "16px" }}
+        <Flex
+          className="no-scrollbar  flex flex-col overflow-y-auto scroll-container "
+          direction="column"
+          mt={4}
+          flex="1"
+          pr={10}
+          overflowY="auto"
         >
-          Overview
-        </Text>
-         {allItems.map((item, mainIndex) => {
-          const isCommunity = item.text === "Community";
-           const isLogout = item.text === "Logout";
-             const isSettings = item.text === "Settings";
-
-           return (
-           <Box
-            key={mainIndex}
-            mb={isCommunity || isLogout ? "100px" : "0"}  
-            >
-            {isSettings && (
           <Text
             fontWeight="semibold"
             textTransform="uppercase"
-            mt={8}
-            mb={2}
+            mt={5}
+            mb={3}
             fontSize={{ base: "13px", md: "16px" }}
-            color="gray.600"
           >
-            Settings
+            Overview
           </Text>
-          )}
-           <Flex
-            py={3}
-            px={4}
-            align="center"
-            cursor="pointer"
-            rounded="30px"
-            bg={activeMainIndex === mainIndex ? "gray.800" : "transparent"}
-            color={
-            isLogout
-            ? "#F13E3E"
-            : activeMainIndex === mainIndex
-            ? "white"
-            : "gray.700"
-             }
-            fontWeight="semibold"
-            onClick={() => {
-            handleMainItemClick(mainIndex);
-            history(item.link);
-            setSidebarOpen(false);
-            }}
-            >
-            <Box
-            
-              as={item.icon}
-             color={
-             isLogout
-             ? "#F13E3E"
-             : activeMainIndex === mainIndex
-             ? "white"
-             : "gray.700"
-             }              
-             mr={3}
-            />
-            <Text isTruncated>{item.text}</Text>
-           </Flex>
-           {renderSubNav(mainIndex)}
-         </Box>
-        );
-        })}
-         <Link to={'#'}>
-        <Balance />
-        </Link>
-      </Flex>
+          {allItems.map((item, mainIndex) => {
+            const isCommunity = item.text === "Community";
+            const isLogout = item.text === "Logout";
+            const isSettings = item.text === "Settings";
+
+            return (
+              <Box key={mainIndex} mb={isCommunity || isLogout ? "100px" : "0"}>
+                {isSettings && (
+                  <Text
+                    fontWeight="semibold"
+                    textTransform="uppercase"
+                    mt={8}
+                    mb={2}
+                    fontSize={{ base: "13px", md: "16px" }}
+                    color="gray.600"
+                  >
+                    Settings
+                  </Text>
+                )}
+                <Flex
+                  py={3}
+                  px={4}
+                  align="center"
+                  cursor="pointer"
+                  rounded="30px"
+                  bg={activeMainIndex === mainIndex ? "#2B362F" : "transparent"}
+                  color={
+                    isLogout
+                      ? "#F13E3E"
+                      : activeMainIndex === mainIndex
+                      ? "white"
+                      : "gray.700"
+                  }
+                  fontWeight="semibold"
+                  onClick={() => {
+                    handleMainItemClick(mainIndex);
+                    history(item.link);
+                    setSidebarOpen(false);
+                  }}
+                >
+                  <Box
+                    as={item.icon}
+                    color={
+                      isLogout
+                        ? "#F13E3E"
+                        : activeMainIndex === mainIndex
+                        ? "white"
+                        : "gray.700"
+                    }
+                    mr={3}
+                  />
+                  <Text isTruncated>{item.text}</Text>
+                </Flex>
+                {renderSubNav(mainIndex)}
+              </Box>
+            );
+          })}
+          <Link to={"#"}>
+            <Balance />
+          </Link>
+        </Flex>
         {/* Balance Component */}
-        
       </Flex>
     </>
   );

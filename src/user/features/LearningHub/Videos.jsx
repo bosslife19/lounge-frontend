@@ -32,19 +32,14 @@ export const VideosPage = () => {
 
   return (
     <Box px={4} py={6}>
-      <InputGroup
-        w={300}
-        mt={-5}
-        mb={5}
-        startElement={<CiSearch size={15} />}
-      >
+      {/* <InputGroup w={300} mt={-5} mb={5} startElement={<CiSearch size={15} />}>
         <Input
           py={15}
           fontSize={10}
           borderRadius={10}
           placeholder="Search..."
         />
-      </InputGroup>
+      </InputGroup> */}
 
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} gap={7}>
         {cardData.map((card, idx) => (
@@ -70,7 +65,11 @@ export const VideosPage = () => {
             </button>
 
             <Box pt={2} px={2}>
-              <Text fontSize={{ base: 12, md: 14 }} className="font-semibold">
+              <Text
+                fontSize={{ base: 12, md: 14 }}
+                fontFamily={"InterMedium"}
+                fontWeight={"medium"}
+              >
                 {card.title}
               </Text>
             </Box>
@@ -88,7 +87,7 @@ export const VideosPage = () => {
                   <Image
                     src={card.subimage}
                     alt="Update"
-                    boxSize="30px"
+                    boxSize="24px"
                     rounded="full"
                   />
                 </Stack>
@@ -105,7 +104,7 @@ export const VideosPage = () => {
                   </Text>
                 </Stack>
               </HStack>
-              <MdKeyboardArrowRight />
+              <MdKeyboardArrowRight color="#00000099/60" />
             </HStack>
           </Box>
         ))}

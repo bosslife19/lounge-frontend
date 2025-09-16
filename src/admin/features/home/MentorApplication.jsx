@@ -17,40 +17,47 @@ export const MentorApplication = () => {
   const [rowActions, setRowActions] = useState({});
   const navigate = useNavigate();
   const [mentorRequests, setMentorRequests] = useState([]);
-  const {makeRequest} = useRequest();
+  const { makeRequest } = useRequest();
 
-  useEffect(()=>{
-    const getRequests = async()=>{
-      const res = await axiosClient.get('/get-all-mentor-requests');
-
+  useEffect(() => {
+    const getRequests = async () => {
+      const res = await axiosClient.get("/get-all-mentor-requests");
 
       setMentorRequests(res.data.requests);
-    }
+    };
     getRequests();
-  },[])
- 
-const handleApprove = async (id)=>{
-  const res = await makeRequest('/approve-mentor', {approved:true,requestId: id});
-  if(res.response.status){
-    toast.success('Mentorship request approved successfully');
-   
-     handleSelect(row.id, "Approve", "green.500", <IoMdCheckboxOutline boxSize={3} />)
-     setMentorRequests(mentorRequests.filter(item=>item.id !== id));
-  }
-  if(res.error) return;
-  
-}
-const handleReject = async (id)=>{
-  const res = await makeRequest('/approve-mentor', {approved:false,requestId: id});
-  if(res.response.status){
-    toast.success('Mentorship request rejected');
-    
-    
-     setMentorRequests(mentorRequests.filter(item=>item.id !== id));
-  }
-  if(res.error) return;
-  
-}
+  }, []);
+
+  const handleApprove = async (id) => {
+    const res = await makeRequest("/approve-mentor", {
+      approved: true,
+      requestId: id,
+    });
+    if (res.response.status) {
+      toast.success("Mentorship request approved successfully");
+
+      handleSelect(
+        row.id,
+        "Approve",
+        "green.500",
+        <IoMdCheckboxOutline boxSize={3} />
+      );
+      setMentorRequests(mentorRequests.filter((item) => item.id !== id));
+    }
+    if (res.error) return;
+  };
+  const handleReject = async (id) => {
+    const res = await makeRequest("/approve-mentor", {
+      approved: false,
+      requestId: id,
+    });
+    if (res.response.status) {
+      toast.success("Mentorship request rejected");
+
+      setMentorRequests(mentorRequests.filter((item) => item.id !== id));
+    }
+    if (res.error) return;
+  };
 
   const handleSelect = (id, label, color, icon = null) => {
     setRowActions((prev) => ({ ...prev, [id]: { label, color, icon } }));
@@ -66,12 +73,16 @@ const handleReject = async (id)=>{
       col_6: { col_6_1: "Action" },
     },
     row: mentorRequests?.map((row, index) => {
-      const selected = rowActions[row.id] || { label: "Action", color: "gray.600", icon: null };
+      const selected = rowActions[row.id] || {
+        label: "Action",
+        color: "gray.600",
+        icon: null,
+      };
       const uniqueKey = `${row.id}-${index}`;
       return {
         row_0: uniqueKey,
         row_1: { row_1_1: row.id },
-        row_2: { row_2_1: row.user.profile_picture||img, row_2_2: row.name },
+        row_2: { row_2_1: row.user.profile_picture || img, row_2_2: row.name },
         row_3: { row_3_1: row.user.profession },
         row_4: { row_4_1: row.user.years_of_experience },
         row_5: { row_5_1: formatTime(row.user.last_visited) },
@@ -88,7 +99,13 @@ const handleReject = async (id)=>{
                 >
                   <HStack spacing={1}>
                     {selected.icon && selected.icon}
-                    <Text fontSize="13px" fontWeight="400" fontFamily="OutfitRegular">{selected.label}</Text>
+                    <Text
+                      fontSize="13px"
+                      fontWeight="400"
+                      fontFamily="OutfitRegular"
+                    >
+                      {selected.label}
+                    </Text>
                     {!selected.icon && <IoIosArrowDown />}
                   </HStack>
                 </Button>
@@ -98,19 +115,19 @@ const handleReject = async (id)=>{
                   <Menu.Content cursor="pointer" rounded={20}>
                     <Menu.Item
                       color="#333333CC"
-                      cursor='pointer'
-                      onClick={()=>handleApprove(row.id)}
+                      cursor="pointer"
+                      onClick={() => handleApprove(row.id)}
                     >
                       <IoMdCheckboxOutline /> Approve
                     </Menu.Item>
                     {/* <Menu.Item  color="#333333CC" onClick={() => navigate(`/users/${row.UserId}`)}>View Details</Menu.Item> */}
-                    <Menu.Item 
+                    <Menu.Item
                       color="#333333CC"
-                      cursor='pointer'
+                      cursor="pointer"
                       onClick={() => handleReject(row.id)}
                     >
                       <MdOutlineCancel /> Decline
-                     </Menu.Item>
+                    </Menu.Item>
                   </Menu.Content>
                 </Menu.Positioner>
               </Portal>
@@ -122,19 +139,18 @@ const handleReject = async (id)=>{
   };
 
   return (
-    <Box w={'full'} bg="#F5F6FA" p={6}>
-      {
-        mentorRequests.length > 0 ?
-              <BottomTable
-        dataTable={dataTable}
-        pageSize={pageSize}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        setPageSize={setPageSize}
-      />:
-      <Text>No Mentor Applications yet</Text>
-      }
-
+    <Box w={"full"} bg="#F5F6FA" p={2}>
+      {mentorRequests.length > 0 ? (
+        <BottomTable
+          dataTable={dataTable}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          setPageSize={setPageSize}
+        />
+      ) : (
+        <Text>No Mentor Applications yet</Text>
+      )}
     </Box>
   );
 };

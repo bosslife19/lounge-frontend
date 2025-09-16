@@ -14,11 +14,13 @@ import notify2 from "../../../../assets/video.png";
 import { Link, useNavigate } from "react-router-dom";
 import axiosClient from "../../../../axiosClient";
 import { formatTime } from "../../../../lib/formatTime";
+import { FaReplyAll } from "react-icons/fa6";
+import { AiOutlineLike } from "react-icons/ai";
 const cardData = [
   {
     id: 1,
     image: logo,
-    notificationImage: notify,
+    notificationImage: notify2,
     title: "Card One",
     subtitle: "2 hours",
     para: "Kindly resolve the discrepancies, this is the blank empty state to start with nothing to share ju.....",
@@ -140,19 +142,24 @@ const CommunityPost = () => {
             <Box
               px={3}
               pb={2}
+              boxShadow={"xs"}
+              boxShadowColor={"#080F340F"}
               key={card.id}
-              bg={"#F9FAFB"}
+              bg={"#fff"}
+              display="flex"
+              flexDirection="column"
+              justifyContent={"space-between"}
               rounded={8}
-              // shadow={"xs"}
+              h={{ base: 190, md: 245 }} // shadow={"xs"}
               border={"1px solid #F0F2F5"}
-              className="bg-[#F9FAFB]    relative overflow-hidden"
+              className="   relative overflow-hidden"
             >
               <HStack pt={5} pb={2} spacing={4} align="center">
                 <Stack position={"relative"}>
                   <Image
                     src={card.user.profile_picture || logo}
                     alt="Update"
-                    boxSize="30px"
+                    boxSize="20px"
                     rounded={20}
                   />
                 </Stack>
@@ -178,29 +185,83 @@ const CommunityPost = () => {
                 color={"#475367"}
                 className="font-semibold"
               >
-                {card.body.length > 18
-                  ? `${card.body.slice(0, 8)}...`
+                {card.body.length > 90
+                  ? `${card.body.slice(0, 90)}...`
                   : card.body}
                 {/* {truncateText(card.body, 90)} */}
               </Text>
 
-              {/* <HStack rounded={10} mb={2} py={1} pl={2} pr={3} w={{base:10,md:110}} bg={'#fff'} border={'1px solid #F0F2F5'}>
-               <Image
-                 src={card.notificationImage}
-                 alt="Update"
-                 boxSize="22px"
-                rounded={0}
-                />
-               <Text
-                color={'#344054'}
-                fontSize={{base:8,md:11}}
-               >
-                Video.MP3
-               </Text>
-            </HStack> */}
-              {/* <Button fontFamily="LatoBold" rounded={5} fontSize={12} py={0}  mb={2} border={'1px solid #D0D5DD'} bg={'#fff'} color={'#344054'}>
-              See Message
-            </Button> */}
+              <Stack>
+                <HStack
+                  rounded={10}
+                  // my={2}
+                  py={1}
+                  pl={2}
+                  pr={3}
+                  w={{ base: 10, md: 110 }}
+                  bg={"#fff"}
+                  border={"1px solid #F0F2F5"}
+                >
+                  <Image
+                    src={notify2}
+                    alt="Update"
+                    boxSize="22px"
+                    rounded={0}
+                  />
+                  <Text color={"#344054"} fontSize={{ base: 8, md: 11 }}>
+                    Video.MP3
+                  </Text>
+                </HStack>
+                <Flex gap={3} alignItems={"center"}>
+                  <HStack
+                    rounded={10}
+                    // my={2}
+                    py={1}
+                    pl={2}
+                    pr={3}
+                    w={{ base: 10, md: 110 }}
+                    bg={"#fff"}
+                    border={"1px solid #F0F2F5"}
+                  >
+                    {/* <Image src={notify2} alt="Update" boxSize="22px" rounded={0} /> */}
+                    <AiOutlineLike />
+
+                    <Text color={"#344054"} fontSize={{ base: 8, md: 11 }}>
+                      10 Replies
+                    </Text>
+                  </HStack>
+                  <HStack
+                    rounded={10}
+                    // my={2}
+                    py={1}
+                    pl={2}
+                    pr={3}
+                    w={{ base: 10, md: 110 }}
+                    bg={"#fff"}
+                    border={"1px solid #F0F2F5"}
+                  >
+                    {/* <Image src={notify2} alt="Update" boxSize="22px" rounded={0} /> */}
+                    <FaReplyAll size={10} />
+                    <Text color={"#344054"} fontSize={{ base: 8, md: 11 }}>
+                      10 Replies
+                    </Text>
+                  </HStack>
+                </Flex>
+              </Stack>
+              <Button
+                fontFamily="LatoBold"
+                rounded={5}
+                fontSize={12}
+                py={0}
+                mb={2}
+                size={"xs"}
+                border={"1px solid #D0D5DD"}
+                bg={"#fff"}
+                color={"#344054"}
+                mr={"auto"}
+              >
+                See Message
+              </Button>
             </Box>
           ))
         ) : (

@@ -10,7 +10,7 @@ import { FinishProfile } from "./modal/FinishProfile"; // <-- new modal
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 
-export const Homes = () => {
+const Homes = () => {
   const [isOpen, setIsOpen] = useState(false); // First modal
   const [isCreateOpen, setIsCreateOpen] = useState(false); // Second modal
   const [isFinishOpen, setIsFinishOpen] = useState(false); // Third modal
@@ -39,9 +39,10 @@ export const Homes = () => {
       {/* Page layout */}
       <Flex
         bg={"#F5F6FA"}
-        p={6}
+        px={6}
         gap={6}
         flexDir={{ base: "column", xl: "row" }}
+        justifyContent={"space-between"}
       >
         <LeftSection />
         <RightSection />
@@ -81,3 +82,5 @@ export const Homes = () => {
     </>
   );
 };
+
+export default Homes;

@@ -92,39 +92,20 @@ export function Banner() {
       zIndex={1000}
       position={"relative"}
     >
-      {/* top left */}
-      <Box top={5} left={0} position={"absolute"} zIndex={-1000}>
-        <Star3 />
-      </Box>
-      <Box bottom={0} left={0} position={"absolute"} zIndex={-1000}>
-        <Star5 />
-      </Box>
-      {/* center */}
-      <Box bottom={16} left={20} position={"absolute"} zIndex={-1000}>
-        <Star1 />
-      </Box>
-      {/* top right */}
-      <Box top={-10} left={40} position={"absolute"} zIndex={-1000}>
-        <Star4 />
-      </Box>
-      {/* bottom right */}
-      <Box bottom={0} left={40} position={"absolute"} zIndex={-1000}>
-        <Star4 />
-      </Box>
-      {/* Left content */}
       <VStack
-        gap={{ base: 2, lg: 5 }}
+        gap={{ base: 2, lg: 4 }}
         zIndex={1000}
         align="flex-start"
         spacing={4}
-        mt={{ base: 5, lg: 0 }}
+        mt={{ base: 5, lg: -4 }}
         w={{ base: "100%", md: "60%" }}
       >
         <Text
-          fontWeight="400"
+          fontWeight="light"
           fontSize="12px"
-          fontFamily="InterRegular"
+          // fontFamily="InterRegular"
           textTransform="uppercase"
+          color={"#FFFFFF/90"}
         >
           UPCOMING EVENTS
         </Text>

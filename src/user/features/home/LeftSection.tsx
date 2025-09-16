@@ -13,6 +13,7 @@ const LeftSection = () => {
       // gap={4}
 
       display={"flex"}
+      pb={10}
     >
       <Banner />
       <NewsUpdate />

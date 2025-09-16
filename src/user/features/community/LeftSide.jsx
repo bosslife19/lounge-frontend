@@ -24,8 +24,9 @@ import userImage from "../../../assets/userImage.jpg";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useRequest } from "../../../hooks/useRequest";
-import { toast } from "react-toastify";
+import { AiOutlineLike } from "react-icons/ai";
 import useTruncate from "../../../hooks/useTruncate";
+import { BiMessageRoundedDetail } from "react-icons/bi";
 
 export const LeftSide = ({ posts, setPosts }) => {
   const { userDetails } = useContext(AuthContext);
@@ -99,7 +100,7 @@ export const LeftSide = ({ posts, setPosts }) => {
   ];
 
   return (
-    <Stack w={"100%"} mb={"auto"} gap={0}>
+    <Stack w={"100%"} mb={"auto"} pb={"3vw"} gap={5}>
       {posts?.map((card) => (
         <Card.Root
           key={card.id}
@@ -109,7 +110,7 @@ export const LeftSide = ({ posts, setPosts }) => {
           rounded={20}
           border={"1px solid #fff"}
         >
-          <Card.Body gap="2" mt={-2} mx={-2}>
+          <Card.Body gap="2" mt={-3} mx={-3}>
             <Flex alignItems={"flex-start"} justifyContent={"space-between"}>
               <HStack>
                 <Stack position={"relative"}>
@@ -124,24 +125,24 @@ export const LeftSide = ({ posts, setPosts }) => {
                   <Text
                     color={"#191919"}
                     fontSize={{ base: 10, md: 14 }}
-                    fontFamily="InterMedium"
+                    fontFamily="robotoMedium"
                     fontWeight={"medium"}
                   >
-                    {card.user?.first_name} {card.user?.last_name}
+                    {card.user?.first_name}ddd {card.user?.last_name}
                   </Text>
                   <Text
                     mt={-3}
                     color={"#707070"}
                     fontSize={{ base: 10, md: 12 }}
-                    fontFamily="InterRegular"
-                    lineHeight={"16px"}
+                    fontFamily="robotoRegular"
+                    lineHeight={"20px"}
                   >
-                    {card.user?.profession}
+                    {card.user?.profession}dd
                   </Text>
                   <Text
                     color={"#626262"}
-                    fontFamily="InterRegular"
-                    fontSize={{ base: 10, md: 13 }}
+                    fontFamily="robotoRegular"
+                    fontSize={{ base: 10, md: 12 }}
                     mt={"-2"}
                   >
                     {timeAgo(card.created_at)}
@@ -156,42 +157,58 @@ export const LeftSide = ({ posts, setPosts }) => {
             {/* Post content */}
             <Text
               // textAlign={"center"}
-              color={"#070416"}
+              color={"#191919"}
               fontWeight={"400"}
-              fontSize={{ base: 12, md: 16 }}
-              fontFamily="InterRegular"
+              fontSize={{ base: 12, md: 13 }}
+              fontFamily="robotoRegular"
             >
-              {card.body}
+              {/* {card.body} */}
+              {trucateText(card.body, card.id)}
             </Text>
             <Text
+              my={-2}
               color={"#0966C2"}
-              fontSize={{ base: 12, md: 16 }}
-              fontFamily="InterMedium"
+              fontSize={{ base: 12, md: 13 }}
+              lineHeight={"20px"}
+              fontFamily="robotoMedium"
             >
-              {trucateText(card.body, card.id)}
+              #hastag #hastag #hashtag
             </Text>
           </Card.Body>
 
           {/* Post Image */}
           {card.post_image && (
-            <Image src={card.post_image} boxSize={"100%"} h={220} fit="cover" />
+            <Image src={card.post_image} boxSize={"100%"} h={270} fit="cover" />
           )}
 
           {/* Comments and actions */}
-          <HStack alignItems={"center"} px={1} pt={5}>
-            {actions.map((items, index) => (
-              <Button p={0} bg={"transparent"} key={index}>
-                <Image src={items.image} boxSize={5} />
-              </Button>
-            ))}
-            <Text
-              color={"#707070"}
-              fontSize={{ base: 12, md: 14 }}
-              cursor="pointer"
+          <HStack
+            justifyContent={"flex-start"}
+            alignItems={"center"}
+            px={1}
+            pt={3}
+            gap={4}
+          >
+            <Button color={"#212121"} p={0} bg={"transparent"}>
+              <AiOutlineLike />
+            </Button>
+            <Button
               onClick={() => toggleComments(card.id)}
+              color={"#212121"}
+              p={0}
+              bg={"transparent"}
             >
-              {card.comments?.length || 0} Comments
-            </Text>
+              <BiMessageRoundedDetail />
+
+              <Text
+                color={"#707070"}
+                fontSize={{ base: 12, md: 14 }}
+                cursor="pointer"
+                // ml={-2}
+              >
+                {card.comments?.length || 0} Comments
+              </Text>
+            </Button>
           </HStack>
 
           {/* Expand Comments */}
@@ -261,8 +278,8 @@ export const LeftSide = ({ posts, setPosts }) => {
                   onChange={(e) => setComment(e.target.value)}
                   value={comment}
                   outline={"none"}
-                  py={3}
-                  pr="80px"
+                  pt={23}
+                  pr="60px"
                   pl="40px"
                   borderRadius="xl"
                   fontSize="11px"

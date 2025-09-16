@@ -5,7 +5,7 @@ import img from "../../../assets/userImage.jpg";
 import { IoIosArrowDown, IoMdCheckboxOutline } from "react-icons/io";
 import { MdOutlineCancel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
- 
+
 export const RewardReq = () => {
   const [pageSize, setPageSize] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,11 +13,46 @@ export const RewardReq = () => {
   const navigate = useNavigate();
 
   const tableData = [
-    { UserId: "#38734", Name: "Jamal", image: img, Profession: "Web Developer", Experience: "3", Timestamp: "09/08/24, 12:00pm" },
-    { UserId: "#12233", Name: "Lydia", image: img, Profession: "UI Designer", Experience: "5", Timestamp: "09/08/24, 12:10pm" },
-    { UserId: "#12234", Name: "Alice", image: img, Profession: "Backend Dev", Experience: "4", Timestamp: "09/08/24, 12:20pm" },
-    { UserId: "#12235", Name: "Bob", image: img, Profession: "Frontend Dev", Experience: "2", Timestamp: "09/08/24, 12:30pm" },
-    { UserId: "#12236", Name: "Charlie", image: img, Profession: "UI Designer", Experience: "5", Timestamp: "09/08/24, 12:40pm" },
+    {
+      UserId: "#38734",
+      Name: "Jamal",
+      image: img,
+      Profession: "Web Developer",
+      Experience: "3",
+      Timestamp: "09/08/24, 12:00pm",
+    },
+    {
+      UserId: "#12233",
+      Name: "Lydia",
+      image: img,
+      Profession: "UI Designer",
+      Experience: "5",
+      Timestamp: "09/08/24, 12:10pm",
+    },
+    {
+      UserId: "#12234",
+      Name: "Alice",
+      image: img,
+      Profession: "Backend Dev",
+      Experience: "4",
+      Timestamp: "09/08/24, 12:20pm",
+    },
+    {
+      UserId: "#12235",
+      Name: "Bob",
+      image: img,
+      Profession: "Frontend Dev",
+      Experience: "2",
+      Timestamp: "09/08/24, 12:30pm",
+    },
+    {
+      UserId: "#12236",
+      Name: "Charlie",
+      image: img,
+      Profession: "UI Designer",
+      Experience: "5",
+      Timestamp: "09/08/24, 12:40pm",
+    },
   ];
 
   const handleSelect = (userId, label, color, icon = null) => {
@@ -34,7 +69,11 @@ export const RewardReq = () => {
       col_6: { col_6_1: "Action" },
     },
     row: tableData.map((row, index) => {
-      const selected = rowActions[row.UserId] || { label: "Action", color: "gray.600", icon: null };
+      const selected = rowActions[row.UserId] || {
+        label: "Action",
+        color: "gray.600",
+        icon: null,
+      };
       const uniqueKey = `${row.UserId}-${index}`;
       return {
         row_0: uniqueKey,
@@ -56,7 +95,13 @@ export const RewardReq = () => {
                 >
                   <HStack spacing={1}>
                     {selected.icon && selected.icon}
-                    <Text fontSize="13px" fontWeight="400" fontFamily="OutfitRegular">{selected.label}</Text>
+                    <Text
+                      fontSize="13px"
+                      fontWeight="400"
+                      fontFamily="OutfitRegular"
+                    >
+                      {selected.label}
+                    </Text>
                     {!selected.icon && <IoIosArrowDown />}
                   </HStack>
                 </Button>
@@ -66,14 +111,28 @@ export const RewardReq = () => {
                   <Menu.Content cursor="pointer" rounded={20}>
                     <Menu.Item
                       color="#333333CC"
-                      onClick={() => handleSelect(row.UserId, "Approve", "green.500", <IoMdCheckboxOutline boxSize={3} />)}
+                      onClick={() =>
+                        handleSelect(
+                          row.UserId,
+                          "Approve",
+                          "green.500",
+                          <IoMdCheckboxOutline boxSize={3} />
+                        )
+                      }
                     >
                       <IoMdCheckboxOutline /> Approve
                     </Menu.Item>
                     {/* <Menu.Item color="#333333CC" onClick={() => navigate(`/users/${row.UserId}`)}>View Details</Menu.Item> */}
                     <Menu.Item
                       color="#333333CC"
-                      onClick={() => handleSelect(row.UserId, "Decline", "red.500", <MdOutlineCancel boxSize={3} />)}
+                      onClick={() =>
+                        handleSelect(
+                          row.UserId,
+                          "Decline",
+                          "red.500",
+                          <MdOutlineCancel boxSize={3} />
+                        )
+                      }
                     >
                       <MdOutlineCancel /> Decline
                     </Menu.Item>
@@ -88,7 +147,7 @@ export const RewardReq = () => {
   };
 
   return (
-    <Box   bg="#F5F6FA" p={6}>
+    <Box bg="#F5F6FA" p={2}>
       <BottomTable
         dataTable={dataTable}
         pageSize={pageSize}

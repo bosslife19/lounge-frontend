@@ -37,32 +37,35 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
   const descriptionRef = useRef("");
   const emailRef = useRef("");
   const [value, setValue] = useState(0);
-  const categoryRef= useRef("");
+  const categoryRef = useRef("");
   const calendlyRef = useRef("");
   const prepRef = useRef("");
   const [isFree, setIsfree] = useState(false);
 
-  const handleCreateListing = async ()=>{
-    
-    if(!titleRef.current.value||!descriptionRef.current.value||!emailRef.current.value||!calendlyRef.current.value||!categoryRef.current.value){
-      return toast.error('One or more required fields not filled');
+  const handleCreateListing = async () => {
+    if (
+      !titleRef.current.value ||
+      !descriptionRef.current.value ||
+      !emailRef.current.value ||
+      !calendlyRef.current.value ||
+      !categoryRef.current.value
+    ) {
+      return toast.error("One or more required fields not filled");
     }
-    const res = await makeRequest('/create-listing', {
-      title:titleRef.current.value,
+    const res = await makeRequest("/create-listing", {
+      title: titleRef.current.value,
       description: descriptionRef.current.value,
       price: value,
       calendly: calendlyRef.current.value,
       preparatoryNote: prepRef.current.value,
       isFree,
       accessEmail: emailRef.current.value,
-      category:categoryRef.current.value
-
-
+      category: categoryRef.current.value,
     });
-    if(res.error) return;
-    toast.success('Listing Created Successfully');
+    if (res.error) return;
+    toast.success("Listing Created Successfully");
     onClose();
-  }
+  };
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
@@ -94,6 +97,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                   boxSize="100px"
                   borderRadius="md"
                   objectFit="cover"
+                  rounded={"full"}
                 />
                 {/* <Button 
                 position={'absolute'}
@@ -137,30 +141,41 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
 
                 {/* Category */}
                 <Field.Root>
-  <Field.Label
-   fontWeight={'400'}
-   fontSize={{base:12,md:14}}
-   fontFamily="InterMedium"
-   color={'#101928'}
-  >Category</Field.Label>
-  <NativeSelect.Root>
+                  <Field.Label
+                    fontWeight={"400"}
+                    fontSize={{ base: 12, md: 14 }}
+                    fontFamily="InterMedium"
+                    color={"#101928"}
+                  >
+                    Category
+                  </Field.Label>
+                  <NativeSelect.Root>
+                    <Box
+                      position="absolute"
+                      left="3"
+                      top="50%"
+                      transform="translateY(-50%)"
+                      color="gray.500"
+                    >
+                      <FaBriefcase />
+                    </Box>
 
-    <Box position="absolute" left="3" top="50%" transform="translateY(-50%)" color="gray.500">
-      <FaBriefcase />
-    </Box>
-
-     <NativeSelect.Field name="country" pl="10" ref={categoryRef}>
-       <For each={["Finance", "Engineering", "others2"]}>
-          {(item) => (
-           <option key={item} value={item} >
-            {item}
-           </option>
-           )}
-          </For>
-          </NativeSelect.Field>
-          <NativeSelect.Indicator />
-          </NativeSelect.Root>
-         </Field.Root>
+                    <NativeSelect.Field
+                      name="country"
+                      pl="10"
+                      ref={categoryRef}
+                    >
+                      <For each={["Finance", "Engineering", "others2"]}>
+                        {(item) => (
+                          <option key={item} value={item}>
+                            {item}
+                          </option>
+                        )}
+                      </For>
+                    </NativeSelect.Field>
+                    <NativeSelect.Indicator />
+                  </NativeSelect.Root>
+                </Field.Root>
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
@@ -266,7 +281,12 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                 >
                   Cancel
                 </Button>
-                <Button py={6} w={{ base: "60%" }} bg={"#2B362F"} onClick={handleCreateListing}>
+                <Button
+                  py={6}
+                  w={{ base: "60%" }}
+                  bg={"#2B362F"}
+                  onClick={handleCreateListing}
+                >
                   {loading ? <Spinner /> : "Create Listing"}
                 </Button>
               </HStack>
