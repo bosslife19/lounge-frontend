@@ -41,6 +41,7 @@ import ProtectedAdminRoute from "./components/Layout/ProtectedAdminRoute";
 import ProtectedOrganizationRoute from "./components/Layout/ProtectedOrganizationRoute";
 import NewsDetails from "./user/features/home/NewsDetails";
 import PostDetails from "./user/features/home/PostDetails";
+import VideoTest from "./user/features/LearningHub/TestReactPlayer";
 // import AdminProfileDetails from './admin/features/home/ProfileDetails';
 // import AdminPostHistory from './admin/features/home/postHistory';
 
@@ -148,6 +149,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/testing" element={<VideoTest/>} />
+          
           <Route path="/otp" element={<Otp />} />
           <Route path="/forgot-password" element={<ForgotEmail />} />
           <Route path="/reset-password" element={<ResetPassword />} />

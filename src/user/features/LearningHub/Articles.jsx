@@ -21,7 +21,7 @@ import { userAvatar } from "../../../user/features/setting/posts/Posts";
 export const Articles = ({articles, setArticles}) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  console.log(articles);
+  
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
