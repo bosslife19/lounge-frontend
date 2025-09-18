@@ -68,7 +68,19 @@ const PostDetails = () => {
     setComment("");
     // toast.success("Comment added successfully");
   };
-  console.log(update);
+  
+    const likePost = async (postId)=>{
+    
+    const res = await makeRequest('/like-post', {userId:userDetails.id, postId});
+    if(!res){
+      return;
+    }
+    if(res.error) return;
+    if(res.response.status){
+setRefresh(prev=>!prev);
+    }
+    
+  }
 
   useEffect(() => {
     const getMoreNews = async () => {
@@ -149,9 +161,12 @@ const PostDetails = () => {
               pt={3}
               gap={4}
             >
-              <Button color={"#212121"} p={0} bg={"transparent"}>
-                <AiOutlineLike />
+               <p style={{position:'relative', left:'3%'}}>{update?.likes?.length}</p>
+           
+            <Button color={"#212121"} p={0} bg={"transparent"} onClick={()=>likePost(update.id)}>
+              <AiOutlineLike />
               </Button>
+
               <Button
                 onClick={() => toggleComments(update.id)}
                 color={"#212121"}

@@ -43,10 +43,23 @@ export const LeftSide = ({ posts, setPosts }) => {
     }));
   };
 
+  const likePost = async (postId)=>{
+    
+    const res = await makeRequest('/like-post', {userId:userDetails.id, postId});
+    if(!res){
+      return;
+    }
+    if(res.error) return;
+    if(res.response.status){
+setRefresh(prev=>!prev);
+    }
+    
+  }
+
   useEffect(() => {
     const getPosts = async () => {
       const res = await axiosClient.get("/get-all-posts");
-
+     
       setPosts(res.data.posts);
     };
     getPosts();
@@ -189,8 +202,11 @@ export const LeftSide = ({ posts, setPosts }) => {
             pt={3}
             gap={4}
           >
-            <Button color={"#212121"} p={0} bg={"transparent"}>
+            <p style={{position:'relative', left:'3%'}}>{card.likes.length}</p>
+           
+            <Button color={"#212121"} p={0} bg={"transparent"} onClick={()=>likePost(card.id)}>
               <AiOutlineLike />
+
             </Button>
             <Button
               onClick={() => toggleComments(card.id)}

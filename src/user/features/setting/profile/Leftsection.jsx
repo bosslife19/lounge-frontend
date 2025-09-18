@@ -27,6 +27,15 @@ import { redirect } from "react-router-dom";
 export const LeftSectionProfile = () => {
   const { userDetails, setUserDetails } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [mentors, setMentors] = useState([]);
+  useEffect(() => {
+      const getMentors = async () => {
+        const res = await axiosClient.get("/my-mentors");
+  
+        setMentors(res.data.mentors);
+      };
+      getMentors();
+    }, []);
 
   useEffect(()=>{
     const getUser = async ()=>{
@@ -151,7 +160,7 @@ export const LeftSectionProfile = () => {
           <HStack>
             <Stack position={"relative"}>
               <Image
-                src={userDetails.organization.logo}
+                src={userDetails.organization?.logo}
                 alt="Update"
                 boxSize={{ base: "40px", md: "72px" }}
                 objectFit={"cover"}
@@ -174,7 +183,7 @@ export const LeftSectionProfile = () => {
                 fontSize={{ base: 10, md: 14 }}
                 fontFamily="InterBold"
               >
-                {userDetails.organization.name}
+                {userDetails.organization?.name}
               </Text>
               <Text
                 mt={-3}
@@ -200,7 +209,7 @@ export const LeftSectionProfile = () => {
                 gap={2}
               >
                 <FaLocationDot />
-                {userDetails.organization.location}
+                {userDetails.organization?.location}
               </Text>
             </Stack>
           </HStack>
@@ -232,7 +241,7 @@ export const LeftSectionProfile = () => {
               Experience in representing and advocating for UX the and users.
             </List.Item>
           </List.Root> */}
-          <Text>{userDetails.organization.description}</Text>
+          <Text>{userDetails.organization?.description}</Text>
         </Box>
 
         {/*company members*/}
@@ -241,45 +250,49 @@ export const LeftSectionProfile = () => {
             {/* Company Members */}
             Mentors
           </Heading>
-          <Stack spacing={6}>
-            {cardData.map((card) => (
-              <Box
-                key={card.id}
-                transition="all 0.2s ease-in-out"
-                borderBottom={"1px solid #D8D8D8"}
-                pb={3}
-              >
-                <HStack spacing={4} align="center">
-                  <Image
-                    src={card.image}
-                    alt={card.title}
-                    boxSize="20px"
-                    rounded="full"
-                  />
-                  <Stack spacing={0} flex="1">
-                    <Text fontSize={12} fontWeight="semibold" color="#111827">
-                      {truncateText(card.title)}
-                    </Text>
-                    <Text mt={-2} fontSize={10} color="#6B7280">
-                      {truncateText(card.subtitle)}
-                    </Text>
-                  </Stack>
-                  <Button
-                    size="xs"
-                    bg={"#000"}
-                    borderColor="#E5E7EB"
-                    rounded={15}
-                    px={5}
-                    color={"#fff"}
-                    fontFamily="InterMedium"
-                    fontSize={8}
-                  >
-                    View Profile
-                  </Button>
-                </HStack>
-              </Box>
-            ))}
-          </Stack>
+      <Stack spacing={6}>
+        {mentors.length > 0 ? (
+          mentors.map((card) => (
+            <Box
+              key={card.id}
+              transition="all 0.2s ease-in-out"
+              borderBottom={"1px solid #D8D8D8"}
+              pb={3}
+            >
+              <HStack spacing={4} align="center">
+                <Image
+                  src={card.profile_picture || logo}
+                  alt={card.name}
+                  boxSize="24px"
+                  rounded="full"
+                />
+                <Stack spacing={0} flex="1">
+                  <Text fontSize={12} fontWeight="semibold" color="#111827">
+                    {/* {truncateText(card.)} */}
+                    {card.name}
+                  </Text>
+                  <Text mt={-2} fontSize={9} color="#6B7280">
+                    {/* {truncateText(card.subtitle)} */}
+                    {card.profession}
+                  </Text>
+                </Stack>
+                <Button
+                  size="xs"
+                  bg={"#2B362F"}
+                  borderColor="#E5E7EB"
+                  rounded="14px"
+                  overflow={"hidden"}
+                  fontSize={12}
+                >
+                  View Profile
+                </Button>
+              </HStack>
+            </Box>
+          ))
+        ) : (
+          <Text>No Mentors Yet</Text>
+        )}
+      </Stack>
         </Box>
       </Box>
       <EditProfile isOpen={isOpen} onClose={handleClose} />

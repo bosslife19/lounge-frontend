@@ -16,6 +16,7 @@ import axiosClient from "../../../../axiosClient";
 import { formatTime } from "../../../../lib/formatTime";
 import { FaReplyAll } from "react-icons/fa6";
 import { AiOutlineLike } from "react-icons/ai";
+import { FaComment } from "react-icons/fa";
 const cardData = [
   {
     id: 1,
@@ -88,6 +89,7 @@ const CommunityPost = () => {
     };
     getPosts();
   }, []);
+  
 
   // Truncate by words: keep first `maxWords` words, append "...." when there are more
   // utils/truncateText.ts
@@ -227,7 +229,7 @@ const CommunityPost = () => {
                     <AiOutlineLike />
 
                     <Text color={"#344054"} fontSize={{ base: 8, md: 11 }}>
-                      10 Replies
+                      {card?.likes?.length} Likes
                     </Text>
                   </HStack>
                   <HStack
@@ -241,9 +243,9 @@ const CommunityPost = () => {
                     border={"1px solid #F0F2F5"}
                   >
                     {/* <Image src={notify2} alt="Update" boxSize="22px" rounded={0} /> */}
-                    <FaReplyAll size={10} />
-                    <Text color={"#344054"} fontSize={{ base: 8, md: 11 }}>
-                      10 Replies
+                    <FaComment size={10} />
+                    <Text color={"#344054"} fontSize={{ base: 6, md: 9 }}>
+                      {card?.comments?.length} Comments
                     </Text>
                   </HStack>
                 </Flex>
@@ -259,8 +261,10 @@ const CommunityPost = () => {
                 bg={"#fff"}
                 color={"#344054"}
                 mr={"auto"}
+
+                onClick={()=>navigate(`/post/${card.id}`)}
               >
-                See Message
+                See Post
               </Button>
             </Box>
           ))
