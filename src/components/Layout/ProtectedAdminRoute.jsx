@@ -8,6 +8,7 @@ import axiosClient from '../../axiosClient'
 
 
 const ProtectedAdminRoute = ({ children }) => {
+  
 
    const Loader = ()=>{
   return (
@@ -58,6 +59,7 @@ const ProtectedAdminRoute = ({ children }) => {
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   
+
 
   return children;
 };

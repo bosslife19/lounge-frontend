@@ -25,7 +25,7 @@ return response;
             navigate('/login')
         } 
     } catch (error) {
-        console.error(error)
+        console.error('errorr',error)
     }
     
 

@@ -8,6 +8,7 @@ import Header from '../Headers/dashboards/header';
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+
   return ( 
 		<div className="">
 			{/* <!-- ===== Page Wrapper Start ===== --> */}
@@ -30,6 +31,7 @@ const AdminLayout = () => {
                           h={"110%"}
 						  pb={10}
 						className="p-4 md:p-6 2xl:p-10 bg-[#F5F6FA]">
+
 							<Outlet />
 						</Box>
 					</main>

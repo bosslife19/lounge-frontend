@@ -55,27 +55,17 @@ const OrganizationSettingsTab = lazy(() =>
 
 // Admin
 const AdminLayout = lazy(() => import("./admin/components/Layout/AppLayout"));
-const AdminHome = lazy(() => import("./admin/features/home/Homes"));
-const UsersHome = lazy(() => import("./admin/features/Users/users"));
-const UserDetailsMain = lazy(() =>
-  import("./admin/features/Users/userDetails/UserDetailsMain")
-);
-const OrganDetailsAdminMain = lazy(() =>
-  import("./admin/features/Users/organizationDetails/OrganDetailsMain")
-);
-const AdminContent = lazy(() =>
-  import("./admin/features/Contents/TopTabPanel")
-);
-const AdminMentor = lazy(() => import("./admin/features/mentoring/Mentoring"));
-const AdminCommunity = lazy(() =>
-  import("./admin/features/community/AdminCommunity")
-);
-const AdminBenfitsTabPanels = lazy(() =>
-  import("./admin/features/BeneFits/AdminBenfitsTabPanels")
-);
-const AdminSettingsTab = lazy(() =>
-  import("./admin/features/setting/SettingsTabpanel")
-);
+import { AdminHome } from "./admin/features/home/Homes";
+import { UsersHome } from "./admin/features/Users/users";
+import { UserDetailsMain } from "./admin/features/Users/userDetails/UserDetailsMain";
+import { OrganDetailsAdminMain } from "./admin/features/Users/organizationDetails/OrganDetailsMain";
+import { AdminContent } from "./admin/features/Contents/TopTabPanel";
+import { AdminMentor } from "./admin/features/mentoring/Mentoring";
+import { AdminCommunity } from "./admin/features/community/AdminCommunity";
+import { AdminBenfitsTabPanels } from "./admin/features/BeneFits/AdminBenfitsTabPanels";
+
+import { AdminSettingsTab } from "./admin/features/setting/SettingsTabpanel";
+
 
 // Routes (guards)
 const ProtectedRoute = lazy(() =>
