@@ -429,7 +429,7 @@ const Avatar = ({ options }) => {
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: -50, opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="fixed top-6 right-6 z-50 w-80"
+            className="fixed top-6 right-6 z-[100000] w-80"
           >
             <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl border border-gray-200">
               {/* Accent bar */}
