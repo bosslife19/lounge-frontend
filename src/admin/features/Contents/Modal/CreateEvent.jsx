@@ -50,7 +50,7 @@ export const CreateEvent = ({ isOpen, onClose, events, setEvents }) => {
               formData
             );
             eventImage = res.data.secure_url;
-            console.log(eventImage)
+            
     
           setIsLoading(false);
            

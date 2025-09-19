@@ -58,7 +58,7 @@ useEffect(()=>{
           filter: `user_id=eq.${userDetails.id},type=eq.mentor_matching`,
         },
         (payload) => {
-          console.log("New notification:", payload.new);
+          // console.log("New notification:", payload.new);
           setNotifications((prev) => [payload.new, ...prev]);
           setRealTime(true);
           setCurrentNotification(payload.new);

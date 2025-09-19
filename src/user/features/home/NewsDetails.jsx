@@ -17,7 +17,7 @@ import axiosClient from "../../../axiosClient";
 
 const NewsDetails = () => {
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
   const navigate = useNavigate();
   const profile = cardData.find((item) => item.id === Number(id));
 

@@ -53,7 +53,7 @@ const Avatar = ({ options }) => {
           filter: `user_id=eq.${userDetails.id}`, // ✅ new format
         },
         (payload) => {
-          console.log("📩 New notifications:", payload.new);
+          // console.log("📩 New notifications:", payload.new);
           if (payload.new.type == "user_notification") {
             // Show toast
             setToaster(payload.new);
