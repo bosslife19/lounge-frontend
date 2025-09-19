@@ -272,7 +272,7 @@ const [filteredResults, setFilteredResults] = useState([])
                     fontSize={{ base: 12, md: 15 }}
                     fontFamily="InterMedium"
                   >
-                    {selected?.organization.name}
+                    {selected?.organization?.name}
                     {/* to do : put organization name here */}
                     {/* Company */}
                   </Text>
