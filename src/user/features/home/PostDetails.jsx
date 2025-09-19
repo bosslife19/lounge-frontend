@@ -240,7 +240,7 @@ setRefresh(prev=>!prev);
                 startElement={
                   <Avatar.Root ml={-2} mt={-2} size="xs">
                     <Avatar.Image
-                      src={userDetails?.profile_picture || userImage}
+                      src={userDetails?.profile_picture || userAvatar}
                     />
                   </Avatar.Root>
                 }
