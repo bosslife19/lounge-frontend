@@ -89,12 +89,12 @@ export function Banner() {
       flexDirection={{ base: "column-reverse", md: "row" }}
       justifyContent="space-between"
       alignItems="center"
-      zIndex={1000}
+      zIndex={10}
       position={"relative"}
     >
       <VStack
         gap={{ base: 2, lg: 4 }}
-        zIndex={1000}
+        zIndex={10}
         align="flex-start"
         spacing={4}
         mt={{ base: 5, lg: -4 }}
