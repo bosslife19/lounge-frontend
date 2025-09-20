@@ -65,7 +65,8 @@ import { AdminCommunity } from "./admin/features/community/AdminCommunity";
 import { AdminBenfitsTabPanels } from "./admin/features/BeneFits/AdminBenfitsTabPanels";
 
 import { AdminSettingsTab } from "./admin/features/setting/SettingsTabpanel";
-
+import { HomeScreens } from "./user/features/Landingpage/HomeScreens";
+// import { HomeScreens } from "./user/features/Landingpage/HomeScreens";
 
 // Routes (guards)
 const ProtectedRoute = lazy(() =>
@@ -183,8 +184,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/signup" element={<SignUp />} />
-          
-          
+          <Route path="/homepage" element={<HomeScreens />} />
+
           <Route path="/otp" element={<Otp />} />
           <Route path="/forgot-password" element={<ForgotEmail />} />
           <Route path="/reset-password" element={<ResetPassword />} />
