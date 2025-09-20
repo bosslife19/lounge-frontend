@@ -141,7 +141,7 @@ setRefresh(prev=>!prev);
                     fontFamily="robotoMedium"
                     fontWeight={"medium"}
                   >
-                    {card.user?.first_name}ddd {card.user?.last_name}
+                    {card.user?.first_name} {card.user?.last_name}
                   </Text>
                   <Text
                     mt={-3}
@@ -202,7 +202,7 @@ setRefresh(prev=>!prev);
             pt={3}
             gap={4}
           >
-            <p style={{position:'relative', left:'3%'}}>{card.likes.length}</p>
+            <p style={{position:'relative', left:'3%'}}>{card.likes?.length}</p>
            
             <Button color={"#212121"} p={0} bg={"transparent"} onClick={()=>likePost(card.id)}>
               <AiOutlineLike />
