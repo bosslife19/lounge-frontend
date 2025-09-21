@@ -56,7 +56,8 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
   const pronounsRef = useRef("He/Him");
   const genderRef = useRef("Male");
   const organizationNameRef = useRef();
-  const temporalLogo = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKgAAACUCAMAAAAwLZJQAAAAY1BMVEX///8AAADY2Nh+fn5KSkqTk5OoqKglJSWkpKTq6uo+Pj5OTk7y8vL8/PyGhobAwMANDQ20tLRaWloVFRXi4uKbm5vIyMhfX181NTV2dnZTU1MqKipmZmZvb2+MjIzS0tIdHR11wAe4AAAEIUlEQVR4nO2ca5uqIBCAl+6WaV4yy9rt///Ks26nA+KADCL4nJ33q2y9Cw4Mtz4+CIIgiF/JMcqS/LAKTH7NoqPWs1qyuXBJ1ZpxcgqtJ3KLFZ5lHVpN4vkFekaH0GI9tiUURnloLYAn0Pq70FIgSS/44ya0E8xCFt2ENlJwld/Qa2gjFXLXJLR8sglNIthIbb/gT85g5+WXlI88WfcJF62jMG5d+Niz6T7goqtZiO7/+ey6D0jUEhJ1DYm6xl40qrIsq6D8cBIsRePzqim+nxXNPin1s66QomXCRK7wBCG8aCZPpQoP2QBe9JiwPnfV/DCg6BrwZOwx9YuKFj2DnowtJzbFii4gyR+kNDGwqGYKXUxbpUjRTOnJ2HpGoseHRvQw6VCLE400noxV8xFNtaKTdvs4Uaiv5+TYL68QwwROVL9stkV67tjdvKfAie4hPw7W8zufMa7TcKKvodi4TnGiF61ng/F8r8GZDr04UTghefNAePJPupi1Pk600opKn6BDXCQ2S7xcdvjmiX43BTNKZpFDqG7XKTeOYDlVvBjUKTIp0Q1Nxi3fT2kfw/8jNh9VZyW1qecn8MfDEYUVVb+lpikJvNkyGFHoqYgq8KXlVSVQfbbkA0kifnIH75b0t39gVFOuwTHKYl6fARu5a0NP3Yhx19apzQLEl7xH2mg2qI09Gbvp/lurJZ14sxU+/7Q2nYOo2/2FrpeyXc3Lkrwu2Km+LTfGOaU+7W7RjBn2y45xufhalIgJ3VB9tqgjyt9C7nB9ttxUX+ZNVB9HHFXr+xJV9fN9LvDXeRI1a/cX8BEXP6Km7f4CzE+9iGLPTkGLQz5EcfXZAmR904uCS+mDddrbFppe1DzeO6ZynToSVa4iHe08+/mpG9H0tFcUsj+DKEWUE9HqBLTVD/g44nR7fheir0y6AYqNO9O5EiPKgWhVvMr1ez/b9/ONOEaNF02Ld8Ftt/W1qxVmCP3paFHuKZe06T8lhEYaKyp6MibEvlU/P51oVnQ/mR/mcnK0z5lofzXiXXhsHLkVhfbxira0q6OSjkRT8Eh5W9zF++lOFFoxaXmWzs7uOxGV44ijfBBEFG53xzgQ9XMCeryofvd2PqK+TpSPFVXF+9xEdec15iS68Xd1aJSov/ocJ+r1ZsYIUZ/1OUbU89Uha1HfN3KsRX3fwbMWHThTQqIkSqIkSqIkSqIk6kd09dz65Jnbii48I9zp+gV37jxDoq4hUdf8T6KNt9u0Ogx+sYAtJ79LOchR2PiXzoBGwrieL0Nz5zJMehMdbGJPhFzbftftzOnfQfSd05nx7Ie2py0aJNDFvjm+pXvoyO4Mf/enhnvKWHdfNQSqY2DAnf+QNJ8qzW/K8yq031/qde+3s6T2L9PzOjTnrAw/jhMEQRAEQRAE5w/6VlvVhOzL/AAAAABJRU5ErkJggg=='
+  const temporalLogo =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKgAAACUCAMAAAAwLZJQAAAAY1BMVEX///8AAADY2Nh+fn5KSkqTk5OoqKglJSWkpKTq6uo+Pj5OTk7y8vL8/PyGhobAwMANDQ20tLRaWloVFRXi4uKbm5vIyMhfX181NTV2dnZTU1MqKipmZmZvb2+MjIzS0tIdHR11wAe4AAAEIUlEQVR4nO2ca5uqIBCAl+6WaV4yy9rt///Ks26nA+KADCL4nJ33q2y9Cw4Mtz4+CIIgiF/JMcqS/LAKTH7NoqPWs1qyuXBJ1ZpxcgqtJ3KLFZ5lHVpN4vkFekaH0GI9tiUURnloLYAn0Pq70FIgSS/44ya0E8xCFt2ENlJwld/Qa2gjFXLXJLR8sglNIthIbb/gT85g5+WXlI88WfcJF62jMG5d+Niz6T7goqtZiO7/+ey6D0jUEhJ1DYm6xl40qrIsq6D8cBIsRePzqim+nxXNPin1s66QomXCRK7wBCG8aCZPpQoP2QBe9JiwPnfV/DCg6BrwZOwx9YuKFj2DnowtJzbFii4gyR+kNDGwqGYKXUxbpUjRTOnJ2HpGoseHRvQw6VCLE400noxV8xFNtaKTdvs4Uaiv5+TYL68QwwROVL9stkV67tjdvKfAie4hPw7W8zufMa7TcKKvodi4TnGiF61ng/F8r8GZDr04UTghefNAePJPupi1Pk600opKn6BDXCQ2S7xcdvjmiX43BTNKZpFDqG7XKTeOYDlVvBjUKTIp0Q1Nxi3fT2kfw/8jNh9VZyW1qecn8MfDEYUVVb+lpikJvNkyGFHoqYgq8KXlVSVQfbbkA0kifnIH75b0t39gVFOuwTHKYl6fARu5a0NP3Yhx19apzQLEl7xH2mg2qI09Gbvp/lurJZ14sxU+/7Q2nYOo2/2FrpeyXc3Lkrwu2Km+LTfGOaU+7W7RjBn2y45xufhalIgJ3VB9tqgjyt9C7nB9ttxUX+ZNVB9HHFXr+xJV9fN9LvDXeRI1a/cX8BEXP6Km7f4CzE+9iGLPTkGLQz5EcfXZAmR904uCS+mDddrbFppe1DzeO6ZynToSVa4iHe08+/mpG9H0tFcUsj+DKEWUE9HqBLTVD/g44nR7fheir0y6AYqNO9O5EiPKgWhVvMr1ez/b9/ONOEaNF02Ld8Ftt/W1qxVmCP3paFHuKZe06T8lhEYaKyp6MibEvlU/P51oVnQ/mR/mcnK0z5lofzXiXXhsHLkVhfbxira0q6OSjkRT8Eh5W9zF++lOFFoxaXmWzs7uOxGV44ijfBBEFG53xzgQ9XMCeryofvd2PqK+TpSPFVXF+9xEdec15iS68Xd1aJSov/ocJ+r1ZsYIUZ/1OUbU89Uha1HfN3KsRX3fwbMWHThTQqIkSqIkSqIkSqIk6kd09dz65Jnbii48I9zp+gV37jxDoq4hUdf8T6KNt9u0Ogx+sYAtJ79LOchR2PiXzoBGwrieL0Nz5zJMehMdbGJPhFzbftftzOnfQfSd05nx7Ie2py0aJNDFvjm+pXvoyO4Mf/enhnvKWHdfNQSqY2DAnf+QNJ8qzW/K8yq031/qde+3s6T2L9PzOjTnrAw/jhMEQRAEQRAE5w/6VlvVhOzL/AAAAABJRU5ErkJggg==";
   const [organizationShow, setOrganizationShow] = useState(false);
   const [organizationList, setOrganizationList] = useState([]);
   const [organization, setOrganization] = useState("");
@@ -175,9 +176,15 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
       return toast.error("Please fill all required fields");
     }
 
-    if(createOrg){
-      if(!organizationDescRef.current.value || !organizationEmailRef.current.value || !organizationLocationRef.current.value || !organizationWebsiteRef.current.value || !organizationNameRef.current.value)
-return toast.error('All fields are required to create an organization')
+    if (createOrg) {
+      if (
+        !organizationDescRef.current.value ||
+        !organizationEmailRef.current.value ||
+        !organizationLocationRef.current.value ||
+        !organizationWebsiteRef.current.value ||
+        !organizationNameRef.current.value
+      )
+        return toast.error("All fields are required to create an organization");
     }
     // if(organization && createOrg){
     //   return toast.error('You cannot be in more than one organizations');
@@ -225,7 +232,7 @@ return toast.error('All fields are required to create an organization')
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
         <Dialog.Backdrop />
-        <Dialog.Positioner>
+        <Dialog.Positioner px={5}>
           <Dialog.Content
             rounded={30}
             bg="#FAFAFA"
@@ -236,18 +243,24 @@ return toast.error('All fields are required to create an organization')
               <Stack>
                 <Fieldset.Legend
                   fontWeight={"400"}
-                  fontSize={{ base: 15, md: 20 }}
+                  fontSize={{ base: "11px", md: 20 }}
                   fontFamily="InterBold"
                   color={"#1A1A21"}
                 >
                   Create Profile
                 </Fieldset.Legend>
               </Stack>
-              <Stack mx={"auto"} position={"relative"}>
+              <Stack
+                justifyContent={"center"}
+                alignItems={{ base: "flex-start", md: "center" }}
+                width={"100%"}
+                mx={"auto"}
+                position={"relative"}
+              >
                 <Image
                   src={preview || userDetails?.profile_picture || logo} // fallback to default image
                   alt="Profile Image"
-                  boxSize={{ base: "70px", md: "100px" }}
+                  boxSize={{ base: "30px", md: "100px" }}
                   borderRadius="full"
                   objectFit="cover"
                   cursor="pointer"
@@ -268,16 +281,17 @@ return toast.error('All fields are required to create an organization')
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
+                      fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
                       {" "}
                       First Name
                     </Field.Label>
-                    <InputGroup startElement={<CiUser />}>
+                    <InputGroup startElement={<CiUser size={12} />}>
                       <Input
-                        py={6}
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
                         placeholder="First Name"
                         ref={firstNameRef}
                       />
@@ -288,14 +302,19 @@ return toast.error('All fields are required to create an organization')
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
+                      fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
                       Last Name
                     </Field.Label>
                     <InputGroup startElement={<CiUser />}>
-                      <Input py={6} placeholder="Last Name" ref={lastNameRef} />
+                      <Input
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
+                        placeholder="Last Name"
+                        ref={lastNameRef}
+                      />
                     </InputGroup>
                   </Field.Root>
                 </HStack>
@@ -305,7 +324,7 @@ return toast.error('All fields are required to create an organization')
                   <Field.Root w={{ base: "100%", md: 200 }}>
                     <Field.Label
                       fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
+                      fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
@@ -323,7 +342,11 @@ return toast.error('All fields are required to create an organization')
                         <CiUser />
                       </Box>
 
-                      <NativeSelect.Field name="country" pl="10">
+                      <NativeSelect.Field
+                        fontSize={{ base: "8px", md: 12 }}
+                        name="country"
+                        pl="10"
+                      >
                         <For each={["Male", "Female", "others"]}>
                           {(item) => (
                             <option key={item} value={item} ref={genderRef}>
@@ -340,7 +363,7 @@ return toast.error('All fields are required to create an organization')
                   <Field.Root w={{ base: "100%", md: 250 }}>
                     <Field.Label
                       fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
+                      fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
@@ -358,7 +381,11 @@ return toast.error('All fields are required to create an organization')
                         <CiUser />
                       </Box>
 
-                      <NativeSelect.Field name="country" pl="10">
+                      <NativeSelect.Field
+                        fontSize={{ base: "8px", md: 12 }}
+                        name="country"
+                        pl="10"
+                      >
                         <For each={["He/Him", "She/Her", "others"]}>
                           {(item) => (
                             <option key={item} value={item} ref={pronounsRef}>
@@ -375,7 +402,7 @@ return toast.error('All fields are required to create an organization')
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
+                      fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
@@ -393,7 +420,11 @@ return toast.error('All fields are required to create an organization')
                         <CiUser />
                       </Box>
 
-                      <NativeSelect.Field name="country" pl="10">
+                      <NativeSelect.Field
+                        fontSize={{ base: "8px", md: 12 }}
+                        name="country"
+                        pl="10"
+                      >
                         <For each={["African", "American", "Asia"]}>
                           {(item) => (
                             <option key={item} value={item} ref={rootsRef}>
@@ -411,7 +442,7 @@ return toast.error('All fields are required to create an organization')
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
@@ -419,7 +450,8 @@ return toast.error('All fields are required to create an organization')
                   </Field.Label>
                   <InputGroup startElement={<MdEmail />}>
                     <Input
-                      py={6}
+                      fontSize={{ base: "8px", md: 12 }}
+                      py={{ base: 1, md: 6 }}
                       placeholder="johnmercy03@gmail.com"
                       ref={emailRef}
                     />
@@ -431,14 +463,19 @@ return toast.error('All fields are required to create an organization')
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
+                      fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
                       Phone Number
                     </Field.Label>
                     <InputGroup startElement={<ImPhoneHangUp />}>
-                      <Input py={6} placeholder="phoneNumber" ref={phoneRef} />
+                      <Input
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
+                        placeholder="phoneNumber"
+                        ref={phoneRef}
+                      />
                     </InputGroup>
                   </Field.Root>
 
@@ -446,7 +483,7 @@ return toast.error('All fields are required to create an organization')
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
+                      fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
@@ -454,7 +491,8 @@ return toast.error('All fields are required to create an organization')
                     </Field.Label>
                     <InputGroup startElement={<FaFacebook color="#1877F2" />}>
                       <Input
-                        py={6}
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
                         placeholder=" johnmercy"
                         ref={facebookRef}
                       />
@@ -465,14 +503,19 @@ return toast.error('All fields are required to create an organization')
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
+                      fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
                       Linkedin
                     </Field.Label>
                     <InputGroup startElement={<BsLinkedin color="#0A66C2" />}>
-                      <Input py={6} placeholder="" ref={linkedinRef} />
+                      <Input
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
+                        placeholder=""
+                        ref={linkedinRef}
+                      />
                     </InputGroup>
                   </Field.Root>
                 </HStack>
@@ -482,7 +525,7 @@ return toast.error('All fields are required to create an organization')
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
+                      fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
@@ -490,7 +533,8 @@ return toast.error('All fields are required to create an organization')
                     </Field.Label>
                     <InputGroup startElement={<FaBriefcase />}>
                       <Input
-                        py={6}
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
                         placeholder="Financial Analyst"
                         ref={professionRef}
                       />
@@ -501,7 +545,7 @@ return toast.error('All fields are required to create an organization')
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
+                      fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
@@ -519,7 +563,11 @@ return toast.error('All fields are required to create an organization')
                         <FaBriefcase />
                       </Box>
 
-                      <NativeSelect.Field name="country" pl="10">
+                      <NativeSelect.Field
+                        fontSize={{ base: "10px", md: 14 }}
+                        name="country"
+                        pl="10"
+                      >
                         <For
                           each={[
                             "Founder",
@@ -569,7 +617,7 @@ return toast.error('All fields are required to create an organization')
                   <Field.Label
                     pt={2}
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
@@ -577,7 +625,8 @@ return toast.error('All fields are required to create an organization')
                   </Field.Label>
                   <InputGroup startElement={<FaBriefcase />}>
                     <Input
-                      py={6}
+                      fontSize={{ base: "8px", md: 12 }}
+                      py={{ base: 1, md: 6 }}
                       placeholder="5"
                       type="number"
                       ref={experienceRef}
@@ -590,20 +639,25 @@ return toast.error('All fields are required to create an organization')
                   <Field.Label
                     pt={2}
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
                     City
                   </Field.Label>
                   <InputGroup startElement={<IoLocationOutline />}>
-                    <Input py={6} placeholder="City" ref={locationRef} />
+                    <Input
+                      fontSize={{ base: "8px", md: 12 }}
+                      py={{ base: 1, md: 6 }}
+                      placeholder="City"
+                      ref={locationRef}
+                    />
                   </InputGroup>
                 </Field.Root>
-                 <Field.Root>
+                <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
@@ -612,12 +666,13 @@ return toast.error('All fields are required to create an organization')
                   <Textarea
                     resize="none"
                     h={200}
+                    fontSize={{ base: "8px", md: 12 }}
                     placeholder="Type here"
                     ref={bioRef}
                   />
                   <Text
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterRegular"
                     color={"#667185"}
                   >
@@ -630,7 +685,7 @@ return toast.error('All fields are required to create an organization')
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
+                      fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
@@ -638,20 +693,20 @@ return toast.error('All fields are required to create an organization')
                     </Field.Label>
 
                     {/* <Input
-                        py={6}
+                          fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
                         fontFamily="InterRegular"
                         placeholder="Living Springs Finance LTD"
                       /> */}
                     <SearchableDropdown
                       options={organizationOptions}
-                     placeholder="Search organizations..."
-                      
-                       onSelect={(value) => setOrganization(value)}
+                      placeholder="Search organizations..."
+                      onSelect={(value) => setOrganization(value)}
                     />
 
                     <Text
                       fontWeight={"400"}
-                      fontSize={{ base: 12, md: 14 }}
+                      fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterRegular"
                       color={"#667185"}
                     >
@@ -661,7 +716,8 @@ return toast.error('All fields are required to create an organization')
 
                   {/* create button */}
                   <Button
-                    py={6}
+                    fontSize={{ base: "8px", md: 12 }}
+                    py={{ base: 1, md: 6 }}
                     color={"#333333CC"}
                     bg={"#DFDFDF"}
                     onClick={() => {
@@ -673,7 +729,6 @@ return toast.error('All fields are required to create an organization')
                     Create Organization
                   </Button>
                 </HStack>
-                
 
                 {/* Bio */}
                 {organizationShow && (
@@ -681,20 +736,25 @@ return toast.error('All fields are required to create an organization')
                     <Field.Root>
                       <Field.Label
                         fontWeight={"400"}
-                        fontSize={{ base: 12, md: 14 }}
+                        fontSize={{ base: "10px", md: 14 }}
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
                         Organization Name{" "}
                       </Field.Label>
 
-                      <Input py={6} placeholder="" ref={organizationNameRef} />
+                      <Input
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
+                        placeholder=""
+                        ref={organizationNameRef}
+                      />
                     </Field.Root>
 
                     <Field.Root>
                       <Field.Label
                         fontWeight={"400"}
-                        fontSize={{ base: 12, md: 14 }}
+                        fontSize={{ base: "10px", md: 14 }}
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
@@ -702,16 +762,17 @@ return toast.error('All fields are required to create an organization')
                       </Field.Label>
 
                       <Textarea
-                    resize="none"
-                    h={200}
-                    placeholder="Type here"
-                    ref={organizationDescRef}
-                  />
+                        resize="none"
+                        h={200}
+                        fontSize={{ base: "8px", md: 12 }}
+                        placeholder="Type here"
+                        ref={organizationDescRef}
+                      />
                     </Field.Root>
-                    <Stack  position={"relative"}>
+                    <Stack position={"relative"}>
                       <Text
                         fontWeight={"400"}
-                        fontSize={{ base: 12, md: 14 }}
+                        fontSize={{ base: "10px", md: 14 }}
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
@@ -739,7 +800,7 @@ return toast.error('All fields are required to create an organization')
                     <Field.Root>
                       <Field.Label
                         fontWeight={"400"}
-                        fontSize={{ base: 12, md: 14 }}
+                        fontSize={{ base: "10px", md: 14 }}
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
@@ -747,7 +808,8 @@ return toast.error('All fields are required to create an organization')
                       </Field.Label>
 
                       <Input
-                        py={6}
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
                         placeholder=""
                         ref={organizationLocationRef}
                       />
@@ -755,19 +817,24 @@ return toast.error('All fields are required to create an organization')
                     <Field.Root>
                       <Field.Label
                         fontWeight={"400"}
-                        fontSize={{ base: 12, md: 14 }}
+                        fontSize={{ base: "10px", md: 14 }}
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
                         Organization Email{" "}
                       </Field.Label>
 
-                      <Input py={6} placeholder="" ref={organizationEmailRef} />
+                      <Input
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
+                        placeholder=""
+                        ref={organizationEmailRef}
+                      />
                     </Field.Root>
                     <Field.Root>
                       <Field.Label
                         fontWeight={"400"}
-                        fontSize={{ base: 12, md: 14 }}
+                        fontSize={{ base: "10px", md: 14 }}
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
@@ -775,22 +842,22 @@ return toast.error('All fields are required to create an organization')
                       </Field.Label>
 
                       <Input
-                        py={6}
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
                         placeholder=""
                         ref={organizationWebsiteRef}
                       />
                     </Field.Root>
                   </>
                 )}
-
-               
               </Fieldset.Content>
 
               {/* Button */}
               <HStack>
                 <Button
                   onClick={handleCreateProfile}
-                  py={6}
+                  fontSize={{ base: "8px", md: 12 }}
+                  py={{ base: 1, md: 6 }}
                   w={{ base: "100%" }}
                   rounded={5}
                   bg={"#2B362F"}

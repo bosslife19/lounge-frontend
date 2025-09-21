@@ -7,7 +7,7 @@ const AppLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="">
+    <div className="bg-[#F5F6FA] ">
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex h-screen  overflow-hidden">
         {/* <!-- ===== Sidebar Start ===== --> */}

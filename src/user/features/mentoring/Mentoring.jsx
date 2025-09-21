@@ -14,10 +14,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { cardData } from "../../../hooks/useData";
+// import { cardData } from "../../../hooks/useData";
 import { MentoringDetails } from "./MentoringDetails";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { SelectOption } from "../../components/select/Select";
+// import { SelectOption } from "../../components/select/Select";
 import { CiSearch } from "react-icons/ci";
 import { Dropdown } from "../../components/select/Dropdown";
 import { IoIosArrowBack } from "react-icons/io";
@@ -64,15 +64,22 @@ const Mentoring = () => {
     ],
   });
   return (
-    <Box bg={"#F5F6FA"} h={"100vw"} p={3}>
-      <Heading display={"flex"} pb={4} gap={2} alignItems={"center"}>
+    <Box bg={"#F5F6FA"} h={{ base: "150vh" }} p={3}>
+      <Heading
+        display={"flex"}
+        px={{ base: 4, md: 0 }}
+        pb={4}
+        gap={2}
+        alignItems={"center"}
+      >
         <IconButton
           aria-label="Previous"
           rounded="full"
           bg="white"
           border={"1px solid #9E9E9E"}
           _hover={{ bg: "whiteAlpha.500" }}
-          size="xs"
+          size={{ base: "xs", md: "xs" }}
+          fontSize={{ base: "13px", md: "24px" }}
           color={"#202020"}
         >
           <IoIosArrowBack color="#9E9E9E" />
@@ -80,6 +87,7 @@ const Mentoring = () => {
         Mentor Listings
       </Heading>
       <Flex
+        px={{ base: 4, md: 0 }}
         justifyContent={"space-between"}
         flexDirection={{ base: "column", md: "row" }}
         pb={5}
@@ -91,7 +99,7 @@ const Mentoring = () => {
           startElement={<CiSearch size={15} />}
         >
           <Input
-            py={6}
+            py={{ base: 3, md: 6 }}
             fontSize={10}
             borderRadius={10}
             placeholder="Search Topic"
@@ -105,7 +113,12 @@ const Mentoring = () => {
         />
       </Flex>
 
-      <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={6} gap={5}>
+      <SimpleGrid
+        px={{ base: 4, md: 0 }}
+        columns={{ base: 1, md: 2, xl: 3 }}
+        spacing={6}
+        gap={5}
+      >
         {listings.length > 0 ? (
           listings.map((card, idx) => (
             <Card.Root
@@ -121,7 +134,7 @@ const Mentoring = () => {
               <Card.Body gap="2">
                 <Avatar.Root
                   mx={"auto"}
-                  boxSize={{ base: "50px", md: "89px" }}
+                  boxSize={{ base: "40px", md: "89px" }}
                   rounded={50}
                 >
                   <Avatar.Image src={card.user.profile_picture || userAvatar} />
@@ -130,7 +143,7 @@ const Mentoring = () => {
                 <Text
                   textAlign={"center"}
                   color={"#070416"}
-                  fontSize={{ base: 12, md: "16px" }}
+                  fontSize={{ base: 11, md: "16px" }}
                   fontFamily="InterRegular"
                 >
                   {card.user.first_name} {card.user.last_name}
@@ -139,14 +152,14 @@ const Mentoring = () => {
                   my="-2"
                   textAlign={"center"}
                   color={"#64626D"}
-                  fontSize={{ base: 12, md: "16px" }}
+                  fontSize={{ base: 11, md: "16px" }}
                   fontFamily="LatoRegular"
                 >
                   {card.user.profession} with {card.user.years_of_experience} of
                 </Text>
                 <Card.Title
                   color={"#070416"}
-                  fontSize={{ base: 12, md: 16 }}
+                  fontSize={{ base: 11, md: 16 }}
                   textAlign={"center"}
                   fontFamily="InterBold"
                 >
@@ -165,11 +178,12 @@ const Mentoring = () => {
                     justifyContent={"space-between"}
                     textAlign={"center"}
                     px={-4}
+                    mt={{ base: -15, md: 0 }}
                     // gap={40}
                     mx={-43}
                   >
                     <Text
-                      ml={-23}
+                      ml={{ base: -13, md: -23 }}
                       color={"#64626D"}
                       fontSize={{ base: "12px", md: "16px" }}
                       fontFamily="InterRegular"
@@ -190,8 +204,8 @@ const Mentoring = () => {
                   fontSize={{ base: "12px", md: "16px" }}
                   bg={"#F2F2F2"}
                   color={"#333333B2/70"}
-                  rounded={20}
-                  // mt={-50}
+                  rounded={{ base: 10, md: 20 }}
+                  mt={{ base: "-25px", md: 0 }}
                   h={{ base: "30px", md: "43px" }}
                   onClick={() => handleRequestSession(card.user.id)}
                 >

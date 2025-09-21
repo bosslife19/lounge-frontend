@@ -6,7 +6,6 @@ import {
   Image,
   Stack,
   Text,
-  Tooltip,
 } from "@chakra-ui/react";
 import images from "../../../../assets/unlocked.png";
 import { LuPencil } from "react-icons/lu";
@@ -29,20 +28,20 @@ export const RightSectionProfile = () => {
   };
 
   // Dummy Data
-  const cardData = [
-    {
-      id: 1,
-      image: logo,
-      title: "Project One",
-      subtitle: "software developer",
-    },
-    {
-      id: 2,
-      image: logo,
-      title: "Project One",
-      subtitle: "software developer",
-    },
-  ];
+  // const cardData = [
+  //   {
+  //     id: 1,
+  //     image: logo,
+  //     title: "Project One",
+  //     subtitle: "software developer",
+  //   },
+  //   {
+  //     id: 2,
+  //     image: logo,
+  //     title: "Project One",
+  //     subtitle: "software developer",
+  //   },
+  // ];
 
   return (
     <Box mb={"auto"} w={"100%"}>
@@ -51,19 +50,19 @@ export const RightSectionProfile = () => {
         shadow={"xs"}
         bg={"#fff"}
         rounded={10}
-        p={6}
+        p={{ base: 3, md: 6 }}
         w={{ base: "100%", xl: 475 }}
         mb={5}
         border={"1px solid #EDEDF2"}
       >
         <Flex alignItems={"center"} justifyContent={"space-between"}>
           <HStack>
-            <FaCoffee size={20} />
+            <FaCoffee />
             <Stack spacing={0}>
               <Flex align="center" gap={2}>
                 <Text
                   color={"#191919"}
-                  fontSize={{ base: 10, md: 14 }}
+                  fontSize={{ base: "11px", md: 14 }}
                   fontFamily="InterBold"
                 >
                   Coffee Roulette Participation
@@ -75,7 +74,7 @@ export const RightSectionProfile = () => {
                   fontWeight="bold"
                   cursor="pointer"
                   color="gray.500"
-                  fontSize="sm"
+                  fontSize={{ base: "10px", md: "sm" }}
                   title="Coffee Roulette is an opt-in feature that pairs a mentor with a non-mentor once a week for a 15-minute virtual coffee chat. It helps build connections, share knowledge, and strengthen community bonds."
                 >
                   ?
@@ -83,10 +82,10 @@ export const RightSectionProfile = () => {
               </Flex>
 
               <Text
-                mt={-1}
+                mt={{ base: -2, md: -1 }}
                 color={"#475467"}
                 fontWeight={"normal"}
-                fontSize={{ base: 10, md: 14 }}
+                fontSize={{ base: "9px", md: 14 }}
                 fontFamily="InterRegular"
                 display={"flex"}
                 alignItems={"center"}
@@ -111,13 +110,18 @@ export const RightSectionProfile = () => {
         w={{ base: "100%", xl: 475 }}
         border={"1px solid #EDEDF2"}
       >
-        <Flex alignItems={"center"} justifyContent={"space-between"}>
+        <Flex
+          my={{ base: -2, md: 0 }}
+          ml={{ base: -3, md: 0 }}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
           <HStack>
             <IoIosNotificationsOutline size={20} />
             <Stack>
               <Text
                 color={"#191919"}
-                fontSize={{ base: 10, md: 14 }}
+                fontSize={{ base: "11px", md: 14 }}
                 fontFamily="InterBold"
               >
                 Become a Mentor
@@ -126,7 +130,7 @@ export const RightSectionProfile = () => {
                 mt={-3}
                 color={"#475467"}
                 fontWeight={"normal"}
-                fontSize={{ base: 10, md: 14 }}
+                fontSize={{ base: "9px", md: 14 }}
                 fontFamily="InterRegular"
                 display={"flex"}
                 alignItems={"center"}
@@ -151,7 +155,12 @@ export const RightSectionProfile = () => {
         w={{ base: "100%", xl: 475 }}
         border={"1px solid #EDEDF2"}
       >
-        <Flex alignItems={"center"} justifyContent={"space-between"}>
+        <Flex
+          my={{ base: -2, md: 0 }}
+          ml={{ base: -3, md: 0 }}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
           <HStack>
             <Image
               src={images}
@@ -163,7 +172,7 @@ export const RightSectionProfile = () => {
             <Stack>
               <Text
                 color={"#191919"}
-                fontSize={{ base: 10, md: 14 }}
+                fontSize={{ base: "11px", md: 14 }}
                 fontFamily="InterBold"
               >
                 Security
@@ -172,7 +181,7 @@ export const RightSectionProfile = () => {
                 mt={-3}
                 color={"#475467"}
                 fontWeight={"normal"}
-                fontSize={{ base: 10, md: 14 }}
+                fontSize={{ base: "9px", md: 14 }}
                 fontFamily="InterRegular"
                 py={1}
               >
@@ -183,6 +192,7 @@ export const RightSectionProfile = () => {
           <Button
             onClick={handleCardClick}
             color={"#475367"}
+            size={{ base: "xs", md: "sm" }}
             bg={"transparent"}
           >
             <LuPencil />
@@ -201,12 +211,12 @@ export const RightSectionProfile = () => {
         border={"1px solid #EDEDF2"}
       >
         <Flex alignItems={"center"} justifyContent={"space-between"}>
-          <HStack>
+          <HStack my={{ base: -2, md: 0 }} ml={{ base: -3, md: 0 }}>
             <IoIosNotificationsOutline size={20} />
             <Stack>
               <Text
                 color={"#191919"}
-                fontSize={{ base: 10, md: 14 }}
+                fontSize={{ base: "11px", md: 14 }}
                 fontFamily="InterBold"
               >
                 Notification
@@ -215,7 +225,7 @@ export const RightSectionProfile = () => {
                 mt={-3}
                 color={"#475467"}
                 fontWeight={"normal"}
-                fontSize={{ base: 10, md: 14 }}
+                fontSize={{ base: "9px", md: 14 }}
                 fontFamily="InterRegular"
                 display={"flex"}
                 alignItems={"center"}

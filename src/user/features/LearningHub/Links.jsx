@@ -20,13 +20,13 @@ export const Links = ({ articles }) => {
   };
 
   return (
-    <Box h={"50vw"} px={5}>
+    <Box h={"50vw"} px={{ base: 1, md: 5 }}>
       {articles?.map((card, idx) => (
         <Box
           w={{ base: "100%", md: 700 }}
-          rounded={"20px"}
-          my={4}
-          p={5}
+          rounded={{ base: "10px", md: "20px" }}
+          my={{ base: 2, md: 4 }}
+          p={{ base: 3, md: 5 }}
           // shadow={"sm"}
           // shadowColor={"#3E67A52E"}
           bg="#fff"
@@ -36,7 +36,7 @@ export const Links = ({ articles }) => {
             <Image
               src={userAvatar}
               alt="Speaker"
-              boxSize="40px"
+              boxSize={{ base: "24px", md: "40px" }}
               rounded="full"
             />
             <Stack spacing={0}>

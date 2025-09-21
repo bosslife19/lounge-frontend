@@ -40,6 +40,7 @@ const Homes = () => {
       <Flex
         bg={"#F5F6FA"}
         px={6}
+        h={"100%"}
         gap={6}
         flexDir={{ base: "column", xl: "row" }}
         justifyContent={"space-between"}

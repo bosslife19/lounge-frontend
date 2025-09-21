@@ -21,12 +21,12 @@ import { useNavigate } from "react-router-dom";
 export const Articles = ({ articles, setArticles }) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleCardClick = (card) => {
     // setSelectedCard(card);
     // setIsOpen(true);
-    navigate(`/articles/${card.id}`)
+    navigate(`/articles/${card.id}`);
   };
 
   const handleClose = () => {
@@ -35,7 +35,7 @@ export const Articles = ({ articles, setArticles }) => {
   };
 
   return (
-    <Box h={"50vw"} px={4} pt={2} pb={6}>
+    <Box h={"100%"} px={4} pt={2} pb={6}>
       {/* <InputGroup
         w={300}
         mt={-5}
@@ -58,6 +58,7 @@ export const Articles = ({ articles, setArticles }) => {
               cursor="pointer"
               p={2}
               // w={341}
+              mt={{ base: -3, md: 0 }}
               bg="#fff"
               border="1px solid #080F340F"
               className="rounded-2xl relative"
@@ -67,17 +68,22 @@ export const Articles = ({ articles, setArticles }) => {
                 roundedTop={12}
                 src={card.image}
                 alt={card.title}
-                h="110px"
+                h={{ base: "80px", md: "110px" }}
                 className="w-full h-30 object-cover"
               />
 
               <button className="absolute cursor-pointer top-5 right-6">
-                <Image src={btns} alt="btn" boxSize="20px" rounded="full" />
+                <Image
+                  src={btns}
+                  alt="btn"
+                  boxSize={{ base: "15px", md: "20px" }}
+                  rounded="full"
+                />
               </button>
 
               <Box pt={2} px={2}>
                 <Text
-                  fontSize={{ base: 12, md: 14 }}
+                  fontSize={{ base: "10px", md: 14 }}
                   fontFamily={"InterMedium"}
                   className="font-semibold"
                   color={"#202020"}
@@ -99,14 +105,14 @@ export const Articles = ({ articles, setArticles }) => {
                     <Image
                       src={userAvatar}
                       alt="Update"
-                      boxSize="24px"
+                      boxSize={{ base: "15px", md: "24px" }}
                       rounded="full"
                     />
                   </Stack>
                   <Stack spacing={0}>
                     <Text
                       color="#202020"
-                      fontSize={{ base: 10, md: 12 }}
+                      fontSize={{ base: "10px", md: 12 }}
                       fontFamily="InterMedium"
                     >
                       The Lounge Team
@@ -114,7 +120,7 @@ export const Articles = ({ articles, setArticles }) => {
                     <Text
                       color="#202020"
                       mt={-2}
-                      fontSize={{ base: 9, md: 11 }}
+                      fontSize={{ base: "8px", md: 11 }}
                     >
                       {card.date}
                     </Text>
@@ -125,7 +131,7 @@ export const Articles = ({ articles, setArticles }) => {
             </Box>
           ))
         ) : (
-          <Text>No articles yet</Text>
+          <Text fontSize={{ base: "10px", md: 12 }}>No articles yet</Text>
         )}
       </SimpleGrid>
 

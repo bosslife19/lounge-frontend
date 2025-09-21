@@ -8,8 +8,8 @@ export const Dropdown = ({ icon, icons, frameworks, color }) => {
     <Select.Root collection={frameworks} size="xs" width="auto" minW="140px">
       <Select.HiddenSelect />
       <Select.Control
-        py={3}
-        rounded={12}
+        py={{ base: 0, md: 3 }}
+        rounded={{ base: 5, md: 12 }}
         bg={color}
         border={"1px solid #EBEBEB"}
       >

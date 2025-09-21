@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Card,
+  CloseButton,
   Flex,
   HStack,
   Image,
@@ -26,8 +27,9 @@ import axios from "axios";
 import { useRequest } from "../../../hooks/useRequest";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
+import { TfiClose } from "react-icons/tfi";
 
-export const RightSide = ({ setPosts, posts }) => {
+export const RightSide = ({ setPosts, posts, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   // const actions = [
   //   { id: 1, image: like },
@@ -93,7 +95,7 @@ export const RightSide = ({ setPosts, posts }) => {
     }
   };
   return (
-    <Stack w={{ base: "100%", md: "50%" }} mb={"auto"} pb={10}>
+    <Stack>
       <Card.Root
         bg={"#fff"}
         shadowColor={"#080F340F"}
@@ -103,40 +105,45 @@ export const RightSide = ({ setPosts, posts }) => {
         px={4}
       >
         <Card.Body gap="2">
-          <HStack ml={-5} alignItems={"flex-start"}>
-            <Stack position={"relative"}>
-              <Image
-                src={userDetails?.profile_picture || userImage}
-                alt="Update"
-                boxSize={{ base: "35px", md: "59px" }}
-                rounded={50}
-              />
-            </Stack>
-            <Stack>
-              <Text
-                color={"#191919"}
-                fontSize={{ base: 15, md: 21 }}
-                fontFamily="InterBold"
-              >
-                {userDetails?.first_name} {userDetails?.last_name}
-              </Text>
-              <Text
-                mt={-3}
-                color={"#00000099/60"}
-                fontWeight={"normal"}
-                fontSize={{ base: 10, md: 15 }}
-                fontFamily="InterRegular"
-              >
-                {userDetails?.profession}
-              </Text>
-            </Stack>
+          <HStack alignItems={"flex-start"} justifyContent={"space-between"}>
+            <HStack mt={{ base: -2, md: 0 }} ml={-5} alignItems={"flex-start"}>
+              <Stack position={"relative"}>
+                <Image
+                  src={userDetails?.profile_picture || userImage}
+                  alt="Update"
+                  boxSize={{ base: "35px", md: "59px" }}
+                  rounded={50}
+                />
+              </Stack>
+              <Stack>
+                <Text
+                  color={"#191919"}
+                  fontSize={{ base: 10, md: 21 }}
+                  fontFamily="InterBold"
+                >
+                  {userDetails?.first_name} {userDetails?.last_name}
+                </Text>
+                <Text
+                  mt={-3}
+                  color={"#00000099/60"}
+                  fontWeight={"normal"}
+                  fontSize={{ base: 10, md: 15 }}
+                  fontFamily="InterRegular"
+                >
+                  {userDetails?.profession}
+                </Text>
+              </Stack>
+            </HStack>
+            <Box mt={-2} mr={-5} display={{ base: "block", md: "none" }}>
+              <TfiClose size={10} onClick={onClose} />
+            </Box>
           </HStack>
         </Card.Body>
         <Textarea
           ref={postRef}
           h={100}
-          pb={300}
-          fontSize={13}
+          pb={{ base: 100, md: 300 }}
+          fontSize={{ base: 9, md: 13 }}
           autoresize
           variant="subtle"
           placeholder="Write your post or question here"
@@ -147,9 +154,13 @@ export const RightSide = ({ setPosts, posts }) => {
           my={4}
           bg={"#EFF2FC"}
           color={"#292D32"}
-          rounded={20}
-          fontSize={11}
+          rounded={{ base: 5, md: 20 }}
+          fontSize={{ base: 8, md: 11 }}
           mr={"auto"}
+          gap={1}
+          alignItems={"center"}
+          p={{ base: 1, md: 4 }}
+          size={{ base: "10", md: "md" }}
         >
           <CiImageOn />
           <input
@@ -163,19 +174,28 @@ export const RightSide = ({ setPosts, posts }) => {
         </Button>
         <Card.Footer borderTop={"1px solid #D4D7E5"}>
           <Button
-            mt={5}
+            mt={{ base: 2, md: 5 }}
+            mb={{ base: -3, md: 0 }}
             bg={"#000"}
             color={"#fff"}
             rounded={20}
-            fontSize={{ base: 12, md: 15 }}
-            px={10}
+            fontSize={{ base: 9, md: 15 }}
+            px={{ base: 5, md: 10 }}
+            py={{ base: 1, md: 4 }}
             mr={-4}
+            size={{ base: "10", md: "md" }}
             fontFamily="InterRegular"
             ml={"auto"}
             onClick={handlePost}
           >
-            {loading || isLoading ? <Spinner /> : "Post"}
-            <PiTelegramLogoLight />
+            {loading || isLoading ? (
+              <Spinner size={7} />
+            ) : (
+              <Flex alignItems={"center"} gap={2}>
+                <Text>Post</Text>
+                <PiTelegramLogoLight size={10} />
+              </Flex>
+            )}
           </Button>
         </Card.Footer>
       </Card.Root>

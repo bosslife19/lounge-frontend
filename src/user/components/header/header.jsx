@@ -52,7 +52,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
             className="block rounded-sm  p-1.5 shadow-sm"
           >
             <svg
-              className="h-10 w-10 fill-current p-2 border rounded-full text-blue"
+              className="h-[24px] md:h-12 w-[22px] md:w-10 fill-current p-2 border rounded-full text-blue"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"

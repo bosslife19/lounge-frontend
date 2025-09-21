@@ -81,12 +81,13 @@ const NewsDetails = () => {
           spacing={4}
           rounded={20}
           mb={4}
+          pt={{ base: 3, md: 0 }}
         >
           <Text
             fontWeight="medium"
             fontFamily="LatoMedium"
             textTransform={"capitalize"}
-            fontSize={{ base: 18, md: 24 }}
+            fontSize={{ base: 14, md: 24 }}
             color={"#202020"}
           >
             {update?.title}
@@ -96,7 +97,7 @@ const NewsDetails = () => {
               src={update?.image}
               alt={update?.title}
               w="100%"
-              h={{ base: "150px", md: "200px" }}
+              h={{ base: "100px", md: "200px" }}
               objectFit="cover"
               objectPosition={"center"}
               rounded={12}
@@ -107,7 +108,7 @@ const NewsDetails = () => {
               <Image
                 roundedTop={10}
                 src={btns}
-                boxSize={"35px"}
+                boxSize={{ base: "25px", md: "35px" }}
                 alt={"title"}
                 objectFit={"cover"}
                 className="w-full   "

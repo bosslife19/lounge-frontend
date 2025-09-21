@@ -70,7 +70,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
         <Dialog.Backdrop />
-        <Dialog.Positioner>
+        <Dialog.Positioner px={5}>
           <Dialog.Content
             rounded={30}
             bg="#FAFAFA"
@@ -82,19 +82,27 @@ export const EditList = ({ isOpen, onClose, card }) => {
               border={"1px solid #9E9E9E"}
               asChild
             >
-              <CloseButton size="xs" w={0} color={"#9E9E9E"} />
+              <CloseButton
+                size={{ base: "10", md: "xs" }}
+                w={{ base: 6, md: 8 }}
+                // fontSize={1}
+                p={{ base: 1, md: 2 }}
+                color={"#9E9E9E"}
+              />
             </Dialog.CloseTrigger>
 
             <Fieldset.Root size="lg">
               <Stack>
-                <Fieldset.Legend>Edit Listing</Fieldset.Legend>
+                <Fieldset.Legend fontSize={{ base: "12px", md: "16px" }}>
+                  Edit Listing
+                </Fieldset.Legend>
               </Stack>
               <Stack mx={"auto"} position={"relative"}>
                 <Image
                   src={userDetails.profile_picture || logo}
                   alt="Update"
-                  boxSize="100px"
-                  rounded={"full"}
+                  boxSize={{ base: "50px", md: "100px" }}
+                  borderRadius="full"
                   objectFit="cover"
                 />
                 {/* <Button 
@@ -110,18 +118,19 @@ export const EditList = ({ isOpen, onClose, card }) => {
               />
           </Button> */}
               </Stack>
-              <Fieldset.Content>
+              <Fieldset.Content mt={{ base: -2, md: 0 }}>
                 {/* title */}
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
                     Title
                   </Field.Label>
                   <Input
+                    fontSize={{ base: "9px", md: 12 }}
                     name="title"
                     ref={titleRef}
                     placeholder={card?.title}
@@ -132,7 +141,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
@@ -141,6 +150,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
                   <Input
                     name="email"
                     type="email"
+                    fontSize={{ base: "9px", md: 12 }}
                     ref={emailRef}
                     placeholder={card?.access_email}
                   />
@@ -152,7 +162,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
    fontWeight={'400'}
    fontSize={{base:12,md:14}}
    fontFamily="InterMedium"
-   color={'#101928'}
+   color={'#101928'} 
   >Category</Field.Label>
   <NativeSelect.Root>
 
@@ -175,15 +185,16 @@ export const EditList = ({ isOpen, onClose, card }) => {
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
                     Description
                   </Field.Label>
                   <Textarea
-                    boxSize={150}
+                    boxSize={{ base: 70, md: 150 }}
                     w={"100%"}
+                    fontSize={{ base: "9px", md: 12 }}
                     outline={"none"}
                     resize={"none"}
                     name="notes"
@@ -192,7 +203,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
                   />
                   <Text
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "9px", md: 12 }}
                     fontFamily="InterRegular"
                     color={"#667185"}
                   >
@@ -205,10 +216,10 @@ export const EditList = ({ isOpen, onClose, card }) => {
                 {/* Price */}
                 <Span
                   fontWeight={"400"}
-                  fontSize={{ base: 12, md: 14 }}
+                  fontSize={{ base: "10px", md: 14 }}
                   fontFamily="InterMedium"
                   color={"#101928"}
-                  mb={-3}
+                  my={-3}
                   pt={2}
                 >
                   Price (EUR)
@@ -216,6 +227,8 @@ export const EditList = ({ isOpen, onClose, card }) => {
                 <NumberInput.Root
                   // maxW="200px"
                   value={value}
+                  size={{ base: "xs", md: "sm" }}
+                  fontSize={{ base: "9px", md: 12 }}
                   onValueChange={(e) => setValue(e.value)}
                 >
                   <NumberInput.Control />
@@ -225,7 +238,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
                 {/* calendly */}
                 <Span
                   fontWeight={"400"}
-                  fontSize={{ base: 12, md: 14 }}
+                  fontSize={{ base: "10px", md: 14 }}
                   fontFamily="InterMedium"
                   color={"#101928"}
                   mb={-3}
@@ -235,6 +248,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
                 </Span>
                 <InputGroup startElement={<CiCalendar />}>
                   <Input
+                    fontSize={{ base: "9px", md: 12 }}
                     placeholder={card?.calendly}
                     outline={"none"}
                     ref={calendlyRef}
@@ -242,7 +256,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
                 </InputGroup>
                 <Text
                   fontWeight={"400"}
-                  fontSize={{ base: 12, md: 14 }}
+                  fontSize={{ base: "9px", md: 14 }}
                   fontFamily="InterRegular"
                   color={"#667185"}
                 >
@@ -251,7 +265,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
@@ -262,6 +276,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
                     placeholder="Any Instructions for mentees before session"
                     boxSize={100}
                     w={"100%"}
+                    fontSize={{ base: "9px", md: 12 }}
                     ref={prepRef}
                     outline={"none"}
                     resize={"none"}
@@ -271,11 +286,11 @@ export const EditList = ({ isOpen, onClose, card }) => {
               </Fieldset.Content>
 
               {/* Button */}
-              <HStack>
+              <HStack flexDirection={{ base: "column", md: "row" }}>
                 <Button
                   onClick={() => onClose()}
-                  py={6}
-                  w={{ base: "35%" }}
+                  py={{ base: 3, md: 6 }}
+                  w={{ base: "100%", md: "35%" }}
                   bg={"#fff"}
                   color={"#2B362F"}
                   border={"1px solid #2B362F"}
@@ -283,8 +298,8 @@ export const EditList = ({ isOpen, onClose, card }) => {
                   Cancel
                 </Button>
                 <Button
-                  py={6}
-                  w={{ base: "60%" }}
+                  py={{ base: 3, md: 6 }}
+                  w={{ base: "100%", md: "60%" }}
                   bg={"#2B362F"}
                   onClick={handleEditListing}
                 >

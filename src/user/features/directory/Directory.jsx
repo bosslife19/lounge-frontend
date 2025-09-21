@@ -45,42 +45,41 @@ const Directory = () => {
 
   const [directoryData, setDirectoryData] = useState([]);
   const [selected, setSelected] = useState(directoryData[0] || null); // default profile
-  const [search, setSearch] = useState('');
-  const [locationSearch, setLocationSearch] = useState('')
-const [filteredResults, setFilteredResults] = useState([])
+  const [search, setSearch] = useState("");
+  const [locationSearch, setLocationSearch] = useState("");
+  const [filteredResults, setFilteredResults] = useState([]);
 
   useEffect(() => {
-  if (search) {
-    const lowerSearch = search.toLowerCase();
-    const results = directoryData.filter((item) =>
-      [item.first_name, item.last_name, item.name, item.organization.name]
-        .filter(Boolean) // removes null/undefined
-        .some((field) => field.toLowerCase().includes(lowerSearch))
-    );
-    setFilteredResults(results);
-  } else {
-    setFilteredResults(directoryData); // if no search, show all
-  }
-}, [search, directoryData]);
- useEffect(() => {
-  if (locationSearch) {
-    
-    const lowerSearch = locationSearch.toLowerCase();
-    const results = directoryData.filter((item) =>
-      [item.city, item.organization.location]
-        .filter(Boolean) // removes null/undefined
-        .some((field) => field.toLowerCase().includes(lowerSearch))
-    );
-    setFilteredResults(results);
-  } else {
-    setFilteredResults(directoryData); // if no search, show all
-  }
-}, [locationSearch, directoryData]);
+    if (search) {
+      const lowerSearch = search.toLowerCase();
+      const results = directoryData.filter((item) =>
+        [item.first_name, item.last_name, item.name, item.organization.name]
+          .filter(Boolean) // removes null/undefined
+          .some((field) => field.toLowerCase().includes(lowerSearch))
+      );
+      setFilteredResults(results);
+    } else {
+      setFilteredResults(directoryData); // if no search, show all
+    }
+  }, [search, directoryData]);
+  useEffect(() => {
+    if (locationSearch) {
+      const lowerSearch = locationSearch.toLowerCase();
+      const results = directoryData.filter((item) =>
+        [item.city, item.organization.location]
+          .filter(Boolean) // removes null/undefined
+          .some((field) => field.toLowerCase().includes(lowerSearch))
+      );
+      setFilteredResults(results);
+    } else {
+      setFilteredResults(directoryData); // if no search, show all
+    }
+  }, [locationSearch, directoryData]);
 
   useEffect(() => {
     const getAllProfessionals = async () => {
       const res = await axiosClient.get("/users");
-    
+
       setDirectoryData(res.data.users);
 
       setSelected(res.data.users[0] || null);
@@ -97,27 +96,30 @@ const [filteredResults, setFilteredResults] = useState([])
       <Stack
         mb={3}
         px={2}
-        w={{ base: 100, md: 600 }}
+        w={{ base: "100%", md: 600 }}
         flexDirection={"row"}
         alignItems={"center"}
+        gap={{ base: 4 }}
       >
         <InputGroup startElement={<BiSearch size={10} />}>
           <Input
-            py={25}
-            fontSize={10}
-            borderRadius={10}
+            py={{ base: "10px", md: 25 }}
+            fontSize={{ base: 7, md: 10 }}
+            h={{ base: "27px", md: "50px" }}
+            borderRadius={{ base: 5, md: 10 }}
             placeholder="Name & Organization"
-            onChange={e=>setSearch(e.target.value)}
-            
+            onChange={(e) => setSearch(e.target.value)}
           />
         </InputGroup>
         <InputGroup startElement={<FaLocationDot size={10} />}>
           <Input
-            py={25}
-            fontSize={10}
-            borderRadius={10}
+            py={{ base: "10px", md: 25 }}
+            fontSize={{ base: 7, md: 10 }}
+            h={{ base: "27px", md: "50px" }}
+            borderRadius={{ base: 5, md: 10 }}
+            // borderRadius={10}
             placeholder="Location"
-            onChange={e=>setLocationSearch(e.target.value)}
+            onChange={(e) => setLocationSearch(e.target.value)}
           />
         </InputGroup>
       </Stack>
@@ -153,7 +155,7 @@ const [filteredResults, setFilteredResults] = useState([])
                     <Image
                       src={card?.profile_picture || userImage}
                       alt="Update"
-                      boxSize="50px"
+                      boxSize={{ base: "40px", md: "50px" }}
                       rounded={50}
                     />
                   </Stack>
@@ -183,7 +185,7 @@ const [filteredResults, setFilteredResults] = useState([])
                       rounded={12}
                       src={card.organization?.logo || googlebig}
                       alt="Company"
-                      boxSize="50px"
+                      boxSize={{ base: "40px", md: "50px" }}
                     />
                   </Stack>
                   <Stack mt={-2} gap={2}>
@@ -204,7 +206,7 @@ const [filteredResults, setFilteredResults] = useState([])
                         fontSize={{ base: 10, md: 12 }}
                         fontFamily="InterRegular"
                       >
-                        {card.organization?.location||''}
+                        {card.organization?.location || ""}
                       </Text>
                     </HStack>
 
@@ -235,7 +237,7 @@ const [filteredResults, setFilteredResults] = useState([])
           bg={"#FAFAFA"}
           h={"100%"}
           w={{ base: "100%", md: "35%" }}
-          px={4}
+          px={{ base: 4, md: 4 }}
           pt={3}
           // className="pb={4}"
         >
@@ -249,27 +251,31 @@ const [filteredResults, setFilteredResults] = useState([])
             <Card.Body gap="2">
               <Avatar.Root
                 mx={"auto"}
-                boxSize={{ base: "60px", md: "100px" }}
+                boxSize={{ base: "40px", md: "100px" }}
                 rounded={50}
               >
                 <Avatar.Image src={selected?.profile_picture || userImage} />
                 <Avatar.Fallback name={selected?.name} />
               </Avatar.Root>
-              <Card.Title textAlign={"center"} fontFamily="InterBold">
+              <Card.Title
+                fontSize={{ base: "15px", md: "20px" }}
+                textAlign={"center"}
+                fontFamily="InterBold"
+              >
                 {selected?.first_name} {selected?.last_name}
               </Card.Title>
               <Card.Description textAlign={"center"}>
                 <HStack justifyContent={"center"} mt={-1} alignItems={"center"}>
                   {/* todo: put organization logo */}
                   <Image
-                    boxSize={"24px"}
+                    boxSize={{ base: "20px", md: "24px" }}
                     rounded={30}
-                    src={selected?.organization?.logo ||googlebig}
+                    src={selected?.organization?.logo || googlebig}
                     alt="company"
                   />
                   <Text
                     color={"#3B3B3B"}
-                    fontSize={{ base: 12, md: 15 }}
+                    fontSize={{ base: 10, md: 15 }}
                     fontFamily="InterMedium"
                   >
                     {selected?.organization?.name}
@@ -289,7 +295,7 @@ const [filteredResults, setFilteredResults] = useState([])
                   />
                   <Text
                     color={"#7C7C7C"}
-                    fontSize={{ base: 10, md: 12 }}
+                    fontSize={{ base: 8, md: 12 }}
                     fontFamily="InterRegular"
                   >
                     {selected?.organization?.location}
@@ -315,19 +321,22 @@ const [filteredResults, setFilteredResults] = useState([])
           </Card.Root>
 
           {/* BIO */}
-          <Card.Root size="sm" rounded={20} mt={4}>
-            <Card.Header>
+          <Card.Root size="sm" rounded={{ base: 10, md: 20 }} mt={4}>
+            <Card.Header mt={{ base: -2, md: 0 }}>
               <Heading
                 // textAlign={"left"}
                 size="md"
                 fontFamily="InterRegular"
-                fontSize={12}
+                fontSize={{ base: 10, md: 12 }}
               >
                 Bio
               </Heading>
             </Card.Header>
-            <Card.Body px={{ base: "7%", md: "9%" }} mt={-3} color="#7C7C7C">
-              <List.Root fontFamily="InterRegular" fontSize={12}>
+            <Card.Body px={{ base: "8%", md: "9%" }} mt={-3} color="#7C7C7C">
+              <List.Root
+                fontFamily="InterRegular"
+                fontSize={{ base: 10, md: 12 }}
+              >
                 <List.Item>{selected?.bio} Years of Experience</List.Item>
               </List.Root>
               {/* <Text fontFamily="InterRegular" fontSize={14} color={"#202020"}>
@@ -340,15 +349,21 @@ const [filteredResults, setFilteredResults] = useState([])
           <Card.Root
             // px={5}
             fontFamily="InterRegular"
-            fontSize={12}
+            fontSize={{ base: 10, md: 12 }}
             size="sm"
-            rounded={20}
+            rounded={{ base: 10, md: 20 }}
             mt={4}
           >
-            <Card.Header>
-              <Heading size="md">Experience & Role</Heading>
+            <Card.Header mt={{ base: -2, md: 0 }}>
+              <Heading size="md" fontSize={{ base: 10, md: 12 }}>
+                Experience & Role
+              </Heading>
             </Card.Header>
-            <Card.Body mt={-2} px={{ base: "7%", md: "9%" }} color="#7C7C7C">
+            <Card.Body
+              mt={{ base: -4, md: -2 }}
+              px={{ base: "7%", md: "9%" }}
+              color="#7C7C7C"
+            >
               <List.Root>
                 <List.Item>
                   {selected?.years_of_experience} Years of Experience
@@ -358,18 +373,26 @@ const [filteredResults, setFilteredResults] = useState([])
           </Card.Root>
 
           {/* SOCIALS */}
-          <Card.Root size="sm" rounded={20} mt={4}>
-            <Card.Header>
-              <Heading size="md">Connect on Socials</Heading>
+          <Card.Root size="sm" rounded={{ base: 10, md: 20 }} mt={4}>
+            <Card.Header mt={{ base: -2, md: 0 }}>
+              <Heading size="md" fontSize={{ base: 10, md: 12 }}>
+                Connect on Socials
+              </Heading>
             </Card.Header>
-            <Card.Body flexDirection={"row"} gap={4} color="#7C7C7C">
-             <a href={selected?.linkedin_url}>
-              <Image  src={linkedin} boxSize={5} />
-             </a>
-                <a href={selected?.facebook_url}><Image  src={facebk} boxSize={5} /></a>
+            <Card.Body
+              flexDirection={"row"}
+              mt={{ base: -2, md: 0 }}
+              gap={4}
+              color="#7C7C7C"
+            >
+              <a href={selected?.linkedin_url}>
+                <Image src={linkedin} boxSize={{ base: 3, md: 5 }} />
+              </a>
+              <a href={selected?.facebook_url}>
+                <Image src={facebk} boxSize={{ base: 3, md: 5 }} />
+              </a>
 
               {/* to do: put social images and link */}
-             
             </Card.Body>
           </Card.Root>
         </Box>

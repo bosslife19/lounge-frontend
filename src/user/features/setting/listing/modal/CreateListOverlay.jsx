@@ -71,7 +71,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
         <Dialog.Backdrop />
-        <Dialog.Positioner>
+        <Dialog.Positioner px={5}>
           <Dialog.Content
             rounded={30}
             bg="#FAFAFA"
@@ -83,19 +83,27 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
               border={"1px solid #9E9E9E"}
               asChild
             >
-              <CloseButton size="xs" w={0} color={"#9E9E9E"} />
+              <CloseButton
+                size={{ base: "10", md: "xs" }}
+                w={{ base: 6, md: 8 }}
+                // fontSize={1}
+                p={{ base: 1, md: 2 }}
+                color={"#9E9E9E"}
+              />
             </Dialog.CloseTrigger>
 
             <Fieldset.Root size="lg">
               <Stack>
-                <Fieldset.Legend>Create Listing</Fieldset.Legend>
+                <Fieldset.Legend fontSize={{ base: "12px", md: "16px" }}>
+                  Create Listing
+                </Fieldset.Legend>
               </Stack>
               <Stack mx={"auto"} position={"relative"}>
                 <Image
                   src={userDetails.profile_picture || logo}
                   alt="Update"
-                  boxSize="100px"
-                  borderRadius="md"
+                  boxSize={{ base: "50px", md: "100px" }}
+                  borderRadius="full"
                   objectFit="cover"
                   rounded={"full"}
                 />
@@ -112,38 +120,47 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
               />
           </Button> */}
               </Stack>
-              <Fieldset.Content>
+              <Fieldset.Content mt={{ base: -2, md: 0 }}>
                 {/* title */}
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
                     Title
                   </Field.Label>
-                  <Input name="title" ref={titleRef} />
+                  <Input
+                    fontSize={{ base: "9px", md: 12 }}
+                    name="title"
+                    ref={titleRef}
+                  />
                 </Field.Root>
 
                 {/* Email */}
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
                     Access Email
                   </Field.Label>
-                  <Input name="email" type="email" ref={emailRef} />
+                  <Input
+                    fontSize={{ base: "9px", md: 12 }}
+                    name="email"
+                    type="email"
+                    ref={emailRef}
+                  />
                 </Field.Root>
 
                 {/* Category */}
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
@@ -163,6 +180,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                     <NativeSelect.Field
                       name="country"
                       pl="10"
+                      fontSize={{ base: "9px", md: 12 }}
                       ref={categoryRef}
                     >
                       <For each={["Finance", "Engineering", "others2"]}>
@@ -179,15 +197,16 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
                     Description
                   </Field.Label>
                   <Textarea
-                    boxSize={150}
+                    boxSize={{ base: 70, md: 150 }}
                     w={"100%"}
+                    fontSize={{ base: "9px", md: 12 }}
                     outline={"none"}
                     resize={"none"}
                     name="notes"
@@ -195,7 +214,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                   />
                   <Text
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterRegular"
                     color={"#667185"}
                   >
@@ -208,15 +227,16 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                 {/* Price */}
                 <Span
                   fontWeight={"400"}
-                  fontSize={{ base: 12, md: 14 }}
+                  fontSize={{ base: "9px", md: 14 }}
                   fontFamily="InterMedium"
                   color={"#101928"}
                   mb={-3}
-                  pt={2}
+                  pt={{ base: 0, md: 2 }}
                 >
                   Price (EUR)
                 </Span>
                 <NumberInput.Root
+                  size={{ base: "xs", md: "sm" }}
                   // maxW="200px"
                   value={value}
                   onValueChange={(e) => setValue(e.value)}
@@ -228,20 +248,26 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                 {/* calendly */}
                 <Span
                   fontWeight={"400"}
-                  fontSize={{ base: 12, md: 14 }}
+                  fontSize={{ base: "10px", md: 14 }}
                   fontFamily="InterMedium"
                   color={"#101928"}
                   mb={-3}
-                  pt={2}
+                  pt={{ base: 0, md: 2 }}
                 >
                   Calendly Link
                 </Span>
                 <InputGroup startElement={<CiCalendar />}>
-                  <Input placeholder="" outline={"none"} ref={calendlyRef} />
+                  <Input
+                    fontSize={{ base: "9px", md: 12 }}
+                    placeholder=""
+                    outline={"none"}
+                    ref={calendlyRef}
+                  />
                 </InputGroup>
                 <Text
+                  mt={{ base: -2, md: 0 }}
                   fontWeight={"400"}
-                  fontSize={{ base: 12, md: 14 }}
+                  fontSize={{ base: "9px", md: 14 }}
                   fontFamily="InterRegular"
                   color={"#667185"}
                 >
@@ -250,7 +276,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "10px", md: 14 }}
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
@@ -259,8 +285,9 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                   <Textarea
                     _placeholder={{ color: "#98A2B3" }}
                     placeholder="Any Instructions for mentees before session"
-                    boxSize={100}
+                    boxSize={{ base: 70, md: 100 }}
                     w={"100%"}
+                    fontSize={{ base: "9px", md: 14 }}
                     ref={prepRef}
                     outline={"none"}
                     resize={"none"}
@@ -270,20 +297,23 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
               </Fieldset.Content>
 
               {/* Button */}
-              <HStack>
+              <HStack flexDirection={{ base: "column", md: "row" }}>
                 <Button
                   onClick={() => onClose()}
-                  py={6}
-                  w={{ base: "35%" }}
+                  py={{ base: 3, md: 6 }}
+                  w={{ base: "100%", md: "35%" }}
                   bg={"#fff"}
+                  fontSize={{ base: "10px", md: "12px" }}
                   color={"#2B362F"}
                   border={"1px solid #2B362F"}
                 >
                   Cancel
                 </Button>
                 <Button
-                  py={6}
-                  w={{ base: "60%" }}
+                  py={{ base: 3, md: 6 }}
+                  w={{ base: "100%", md: "60%" }}
+                  fontSize={{ base: "10px", md: "12px" }}
+                  size={{ base: "10", md: "sm" }}
                   bg={"#2B362F"}
                   onClick={handleCreateListing}
                 >

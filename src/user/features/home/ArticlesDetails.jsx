@@ -17,7 +17,7 @@ import axiosClient from "../../../axiosClient";
 
 const ArticleDetails = () => {
   const { id } = useParams();
-  
+
   const navigate = useNavigate();
   const profile = cardData.find((item) => item.id === Number(id));
 
@@ -54,7 +54,7 @@ const ArticleDetails = () => {
         {/* Back Button */}
         <Flex alignItems={"center"} gap={2}>
           <Button
-            size={"xs"}
+            size={{ base: "10", md: "xs" }}
             rounded={30}
             p={0}
             m={0}
@@ -66,9 +66,9 @@ const ArticleDetails = () => {
           </Button>
           <Text
             fontWeight={"normal"}
-            mt={-3}
+            mt={{ base: -4, md: -3 }}
             fontFamily={"InterMedium"}
-            fontSize={{ base: 13, md: 15 }}
+            fontSize={{ base: "12px", md: 15 }}
           >
             Articles
           </Text>
@@ -79,14 +79,15 @@ const ArticleDetails = () => {
           shadow={"lg"}
           px={4}
           spacing={4}
-          rounded={20}
+          rounded={{ base: 9, md: 20 }}
           mb={4}
+          pt={{ base: 2, md: 0 }}
         >
           <Text
             fontWeight="medium"
             fontFamily="LatoMedium"
             textTransform={"capitalize"}
-            fontSize={{ base: 18, md: 24 }}
+            fontSize={{ base: "13px", md: 24 }}
             color={"#202020"}
           >
             {update?.title}
@@ -96,7 +97,7 @@ const ArticleDetails = () => {
               src={update?.image}
               alt={update?.title}
               w="100%"
-              h={{ base: "150px", md: "200px" }}
+              h={{ base: "100px", md: "200px" }}
               objectFit="cover"
               objectPosition={"center"}
               rounded={12}
@@ -107,17 +108,17 @@ const ArticleDetails = () => {
               <Image
                 roundedTop={10}
                 src={btns}
-                boxSize={"35px"}
+                boxSize={{ base: "20px", md: "35px" }}
                 alt={"title"}
                 objectFit={"cover"}
-                className="w-full   "
+                className="w-full "
               />
             </button>
           </Box>
           <Stack mt={-5} spacing={0}>
             <Text
               fontFamily="LatoRegular"
-              fontSize={{ base: 14, md: 16 }}
+              fontSize={{ base: "11px", md: 16 }}
               color={"#1C1C1CB2/70"}
             >
               {update?.content}
@@ -134,7 +135,7 @@ const ArticleDetails = () => {
               <Image
                 src={profile.subimage}
                 alt="Update"
-                boxSize="30px"
+                boxSize={{ base: "20px", md: "30px" }}
                 rounded={20}
                 // objectFit="cover"
               />
@@ -168,7 +169,7 @@ const ArticleDetails = () => {
           pl={4}
           pt={3}
           mb={-2}
-          fontSize={{ base: 15, md: 22 }}
+          fontSize={{ base: "12px", md: 22 }}
           fontFamily={"LatoBold"}
           color={"#101928"}
           fontWeight={"semibold"}
@@ -181,7 +182,7 @@ const ArticleDetails = () => {
               <Box
                 key={`${card.id}-${idx}`}
                 flexShrink={0}
-                px={4}
+                px={{ base: 2, md: 4 }}
                 pt={4}
                 m={3}
                 cursor={"pointer"}
@@ -192,22 +193,24 @@ const ArticleDetails = () => {
                   rounded={12}
                   src={card.image}
                   alt={card.title}
-                  h={113}
+                  // h={113}
+                  h={{ base: "100px", md: "200px" }}
                   className="w-full  object-cover"
                 />
                 <button className="absolute cursor-pointer top-6 right-6">
                   <Image
                     roundedTop={10}
                     src={btns}
+                    boxSize={{ base: "20px", md: "35px" }}
                     alt={card.title}
-                    className="w-full h-40 object-cover"
+                    className="w-full  object-cover"
                   />
                 </button>
                 <Box pt={2}>
                   <Text
-                    fontFamily="LatoMedium"
+                    // fontFamily="LatoMedium"
                     textTransform={"capitalize"}
-                    fontSize={{ base: 12, md: 14 }}
+                    fontSize={{ base: "11px", md: 14 }}
                     lineHeight={-2}
                     className="font-semibold"
                   >
@@ -225,7 +228,7 @@ const ArticleDetails = () => {
                     <Image
                       src={profile.subimage}
                       alt="Update"
-                      boxSize="24px"
+                      boxSize={{ base: "20px", md: "30px" }}
                       rounded={50}
                       // objectFit="cover"
                     />

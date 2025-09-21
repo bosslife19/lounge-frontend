@@ -29,22 +29,22 @@ export const LeftSectionProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [mentors, setMentors] = useState([]);
   useEffect(() => {
-      const getMentors = async () => {
-        const res = await axiosClient.get("/my-mentors");
-  
-        setMentors(res.data.mentors);
-      };
-      getMentors();
-    }, []);
+    const getMentors = async () => {
+      const res = await axiosClient.get("/my-mentors");
 
-  useEffect(()=>{
-    const getUser = async ()=>{
+      setMentors(res.data.mentors);
+    };
+    getMentors();
+  }, []);
+
+  useEffect(() => {
+    const getUser = async () => {
       const res = await axiosClient.get("/me/" + userDetails.id);
-      
+
       setUserDetails(res.data.user);
-    }  
+    };
     getUser();
-  }, [])
+  }, []);
 
   const handleCardClick = () => {
     setIsOpen(true);
@@ -102,7 +102,7 @@ export const LeftSectionProfile = () => {
             <Stack>
               <Text
                 color={"#191919"}
-                fontSize={{ base: 10, md: 14 }}
+                fontSize={{ base: "10px", md: 14 }}
                 fontFamily="InterBold"
               >
                 {userDetails?.first_name} {userDetails?.last_name}
@@ -111,7 +111,7 @@ export const LeftSectionProfile = () => {
                 mt={-3}
                 color={"#475467"}
                 fontWeight={"normal"}
-                fontSize={{ base: 10, md: 14 }}
+                fontSize={{ base: "10px", md: 14 }}
                 fontFamily="InterRegular"
                 display={"flex"}
                 alignItems={"center"}
@@ -124,7 +124,7 @@ export const LeftSectionProfile = () => {
                 mt={-3}
                 color={"#7C7C7C"}
                 fontWeight={"normal"}
-                fontSize={{ base: 10, md: 14 }}
+                fontSize={{ base: "10px", md: 14 }}
                 fontFamily="InterRegular"
                 display={"flex"}
                 alignItems={"center"}
@@ -138,7 +138,7 @@ export const LeftSectionProfile = () => {
           <Button
             bg={"transparent"}
             color={"#475367"}
-            size={{ base: "xs" }}
+            size={{ base: "10" }}
             onClick={() => handleCardClick()}
           >
             <LuPencil />
@@ -215,18 +215,26 @@ export const LeftSectionProfile = () => {
           </HStack>
           {/* <LuPencil /> */}
         </Flex>
-        <Box shadow={"xl"} mt={4} rounded={20} pb={4} bg={"#fff"} px={7}>
+        <Box
+          shadow={"xl"}
+          mt={4}
+          rounded={20}
+          pb={4}
+          bg={"#fff"}
+          px={{ base: 3, md: 7 }}
+        >
           <Heading
             display={"flex"}
-            pt={5}
-            pb={2}
+            pt={{ base: 3, md: 5 }}
+            pb={{ base: 1, md: 2 }}
             color={"#3B3B3B"}
-            fontSize={{ base: "14px", md: "16px" }}
+            fontSize={{ base: "12px", md: "16px" }}
             justifyContent={"space-between"}
+            alignItems={{ base: "center", md: "flex-start" }}
           >
             About Company
             {/* {userDetails?.first_name} {userDetails?.last_name} */}
-            <LuPencil size={17} />
+            <LuPencil size={15} />
           </Heading>
           {/* <Text>{userDetails?.bio}</Text> */}
           {/* <List.Root ml={"1vw"} gap={2}>
@@ -241,58 +249,91 @@ export const LeftSectionProfile = () => {
               Experience in representing and advocating for UX the and users.
             </List.Item>
           </List.Root> */}
-          <Text>{userDetails.organization?.description}</Text>
+          <Text fontSize={{ base: "10px", md: "14px" }}>
+            {userDetails.organization?.description}
+          </Text>
         </Box>
 
         {/*company members*/}
-        <Box shadow={"xl"} mt={4} rounded={20} pb={4} bg={"#fff"} px={7}>
-          <Heading pt={5} pb={2} textAlign={"center"}>
+        <Box
+          shadow={"xl"}
+          mt={{ base: 2, md: 4 }}
+          rounded={20}
+          pb={4}
+          bg={"#fff"}
+          px={{ base: 3, md: 7 }}
+        >
+          <Heading
+            fontSize={{ base: "12px", md: "16px" }}
+            pt={{ base: 2, md: 5 }}
+            pb={2}
+            textAlign={"center"}
+          >
             {/* Company Members */}
             Mentors
           </Heading>
-      <Stack spacing={6}>
-        {mentors.length > 0 ? (
-          mentors.map((card) => (
-            <Box
-              key={card.id}
-              transition="all 0.2s ease-in-out"
-              borderBottom={"1px solid #D8D8D8"}
-              pb={3}
-            >
-              <HStack spacing={4} align="center">
-                <Image
-                  src={card.profile_picture || logo}
-                  alt={card.name}
-                  boxSize="24px"
-                  rounded="full"
-                />
-                <Stack spacing={0} flex="1">
-                  <Text fontSize={12} fontWeight="semibold" color="#111827">
-                    {/* {truncateText(card.)} */}
-                    {card.name}
-                  </Text>
-                  <Text mt={-2} fontSize={9} color="#6B7280">
-                    {/* {truncateText(card.subtitle)} */}
-                    {card.profession}
-                  </Text>
-                </Stack>
-                <Button
-                  size="xs"
-                  bg={"#2B362F"}
-                  borderColor="#E5E7EB"
-                  rounded="14px"
-                  overflow={"hidden"}
-                  fontSize={12}
+          <Stack spacing={6}>
+            {mentors.length > 0 ? (
+              mentors.map((card) => (
+                <Box
+                  key={card.id}
+                  transition="all 0.2s ease-in-out"
+                  borderBottom={
+                    index === mentors.length - 1 ? "none" : "1px solid #D8D8D8"
+                  }
+                  pb={3}
                 >
-                  View Profile
-                </Button>
-              </HStack>
-            </Box>
-          ))
-        ) : (
-          <Text>No Mentors Yet</Text>
-        )}
-      </Stack>
+                  <HStack
+                    spacing={4}
+                    align={{ base: "flex-start", md: "center" }}
+                  >
+                    <Image
+                      src={card.profile_picture || logo}
+                      alt={card.name}
+                      boxSize={{ base: "18px", md: "24px" }}
+                      rounded="full"
+                    />
+                    <Stack spacing={0} flex="1">
+                      <Text
+                        fontSize={{ base: "10px", md: 12 }}
+                        fontWeight="semibold"
+                        color="#111827"
+                      >
+                        {/* {truncateText(card.)} */}
+                        {card.name}
+                      </Text>
+                      <Text
+                        fontSize={{ base: "7px", md: 9 }}
+                        mt={-2}
+                        color="#6B7280"
+                      >
+                        {/* {truncateText(card.subtitle)} */}
+                        {card.profession}
+                      </Text>
+                    </Stack>
+                    <Button
+                      size={{ base: "10px", md: "xs" }}
+                      bg={"#2B362F"}
+                      p={{ base: 1.5, md: 1 }}
+                      borderColor="#E5E7EB"
+                      rounded={{ base: "8px", md: "14px" }}
+                      overflow={"hidden"}
+                      fontSize={{ base: "8px", md: 12 }}
+                    >
+                      View Profile
+                    </Button>
+                  </HStack>
+                </Box>
+              ))
+            ) : (
+              <Text
+                textAlign={"center"}
+                fontSize={{ base: "10px", md: "12px" }}
+              >
+                No Mentors Yet
+              </Text>
+            )}
+          </Stack>
         </Box>
       </Box>
       <EditProfile isOpen={isOpen} onClose={handleClose} />

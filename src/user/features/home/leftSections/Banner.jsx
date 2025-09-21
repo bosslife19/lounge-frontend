@@ -82,7 +82,8 @@ export function Banner() {
     <Box
       bg="linear-gradient(135deg, #2B362F, #2B362F)"
       borderRadius="2xl"
-      p={5}
+      px={{ base: 2, md: 5 }}
+      py={5}
       color="white"
       boxShadow="xl"
       display="flex"
@@ -95,14 +96,14 @@ export function Banner() {
       <VStack
         gap={{ base: 2, lg: 4 }}
         zIndex={10}
-        align="flex-start"
+        align={{ base: "center", md: "flex-start" }}
         spacing={4}
         mt={{ base: 5, lg: -4 }}
         w={{ base: "100%", md: "60%" }}
       >
         <Text
           fontWeight="light"
-          fontSize="12px"
+          fontSize={{ base: "10px", md: "12px" }}
           // fontFamily="InterRegular"
           textTransform="uppercase"
           color={"#FFFFFF/90"}
@@ -115,43 +116,52 @@ export function Banner() {
           textAlign={{ base: "center", md: "left" }}
           fontWeight="600"
         >
-          {event.title.length > 20
-            ? `${event.title.slice(0, 20)}...`
+          {event.title.length > 25
+            ? `${event.title.slice(0, 25)}...`
             : event.title}
         </Heading>
-        <Flex gap={3} alignItems="center">
+        <Flex
+          flexDirection={{ base: "column", md: "row" }}
+          gap={3}
+          alignItems="center"
+        >
           <Text
             fontFamily="InterRegular"
             color="#fff/80"
-            fontSize={{ base: "xs", md: "sm" }}
+            fontSize={{ base: "10px", md: "12px" }}
             fontWeight="normal"
           >
             {formatEventDate(event.event_date)}
           </Text>
-          <LuClock3 />
-          <Text
-            fontFamily="InterRegular"
-            color="#fff/80"
-            fontSize={{ base: "xs", md: "xs" }}
-            fontWeight="normal"
-          >
-            {event.start_time} - {event.end_time}
-          </Text>
+          <Flex gap={2} alignItems="center">
+            <LuClock3 />
+            <Text
+              fontFamily="InterRegular"
+              color="#fff/80"
+              fontSize={{ base: "10px", md: "12px" }}
+              fontWeight="normal"
+            >
+              {event.start_time} - {event.end_time}
+            </Text>
+          </Flex>
         </Flex>
         <Button
           as="a"
           href={event.event_link} //  the link from your backend
           target="_blank"
           bg="#202020"
+          // px={5}
           color="#fff"
           _hover={{ bg: "gray.800" }}
-          size="md"
-          rounded="20px"
+          size={{ base: "xs", md: "md" }}
+          rounded={{ base: "10px", md: "20px" }}
           shadow="md"
           fontSize={{ base: "12", md: "12" }}
           fontFamily="InterMedium"
         >
-          <Text fontWeight={"400"}>Join Now</Text>
+          <Text fontSize={{ base: "10px", md: "12px" }} fontWeight={"400"}>
+            Join Now
+          </Text>
           <AiFillPlayCircle />
         </Button>
       </VStack>
@@ -181,9 +191,9 @@ export function Banner() {
             rounded="full"
             bg="white"
             _hover={{ bg: "whiteAlpha.500" }}
-            size="xs"
+            size={{ base: "20px", md: "xs" }}
           >
-            <IoIosArrowBack color="#000" />
+            <IoIosArrowBack size={20} color="#000" />
           </IconButton>
           <IconButton
             aria-label="Next"
@@ -191,9 +201,15 @@ export function Banner() {
             rounded="full"
             bg="white"
             _hover={{ bg: "whiteAlpha.500" }}
-            size="xs"
+            size={{ base: "10px", md: "xs" }}
+            className=" text-2xl"
           >
-            <IoIosArrowForward color="#000" />
+            <IoIosArrowForward
+              className="text-[1400px]"
+              fontSize={"10px"}
+              size={20}
+              color="#000"
+            />
           </IconButton>
         </HStack>
       </Box>

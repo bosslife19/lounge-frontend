@@ -13,7 +13,7 @@ const LeftSection = () => {
       // gap={4}
 
       display={"flex"}
-      pb={10}
+      pb={{ base: 3, md: 10 }}
     >
       <Banner />
       <NewsUpdate />

@@ -35,32 +35,37 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
         <Dialog.Backdrop />
-        <Dialog.Positioner>
+        <Dialog.Positioner px={5}>
           <Dialog.Content
             rounded={30}
             bg="#FAFAFA"
             p={4}
-            maxW={{ base: "sm", md: "lg" }}
+            mx={10}
+            maxW={{ base: "xs", md: "lg" }}
           >
             <Dialog.CloseTrigger
               rounded={30}
               border={"1px solid #9E9E9E"}
               asChild
             >
-              <CloseButton size="xs" color={"#9E9E9E"} />
+              <CloseButton size={9} p={1} color={"#9E9E9E"} />
             </Dialog.CloseTrigger>
 
-            <Box bg={"#FAFAFA"} h={"100%"} w={"100%"} p={5}>
+            <Box bg={"#FAFAFA"} h={"100%"} w={"100%"} p={{ base: 4, md: 5 }}>
               {/* Main Profile Card */}
               <Card.Root
                 bg={"#fff"}
                 shadow={"lg"}
                 shadowColor={"#0000001A/90"}
-                rounded={20}
+                rounded={{ base: 10, md: 20 }}
                 border={"1px solid #fff"}
               >
                 <Card.Body gap="2">
-                  <Avatar.Root mx={"auto"} boxSize={20} rounded={50}>
+                  <Avatar.Root
+                    mx={"auto"}
+                    boxSize={{ base: "40px", md: 20 }}
+                    rounded={50}
+                  >
                     <Avatar.Image
                       src={profile.user.profile_picture || userAvatar}
                     />
@@ -69,21 +74,22 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                   <Text
                     textAlign={"center"}
                     color={"#070416"}
-                    fontSize={{ base: 12, md: 16 }}
+                    fontSize={{ base: 11, md: 16 }}
                     fontFamily="InterRegular"
                   >
                     {profile.user.name}
                   </Text>
                   <Text
+                    mt={{ base: -2, md: 0 }}
                     textAlign={"center"}
                     color={"#64626D"}
-                    fontSize={{ base: 12, md: 16 }}
+                    fontSize={{ base: 11, md: 16 }}
                     fontFamily="LatoRegular"
                   >
                     {profile.user.profession}
                   </Text>
                   <Card.Title
-                    mt="2"
+                    mt={{ base: -2, md: 2 }}
                     color={"#070416"}
                     fontSize={{ base: 12, md: 16 }}
                     textAlign={"center"}
@@ -96,9 +102,10 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                   <Button
                     w={"full"}
                     fontFamily="InterRegular"
-                    fontSize={12}
-                    rounded={20}
-                    p={6}
+                    fontSize={{ base: 11, md: 12 }}
+                    rounded={{ base: 12, md: 20 }}
+                    p={{ base: 2, md: 6 }}
+                    mt={{ base: -3, md: 0 }}
                     onClick={() => handleRequestSession(profile.user.id)}
                   >
                     {loading ? <Spinner /> : "Request Session"}
@@ -113,8 +120,8 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
               <Card.Root
                 shadow={"lg"}
                 shadowColor={"#0000001A/90"}
-                size="sm"
-                px={5}
+                size={{ base: "xs", md: "sm" }}
+                px={{ base: 30, md: 5 }}
                 rounded={20}
                 mt={4}
               >
@@ -127,7 +134,12 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                   >
                     Bio
                   </Heading>
-                  <Text>{profile.price}</Text>
+                  <Text
+                    my={{ base: -2, md: 0 }}
+                    fontSize={{ base: 10, md: 14 }}
+                  >
+                    {profile.price}
+                  </Text>
                 </Card.Header>
                 {/* <Card.Body mt={-3} color="fg.muted">
                    <Stack>
@@ -152,11 +164,12 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                 size="sm"
                 shadow={"lg"}
                 shadowColor={"#0000001A/90"}
-                rounded={20}
+                rounded={{ base: 10, md: 20 }}
                 mt={4}
               >
-                <Card.Header ml={-4}>
+                <Card.Header ml={{ base: -6, md: -4 }}>
                   <Heading
+                    my={{ base: -2, md: 0 }}
                     fontSize={{ base: "12px", md: "16px" }}
                     color={"#3B3B3B"}
                     fontFamily={"InterSemiBold"}
@@ -168,12 +181,17 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                 </Card.Header>
                 <Card.Body mt={-2} color="fg.muted">
                   {/* <List.Root>
-                       <List.Item >{profile.desc}</List.Item>
+                       <List.Item fontsize={{base:012px,',md:'16px'}} >{profile.desc}</List.Item>
                        <List.Item >{profile.desc2}</List.Item>
                        <List.Item >{profile.desc3}</List.Item>
                 
                   </List.Root> */}
-                  <Text ml={-4}>{profile.description}</Text>
+                  <Text
+                    fontSize={{ base: 10, md: 14 }}
+                    ml={{ base: -6, md: -4 }}
+                  >
+                    {profile.description}
+                  </Text>
                 </Card.Body>
               </Card.Root>
 
@@ -182,17 +200,19 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                 shadow={"sm"}
                 size="sm"
                 px={2}
-                rounded={20}
+                rounded={{ base: 10, md: 20 }}
                 mt={4}
+                // ml={-2}
                 fontFamily="InterRegular"
-                py={4}
+                py={{ base: 2, md: 4 }}
               >
                 <Card.Header
                   fontSize={{ base: "12px", md: "16px" }}
                   color={"#3B3B3B"}
                   fontFamily={"InterSemiBold"}
                   fontWeight={"medium"}
-                  ml={-2}
+                  ml={{ base: -3, md: -2 }}
+                  my={{ base: -3, md: 0 }}
                 >
                   Category
                   {/* <a
@@ -204,26 +224,63 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                 <Card.Body
                   flexDirection={{ base: "row", md: "column" }}
                   color="#6C3433"
-                  gap={4}
+                  fontSize={{ base: 10, md: 14 }}
+                  gap={{ base: 1, md: 4 }}
                 >
                   <List.Root
                     color="#6C3433"
                     flexDirection={{ base: "column", md: "row" }}
                     gap={10}
-                    px={5}
+                    px={{ base: 1, md: 5 }}
                   >
-                    <List.Item color="#6C3433">Finance</List.Item>
-                    <List.Item color="#6C3433">Accounting</List.Item>
-                    <List.Item color="#6C3433">Business</List.Item>
+                    <List.Item
+                      fontsize={{ base: "10px,", md: "16px" }}
+                      mb={{ base: -23, md: 0 }}
+                      color="#6C3433"
+                    >
+                      Finance
+                    </List.Item>
+                    <List.Item
+                      fontsize={{ base: "10px,", md: "16px" }}
+                      mb={{ base: -23, md: 0 }}
+                      color="#6C3433"
+                    >
+                      Accounting
+                    </List.Item>
+                    <List.Item
+                      fontsize={{ base: "10px,", md: "16px" }}
+                      color="#6C3433"
+                    >
+                      Business
+                    </List.Item>
                   </List.Root>
                   <List.Root
                     flexDirection={{ base: "column", md: "row" }}
                     gap={10}
-                    px={5}
+                    px={{ base: 3, md: 5 }}
+                    fontsize={{ base: "10px,", md: "16px" }}
                   >
-                    <List.Item color="#6C3433">Finance</List.Item>
-                    <List.Item color="#6C3433">Accounting</List.Item>
-                    <List.Item color="#6C3433">Business</List.Item>
+                    <List.Item
+                      fontsize={{ base: "10px,", md: "16px" }}
+                      mb={{ base: -23, md: 0 }}
+                      color="#6C3433"
+                    >
+                      Finance
+                    </List.Item>
+                    <List.Item
+                      fontsize={{ base: "10px,", md: "16px" }}
+                      mb={{ base: -23, md: 0 }}
+                      color="#6C3433"
+                    >
+                      Accounting
+                    </List.Item>
+                    <List.Item
+                      fontsize={{ base: "10px,", md: "16px" }}
+                      mb={{ base: -23, md: 0 }}
+                      color="#6C3433"
+                    >
+                      Business
+                    </List.Item>
                   </List.Root>
                 </Card.Body>
                 {/* <Text style={{

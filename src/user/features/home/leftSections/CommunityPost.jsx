@@ -89,7 +89,6 @@ const CommunityPost = () => {
     };
     getPosts();
   }, []);
-  
 
   // Truncate by words: keep first `maxWords` words, append "...." when there are more
   // utils/truncateText.ts
@@ -118,7 +117,7 @@ const CommunityPost = () => {
     <Box pb={5} className="">
       <Flex justifyContent={"space-between"} alignItems={"center"}>
         <Text
-          fontSize={{ base: 13, md: 15 }}
+          fontSize={{ base: 11, md: 15 }}
           // fontFamily="LatoMedium"
           bg={"transparent"}
           color={"#202224"}
@@ -127,7 +126,7 @@ const CommunityPost = () => {
         </Text>
         <Button
           p={0}
-          fontSize={{ base: 10, md: 12 }}
+          fontSize={{ base: 9, md: 12 }}
           onClick={() => navigate("/community")}
           bg={"transparent"}
           color={"#3366CC"}
@@ -152,7 +151,7 @@ const CommunityPost = () => {
               flexDirection="column"
               justifyContent={"space-between"}
               rounded={8}
-              h={{ base: 190, md: 245 }} // shadow={"xs"}
+              h={{ base: 240, md: 245 }} // shadow={"xs"}
               border={"1px solid #F0F2F5"}
               className="   relative overflow-hidden"
             >
@@ -187,58 +186,58 @@ const CommunityPost = () => {
                 color={"#475367"}
                 className="font-semibold"
               >
-                {card.body.length > 90
-                  ? `${card.body.slice(0, 90)}...`
+                {card.body.length > 120
+                  ? `${card.body.slice(0, 120)}...`
                   : card.body}
                 {/* {truncateText(card.body, 90)} */}
               </Text>
 
               <Stack>
                 <HStack
-                  rounded={10}
+                  rounded={{ base: 5, md: 10 }}
                   // my={2}
                   py={1}
                   pl={2}
                   pr={3}
-                  w={{ base: 10, md: 110 }}
+                  w={{ base: 74, md: 110 }}
                   bg={"#fff"}
                   border={"1px solid #F0F2F5"}
                 >
                   <Image
                     src={notify2}
                     alt="Update"
-                    boxSize="22px"
+                    boxSize={{ base: "12px", md: "22px" }}
                     rounded={0}
                   />
-                  <Text color={"#344054"} fontSize={{ base: 8, md: 11 }}>
+                  <Text color={"#344054"} fontSize={{ base: 7, md: 11 }}>
                     Video.MP3
                   </Text>
                 </HStack>
                 <Flex gap={3} alignItems={"center"}>
                   <HStack
-                    rounded={10}
+                    rounded={{ base: 5, md: 10 }}
                     // my={2}
                     py={1}
                     pl={2}
                     pr={3}
-                    w={{ base: 10, md: 110 }}
+                    w={{ base: "65px", md: 110 }}
                     bg={"#fff"}
                     border={"1px solid #F0F2F5"}
                   >
                     {/* <Image src={notify2} alt="Update" boxSize="22px" rounded={0} /> */}
-                    <AiOutlineLike />
+                    <AiOutlineLike size={10} />
 
-                    <Text color={"#344054"} fontSize={{ base: 8, md: 11 }}>
+                    <Text color={"#344054"} fontSize={{ base: 7, md: 11 }}>
                       {card?.likes?.length} Likes
                     </Text>
                   </HStack>
                   <HStack
-                    rounded={10}
+                    rounded={{ base: 5, md: 10 }}
                     // my={2}
                     py={1}
                     pl={2}
                     pr={3}
-                    w={{ base: 10, md: 110 }}
+                    w={{ base: "80px", md: 110 }}
                     bg={"#fff"}
                     border={"1px solid #F0F2F5"}
                   >
@@ -253,16 +252,16 @@ const CommunityPost = () => {
               <Button
                 fontFamily="LatoBold"
                 rounded={5}
-                fontSize={12}
-                py={0}
+                fontSize={{ base: 7, md: 12 }}
+                px={{ base: 4 }}
+                py={{ base: 1.5, md: 0 }}
                 mb={2}
-                size={"xs"}
+                size={{ base: "20px", md: "xs" }}
                 border={"1px solid #D0D5DD"}
                 bg={"#fff"}
                 color={"#344054"}
                 mr={"auto"}
-
-                onClick={()=>navigate(`/post/${card.id}`)}
+                onClick={() => navigate(`/post/${card.id}`)}
               >
                 See Post
               </Button>

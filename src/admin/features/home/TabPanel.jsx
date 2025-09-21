@@ -13,19 +13,31 @@ export const DashboardTabpanel = () => {
 
   return (
     <Tabs.Root bg="#F5F6FA" defaultValue="MentorApplication">
-      <Flex pt={5} justifyContent={"space-between"}>
+      <Flex
+        flexWrap={"wrap"}
+        overflowx={"auto"}
+        pt={5}
+        justifyContent={"space-between"}
+      >
         {/* Tabs */}
-        <Tabs.List whiteSpace={'nowrap'}>
+        <Tabs.List
+          flexWrap={"wrap"}
+          whiteSpace={{ base: "nowrap", md: "nowrap" }}
+        >
           <Tabs.Trigger
-          _selected={{color:'#2B362F'}}
-          color={'#999999'}
-          value="MentorApplication">
+            _selected={{ color: "#2B362F" }}
+            color={"#999999"}
+            fontSize={{ base: "11px", md: "14px" }}
+            value="MentorApplication"
+          >
             Mentor Application
           </Tabs.Trigger>
-          <Tabs.Trigger 
-           _selected={{color:'#2B362F'}}
-          color={'#999999'}
-          value="NewOrganization">
+          <Tabs.Trigger
+            _selected={{ color: "#2B362F" }}
+            color={"#999999"}
+            fontSize={{ base: "11px", md: "14px" }}
+            value="NewOrganization"
+          >
             New Organization
             {/* <Box 
             bg={'#F56630'} 
@@ -35,12 +47,14 @@ export const DashboardTabpanel = () => {
               2
             </Box> */}
           </Tabs.Trigger>
-          <Tabs.Trigger 
-           _selected={{color:'#2B362F'}}
-          color={'#999999'}
-          value="RewardRequest">
+          <Tabs.Trigger
+            _selected={{ color: "#2B362F" }}
+            color={"#999999"}
+            fontSize={{ base: "11px", md: "14px" }}
+            value="RewardRequest"
+          >
             Reward Request
-             {/* <Box 
+            {/* <Box 
             bg={'#F56630'} 
             px={3} 
             color={'#fff'} 
@@ -56,9 +70,11 @@ export const DashboardTabpanel = () => {
           onChange={(date) => setSelectedDate(date)}
           customInput={
             <Button
-              size="sm"
+              size={{ base: "10", md: "sm" }}
               border={`1px solid #333`}
               rounded={20}
+              p={1}
+              mt={{ base: 2, md: 0 }}
               color={"#333"}
               bg="#fff"
               _hover={{ bg: "#f0f0f0" }}
@@ -66,7 +82,7 @@ export const DashboardTabpanel = () => {
               <HStack spacing={2}>
                 <LuCalendarDays size={16} />
                 <Text
-                  fontSize="13px"
+                  fontSize={{ base: "10px", md: "13px" }}
                   fontWeight="400"
                   fontFamily="OutfitRegular"
                 >

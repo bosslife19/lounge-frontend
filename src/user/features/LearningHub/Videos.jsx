@@ -42,14 +42,19 @@ export const VideosPage = () => {
   return (
     <Box px={4} py={6}>
       {/* Search Input */}
-      <InputGroup w={300} mt={-5} mb={5} startElement={<CiSearch size={15} />}>
+      <InputGroup
+        w={{ base: "100%", md: 300 }}
+        mt={{ base: -7, md: -5 }}
+        mb={5}
+        startElement={<CiSearch size={15} />}
+      >
         <Input
           py={15}
           fontSize={10}
           borderRadius={10}
           placeholder="Search..."
         />
-      </InputGroup> 
+      </InputGroup>
 
       {/* Video Grid */}
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} gap={7}>
@@ -67,7 +72,7 @@ export const VideosPage = () => {
                 roundedTop={10}
                 src={card.thumbnail}
                 alt={card.title}
-                h="100px"
+                h={{ base: "100px", md: "200px" }}
                 className="w-full h-30 object-cover"
               />
 
@@ -107,7 +112,10 @@ export const VideosPage = () => {
 
               {/* Card Title */}
               <Box pt={2} px={2}>
-                <Text fontSize={{ base: 12, md: 14 }} className="font-semibold">
+                <Text
+                  fontSize={{ base: "11px", md: 14 }}
+                  className="font-semibold"
+                >
                   {card.title}
                 </Text>
               </Box>
@@ -126,14 +134,14 @@ export const VideosPage = () => {
                     <Image
                       src={userAvatar}
                       alt="Update"
-                      boxSize="30px"
+                      boxSize={{ base: "20px", md: "30px" }}
                       rounded="full"
                     />
                   </Stack>
                   <Stack spacing={0}>
                     <Text
                       color="#202020"
-                      fontSize={{ base: 10, md: 12 }}
+                      fontSize={{ base: 8, md: 12 }}
                       fontFamily="InterMedium"
                     >
                       The Lounge Team
@@ -141,7 +149,7 @@ export const VideosPage = () => {
                     <Text
                       color="#202020"
                       mt={-2}
-                      fontSize={{ base: 9, md: 11 }}
+                      fontSize={{ base: 8, md: 11 }}
                     >
                       {formatTime(card.created_at)}
                     </Text>
@@ -151,7 +159,7 @@ export const VideosPage = () => {
               </HStack>
             </Box>
           ))}
-        {videos.length === 0 && <Text>No Videos yet</Text>}
+        {videos.length === 0 && <Text textAlign={"center"}>No Videos yet</Text>}
       </SimpleGrid>
 
       {/* Custom Modal */}
@@ -174,7 +182,7 @@ export const VideosPage = () => {
             style={{
               position: "relative",
               width: "80%",
-             
+
               maxWidth: "900px",
               background: "transparent",
               borderRadius: "12px",
@@ -183,29 +191,28 @@ export const VideosPage = () => {
             }}
           >
             {/* Close Button */}
-           <button
-  onClick={handleClose}
-  style={{
-    position: "absolute",
-    zIndex: 10000,
-    top: "15px",       // inside modal
-    right: "15px",     // inside modal
-    backgroundColor: "rgba(0,0,0,0.6)",
-    border: "none",
-    borderRadius: "50%",
-    width: "40px",
-    height: "40px",
-    color: "white",
-    fontSize: "22px",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }}
->
-  ✕
-</button>
-
+            <button
+              onClick={handleClose}
+              style={{
+                position: "absolute",
+                zIndex: 10000,
+                top: "15px", // inside modal
+                right: "15px", // inside modal
+                backgroundColor: "rgba(0,0,0,0.6)",
+                border: "none",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                color: "white",
+                fontSize: "22px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              ✕
+            </button>
 
             {/* Video Player */}
             <ReactPlayer
