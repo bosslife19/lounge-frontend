@@ -204,7 +204,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                     Description
                   </Field.Label>
                   <Textarea
-                    boxSize={{ base: 70, md: 150 }}
+                    // boxSize={{ base: 70, md: 150 }}
                     w={"100%"}
                     fontSize={{ base: "9px", md: 12 }}
                     outline={"none"}
@@ -285,7 +285,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                   <Textarea
                     _placeholder={{ color: "#98A2B3" }}
                     placeholder="Any Instructions for mentees before session"
-                    boxSize={{ base: 70, md: 100 }}
+                    // boxSize={{ base: 70, md: 100 }}
                     w={"100%"}
                     fontSize={{ base: "9px", md: 14 }}
                     ref={prepRef}

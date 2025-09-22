@@ -10,8 +10,6 @@ import {
   Input,
   Textarea,
   Spinner,
-  
- 
 } from "@chakra-ui/react";
 import { CgAttachment } from "react-icons/cg";
 import { CiImageOn } from "react-icons/ci";
@@ -93,7 +91,7 @@ export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
         <Dialog.Backdrop />
-        <Dialog.Positioner>
+        <Dialog.Positioner px={5}>
           <Dialog.Content borderRadius="lg" bg="#FAFAFA" p={4}>
             <Dialog.CloseTrigger
               rounded={30}
@@ -104,79 +102,99 @@ export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
             </Dialog.CloseTrigger>
 
             <Stack spacing={3}>
-              <Heading>Create Content</Heading>
+              <Heading fontSize={{ base: "12px", md: 18 }}>
+                {" "}
+                Create Content
+              </Heading>
 
               {/* Type selector */}
               {/* <Text fontWeight="semibold">Type</Text> */}
-<Text fontWeight="semibold">Type</Text>
-<div style={{ margin: "20px 0" }}>
-  <label style={{ fontWeight: "600", marginBottom: "10px", display: "block" }}>
-    Select Content Type:
-  </label>
+              <Text fontSize={{ base: "10px", md: 14 }} fontWeight="semibold">
+                Type
+              </Text>
+              <div style={{ margin: "20px 0" }}>
+                <Text
+                  fontSize={{ base: "10px", md: 14 }}
+                  style={{
+                    fontWeight: "600",
+                    marginBottom: "10px",
+                    display: "block",
+                  }}
+                >
+                  Select Content Type:
+                </Text>
 
-  <label
-    style={{
-      display: "flex",
-      alignItems: "center",
-      marginBottom: "8px",
-      cursor: "pointer",
-      fontSize: "15px",
-    }}
-  >
-    <input
-      type="radio"
-      name="contentType"
-      value="article"
-      checked={type === "article"}
-      onChange={(e) => setType(e.target.value)}
-      style={{
-        marginRight: "8px",
-        width: "16px",
-        height: "16px",
-        accentColor: "#111", // modern blue highlight
-      }}
-    />
-    Article
-  </label>
+                <Text
+                  fontSize={{ base: "10px", md: 14 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "8px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="contentType"
+                    value="article"
+                    checked={type === "article"}
+                    onChange={(e) => setType(e.target.value)}
+                    style={{
+                      marginRight: "8px",
+                      // width: "16px",
+                      // height: "16px",
+                      accentColor: "#111", // modern blue highlight
+                    }}
+                  />
+                  Article
+                </Text>
 
-  <label
-    style={{
-      display: "flex",
-      alignItems: "center",
-      marginBottom: "8px",
-      cursor: "pointer",
-      fontSize: "15px",
-    }}
-  >
-    <input
-      type="radio"
-      name="contentType"
-      value="news"
-      checked={type === "news"}
-      onChange={(e) => setType(e.target.value)}
-      style={{
-        marginRight: "8px",
-        width: "16px",
-        height: "16px",
-        accentColor: "#111",
-      }}
-    />
-    News / Update
-  </label>
-</div>
+                <Text
+                  fontSize={{ base: "10px", md: 14 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "8px",
+                    cursor: "pointer",
+                    // fontSize: "15px",
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="contentType"
+                    value="news"
+                    checked={type === "news"}
+                    onChange={(e) => setType(e.target.value)}
+                    style={{
+                      marginRight: "8px",
+                      // width: "16px",
+                      // height: "16px",
+                      accentColor: "#111",
+                    }}
+                  />
+                  News / Update
+                </Text>
+              </div>
 
-
-              <Text>Title</Text>
+              <Text fontSize={{ base: "12px", md: 14 }}>Title</Text>
               <Input type="text" ref={titleRef} />
 
-              <Textarea 
-              border={'1px solid #D3D4D7'}
-              h={100} pb={300} fontSize={13} autoresize variant="subtle" placeholder="Write your article or update here" ref={contentRef}/>
+              <Textarea
+                border={"1px solid #D3D4D7"}
+                h={100}
+                pb={{ base: 20, md: 200 }}
+                fontSize={{ base: "10px", md: 14 }}
+                autoresize
+                variant="subtle"
+                placeholder="Write your article or update here"
+                ref={contentRef}
+              />
 
               <HStack>
                 <Button
                   variant="outline"
-                  size="sm"
+                  fontSize={{ base: "10px", md: 14 }}
+                  size={{ base: "xs", md: "sm" }}
                   leftIcon={<CiImageOn />}
                   onClick={() => fileInputRef.current?.click()}
                 >
@@ -193,8 +211,9 @@ export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
                 <Button
                   bg={"#EFF2FC"}
                   color={"#292D32"}
-                  rounded={20}
-                  fontSize={11}
+                  fontSize={{ base: "10px", md: 14 }}
+                  size={{ base: "xs", md: "sm" }}
+                  rounded={{ base: 8, md: 20 }}
                   onClick={() => setAddLink(!addLink)}
                 >
                   <CgAttachment />
@@ -203,14 +222,14 @@ export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
               </HStack>
 
               {postImage && (
-                <Text fontSize="sm" color="green.600">
+                <Text fontSize={{ base: "10px", md: 14 }} color="green.600">
                   Selected: {postImage.name}
                 </Text>
               )}
 
               {addLink && (
                 <>
-                  <Text>Add your link</Text>
+                  <Text fontSize={{ base: "10px", md: 14 }}>Add your link</Text>
                   <Input
                     type="text"
                     placeholder="Paste link here"
@@ -219,7 +238,13 @@ export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
                 </>
               )}
 
-              <Button rounded={20} onClick={handlePost} disabled={loading || isLoading}>
+              <Button
+                fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+                rounded={{ base: 8, md: 20 }}
+                onClick={handlePost}
+                disabled={loading || isLoading}
+              >
                 {loading || isLoading ? <Spinner /> : "Post"}
               </Button>
             </Stack>

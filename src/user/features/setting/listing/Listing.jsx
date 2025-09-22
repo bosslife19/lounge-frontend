@@ -78,7 +78,7 @@ export const SettingsListing = () => {
           border={"1px solid #EDEDF2"}
         >
           <Flex
-            flexWrap={"wrap"}
+            // flexWrap={"wrap"}
             alignItems={"center"}
             justifyContent={"space-between"}
           >
@@ -112,7 +112,7 @@ export const SettingsListing = () => {
           p={{ base: 1, md: 1 }}
           onClick={() => handleCardClick()}
           rounded={10}
-          w={"100%"}
+          w={{ base: "100%", md: "auto" }}
           fontSize={{ base: "9px", md: 12 }}
         >
           Create New Listing

@@ -7,7 +7,7 @@ import { SettingsListing } from "./listing/Listing";
 
 const SettingsTab = () => {
   return (
-    <Box h={"100%"} pb={"50%"} p={{ base: 1, md: 3 }}>
+    <Box h={"100%"} pb={"50%"} p={{ base: 1, md: 2 }}>
       <Heading
         pl={{ base: 3, md: 5 }}
         display={"flex"}

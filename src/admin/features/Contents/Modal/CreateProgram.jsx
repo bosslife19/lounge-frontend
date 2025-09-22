@@ -1,18 +1,24 @@
 import React, { useRef, useState } from "react";
 import { useRequest } from "../../../../hooks/useRequest";
 import { toast } from "react-toastify";
+import { Box, Button, Input, Text, Textarea } from "@chakra-ui/react";
 
 const CreateProgram = ({ open, onClose, setNewsData }) => {
-  const [sessions, setSessions] = useState([{ title: "", description: "", date: "", time: "" , video:''}]);
-  const {makeRequest, loading} = useRequest()
+  const [sessions, setSessions] = useState([
+    { title: "", description: "", date: "", time: "", video: "" },
+  ]);
+  const { makeRequest, loading } = useRequest();
 
-  const titleRef = useRef('');
+  const titleRef = useRef("");
   const descRef = useRef("");
-  const timeRef= useRef()
-  const dateRef = useRef()
+  const timeRef = useRef();
+  const dateRef = useRef();
 
   const addSession = () => {
-    setSessions([...sessions, { title: "", description: "", date: "", time: "" }]);
+    setSessions([
+      ...sessions,
+      { title: "", description: "", date: "", time: "" },
+    ]);
   };
 
   const handleChange = (index, field, value) => {
@@ -20,24 +26,22 @@ const CreateProgram = ({ open, onClose, setNewsData }) => {
     updated[index][field] = value;
     setSessions(updated);
   };
-const handleCreateProgram = async ()=>{
- 
-  const res = await makeRequest('/program',{
-    title: titleRef.current.value,
-    content: descRef.current.value,
-   
-    sessions
+  const handleCreateProgram = async () => {
+    const res = await makeRequest("/program", {
+      title: titleRef.current.value,
+      content: descRef.current.value,
 
-  })
-  
-  if(res.error) return;
-  toast.success('Program Created Successfully');
-  setNewsData(prev=>[res.response.program, ...prev]);
-}
+      sessions,
+    });
+
+    if (res.error) return;
+    toast.success("Program Created Successfully");
+    setNewsData((prev) => [res.response.program, ...prev]);
+  };
   if (!open) return null;
 
   return (
-    <div
+    <Box
       style={{
         position: "fixed",
         top: 0,
@@ -52,12 +56,13 @@ const handleCreateProgram = async ()=>{
         padding: "10px",
       }}
     >
-      <div
+      <Box
+        width={{ base: "100%", md: "480px" }}
         style={{
           backgroundColor: "#fff",
           borderRadius: "12px",
           padding: "24px",
-          width: "480px",
+          // width: "480px",
           maxHeight: "90vh",
           overflowY: "auto",
           boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
@@ -75,9 +80,17 @@ const handleCreateProgram = async ()=>{
             paddingBottom: "10px",
           }}
         >
-          <h2 style={{ fontSize: "18px", margin: 0, color: "#222", fontWeight: "600" }}>
+          <Text
+            fontSize={{ base: "12px", md: 14 }}
+            style={{
+              // fontSize: "18px",
+              margin: 0,
+              color: "#222",
+              fontWeight: "600",
+            }}
+          >
             Create New Program
-          </h2>
+          </Text>
           <button
             onClick={onClose}
             style={{
@@ -96,10 +109,19 @@ const handleCreateProgram = async ()=>{
 
         {/* News Fields */}
         <div style={{ marginBottom: "15px" }}>
-          <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: "#444" }}>
+          <Text
+            fontSize={{ base: "11px", md: 14 }}
+            style={{
+              display: "block",
+              marginBottom: "6px",
+              fontWeight: "600",
+              color: "#444",
+            }}
+          >
             Title
-          </label>
-          <input
+          </Text>
+          <Input
+            fontSize={{ base: "10px", md: 14 }}
             type="text"
             style={{
               width: "100%",
@@ -113,10 +135,19 @@ const handleCreateProgram = async ()=>{
           />
         </div>
         <div style={{ marginBottom: "20px" }}>
-          <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: "#444" }}>
+          <Text
+            fontSize={{ base: "11px", md: 14 }}
+            style={{
+              display: "block",
+              marginBottom: "6px",
+              fontWeight: "600",
+              color: "#444",
+            }}
+          >
             Description
-          </label>
-          <textarea
+          </Text>
+          <Textarea
+            fontSize={{ base: "10px", md: 14 }}
             rows="3"
             style={{
               width: "100%",
@@ -131,9 +162,16 @@ const handleCreateProgram = async ()=>{
         </div>
 
         {/* Sessions Section */}
-        <h3 style={{ fontSize: "16px", color: "#222", fontWeight: "600", marginBottom: "12px" }}>
+        <Text
+          fontSize={{ base: "11px", md: 16 }}
+          style={{
+            color: "#222",
+            fontWeight: "600",
+            marginBottom: "12px",
+          }}
+        >
           Sessions
-        </h3>
+        </Text>
         {sessions.map((session, index) => (
           <div
             key={index}
@@ -146,10 +184,19 @@ const handleCreateProgram = async ()=>{
             }}
           >
             <div style={{ marginBottom: "12px" }}>
-              <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: "#444" }}>
+              <Text
+                fontSize={{ base: "11px", md: 14 }}
+                style={{
+                  display: "block",
+                  marginBottom: "6px",
+                  fontWeight: "600",
+                  color: "#444",
+                }}
+              >
                 Session Title
-              </label>
-              <input
+              </Text>
+              <Input
+                fontSize={{ base: "10px", md: 14 }}
                 type="text"
                 value={session.title}
                 onChange={(e) => handleChange(index, "title", e.target.value)}
@@ -158,35 +205,53 @@ const handleCreateProgram = async ()=>{
                   padding: "8px",
                   borderRadius: "6px",
                   border: "1px solid #ccc",
-                  fontSize: "14px",
                 }}
               />
             </div>
 
             <div style={{ marginBottom: "12px" }}>
-              <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: "#444" }}>
+              <Text
+                fontSize={{ base: "11px", md: 14 }}
+                style={{
+                  display: "block",
+                  marginBottom: "6px",
+                  fontWeight: "600",
+                  color: "#444",
+                }}
+              >
                 Session Description
-              </label>
-              <textarea
+              </Text>
+              <Textarea
+                fontSize={{ base: "10px", md: 14 }}
                 rows="2"
                 value={session.description}
-                onChange={(e) => handleChange(index, "description", e.target.value)}
+                onChange={(e) =>
+                  handleChange(index, "description", e.target.value)
+                }
                 style={{
                   width: "100%",
                   padding: "8px",
                   borderRadius: "6px",
                   border: "1px solid #ccc",
                   resize: "none",
-                  fontSize: "14px",
                 }}
               />
             </div>
 
-                        <div style={{ marginBottom: "12px" }}>
-              <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: "#444" }}>
+            <div style={{ marginBottom: "12px" }}>
+              <Text
+                fontSize={{ base: "11px", md: 14 }}
+                style={{
+                  display: "block",
+                  marginBottom: "6px",
+                  fontWeight: "600",
+                  color: "#444",
+                }}
+              >
                 Video Link
-              </label>
-              <input
+              </Text>
+              <Input
+                fontSize={{ base: "10px", md: 14 }}
                 type="text"
                 value={session.video}
                 onChange={(e) => handleChange(index, "video", e.target.value)}
@@ -195,20 +260,25 @@ const handleCreateProgram = async ()=>{
                   padding: "8px",
                   borderRadius: "6px",
                   border: "1px solid #ccc",
-                  fontSize: "14px",
                 }}
               />
             </div>
 
-
-                     
-
             <div style={{ display: "flex", gap: "10px" }}>
               <div style={{ flex: 1 }}>
-                <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: "#444" }}>
+                <Text
+                  fontSize={{ base: "11px", md: 14 }}
+                  style={{
+                    display: "block",
+                    marginBottom: "6px",
+                    fontWeight: "600",
+                    color: "#444",
+                  }}
+                >
                   Date of Event
-                </label>
-                <input
+                </Text>
+                <Input
+                  fontSize={{ base: "10px", md: 14 }}
                   type="date"
                   value={session.date}
                   onChange={(e) => handleChange(index, "date", e.target.value)}
@@ -217,16 +287,23 @@ const handleCreateProgram = async ()=>{
                     padding: "8px",
                     borderRadius: "6px",
                     border: "1px solid #ccc",
-                    fontSize: "14px",
                   }}
-                 
                 />
               </div>
               <div style={{ flex: 1 }}>
-                <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: "#444" }}>
+                <Text
+                  fontSize={{ base: "11px", md: 14 }}
+                  style={{
+                    display: "block",
+                    marginBottom: "6px",
+                    fontWeight: "600",
+                    color: "#444",
+                  }}
+                >
                   Time of Event
-                </label>
-                <input
+                </Text>
+                <Input
+                  fontSize={{ base: "10px", md: 14 }}
                   type="time"
                   value={session.time}
                   onChange={(e) => handleChange(index, "time", e.target.value)}
@@ -235,16 +312,17 @@ const handleCreateProgram = async ()=>{
                     padding: "8px",
                     borderRadius: "6px",
                     border: "1px solid #ccc",
-                    fontSize: "14px",
                   }}
-                 
                 />
               </div>
             </div>
           </div>
         ))}
 
-        <button
+        <Button
+          fontSize={{ base: "10px", md: 14 }}
+          size={{ base: "xs", md: "sm" }}
+          className=" text-[10px] md:text-[14px]"
           onClick={addSession}
           style={{
             padding: "10px 15px",
@@ -253,18 +331,21 @@ const handleCreateProgram = async ()=>{
             border: "none",
             borderRadius: "6px",
             cursor: "pointer",
-            fontSize: "14px",
             marginBottom: "20px",
             fontWeight: "600",
             boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
           }}
         >
           + Add Session
-        </button>
+        </Button>
 
         {/* Actions */}
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
-          <button
+        <div
+          style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
+        >
+          <Button
+            fontSize={{ base: "10px", md: 14 }}
+            size={{ base: "xs", md: "sm" }}
             onClick={onClose}
             style={{
               padding: "10px 15px",
@@ -273,13 +354,15 @@ const handleCreateProgram = async ()=>{
               border: "none",
               borderRadius: "6px",
               cursor: "pointer",
-              fontSize: "14px",
+              // fontSize: "14px",
               fontWeight: "600",
             }}
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
+            fontSize={{ base: "10px", md: 14 }}
+            size={{ base: "xs", md: "sm" }}
             style={{
               padding: "10px 15px",
               backgroundColor: "#28a745",
@@ -291,14 +374,13 @@ const handleCreateProgram = async ()=>{
               fontWeight: "600",
               boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
             }}
-
             onClick={handleCreateProgram}
           >
             Create Program
-          </button>
+          </Button>
         </div>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

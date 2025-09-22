@@ -37,10 +37,10 @@ export const CreateVideo = ({ isOpen, onClose, setVideos }) => {
   };
   let image;
   const handlePost = async () => {
-    if(!titleRef.current.value || !linkRef.current.value){
-      return toast.error('Missing required fields');
+    if (!titleRef.current.value || !linkRef.current.value) {
+      return toast.error("Missing required fields");
     }
-   
+
     if (postImage) {
       const formData = new FormData();
       formData.append("file", postImage);
@@ -55,15 +55,16 @@ export const CreateVideo = ({ isOpen, onClose, setVideos }) => {
       } catch (error) {
         console.error("Thumbnail upload failed", error);
         setIsLoading(false);
-        toast.error("Thumbnail Upload Failed. Please check your internet try again.");
+        toast.error(
+          "Thumbnail Upload Failed. Please check your internet try again."
+        );
         return;
       }
     }
 
     const response = await makeRequest("/upload-video", {
-      
       title: titleRef.current?.value,
-      link:linkRef.current?.value,
+      link: linkRef.current?.value,
       image,
     });
 
@@ -72,7 +73,7 @@ export const CreateVideo = ({ isOpen, onClose, setVideos }) => {
     toast.success("Video uploaded successfully");
     setVideos((prev) => [response.response.video, ...prev]);
     setIsLoading(false);
-    
+
     titleRef.current.value = "";
 
     setPostImage(null);
@@ -82,7 +83,6 @@ export const CreateVideo = ({ isOpen, onClose, setVideos }) => {
   const handleFileChange = async (event) => {
     const file = event.target.files?.[0];
     if (file) {
-     
       setPostImage(file);
     }
   };
@@ -91,7 +91,7 @@ export const CreateVideo = ({ isOpen, onClose, setVideos }) => {
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
         <Dialog.Backdrop />
-        <Dialog.Positioner>
+        <Dialog.Positioner px={5}>
           <Dialog.Content borderRadius="lg" bg="#FAFAFA" p={4}>
             <Dialog.CloseTrigger
               rounded={30}
@@ -103,25 +103,32 @@ export const CreateVideo = ({ isOpen, onClose, setVideos }) => {
             <Stack spacing={0}>
               <Heading>Create Video Content</Heading>
               <Text>Video Title</Text>
-              <Input type="text" ref={titleRef} />
-               
-                <>
-                  <Text>Paste Video Link</Text>
-                  <Input
-                    type="text"
-                    placeholder="Paste link to video here (e.g. youtube, vimeo, tiktok etc)"
-                    ref={linkRef}
-                  />
-                </>
-             
-             
+              <Input
+                fontSize={{ base: "10px", md: 16 }}
+                type="text"
+                ref={titleRef}
+              />
+
+              <>
+                <Text fontSize={{ base: "10px", md: 16 }}>
+                  Paste Video Link
+                </Text>
+                <Input
+                  type="text"
+                  fontSize={{ base: "10px", md: 16 }}
+                  placeholder="Paste link to video here (e.g. youtube, vimeo, tiktok etc)"
+                  ref={linkRef}
+                />
+              </>
+
               <HStack maxW={200} justifyContent={"flex-start"}>
                 <FileUpload.Root>
                   <FileUpload.HiddenInput />
                   <FileUpload.Trigger asChild>
                     <Button
                       variant="outline"
-                      size="sm"
+                      size={{ base: "xs", md: "sm" }}
+                      fontSize={{ base: "10px", md: 16 }}
                       onClick={handleImageClick}
                     >
                       <CiImageOn />{" "}
@@ -132,18 +139,22 @@ export const CreateVideo = ({ isOpen, onClose, setVideos }) => {
                         style={{ display: "none" }}
                         onChange={handleFileChange}
                       />
-                     Add Video Thumbnail
+                      Add Video Thumbnail
                     </Button>
                   </FileUpload.Trigger>
                   <FileUpload.List />
                 </FileUpload.Root>
                 {/* add Link */}
-
-
               </HStack>
-             
-              <Button rounded={20} onClick={handlePost} disabled={loading}>
-                {loading ||isLoading?<Spinner/>:'Upload Video'}
+
+              <Button
+                size={{ base: "xs", md: "sm" }}
+                fontSize={{ base: "10px", md: 16 }}
+                rounded={20}
+                onClick={handlePost}
+                disabled={loading}
+              >
+                {loading || isLoading ? <Spinner /> : "Upload Video"}
               </Button>
             </Stack>
           </Dialog.Content>

@@ -151,7 +151,7 @@ const CommunityPost = () => {
               flexDirection="column"
               justifyContent={"space-between"}
               rounded={8}
-              h={{ base: 240, md: 245 }} // shadow={"xs"}
+              // h={{ base: 240, md: 245 }} // shadow={"xs"}
               border={"1px solid #F0F2F5"}
               className="   relative overflow-hidden"
             >
@@ -182,12 +182,12 @@ const CommunityPost = () => {
               </HStack>
               <Text
                 fontFamily="InterRegular"
-                fontSize={{ base: 12, md: 13 }}
+                fontSize={{ base: "11px", md: 13 }}
                 color={"#475367"}
                 className="font-semibold"
               >
-                {card.body.length > 120
-                  ? `${card.body.slice(0, 120)}...`
+                {card.body.length > 89
+                  ? `${card.body.slice(0, 89)}...`
                   : card.body}
                 {/* {truncateText(card.body, 90)} */}
               </Text>
@@ -239,11 +239,15 @@ const CommunityPost = () => {
                     pr={3}
                     w={{ base: "80px", md: 110 }}
                     bg={"#fff"}
+                    whiteSpace={"nowrap"}
                     border={"1px solid #F0F2F5"}
                   >
                     {/* <Image src={notify2} alt="Update" boxSize="22px" rounded={0} /> */}
                     <FaComment size={10} />
-                    <Text color={"#344054"} fontSize={{ base: 6, md: 9 }}>
+                    <Text
+                      color={"#344054"}
+                      fontSize={{ base: "6px", md: "9px" }}
+                    >
                       {card?.comments?.length} Comments
                     </Text>
                   </HStack>
@@ -255,7 +259,7 @@ const CommunityPost = () => {
                 fontSize={{ base: 7, md: 12 }}
                 px={{ base: 4 }}
                 py={{ base: 1.5, md: 0 }}
-                mb={2}
+                my={2}
                 size={{ base: "20px", md: "xs" }}
                 border={"1px solid #D0D5DD"}
                 bg={"#fff"}

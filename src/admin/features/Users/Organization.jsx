@@ -128,16 +128,18 @@ export const Organization = () => {
                 <Menu.Root key={uniqueKey}>
                   <Menu.Trigger asChild>
                     <Button
-                      size="sm"
+                      size={{ base: "10", md: "sm" }}
                       border={`1px solid ${selected.color}`}
-                      rounded={20}
+                      rounded={{ base: 8, md: 20 }}
+                      p={1}
+                      mr={1}
                       variant="outline"
                       color={selected.color}
                     >
                       <HStack spacing={1}>
                         {selected.icon && selected.icon}
                         <Text
-                          fontSize="13px"
+                          fontSize={{ base: "10px", md: "13px" }}
                           fontWeight="400"
                           fontFamily="OutfitRegular"
                         >
@@ -149,7 +151,10 @@ export const Organization = () => {
                   </Menu.Trigger>
                   <Portal>
                     <Menu.Positioner>
-                      <Menu.Content cursor="pointer" rounded={20}>
+                      <Menu.Content
+                        cursor="pointer"
+                        rounded={{ base: 9, md: 20 }}
+                      >
                         {/* <Menu.Item
                       color="#333333CC"
                       onClick={() => handleSelect(row.UserId, "Approve", "green.500", <IoMdCheckboxOutline boxSize={3} />)}
@@ -159,6 +164,7 @@ export const Organization = () => {
                         {/* <Menu.Item color="#333333CC" onClick={() => navigate(`/admin/organization-details`)}>View Details</Menu.Item> */}
                         <Menu.Item
                           color="#333333CC"
+                          fontSize={{ base: "10px", md: "13px" }}
                           onClick={() => handleDelete(row.id)}
                         >
                           <MdOutlineCancel /> Remove
@@ -172,7 +178,9 @@ export const Organization = () => {
           };
         })
       ) : (
-        <Text>No Organizations Yet</Text>
+        <Text textAlign={"center"} fontSize={{ base: "12px", md: "16px" }}>
+          No Organizations Yet
+        </Text>
       ),
   };
 
@@ -183,22 +191,32 @@ export const Organization = () => {
         position={"absolute"}
         right={0}
         top={5}
-        size="sm"
+        size={{ base: "xs", md: "sm" }}
         border={`1px solid #333`}
-        rounded={20}
+        rounded={{ base: 9, md: 20 }}
         color={"#333"}
         bg="#fff"
         onClick={handleAddUser}
         _hover={{ bg: "#f0f0f0" }}
       >
-        <HStack spacing={2}>
+        <HStack
+          spacing={2}
+          overflow={"hidden"}
+          maxW={{ base: "44px", md: "100%" }}
+        >
           <FiUserPlus size={12} />
           <Text
-            fontSize={{ base: 10, md: 13 }}
+            fontSize={{ base: "10px", md: 13 }}
             fontWeight="400"
+            isTruncated
             fontFamily="OutfitRegular"
           >
-            Add New Organization
+            {(() => {
+              const words = "Add New Organization".split(" ");
+              return words.length > 10
+                ? words.slice(0, 10).join(" ") + "..."
+                : words.join(" ");
+            })()}
           </Text>
         </HStack>
       </Button>
@@ -213,7 +231,9 @@ export const Organization = () => {
           setPageSize={setPageSize}
         />
       ) : (
-        <Text>No organizations yet</Text>
+        <Text fontSize={{ base: "10px", md: 13 }} textAlign={"center"}>
+          No organizations yet
+        </Text>
       )}
     </Box>
   );

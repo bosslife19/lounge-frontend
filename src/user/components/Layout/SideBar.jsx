@@ -167,7 +167,12 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
         {/* Logo + Close Button */}
         <Flex align="center" justify="space-between" px={2} py={5}>
           <Link to="dashboard">
-            <Box as="img" src={logo} alt="logo" h="40px" />
+            <Box
+              as="img"
+              src={logo}
+              alt="logo"
+              h={{ base: "20px", md: "40px" }}
+            />
           </Link>
 
           <IconButton
@@ -175,7 +180,9 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
             aria-label="Close Sidebar"
             onClick={() => setSidebarOpen(!sidebarOpen)}
             display={{ base: "flex", lg: "none" }}
-            size="sm"
+            size={{ base: "xs", md: "sm" }}
+            mr={-3}
+            mt={-10}
             rounded="full"
             border="1px solid"
             borderColor="gray.300"
@@ -253,7 +260,9 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
                     }
                     mr={3}
                   />
-                  <Text isTruncated>{item.text}</Text>
+                  <Text isTruncated fontSize={{ base: "12px", md: "16px" }}>
+                    {item.text}
+                  </Text>
                 </Flex>
                 {renderSubNav(mainIndex)}
               </Box>

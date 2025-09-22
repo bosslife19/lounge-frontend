@@ -117,7 +117,7 @@ const NewsUpdate = () => {
               justifyContent={"space-between"}
               rounded={{ base: 10, md: 20 }}
               w={{ base: "100%" }}
-              h={{ base: 240, md: 245 }}
+              // h={{ base: 240, md: 245 }}
               className="shadow-lg relative"
               onClick={() => navigate(`/news/${card.id}`)}
             >

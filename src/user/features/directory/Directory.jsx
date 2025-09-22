@@ -129,7 +129,7 @@ const Directory = () => {
         justifyContent={"space-between"}
       >
         {/* LEFT SIDE LIST */}
-        <Box w={{ base: "100%", md: "65%" }} pr={4}>
+        <Box w={{ base: "100%", md: "65%" }} pr={{ base: 2, md: 4 }}>
           <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3}>
             {filteredResults?.map((card, idx) => (
               <Grid
@@ -237,7 +237,7 @@ const Directory = () => {
           bg={"#FAFAFA"}
           h={"100%"}
           w={{ base: "100%", md: "35%" }}
-          px={{ base: 4, md: 4 }}
+          px={{ base: 2, md: 4 }}
           pt={3}
           // className="pb={4}"
         >
@@ -332,7 +332,7 @@ const Directory = () => {
                 Bio
               </Heading>
             </Card.Header>
-            <Card.Body px={{ base: "8%", md: "9%" }} mt={-3} color="#7C7C7C">
+            <Card.Body px={{ base: "9%", md: "9%" }} mt={-3} color="#7C7C7C">
               <List.Root
                 fontFamily="InterRegular"
                 fontSize={{ base: 10, md: 12 }}
@@ -361,7 +361,7 @@ const Directory = () => {
             </Card.Header>
             <Card.Body
               mt={{ base: -4, md: -2 }}
-              px={{ base: "7%", md: "9%" }}
+              px={{ base: "9%", md: "9%" }}
               color="#7C7C7C"
             >
               <List.Root>

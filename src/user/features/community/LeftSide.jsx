@@ -25,6 +25,7 @@ import { useRequest } from "../../../hooks/useRequest";
 import { AiOutlineLike } from "react-icons/ai";
 import useTruncate from "../../../hooks/useTruncate";
 import { BiMessageRoundedDetail } from "react-icons/bi";
+import axiosClient from "../../../axiosClient";
 
 export const LeftSide = ({ posts, setPosts }) => {
   const { userDetails } = useContext(AuthContext);
@@ -112,7 +113,7 @@ export const LeftSide = ({ posts, setPosts }) => {
   ];
 
   return (
-    <Stack w={"100%"} mb={"auto"} pb={"3vw"} gap={5}>
+    <Stack w={"100%"} mb={"auto"} pb={"3%"} gap={5}>
       {posts?.map((card) => (
         <Card.Root
           key={card.id}

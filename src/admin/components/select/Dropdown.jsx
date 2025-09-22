@@ -1,28 +1,21 @@
-"use client"
-
-import {
-  Flex,
-  Portal,
-  Select,
-  createListCollection,
-} from "@chakra-ui/react";
+import { Flex, Portal, Select, createListCollection } from "@chakra-ui/react";
 import { MdBusinessCenter } from "react-icons/md";
 import { RiCalendarEventFill } from "react-icons/ri";
 
 export const Dropdown = ({ icon, frameworks, iconed }) => {
   return (
-    <Select.Root collection={frameworks} size="sm">
+    <Select.Root collection={frameworks} size="xs" width="auto" minW="140px">
       <Select.HiddenSelect />
 
       {/* Trigger */}
       <Select.Control
-        py={2}
-        rounded={12}
+        py={{ base: 0, md: 2 }}
+        rounded={{ base: 5, md: 12 }}
         border="1px solid #CCCCCC"
         cursor="pointer"
         _focusWithin={{ borderColor: "blue.400" }}
       >
-        <Select.Trigger border="none" outline="none" px={2} py={1}>
+        <Select.Trigger border="none" outline="none">
           <Flex align="center" gap={2}>
             {iconed && <RiCalendarEventFill />}
             {icon && <MdBusinessCenter />}
@@ -30,6 +23,11 @@ export const Dropdown = ({ icon, frameworks, iconed }) => {
               fontWeight="medium"
               color="#9E9E9E"
               placeholder="Select"
+              textAlign="left"
+              flex="1"
+              whiteSpace="nowrap"
+              overflow="visible"
+              wordBreak="break-word"
             />
           </Flex>
         </Select.Trigger>

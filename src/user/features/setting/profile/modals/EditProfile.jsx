@@ -501,7 +501,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                 <Button
                   onClick={() => onClose()}
                   py={{ base: 3, md: 6 }}
-                  w={"100%"}
+                  w={{ base: "100%", md: "auto" }}
                   px={{ base: 25, md: 50 }}
                   bg={"#fff"}
                   fontSize={{ base: "10px", md: 12 }}
@@ -512,7 +512,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                 </Button>
                 <Button
                   py={{ base: 3, md: 6 }}
-                  w={"100%"}
+                  w={{ base: "100%", md: "auto" }}
                   size={{ base: "10", md: "sm" }}
                   flex={1}
                   fontSize={{ base: "10px", md: 12 }}

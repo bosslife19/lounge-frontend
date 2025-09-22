@@ -69,6 +69,7 @@ const Mentoring = () => {
         display={"flex"}
         px={{ base: 4, md: 0 }}
         pb={4}
+        fontSize={{ base: "13px", md: "24px" }}
         gap={2}
         alignItems={"center"}
       >
@@ -78,7 +79,7 @@ const Mentoring = () => {
           bg="white"
           border={"1px solid #9E9E9E"}
           _hover={{ bg: "whiteAlpha.500" }}
-          size={{ base: "xs", md: "xs" }}
+          size={{ base: "10", md: "xs" }}
           fontSize={{ base: "13px", md: "24px" }}
           color={"#202020"}
         >
@@ -215,7 +216,9 @@ const Mentoring = () => {
             </Card.Root>
           ))
         ) : (
-          <Text>No Listings yet</Text>
+          <Text fontSize={{ base: "12px", md: "14px" }} textAlign={"center"}>
+            No Listings yet
+          </Text>
         )}
       </SimpleGrid>
 

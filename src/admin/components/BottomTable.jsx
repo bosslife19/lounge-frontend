@@ -41,13 +41,13 @@ export const BottomTable = ({
             {Object.keys(dataTable.col).map((colKey) => (
               <Table.ColumnHeader
                 key={colKey}
-                fontSize="13px"
+                fontSize={{ base: "10px", md: "13px" }}
                 fontWeight="400"
                 letterSpacing="1%"
                 color="#49454FCC"
                 borderBottom="1px solid #CECECE"
                 fontFamily="OutfitRegular"
-                py="20px"
+                py={{ base: "10px", md: "20px" }}
                 bg="#fff"
                 textAlign="start"
                 whiteSpace={"nowrap"}
@@ -77,7 +77,7 @@ export const BottomTable = ({
                   return (
                     <Table.Cell
                       key={`${row.row_0}-${colKey}`}
-                      fontSize={["11px", "13px"]}
+                      fontSize={["10px", "13px"]}
                       fontWeight="500"
                       color="#384250"
                     >
@@ -85,10 +85,16 @@ export const BottomTable = ({
                         <Image
                           src={cell.row_2_1}
                           alt={cell.row_2_2}
-                          boxSize="20px"
+                          boxSize={{ base: "23px", md: "20px" }}
                           rounded="full"
                         />
-                        <Text>{cell.row_2_2}</Text>
+                        <Text
+                          whiteSpace={"nowrap"}
+                          mr={{ base: 4, lg: 0 }}
+                          fontSize={["10px", "13px"]}
+                        >
+                          {cell.row_2_2}
+                        </Text>
                       </HStack>
                     </Table.Cell>
                   );
@@ -97,9 +103,10 @@ export const BottomTable = ({
                 return (
                   <Table.Cell
                     key={`${row.row_0}-${colKey}`}
-                    fontSize={["11px", "13px"]}
+                    fontSize={["10px", "13px"]}
                     fontWeight="400"
                     letterSpacing="1%"
+                    whiteSpace={"nowrap"}
                     color="#222222E5"
                     fontFamily="OutfitRegular"
                   >

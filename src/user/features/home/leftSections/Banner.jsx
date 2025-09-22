@@ -171,7 +171,7 @@ export function Banner() {
           src={event.event_image}
           alt={event.title}
           w={{ base: "310px", md: "290px" }}
-          h={{ base: "200px", md: "180px" }}
+          h={{ base: "150px", md: "180px" }}
           // boxSize={{ base: "100%", md: "290px" }}
           borderRadius="xl"
           objectFit="fill"

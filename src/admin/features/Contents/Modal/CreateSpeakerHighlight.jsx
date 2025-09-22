@@ -3,61 +3,55 @@ import {
   Portal,
   CloseButton,
   Stack,
-  HStack,
-  Image,
-  Text,
   Button,
   Heading,
   Input,
   FileUpload,
   Textarea,
   Spinner,
+  Text,
 } from "@chakra-ui/react";
-import { CgAttachment } from "react-icons/cg";
-import { CiImageOn } from "react-icons/ci";
-import { PiTelegramLogoLight } from "react-icons/pi";
+// import { CgAttachment } from "react-icons/cg";
+// import { CiImageOn } from "react-icons/ci";
+// import { PiTelegramLogoLight } from "react-icons/pi";
 import { useRequest } from "../../../../hooks/useRequest";
 import { useRef, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { toast } from "react-toastify";
 
-export const CreateSpeakerHighlight = ({ isOpen, onClose,  programId, refresh }) => {
+export const CreateSpeakerHighlight = ({
+  isOpen,
+  onClose,
+  programId,
+  refresh,
+}) => {
   const { loading, makeRequest } = useRequest();
-   
- 
+
   const nameRef = useRef("");
-  const highlightRef = useRef("")
- 
- 
+  const highlightRef = useRef("");
+
   const handlePost = async () => {
-    if(!nameRef.current.value || !highlightRef.current.value){
-      return toast.error('Missing required fields');
+    if (!nameRef.current.value || !highlightRef.current.value) {
+      return toast.error("Missing required fields");
     }
-   
-   
 
     const response = await makeRequest("/speaker-highlights", {
-      
       name: nameRef.current?.value,
-      highlight:highlightRef.current?.value,
-      programId
-     
+      highlight: highlightRef.current?.value,
+      programId,
     });
 
     if (response.error) return;
 
     toast.success("Speaker Highlight added successfully");
-   
-    
-  
-  refresh()
-    onClose()
+
+    refresh();
+    onClose();
   };
 
   const handleFileChange = async (event) => {
     const file = event.target.files?.[0];
     if (file) {
-     
       setPostImage(file);
     }
   };
@@ -66,7 +60,7 @@ export const CreateSpeakerHighlight = ({ isOpen, onClose,  programId, refresh })
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
         <Dialog.Backdrop />
-        <Dialog.Positioner>
+        <Dialog.Positioner px={5}>
           <Dialog.Content borderRadius="lg" bg="#FAFAFA" p={4}>
             <Dialog.CloseTrigger
               rounded={30}
@@ -76,20 +70,37 @@ export const CreateSpeakerHighlight = ({ isOpen, onClose,  programId, refresh })
               <CloseButton size="xs" color={"#9E9E9E"} />
             </Dialog.CloseTrigger>
             <Stack spacing={0}>
-              <Heading>Create Speaker Highlight</Heading>
-              <Text>Speaker Name</Text>
-              <Input type="text" ref={nameRef} />
-               
-                <>
-                  <Text>Speaker Highlight</Text>
-                  <Textarea
-                    type="text"
-                    placeholder="Paste the highlighted speaker's statement"
-                    ref={highlightRef}
-                  />
-                </>
-             
-             
+              <Heading
+                fontSize={{ base: "12px", md: 18 }}
+                size={{ base: "xs", md: "sm" }}
+              >
+                Create Speaker Highlight
+              </Heading>
+              <Text
+                fontSize={{ base: "10px", md: 14 }}
+                // size={{ base: "xs", md: "sm" }}
+              >
+                Speaker Name
+              </Text>
+              <Input
+                fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+                type="text"
+                ref={nameRef}
+              />
+
+              <>
+                <Text fontSize={{ base: "10px", md: 14 }}>
+                  Speaker Highlight
+                </Text>
+                <Textarea
+                  type="text"
+                  fontSize={{ base: "10px", md: 14 }}
+                  placeholder="Paste the highlighted speaker's statement"
+                  ref={highlightRef}
+                />
+              </>
+
               {/* <HStack maxW={200} justifyContent={"flex-start"}>
                 <FileUpload.Root>
                   <FileUpload.HiddenInput />
@@ -116,9 +127,15 @@ export const CreateSpeakerHighlight = ({ isOpen, onClose,  programId, refresh })
 
 
               </HStack> */}
-             
-              <Button rounded={20} onClick={handlePost} disabled={loading}>
-                {loading ?<Spinner/>:'Save'}
+
+              <Button
+                rounded={20}
+                fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+                onClick={handlePost}
+                disabled={loading}
+              >
+                {loading ? <Spinner /> : "Save"}
               </Button>
             </Stack>
           </Dialog.Content>

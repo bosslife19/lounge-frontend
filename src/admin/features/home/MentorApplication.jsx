@@ -91,16 +91,18 @@ export const MentorApplication = () => {
             <Menu.Root key={uniqueKey}>
               <Menu.Trigger asChild>
                 <Button
-                  size="sm"
+                  size={{ base: "10", md: "sm" }}
                   border={`1px solid ${selected.color}`}
-                  rounded={20}
+                  rounded={{ base: 8, md: 20 }}
+                  p={1}
+                  mr={1}
                   variant="outline"
                   color={selected.color}
                 >
                   <HStack spacing={1}>
                     {selected.icon && selected.icon}
                     <Text
-                      fontSize="13px"
+                      fontSize={{ base: "10px", md: "13px" }}
                       fontWeight="400"
                       fontFamily="OutfitRegular"
                     >
@@ -112,9 +114,10 @@ export const MentorApplication = () => {
               </Menu.Trigger>
               <Portal>
                 <Menu.Positioner>
-                  <Menu.Content cursor="pointer" rounded={20}>
+                  <Menu.Content cursor="pointer" rounded={{ base: 9, md: 20 }}>
                     <Menu.Item
                       color="#333333CC"
+                      fontSize={{ base: "10px", md: "13px" }}
                       cursor="pointer"
                       onClick={() => handleApprove(row.id)}
                     >
@@ -124,6 +127,7 @@ export const MentorApplication = () => {
                     <Menu.Item
                       color="#333333CC"
                       cursor="pointer"
+                      fontSize={{ base: "10px", md: "13px" }}
                       onClick={() => handleReject(row.id)}
                     >
                       <MdOutlineCancel /> Decline
@@ -139,7 +143,7 @@ export const MentorApplication = () => {
   };
 
   return (
-    <Box w={"full"} bg="#F5F6FA" p={2}>
+    <Box w={"full"} bg="#F5F6FA" p={{ base: 0, md: 2 }}>
       {mentorRequests.length > 0 ? (
         <BottomTable
           dataTable={dataTable}
@@ -149,7 +153,9 @@ export const MentorApplication = () => {
           setPageSize={setPageSize}
         />
       ) : (
-        <Text>No Mentor Applications yet</Text>
+        <Text textAlign={"center"} fontSize={{ base: "10px", md: "15px" }}>
+          No Mentor Applications yet
+        </Text>
       )}
     </Box>
   );

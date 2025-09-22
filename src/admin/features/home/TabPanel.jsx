@@ -14,19 +14,25 @@ export const DashboardTabpanel = () => {
   return (
     <Tabs.Root bg="#F5F6FA" defaultValue="MentorApplication">
       <Flex
-        flexWrap={"wrap"}
-        overflowx={"auto"}
-        pt={5}
-        justifyContent={"space-between"}
+        overflowX="auto"
+        pt={{ base: 2, md: 5 }}
+        css={{
+          "&::-webkit-scrollbar": {
+            display: "none", // hides scrollbar in webkit browsers
+          },
+          scrollbarWidth: "none", // hides scrollbar in Firefox
+        }}
       >
         {/* Tabs */}
         <Tabs.List
-          flexWrap={"wrap"}
-          whiteSpace={{ base: "nowrap", md: "nowrap" }}
+          display="flex"
+          flexWrap="nowrap"
+          whiteSpace="nowrap"
+          gap={4} // spacing between tabs
         >
           <Tabs.Trigger
             _selected={{ color: "#2B362F" }}
-            color={"#999999"}
+            color="#999999"
             fontSize={{ base: "11px", md: "14px" }}
             value="MentorApplication"
           >
@@ -34,33 +40,19 @@ export const DashboardTabpanel = () => {
           </Tabs.Trigger>
           <Tabs.Trigger
             _selected={{ color: "#2B362F" }}
-            color={"#999999"}
+            color="#999999"
             fontSize={{ base: "11px", md: "14px" }}
             value="NewOrganization"
           >
             New Organization
-            {/* <Box 
-            bg={'#F56630'} 
-            px={3} 
-            color={'#fff'} 
-            rounded={'full'}>
-              2
-            </Box> */}
           </Tabs.Trigger>
           <Tabs.Trigger
             _selected={{ color: "#2B362F" }}
-            color={"#999999"}
+            color="#999999"
             fontSize={{ base: "11px", md: "14px" }}
             value="RewardRequest"
           >
             Reward Request
-            {/* <Box 
-            bg={'#F56630'} 
-            px={3} 
-            color={'#fff'} 
-            rounded={'full'}>
-              2
-            </Box> */}
           </Tabs.Trigger>
         </Tabs.List>
 
@@ -72,15 +64,16 @@ export const DashboardTabpanel = () => {
             <Button
               size={{ base: "10", md: "sm" }}
               border={`1px solid #333`}
-              rounded={20}
+              rounded={{ base: 6, md: 20 }}
               p={1}
+              // mr={11}
               mt={{ base: 2, md: 0 }}
               color={"#333"}
               bg="#fff"
               _hover={{ bg: "#f0f0f0" }}
             >
               <HStack spacing={2}>
-                <LuCalendarDays size={16} />
+                <LuCalendarDays size={14} />
                 <Text
                   fontSize={{ base: "10px", md: "13px" }}
                   fontWeight="400"

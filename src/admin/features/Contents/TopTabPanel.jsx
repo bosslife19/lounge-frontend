@@ -17,12 +17,12 @@ import VideoAdmin from "./VideoAdmin";
 
 export const AdminContent = () => {
   const [isOpened, setIsOpened] = useState(false);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const handleAction = () => setIsOpened(true);
   const handleClosed = () => setIsOpened(false);
-  const handleClose = ()=>setOpen(false);
-  const handleOpen = ()=>setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
   const [articles, setArticles] = useState([]);
   const [videos, setVideos] = useState([]);
 
@@ -63,7 +63,7 @@ export const AdminContent = () => {
             value="articles"
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
-            fontSize={{ base: 10, md: 14 }}
+            fontSize={{ base: "10px", md: 14 }}
             rounded={30}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
@@ -76,7 +76,7 @@ export const AdminContent = () => {
             value="projects"
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
-            fontSize={{ base: 10, md: 14 }}
+            fontSize={{ base: "10px", md: 14 }}
             rounded={30}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
@@ -89,7 +89,7 @@ export const AdminContent = () => {
             value="tasks"
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
-            fontSize={{ base: 10, md: 14 }}
+            fontSize={{ base: "10px", md: 14 }}
             rounded={30}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
@@ -102,7 +102,7 @@ export const AdminContent = () => {
             value="events"
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
-            fontSize={{ base: 10, md: 14 }}
+            fontSize={{ base: "10px", md: 14 }}
             rounded={30}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
@@ -110,11 +110,11 @@ export const AdminContent = () => {
             <RiCalendarEventFill />
             Events
           </Tabs.Trigger>
-           <Tabs.Trigger
+          <Tabs.Trigger
             value="videos"
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
-            fontSize={{ base: 10, md: 14 }}
+            fontSize={{ base: "10px", md: 14 }}
             rounded={30}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
@@ -126,9 +126,11 @@ export const AdminContent = () => {
           <Button
             bg="transparent"
             border="1px solid #E4E4E4"
-            p={6}
+            p={{ base: 2, md: 6 }}
             color="#212121"
-            rounded={30}
+            size={{ base: "10", md: "sm" }}
+            rounded={{ base: 8, md: 30 }}
+            fontSize={{ base: "10px", md: 14 }}
             onClick={handleAction}
           >
             <CiCirclePlus />
@@ -139,10 +141,13 @@ export const AdminContent = () => {
             <Button
               bg="transparent"
               border="1px solid #E4E4E4"
-              p={5}
+              p={{ base: 2, md: 5 }}
+              size={{ base: "10", md: "sm" }}
+              rounded={{ base: 8, md: 30 }}
+              fontSize={{ base: "10px", md: 14 }}
               color="#212121"
             >
-              <FaRegCalendar />
+              <FaRegCalendar size={10} />
               This Month
             </Button>
           </Box>
@@ -162,7 +167,7 @@ export const AdminContent = () => {
         <Tabs.Content value="events">
           <EventsAdmin />
         </Tabs.Content>
-         <Tabs.Content value="videos">
+        <Tabs.Content value="videos">
           <VideoAdmin />
         </Tabs.Content>
       </Tabs.Root>
@@ -173,12 +178,7 @@ export const AdminContent = () => {
         setArticles={setArticles}
       />
 
-      <CreateVideo
-      isOpen={open}
-      onClose={handleClose}
-      setVideos={setVideos}
-      />
-
+      <CreateVideo isOpen={open} onClose={handleClose} setVideos={setVideos} />
     </Box>
   );
 };
