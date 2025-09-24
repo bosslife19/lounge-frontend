@@ -317,9 +317,10 @@ export const LeftSide = ({ posts, setPosts }) => {
               }
               startElement={
                 <Avatar.Root
-                  ml={-2}
+                  // ml={-2}
                   mt={-2}
-                  boxSize={{ base: "20px", md: "40px" }}
+                  borderRadius={"full"}
+                  boxSize={{ base: "20px", md: "34px" }}
                 >
                   <Avatar.Image
                     src={userDetails?.profile_picture || userImage}

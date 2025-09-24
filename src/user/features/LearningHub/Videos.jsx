@@ -14,7 +14,7 @@ import { CiSearch } from "react-icons/ci";
 import axiosClient from "../../../axiosClient";
 import { formatTime } from "../../../lib/formatTime";
 import { userAvatar } from "../setting/posts/Posts";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 
 export const VideosPage = () => {
   const [selectedCard, setSelectedCard] = useState(null);
@@ -215,7 +215,7 @@ export const VideosPage = () => {
             </button>
 
             {/* Video Player */}
-            <ReactPlayer
+            {/* <ReactPlayer
               src={selectedCard.video_link}
               playing
               controls
@@ -226,7 +226,7 @@ export const VideosPage = () => {
                 overflow: "hidden",
                 backgroundColor: "black",
               }}
-            />
+            /> */}
           </div>
         </div>
       )}

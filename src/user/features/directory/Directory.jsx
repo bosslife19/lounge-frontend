@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
+import Avatars from "../../components/header/Avatar";
 
 import googlebig from "../../../assets/googlebig.png";
 import googlesmall from "../../../assets/googlesmall.png";
@@ -92,44 +93,50 @@ const Directory = () => {
   }, []);
 
   return (
-    <Box bg={"#F5F6FA"} h={"150vh"} pb={"50%"} px={3}>
-      <Stack
-        mb={3}
-        px={2}
-        w={{ base: "100%", md: 600 }}
-        flexDirection={"row"}
-        alignItems={"center"}
-        gap={{ base: 4 }}
-      >
-        <InputGroup startElement={<BiSearch size={10} />}>
-          <Input
-            py={{ base: "10px", md: 25 }}
-            fontSize={{ base: 7, md: 10 }}
-            h={{ base: "27px", md: "50px" }}
-            borderRadius={{ base: 5, md: 10 }}
-            placeholder="Name & Organization"
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </InputGroup>
-        <InputGroup startElement={<FaLocationDot size={10} />}>
-          <Input
-            py={{ base: "10px", md: 25 }}
-            fontSize={{ base: 7, md: 10 }}
-            h={{ base: "27px", md: "50px" }}
-            borderRadius={{ base: 5, md: 10 }}
-            // borderRadius={10}
-            placeholder="Location"
-            onChange={(e) => setLocationSearch(e.target.value)}
-          />
-        </InputGroup>
-      </Stack>
+    <Box>
       <Flex
         flexDirection={{ base: "column", md: "row" }}
         alignItems={"flex-start"}
         justifyContent={"space-between"}
       >
         {/* LEFT SIDE LIST */}
-        <Box w={{ base: "100%", md: "65%" }} pr={{ base: 2, md: 4 }}>
+        <Box
+          w={{ base: "100%", md: "65%" }}
+          py={{ base: 3, xl: "1%" }}
+          px={4}
+          // pr={{ base: 2, md: 4 }}
+        >
+          <Stack
+            // mb={3}
+            px={2}
+            w={{ base: "100%", md: 600 }}
+            flexDirection={"row"}
+            alignItems={"center"}
+            gap={{ base: 4 }}
+            pb={4}
+          >
+            <InputGroup startElement={<BiSearch size={10} />}>
+              <Input
+                py={{ base: "10px", md: 25 }}
+                fontSize={{ base: 7, md: 10 }}
+                h={{ base: "27px", md: "50px" }}
+                borderRadius={{ base: 5, md: 10 }}
+                placeholder="Name & Organization"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </InputGroup>
+            <InputGroup startElement={<FaLocationDot size={10} />}>
+              <Input
+                py={{ base: "10px", md: 25 }}
+                fontSize={{ base: 7, md: 10 }}
+                h={{ base: "27px", md: "50px" }}
+                borderRadius={{ base: 5, md: 10 }}
+                // borderRadius={10}
+                placeholder="Location"
+                onChange={(e) => setLocationSearch(e.target.value)}
+              />
+            </InputGroup>
+          </Stack>
           <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3}>
             {filteredResults?.map((card, idx) => (
               <Grid
@@ -234,17 +241,44 @@ const Directory = () => {
 
         {/* RIGHT SIDE DETAILS */}
         <Box
-          bg={"#FAFAFA"}
-          h={"100%"}
-          w={{ base: "100%", md: "35%" }}
-          px={{ base: 2, md: 4 }}
-          pt={3}
-          // className="pb={4}"
+          w={{ base: "100%", md: "34%" }}
+          // h={"120vh"}
+          overflowY={"auto"}
+          borderBottomLeftRadius={{ base: 5, md: 10 }}
+          borderBottomRightRadius={{ base: 5, md: 10 }}
+          scrollbarWidth={"none"}
+          // shadow={{ base: "none", xl: "lg" }}
+          // shadowColor={"#080F340F"}
+          // flex={1}
+          boxShadowColor={"whiteAlpha.800"}
+          boxShadow={"md"}
+          bg={"#fff"}
+          className="flex items-center gap-5"
+          // bg={"#fff"}
+          // pt={1}
+          p={"1.3%"}
+          // border={"2px solid #080F340F"}
+          pb={14}
+          display={{ base: "block" }}
+          ml={"auto"}
         >
+          <Box
+            display={{ base: "none", xl: "flex" }}
+            className="border-l-2 pl-4"
+            pb={5}
+            justifyContent={"center"}
+            // bg={"#000"}
+            pr={1}
+          >
+            {/* <button onClick={() => toggleDropdown("avatar")}> */}
+            <Avatars />
+            {/* </button> */}
+          </Box>
+
           <Card.Root
             bg={"#fff"}
             shadowColor={"#080F340F"}
-            shadow={"sm"}
+            boxShadow={"lg"}
             rounded={20}
             border={"1px solid #fff"}
           >
@@ -321,24 +355,30 @@ const Directory = () => {
           </Card.Root>
 
           {/* BIO */}
-          <Card.Root size="sm" rounded={{ base: 10, md: 20 }} mt={4}>
-            <Card.Header mt={{ base: -2, md: 0 }}>
+          <Card.Root
+            boxShadow={"md"}
+            size="sm"
+            rounded={{ base: 10, md: 20 }}
+            mt={4}
+          >
+            <Card.Header mt={{ base: -2, md: -2 }}>
               <Heading
                 // textAlign={"left"}
                 size="md"
                 fontFamily="InterRegular"
                 fontSize={{ base: 10, md: 12 }}
               >
-                Bio
+                About Me
               </Heading>
             </Card.Header>
-            <Card.Body px={{ base: "9%", md: "9%" }} mt={-3} color="#7C7C7C">
-              <List.Root
-                fontFamily="InterRegular"
-                fontSize={{ base: 10, md: 12 }}
-              >
-                <List.Item>{selected?.bio} Years of Experience</List.Item>
-              </List.Root>
+            <Card.Body
+              //  px={{ base: "9%", md: "9%" }}
+              mt={-4}
+              color="#7C7C7C"
+            >
+              <Text fontFamily="InterRegular" fontSize={{ base: 10, md: 12 }}>
+                {selected?.bio} Years of Experience
+              </Text>
               {/* <Text fontFamily="InterRegular" fontSize={14} color={"#202020"}>
                 {selected?.bio}
               </Text> */}
@@ -347,6 +387,7 @@ const Directory = () => {
 
           {/* EXPERIENCE */}
           <Card.Root
+            boxShadow={"md"}
             // px={5}
             fontFamily="InterRegular"
             fontSize={{ base: 10, md: 12 }}
@@ -354,34 +395,37 @@ const Directory = () => {
             rounded={{ base: 10, md: 20 }}
             mt={4}
           >
-            <Card.Header mt={{ base: -2, md: 0 }}>
+            <Card.Header mt={{ base: -2, md: -2 }}>
               <Heading size="md" fontSize={{ base: 10, md: 12 }}>
                 Experience & Role
               </Heading>
             </Card.Header>
             <Card.Body
-              mt={{ base: -4, md: -2 }}
-              px={{ base: "9%", md: "9%" }}
+              mt={{ base: -4, md: -3 }}
+              // px={{ base: "9%", md: "9%" }}
               color="#7C7C7C"
             >
-              <List.Root>
-                <List.Item>
-                  {selected?.years_of_experience} Years of Experience
-                </List.Item>
-              </List.Root>
+              <Text fontFamily="InterRegular" fontSize={{ base: 10, md: 12 }}>
+                {selected?.years_of_experience} Years of Experience
+              </Text>
             </Card.Body>
           </Card.Root>
 
           {/* SOCIALS */}
-          <Card.Root size="sm" rounded={{ base: 10, md: 20 }} mt={4}>
-            <Card.Header mt={{ base: -2, md: 0 }}>
+          <Card.Root
+            boxShadow={"md"}
+            size="sm"
+            rounded={{ base: 10, md: 20 }}
+            mt={4}
+          >
+            <Card.Header mt={{ base: -2, md: -2 }}>
               <Heading size="md" fontSize={{ base: 10, md: 12 }}>
                 Connect on Socials
               </Heading>
             </Card.Header>
             <Card.Body
               flexDirection={"row"}
-              mt={{ base: -2, md: 0 }}
+              mt={{ base: -2, md: -3 }}
               gap={4}
               color="#7C7C7C"
             >

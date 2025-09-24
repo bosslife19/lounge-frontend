@@ -4,7 +4,7 @@ import { VideosPage } from "./Videos";
 
 export const TabPanel = ({ articles, setArticles }) => {
   return (
-    <Tabs.Root defaultValue="articles" bg={"#F5F6FA"}>
+    <Tabs.Root defaultValue="articles">
       <Tabs.List mx={4}>
         <Tabs.Trigger
           fontSize={{ base: "9px", md: 14 }}

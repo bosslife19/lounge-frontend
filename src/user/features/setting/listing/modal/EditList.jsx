@@ -192,7 +192,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
                     Description
                   </Field.Label>
                   <Textarea
-                    boxSize={{ base: 70, md: 150 }}
+                    // boxSize={{ base: 70, md: 150 }}
                     w={"100%"}
                     fontSize={{ base: "9px", md: 12 }}
                     outline={"none"}

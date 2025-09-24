@@ -38,8 +38,7 @@ const Homes = () => {
     <>
       {/* Page layout */}
       <Flex
-        bg={"#F5F6FA"}
-        px={6}
+        // bg={"#F5F6FA"}
         h={"100%"}
         gap={6}
         flexDir={{ base: "column", xl: "row" }}

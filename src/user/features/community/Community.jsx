@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axiosClient from "../../../axiosClient";
 import { IoIosAdd } from "react-icons/io";
 import { CreateCommunityModal } from "./modal/RightsideModal";
+import Avatar from "../../components/header/Avatar";
 
 const Community = () => {
   const [posts, setPosts] = useState([]);
@@ -20,7 +21,21 @@ const Community = () => {
   const [isOpen, setIsOpen] = useState(false); // First modal
 
   return (
-    <Box>
+    <Box w={"100%"}>
+      <Box
+        ml={"auto"}
+        w={"100%"}
+        pr={4}
+        pt={2}
+        justifyContent={"flex-end"}
+        display={{ base: "none", xl: "flex" }}
+        className="border-l-2 pl-4"
+        pb={3}
+      >
+        {/* <button onClick={() => toggleDropdown("avatar")}> */}
+        <Avatar />
+        {/* </button> */}
+      </Box>
       <HStack justifyContent={"space-between"}>
         <Heading
           fontSize={{ base: "13px", md: "24px" }}

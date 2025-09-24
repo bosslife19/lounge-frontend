@@ -183,8 +183,8 @@ const Avatar = ({ options }) => {
             borderRadius={"50px"}
             rounded={50}
             size={"xs"}
-            w={{ base: "30px", md: "56px" }}
-            h={{ base: "30px", md: "50px" }}
+            w={{ base: "30px", md: "45px" }}
+            h={{ base: "30px", md: "45px" }}
           >
             <BsBell size={10} />
 
@@ -201,7 +201,7 @@ const Avatar = ({ options }) => {
          
         bg-[#2B362F] text-white text-xs font-bold
         flex items-center justify-center
-          rounded-full shadow-md
+          rounded-full shadow-md 
         animate-pulse
             "
               >

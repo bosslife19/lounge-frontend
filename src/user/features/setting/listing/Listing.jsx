@@ -61,7 +61,7 @@ export const SettingsListing = () => {
   };
 
   return (
-    <Box bg={"#F5F6FA"} h={"100%"} p={3}>
+    <Box h={"100%"} p={3}>
       <HStack
         w={"100%"}
         alignItems={"end"}

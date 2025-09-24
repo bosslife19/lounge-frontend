@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import SideBarItem from "./SideBar";
 import Header from "../header/header";
+import { Box } from "@chakra-ui/react";
 
 const AppLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="bg-[#F5F6FA] ">
+    <Box bg={"#FDFDFD"} className="bg-[#FDFDFD] ">
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex h-screen  overflow-hidden">
         {/* <!-- ===== Sidebar Start ===== --> */}
@@ -25,16 +26,16 @@ const AppLayout = () => {
 
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
-            <div className="p-4 md:p-6 2xl:p-10 bg-[#F5F6FA]">
+            <Box className="p-4 md:p-6 2xl:p-10  ">
               <Outlet />
-            </div>
+            </Box>
           </main>
           {/* <!-- ===== Main Content End ===== --> */}
         </div>
         {/* <!-- ===== Content Area End ===== --> */}
       </div>
       {/* <!-- ===== Page Wrapper End ===== --> */}
-    </div>
+    </Box>
   );
 };
 

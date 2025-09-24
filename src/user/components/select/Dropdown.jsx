@@ -5,10 +5,15 @@ import { MdAccountCircle, MdBusinessCenter } from "react-icons/md";
 
 export const Dropdown = ({ icon, icons, frameworks, color }) => {
   return (
-    <Select.Root collection={frameworks} size="xs" width="auto" minW="140px">
+    <Select.Root
+      collection={frameworks}
+      size="xs"
+      width="auto"
+      minW={{ base: "100%", md: "140px" }}
+    >
       <Select.HiddenSelect />
       <Select.Control
-        py={{ base: 0, md: 3 }}
+        py={{ base: 0, md: 2 }}
         rounded={{ base: 5, md: 12 }}
         bg={color}
         border={"1px solid #EBEBEB"}

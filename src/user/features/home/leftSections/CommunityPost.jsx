@@ -160,7 +160,7 @@ const CommunityPost = () => {
                   <Image
                     src={card.user.profile_picture || logo}
                     alt="Update"
-                    boxSize="20px"
+                    boxSize={{ base: "20px", md: "30px" }}
                     rounded={20}
                   />
                 </Stack>

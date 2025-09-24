@@ -6,6 +6,7 @@ import {
   createListCollection,
   Flex,
   Heading,
+  HStack,
   IconButton,
   Input,
   InputGroup,
@@ -25,6 +26,8 @@ import axiosClient from "../../../axiosClient";
 import { userAvatar } from "../setting/posts/Posts";
 import { useRequest } from "../../../hooks/useRequest";
 import { toast } from "react-toastify";
+import Avatars from "../../components/header/Avatar";
+import { useNavigate } from "react-router-dom";
 
 const Mentoring = () => {
   const [selectedCard, setSelectedCard] = useState(null);
@@ -63,30 +66,44 @@ const Mentoring = () => {
       { label: "Svelte", value: "svelte" },
     ],
   });
+  const navigate = useNavigate();
   return (
-    <Box bg={"#F5F6FA"} h={{ base: "150vh" }} p={3}>
-      <Heading
-        display={"flex"}
-        px={{ base: 4, md: 0 }}
-        pb={4}
-        fontSize={{ base: "13px", md: "24px" }}
-        gap={2}
-        alignItems={"center"}
-      >
-        <IconButton
-          aria-label="Previous"
-          rounded="full"
-          bg="white"
-          border={"1px solid #9E9E9E"}
-          _hover={{ bg: "whiteAlpha.500" }}
-          size={{ base: "10", md: "xs" }}
+    <Box h={{ base: "150vh" }} p={3}>
+      <HStack justifyContent={"space-between"}>
+        <Heading
+          display={"flex"}
+          px={{ base: 4, md: 0 }}
+          pb={4}
           fontSize={{ base: "13px", md: "24px" }}
-          color={"#202020"}
+          gap={2}
+          alignItems={"center"}
         >
-          <IoIosArrowBack color="#9E9E9E" />
-        </IconButton>
-        Mentor Listings
-      </Heading>
+          <IconButton
+            aria-label="Previous"
+            rounded="full"
+            bg="white"
+            onClick={() => navigate("/")}
+            border={"1px solid #9E9E9E"}
+            _hover={{ bg: "whiteAlpha.500" }}
+            size={{ base: "10", md: "xs" }}
+            fontSize={{ base: "13px", md: "24px" }}
+            color={"#202020"}
+          >
+            <IoIosArrowBack color="#9E9E9E" />
+          </IconButton>
+          Mentor Listings
+        </Heading>
+
+        <Box
+          display={{ base: "none", xl: "block" }}
+          className="border-l-2 pl-4"
+          pb={5}
+        >
+          {/* <button onClick={() => toggleDropdown("avatar")}> */}
+          <Avatars />
+          {/* </button> */}
+        </Box>
+      </HStack>
       <Flex
         px={{ base: 4, md: 0 }}
         justifyContent={"space-between"}
