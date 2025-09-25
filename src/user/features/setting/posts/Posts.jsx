@@ -27,12 +27,18 @@ import { formatTime } from "../../../../lib/formatTime";
 import { BiMessageRoundedDetail, BiTrash } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { AiOutlineLike } from "react-icons/ai";
+import ConfirmDeleteModal from "../../../../components/ConfirmDelete";
 
 export const userAvatar = "https://www.w3schools.com/howto/img_avatar.png";
 
 export const SettingsPosts = () => {
   const { userDetails } = useContext(AuthContext);
   const [userPosts, setUserPosts] = useState([]);
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [activePostId, setActivePostId] = useState()
+  const[loading, setLoading] = useState(false)
+
+  
   useEffect(() => {
     const getPosts = async () => {
       const res = await axiosClient.get(`/posts/${userDetails?.id}`);
@@ -44,20 +50,27 @@ export const SettingsPosts = () => {
   }, []);
 
   const handleDeletePost = async (postId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this post?"
-    );
-    if (confirmDelete) {
+    setActivePostId(postId)
+    setConfirmOpen(true);
+
+  };
+    const handleConfirm = async (postId) => {
+   
+    
       try {
+        setLoading(true);
         await axiosClient.delete(`/posts/${postId}`);
         // Remove the deleted post from the state
         setUserPosts(userPosts.filter((post) => post.id !== postId));
+        setLoading(false)
         toast.success("Post deleted successfully");
+        setConfirmOpen(false);
       } catch (error) {
         console.error("Error deleting post:", error);
+        setLoading(false)
         alert("Failed to delete the post. Please try again.");
       }
-    }
+    
   };
   const actions = [
     { id: 1, image: like },
@@ -151,7 +164,7 @@ export const SettingsPosts = () => {
                 src={card.post_image}
                 boxSize={"100%"}
                 h={220}
-                fit="cover"
+                fit="contain"
               />
               <HStack
                 justifyContent={"flex-start"}
@@ -186,6 +199,8 @@ export const SettingsPosts = () => {
             </Card.Root>
           ))
         : "No Posts Yet"}
+
+        <ConfirmDeleteModal onClose={()=>setConfirmOpen(false)} onConfirm={()=>handleConfirm(activePostId)} isOpen={confirmOpen} loadig={loading}/>
     </Stack>
   );
 };

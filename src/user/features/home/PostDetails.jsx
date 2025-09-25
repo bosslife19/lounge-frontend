@@ -34,6 +34,7 @@ const PostDetails = () => {
 
   const navigate = useNavigate();
   const profile = cardData.find((item) => item.id === Number(id));
+  const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState("");
   const [openComments, setOpenComments] = useState({}); // track which posts are expanded
   const [moreNews, setMoreNews] = useState([]);
@@ -78,6 +79,7 @@ const PostDetails = () => {
     if(res.error) return;
     if(res.response.status){
 setRefresh(prev=>!prev);
+setLiked(prev=>!prev);
     }
     
   }
@@ -164,7 +166,7 @@ setRefresh(prev=>!prev);
                <p style={{position:'relative', left:'3%'}}>{update?.likes?.length}</p>
            
             <Button color={"#212121"} p={0} bg={"transparent"} onClick={()=>likePost(update.id)}>
-              <AiOutlineLike />
+              <AiOutlineLike color={liked&&'blue'} />
               </Button>
 
               <Button

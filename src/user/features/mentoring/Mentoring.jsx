@@ -34,6 +34,8 @@ const Mentoring = () => {
     setSelectedCard(card);
     setIsOpen(true);
   };
+  const [search, setSearch] = useState('');
+  const [filteredResults, setFilteredResults] = useState([])
   const { makeRequest, loading } = useRequest();
 
   const handleClose = () => {
@@ -57,16 +59,30 @@ const Mentoring = () => {
 
   const frameworks = createListCollection({
     items: [
-      { label: "finance", value: "finance" },
-      { label: "finances", value: "finances" },
-      { label: "Angular", value: "angular" },
-      { label: "Svelte", value: "svelte" },
+      { label: "Finance", value: "finance" },
+      { label: "Engineering", value: "engineering" },
+      
     ],
   });
+
+      useEffect(() => {
+        if (search) {
+         
+          const lowerSearch = search.toLowerCase();
+          const results = listings?.filter((item) =>
+            [item.title, item.description, item.category, item.user?.first_name, item.user?.last_name, item.access_email]
+              .filter(Boolean) // removes null/undefined
+              .some((field) => field.toLowerCase().includes(lowerSearch))
+          );
+          setFilteredResults(results);
+        } else {
+          setFilteredResults(listings); // if no search, show all
+        }
+      }, [search, listings]);
   return (
     <Box bg={"#F5F6FA"} h={"100vw"} p={3}>
       <Heading display={"flex"} pb={4} gap={2} alignItems={"center"}>
-        <IconButton
+        {/* <IconButton
           aria-label="Previous"
           rounded="full"
           bg="white"
@@ -76,7 +92,7 @@ const Mentoring = () => {
           color={"#202020"}
         >
           <IoIosArrowBack color="#9E9E9E" />
-        </IconButton>
+        </IconButton> */}
         Mentor Listings
       </Heading>
       <Flex
@@ -94,7 +110,8 @@ const Mentoring = () => {
             py={6}
             fontSize={10}
             borderRadius={10}
-            placeholder="Search Topic"
+            placeholder="Search Listing"
+            onChange={e=>setSearch(e.target.value)}
           />
         </InputGroup>
 
@@ -102,12 +119,16 @@ const Mentoring = () => {
           color={"#EBEBEB"}
           // title={'finance'}
           frameworks={frameworks}
+          filteredResults={listings}
+          setFilteredResults={setFilteredResults}
+          
+          
         />
       </Flex>
 
       <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={6} gap={5}>
-        {listings.length > 0 ? (
-          listings.map((card, idx) => (
+        {filteredResults.length > 0 ? (
+          filteredResults.map((card, idx) => (
             <Card.Root
               key={idx + card.id}
               bg={"#fff"}
@@ -142,7 +163,7 @@ const Mentoring = () => {
                   fontSize={{ base: 12, md: "16px" }}
                   fontFamily="LatoRegular"
                 >
-                  {card.user.profession} with {card.user.years_of_experience} of
+                  {card.category}
                 </Text>
                 <Card.Title
                   color={"#070416"}

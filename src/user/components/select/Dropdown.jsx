@@ -3,12 +3,22 @@
 import { Flex, Portal, Select } from "@chakra-ui/react";
 import { MdAccountCircle, MdBusinessCenter } from "react-icons/md";
 
-export const Dropdown = ({ icon, icons, frameworks, color }) => {
+export const Dropdown = ({ icon, icons, frameworks, color, filteredResults, setFilteredResults }) => {
+  
+ const handleChange = (value) => {
+
+      // filter cards based on category
+      const filtered = filteredResults.filter(
+        (card) => card.category.toLowerCase() === value.value[0].toLowerCase()
+      );
+      setFilteredResults(filtered);
+    
+  };
   return (
-    <Select.Root collection={frameworks} size="xs" width="auto" minW="140px">
+    <Select.Root collection={frameworks} size="xs" width="auto" minW="140px"  onValueChange={handleChange}>
       <Select.HiddenSelect />
       <Select.Control
-        py={3}
+         py={1}
         rounded={12}
         bg={color}
         border={"1px solid #EBEBEB"}

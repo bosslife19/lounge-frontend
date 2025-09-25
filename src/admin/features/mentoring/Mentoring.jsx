@@ -82,7 +82,7 @@ export const AdminMentor = () => {
   return (
     <Box bg={"#F5F6FA"} h={"100%"} p={3}>
       <Heading display={"flex"} pb={4} gap={2} alignItems={"center"}>
-        <IconButton
+        {/* <IconButton
           aria-label="Previous"
           rounded="full"
           bg="white"
@@ -91,7 +91,7 @@ export const AdminMentor = () => {
           size="sm"
         >
           <IoIosArrowBack color="#9E9E9E" />
-        </IconButton>
+        </IconButton> */}
         Mentor Listings
       </Heading>
       <Flex

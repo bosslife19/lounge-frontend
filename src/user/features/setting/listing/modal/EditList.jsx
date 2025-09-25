@@ -31,7 +31,7 @@ import { AuthContext } from "../../../../../context/AuthContext";
 import { useRequest } from "../../../../../hooks/useRequest";
 import { Checkboxs } from "../../../../components/CheckboxCard/CheckboxCard";
 
-export const EditList = ({ isOpen, onClose, card }) => {
+export const EditList = ({ isOpen, onClose, card, setListings }) => {
   const titleRef = useRef("");
   const descriptionRef = useRef("");
   const emailRef = useRef("");
@@ -43,14 +43,7 @@ export const EditList = ({ isOpen, onClose, card }) => {
   const { makeRequest, loading } = useRequest();
 
   const handleEditListing = async () => {
-    if (
-      !titleRef.current.value ||
-      !descriptionRef.current.value ||
-      !emailRef.current.value ||
-      !calendlyRef.current.value
-    ) {
-      return toast.error("One or more required fields not filled");
-    }
+
     const res = await makeRequest("/edit-listing", {
       title: titleRef.current.value,
       description: descriptionRef.current.value,
@@ -63,6 +56,10 @@ export const EditList = ({ isOpen, onClose, card }) => {
     });
     if (res.error) return;
     toast.success("Listing Edited Successfully");
+    
+  setListings(res.response.listings);
+
+    
     onClose();
   };
 

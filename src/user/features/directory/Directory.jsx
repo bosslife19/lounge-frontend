@@ -53,7 +53,7 @@ const [filteredResults, setFilteredResults] = useState([])
   if (search) {
     const lowerSearch = search.toLowerCase();
     const results = directoryData.filter((item) =>
-      [item.first_name, item.last_name, item.name, item.organization.name]
+      [item.first_name, item.last_name, item.name, item.organization?.name]
         .filter(Boolean) // removes null/undefined
         .some((field) => field.toLowerCase().includes(lowerSearch))
     );

@@ -47,7 +47,8 @@ export const Links = ({ articles }) => {
               >
                 The Lounge Team
               </Text>
-              <Text
+              <a href={card.link}>
+<Text
                 fontFamily="InterRegular"
                 color="#808291"
                 mt={-1}
@@ -56,6 +57,8 @@ export const Links = ({ articles }) => {
               >
                 {card.link}
               </Text>
+              </a>
+              
             </Stack>
           </HStack>
         </Box>

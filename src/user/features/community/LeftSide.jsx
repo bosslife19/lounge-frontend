@@ -35,7 +35,7 @@ export const LeftSide = ({ posts, setPosts }) => {
   const { makeRequest } = useRequest();
   const [openComments, setOpenComments] = useState({}); // track which posts are expanded
   const trucateText = useTruncate();
-
+const [liked, setLiked] = useState(false);
   const toggleComments = (postId) => {
     setOpenComments((prev) => ({
       ...prev,
@@ -52,6 +52,7 @@ export const LeftSide = ({ posts, setPosts }) => {
     if(res.error) return;
     if(res.response.status){
 setRefresh(prev=>!prev);
+setLiked(prev=>!prev);
     }
     
   }
@@ -162,9 +163,9 @@ setRefresh(prev=>!prev);
                   </Text>
                 </Stack>
               </HStack>
-              <Button p={0} mt={-2} color={"#707070"} bg={"transparent"}>
+              {/* <Button p={0} mt={-2} color={"#707070"} bg={"transparent"}>
                 <BsThreeDots />
-              </Button>
+              </Button> */}
             </Flex>
 
             {/* Post content */}
@@ -178,7 +179,7 @@ setRefresh(prev=>!prev);
               {/* {card.body} */}
               {trucateText(card.body, card.id)}
             </Text>
-            <Text
+            {/* <Text
               my={-2}
               color={"#0966C2"}
               fontSize={{ base: 12, md: 13 }}
@@ -186,12 +187,12 @@ setRefresh(prev=>!prev);
               fontFamily="robotoMedium"
             >
               #hastag #hastag #hashtag
-            </Text>
+            </Text> */}
           </Card.Body>
 
           {/* Post Image */}
           {card.post_image && (
-            <Image src={card.post_image} boxSize={"100%"} h={270} fit="cover" />
+            <Image src={card.post_image} boxSize={"100%"} h={270} fit="contain" />
           )}
 
           {/* Comments and actions */}
@@ -204,8 +205,8 @@ setRefresh(prev=>!prev);
           >
             <p style={{position:'relative', left:'3%'}}>{card.likes?.length}</p>
            
-            <Button color={"#212121"} p={0} bg={"transparent"} onClick={()=>likePost(card.id)}>
-              <AiOutlineLike />
+            <Button color={liked?'blue':"#212121"} p={0} bg={"transparent"} onClick={()=>likePost(card.id)}>
+              <AiOutlineLike color={liked&&'blue'} />
 
             </Button>
             <Button

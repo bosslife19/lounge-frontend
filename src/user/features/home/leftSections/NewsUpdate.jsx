@@ -129,7 +129,7 @@ const NewsUpdate = () => {
                 w="100%"
                 className="object-cover"
               />
-              <button
+              {/* <button
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleFavorite(card.id);
@@ -141,7 +141,7 @@ const NewsUpdate = () => {
                   alt="buttons"
                   className="w-6 h-6 object-cover"
                 />
-              </button>
+              </button> */}
               <Box pt={2}>
                 <Text
                   fontSize={{ base: 12, md: 13 }}

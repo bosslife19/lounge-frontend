@@ -194,9 +194,9 @@ const CommunityPost = () => {
               </Text>
 
               <Stack>
-                <HStack
+                {/* <HStack
                   rounded={10}
-                  // my={2}
+
                   py={1}
                   pl={2}
                   pr={3}
@@ -213,7 +213,7 @@ const CommunityPost = () => {
                   <Text color={"#344054"} fontSize={{ base: 8, md: 11 }}>
                     Video.MP3
                   </Text>
-                </HStack>
+                </HStack> */}
                 <Flex gap={3} alignItems={"center"}>
                   <HStack
                     rounded={10}

@@ -20,7 +20,8 @@ export const VideosPage = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [videos, setVideos] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [search, setSearch] = useState('')
+const[filteredResults, setFilteredResults] = useState([])
   useEffect(() => {
     const getVideos = async () => {
       const res = await axiosClient.get("/get-videos");
@@ -28,6 +29,20 @@ export const VideosPage = () => {
     };
     getVideos();
   }, []);
+    useEffect(() => {
+      if (search) {
+       
+        const lowerSearch = search.toLowerCase();
+        const results = videos?.filter((item) =>
+          [item.title, item.video_link]
+            .filter(Boolean) // removes null/undefined
+            .some((field) => field.toLowerCase().includes(lowerSearch))
+        );
+        setFilteredResults(results);
+      } else {
+        setFilteredResults(videos); // if no search, show all
+      }
+    }, [search, videos]);
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -48,13 +63,15 @@ export const VideosPage = () => {
           fontSize={10}
           borderRadius={10}
           placeholder="Search..."
+          onChange={(e)=>setSearch(e.target.value)}
+
         />
       </InputGroup> 
 
       {/* Video Grid */}
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} gap={7}>
-        {videos.length > 0 &&
-          videos.map((card, idx) => (
+        {filteredResults.length > 0 &&
+          filteredResults.map((card, idx) => (
             <Box
               key={`${card.id}-${idx}`}
               cursor="pointer"

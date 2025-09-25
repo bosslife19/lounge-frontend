@@ -167,11 +167,11 @@ const Avatar = ({ options }) => {
   return (
     <>
       <div
-        className="relative flex items-center gap-3 cursor-pointer"
+        className="relative flex items-center gap-3"
         ref={dropdownRef}
       >
         <div
-          className="cursor-pointer gap-[20px] flex items-center"
+          className="gap-[20px] flex items-center"
           onClick={toggleDropdown}
         >
           <Button
@@ -231,7 +231,7 @@ const Avatar = ({ options }) => {
             h={{ base: 6, lg: 10 }}
             src={preview || userDetails?.profile_picture || Avatars}
             alt="Avatar"
-            className="object-cover  rounded-full"
+            className="object-cover  rounded-full cursor-pointer"
           />
           <input
             type="file"

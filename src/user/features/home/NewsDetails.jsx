@@ -103,7 +103,7 @@ const NewsDetails = () => {
               // overflow={"hidden"}
               mb={6}
             />
-            <button className=" absolute cursor-pointer top-5 right-6">
+            {/* <button className=" absolute cursor-pointer top-5 right-6">
               <Image
                 roundedTop={10}
                 src={btns}
@@ -112,7 +112,7 @@ const NewsDetails = () => {
                 objectFit={"cover"}
                 className="w-full   "
               />
-            </button>
+            </button> */}
           </Box>
           <Stack mt={-5} spacing={0}>
             <Text

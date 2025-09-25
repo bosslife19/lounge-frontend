@@ -34,7 +34,7 @@ export const SettingsListing = () => {
   const [isEdit, setisEdit] = useState(false);
   const [listings, setListings] = useState([])
   const [beingEdited, setBeingEdited] = useState(null);
- 
+
   
 
   useEffect(()=>{
@@ -127,21 +127,21 @@ export const SettingsListing = () => {
           >
             <Card.Body gap="2">
               <Avatar.Root mx={"auto"} boxSize={20} rounded={50}>
-                <Avatar.Image src={card.user.profile_picture||userAvatar} />
+                <Avatar.Image src={card.user?.profile_picture||userAvatar} />
                 <Avatar.Fallback name={card.name} />
               </Avatar.Root>
               <Text textAlign={"center"}
               color={'#070416'}
               fontSize={{base:12,md:16}}
                 fontFamily="InterRegular">
-                {card.user.name}
+                {card.user?.name}
               </Text>
               <Text textAlign={"center"}
                color={'#64626D'}
                fontSize={{base:12,md:16}}
                 fontFamily="LatoRegular"
                 >
-               {card.user.profession}
+               {card.user?.profession}
               </Text>
               <Card.Title
                 mt="2"
@@ -188,6 +188,7 @@ export const SettingsListing = () => {
           isOpen={isEdit}
           onClose={handleCloses}
           card={beingEdited}
+          setListings={setListings}
          />
     
     </Box>

@@ -41,6 +41,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
   const calendlyRef = useRef("");
   const prepRef = useRef("");
   const [isFree, setIsfree] = useState(false);
+  
 
   const handleCreateListing = async () => {
     if (
@@ -206,7 +207,10 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                 <Checkboxs checked={isFree} setChecked={setIsfree} />
 
                 {/* Price */}
-                <Span
+                {
+                  !isFree &&(
+                    <>
+                     <Span
                   fontWeight={"400"}
                   fontSize={{ base: 12, md: 14 }}
                   fontFamily="InterMedium"
@@ -224,6 +228,10 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
                   <NumberInput.Control />
                   <NumberInput.Input />
                 </NumberInput.Root>
+                    </>
+                  )
+                }
+               
 
                 {/* calendly */}
                 <Span

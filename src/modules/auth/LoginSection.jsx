@@ -15,11 +15,13 @@ import {
 
 import LoungeLogo from "../../assets/Frame.png";
 import Google from "../../assets/google.png";
+import { GoogleLogin } from "@react-oauth/google";
 import divder from "../../assets/Dividers.svg";
 import { BiHide, BiShow } from "react-icons/bi";
 import { useRequest } from "../../hooks/useRequest";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthContext";
+import axiosClient from "../../axiosClient";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,6 +35,35 @@ function Login() {
     const timer = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
+
+   const handleSuccess = async (credentialResponse) => {
+      const token = credentialResponse.credential;
+  
+  
+  
+      // Send to your Laravel backend
+      try {
+        
+        const res = await axiosClient.post('/google', {token});
+        if(res.error) return toast.error(res.error);
+          if(res.data.status){
+        toast.success('Login Successful');
+        localStorage.setItem('ACCESS_TOKEN', res.data.token)
+        setUserDetails(res.data.user);
+        setTimeout(()=>{
+  return navigate('/dashboard');
+        }, 2000);
+        
+      }
+  
+      } catch (error) {
+        console.log(error);
+        alert('Error');
+      }
+      
+  
+     
+    };
 
   const handleLogin = async () => {
     if (!emailRef.current.value || !passwordRef.current.value) {
@@ -203,7 +234,7 @@ function Login() {
           </Text>
 
           <Image src={divder} />
-          <Button
+          {/* <Button
             bg={"transparent"}
             type="submit"
             alignSelf="flex-start"
@@ -212,7 +243,11 @@ function Login() {
             rounded={5}
           >
             <Image src={Google} />
-          </Button>
+          </Button> */}
+           <GoogleLogin
+                onSuccess={handleSuccess}
+                onError={() => console.log("Login Failed")}
+              />
         </Fieldset.Root>
       </Flex>
     </Flex>

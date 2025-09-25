@@ -88,13 +88,13 @@ const actions = [
                     fontFamily="InterRegular">
                     {card.desc3}
                   </Text>
-                  <Text  
+                  {/* <Text  
                    color={'#0966C2'}
                    fontSize={{base:12,md:16}}
                     fontFamily="InterMedium"
                     >
                   #hastag #hastag #hashtag 
-                  </Text>
+                  </Text> */}
                   
                 </Card.Body>
                  <Image 

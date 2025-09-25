@@ -19,6 +19,9 @@ import { CiSearch } from "react-icons/ci";
 
 const TopTabs = () => {
   const [articles, setArticles] = useState([]);
+  const [search, setSearch] = useState('');
+
+  const [filteredResults, setFilteredResults] = useState([])
 
   useEffect(() => {
     const getArticles = async () => {
@@ -28,10 +31,25 @@ const TopTabs = () => {
     };
     getArticles();
   }, []);
+
+  useEffect(() => {
+    if (search) {
+     
+      const lowerSearch = search.toLowerCase();
+      const results = articles.filter((item) =>
+        [item.title, item.content]
+          .filter(Boolean) // removes null/undefined
+          .some((field) => field.toLowerCase().includes(lowerSearch))
+      );
+      setFilteredResults(results);
+    } else {
+      setFilteredResults(articles); // if no search, show all
+    }
+  }, [search, articles]);
   return (
     <Box bg={"#F5F6FA"}>
       <Heading pl={5} display={"flex"} pb={4} gap={2} alignItems={"center"}>
-        <IconButton
+        {/* <IconButton
           aria-label="Previous"
           rounded="full"
           bg="white"
@@ -40,7 +58,7 @@ const TopTabs = () => {
           size="sm"
         >
           <IoIosArrowBack color="#9E9E9E" />
-        </IconButton>
+        </IconButton> */}
         Learning Hub
       </Heading>
       <Tabs.Root
@@ -68,6 +86,7 @@ const TopTabs = () => {
               fontSize={10}
               borderRadius={10}
               placeholder="Search..."
+              onChange={e=>setSearch(e.target.value)}
             />
           </InputGroup>
           <Tabs.List
@@ -122,7 +141,7 @@ const TopTabs = () => {
 
         <Tabs.Content value="articles">
           <Box>
-            <TabPanel articles={articles} setArticles={setArticles} />
+            <TabPanel articles={filteredResults} setArticles={setArticles} />
           </Box>
         </Tabs.Content>
         <Tabs.Content value="projects">
@@ -131,7 +150,7 @@ const TopTabs = () => {
           </Box>
         </Tabs.Content>
         <Tabs.Content value="tasks">
-          <Links articles={articles} setArticles={setArticles} />
+          <Links articles={articles} setArticles={setFilteredResults} />
         </Tabs.Content>
       </Tabs.Root>
     </Box>

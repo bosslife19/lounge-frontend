@@ -5,10 +5,13 @@ import App from "./App.jsx";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+<AuthProvider>
       <ChakraProvider value={defaultSystem}>
         <App />
         <ToastContainer
@@ -25,5 +28,7 @@ createRoot(document.getElementById("root")).render(
         />
       </ChakraProvider>
     </AuthProvider>
+    </GoogleOAuthProvider>
+    
   </StrictMode>
 );

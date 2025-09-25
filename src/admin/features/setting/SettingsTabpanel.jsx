@@ -7,7 +7,7 @@ export const AdminSettingsTab = () => {
   return (
     <Box bg={'#F5F6FA'}>
      <Heading pl={5} display={'flex'} pb={4} gap={2} alignItems={'center'}>
-      <IconButton
+      {/* <IconButton
         aria-label="Previous"
         rounded="full"
         bg="white"
@@ -16,7 +16,7 @@ export const AdminSettingsTab = () => {
         size="sm"
         >
            <IoIosArrowBack color="#9E9E9E" />
-        </IconButton>
+        </IconButton> */}
                Settings
         </Heading>
     

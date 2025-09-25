@@ -18,13 +18,16 @@ import LoungeLogo from "../../assets/Frame.png";
  import Google from "../../assets/google.png";
  import divder from "../../assets/Dividers.svg";
 import { BiHide, BiShow } from "react-icons/bi";
+import { GoogleLogin } from "@react-oauth/google";
 import { m } from "framer-motion";
 import { toast } from "react-toastify";
 import {useRequest} from '../../hooks/useRequest'
 import { AuthContext } from "../../context/AuthContext";
+import axiosClient from "../../axiosClient";
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordRepeat, setShowPasswordRepeat] = useState(false)
   const [isLoading, setIsLoading] = useState(true);
   const nameRef = React.useRef();
   const {loading, success, error, makeRequest} = useRequest()
@@ -32,6 +35,7 @@ function SignUp() {
   const {setUserDetails} = useContext(AuthContext);
   const passwordRef = React.useRef();
   const navigate = useNavigate()
+  const passwordRepeatRef = React.useRef('');
 
   useEffect(() => {
     
@@ -40,15 +44,19 @@ function SignUp() {
   }, []);
 
   const handleSignup = async () =>{
-    if(!nameRef.current.value || !emailRef.current.value || !passwordRef.current.value){
+
+    if( !emailRef.current.value || !passwordRef.current.value){
      
        toast.error('All fields are required')
       
       return;
     }
+    if(passwordRef.current.value !== passwordRepeatRef.current.value){
+      return toast.error("Your Passwords don't match. Please check and try again");
+    }
 try {
       const res = await makeRequest('/register', {
-      name: nameRef.current.value,
+      
       email: emailRef.current.value,
       password: passwordRef.current.value
     })
@@ -72,6 +80,34 @@ return navigate('/otp');
 
     
   }
+   const handleSuccess = async (credentialResponse) => {
+    const token = credentialResponse.credential;
+
+
+
+    // Send to your Laravel backend
+    try {
+      
+      const res = await axiosClient.post('/google', {token});
+      if(res.error) return toast.error(res.error);
+        if(res.data.status){
+      toast.success('Sign Up Successful');
+      localStorage.setItem('ACCESS_TOKEN', res.data.token)
+      setUserDetails(res.data.user);
+      setTimeout(()=>{
+return navigate('/dashboard');
+      }, 2000);
+      
+    }
+
+    } catch (error) {
+      console.log(error);
+      alert('Error');
+    }
+    
+
+   
+  };
   if (isLoading) {
     return (
       <Flex
@@ -111,7 +147,7 @@ return navigate('/otp');
         <Fieldset.Legend fontFamily={'inter'}  
         color={'rgba(27, 24, 24, 1)'} 
         fontWeight={'600'} 
-        fontSize={{base:24,md:36}}>HI there!</Fieldset.Legend>
+        fontSize={{base:24,md:36}}>Hi there!</Fieldset.Legend>
          <Flex fontSize="sm" color="gray.600" textAlign="center">
             <Text 
             lineHeight={'40px'}
@@ -136,7 +172,7 @@ return navigate('/otp');
          </Flex>
       </Stack>
       <Fieldset.Content>
-        <Field.Root   fontFamily={'inter'}  >
+        {/* <Field.Root   fontFamily={'inter'}  >
         <Field.Label   
          color={'rgba(27, 24, 24, 1)'} 
          fontWeight={'500'} 
@@ -148,7 +184,7 @@ return navigate('/otp');
           ref={nameRef}
           
           py={{base:3,md:7}} />
-        </Field.Root>
+        </Field.Root> */}
 
         <Field.Root   fontFamily={'inter'}  >
         <Field.Label   
@@ -191,6 +227,34 @@ return navigate('/otp');
          )}
        </span>
         </Field.Root>
+
+        <Field.Root   fontFamily={'inter'}  >
+          <Field.Label 
+          color={'rgba(27, 24, 24, 1)'} 
+         fontWeight={'500'} 
+         fontSize={{base:12,md:14}}>
+          Input Password Again</Field.Label>
+          <Input name="password" 
+          position={'relative'}
+          ref={passwordRepeatRef}
+
+           type={showPasswordRepeat ? "text" : "password"}
+           py={{base:3,md:7}}  />
+            <span
+             onClick={() => setShowPasswordRepeat(!showPasswordRepeat)}
+            className="absolute  bottom-0  right-4 -translate-y-1/2 cursor-pointer text-gray-500 flex items-center gap-1 text-sm"
+          >
+          {showPasswordRepeat ? (
+         <>
+            <BiShow /> Show
+         </>
+           ) : (
+            <>
+          <BiHide /> Hide
+         </>
+         )}
+       </span>
+        </Field.Root>
         
       </Fieldset.Content>
 
@@ -223,9 +287,13 @@ return navigate('/otp');
             </Text>
       
           <Image src={divder} />
-        <Button bg={'transparent'} type="submit" alignSelf="flex-start" w={'100%'} py={7} rounded={5}>
+        {/* <Button bg={'transparent'} type="submit" alignSelf="flex-start" w={'100%'} py={7} rounded={5}>
          <Image src={Google} />
-         </Button>
+         </Button> */}
+           <GoogleLogin
+      onSuccess={handleSuccess}
+      onError={() => console.log("Login Failed")}
+    />
        </Fieldset.Root>
       </Flex>
 

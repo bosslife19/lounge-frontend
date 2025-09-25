@@ -16,18 +16,25 @@ import { FaBriefcase } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { truncateText } from "../../home/RightSide/mentorsCard";
 import logo from "../../../../assets/userImage.jpg";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { EditProfile } from "./modals/EditProfile";
 import { FirstModal } from "../../home/modal/firstmodal";
 import { AuthContext } from "../../../../context/AuthContext";
 import userImage from "../../../../assets/userImage.jpg";
 import axiosClient from "../../../../axiosClient";
 import { redirect } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useRequest } from "../../../../hooks/useRequest";
 
 export const LeftSectionProfile = () => {
   const { userDetails, setUserDetails } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [mentors, setMentors] = useState([]);
+  const [preview, setPreview] = useState(null)
+  const fileInputRef = useRef(null)
+  const [profileImage, setProfileImage] = useState()
+  const {makeRequest} = useRequest();
   useEffect(() => {
       const getMentors = async () => {
         const res = await axiosClient.get("/my-mentors");
@@ -36,6 +43,52 @@ export const LeftSectionProfile = () => {
       };
       getMentors();
     }, []);
+      const handleImageClick = () => {
+        if (fileInputRef.current) {
+          fileInputRef.current.click(); // open file picker
+        }
+      };
+      const handleFileChange = async (event) => {
+        const file = event.target.files?.[0];
+        if (file) {
+          // show preview
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setPreview(reader.result);
+          };
+          reader.readAsDataURL(file);
+    
+          // TODO: send `file` to your backend API for upload
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
+    
+          try {
+            const res = await axios.post(
+              "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
+              formData
+            );
+    
+            const imageUrl = res.data.secure_url;
+            setProfileImage(imageUrl);
+    
+            const resp = await makeRequest("/profile/upload", {
+              profilePic: imageUrl,
+            });
+    
+            if (resp.error) {
+              return;
+            }
+            setUserDetails(resp.response.user);
+    
+            toast.success(resp.response.message);
+            // If you have a callback to inform parent component
+          } catch (error) {
+            console.error("Image upload failed", error);
+            toast.error("Image Upload Failed. Please try again.");
+          }
+        }
+      };
 
   useEffect(()=>{
     const getUser = async ()=>{
@@ -83,7 +136,7 @@ export const LeftSectionProfile = () => {
           <HStack>
             <Stack position={"relative"}>
               <Image
-                src={userDetails?.profile_picture || userImage}
+                src={preview || userDetails?.profile_picture || userImage}
                 alt="Update"
                 boxSize={{ base: "40px", md: "72px" }}
                 rounded={50}
@@ -97,7 +150,16 @@ export const LeftSectionProfile = () => {
                 right={"-1"}
                 borderRadius="md"
                 objectFit="cover"
+                cursor='pointer'
+                 onClick={handleImageClick}
               />
+               <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
             </Stack>
             <Stack>
               <Text
@@ -166,7 +228,7 @@ export const LeftSectionProfile = () => {
                 objectFit={"cover"}
                 rounded={50}
               />
-              <Image
+              {/* <Image
                 src={tick}
                 alt="tick"
                 w={4}
@@ -175,7 +237,7 @@ export const LeftSectionProfile = () => {
                 right={"-1"}
                 borderRadius="md"
                 objectFit="cover"
-              />
+              /> */}
             </Stack>
             <Stack>
               <Text
@@ -196,7 +258,7 @@ export const LeftSectionProfile = () => {
                 gap={2}
                 py={1}
               >
-                <FaBriefcase /> Financial Industry
+                
               </Text>
               <Text
                 mt={-3}
@@ -226,7 +288,7 @@ export const LeftSectionProfile = () => {
           >
             About Company
             {/* {userDetails?.first_name} {userDetails?.last_name} */}
-            <LuPencil size={17} />
+            {/* <LuPencil size={17} /> */}
           </Heading>
           {/* <Text>{userDetails?.bio}</Text> */}
           {/* <List.Root ml={"1vw"} gap={2}>
