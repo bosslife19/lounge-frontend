@@ -7,7 +7,6 @@ import {
   Image,
   Text,
   Button,
-  
 } from "@chakra-ui/react";
 import { formatTime } from "../../../lib/formatTime";
 import { useRequest } from "../../../hooks/useRequest";
@@ -39,14 +38,14 @@ export const ProfileDetailsModal = ({
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
         <Dialog.Backdrop />
-        <Dialog.Positioner>
+        <Dialog.Positioner px={5}>
           <Dialog.Content borderRadius="lg" bg="#FAFAFA" p={4}>
             <Dialog.CloseTrigger
               rounded={30}
               border={"1px solid #9E9E9E"}
               asChild
             >
-              <CloseButton size="xs" color={"#9E9E9E"} />
+              <CloseButton size={{ base: "10", md: "xs" }} color={"#9E9E9E"} />
             </Dialog.CloseTrigger>
             <Stack spacing={0}>
               {/* <Text
@@ -72,7 +71,7 @@ export const ProfileDetailsModal = ({
                 src={profile.image}
                 alt={profile.title}
                 w="100%"
-                h={{ base: "200px", md: "300px" }}
+                h={{ base: "150px", md: "300px" }}
                 objectFit="cover"
                 rounded="xl"
                 mb={4}
@@ -81,7 +80,7 @@ export const ProfileDetailsModal = ({
               <Stack spacing={0}>
                 <Text
                   fontFamily="LatoRegular"
-                  fontSize={{ base: 14, md: 16 }}
+                  fontSize={{ base: "11px", md: 16 }}
                   color="#1C1C1CB2"
                 >
                   {profile.content}
@@ -98,12 +97,16 @@ export const ProfileDetailsModal = ({
                 <Stack spacing={0}>
                   <Text
                     color="#202020"
-                    fontSize={{ base: 10, md: 12 }}
+                    fontSize={{ base: "10px", md: 12 }}
                     fontFamily="InterMedium"
                   >
                     The Lounge Team
                   </Text>
-                  <Text mt={-3} color="#202020" fontSize={{ base: 9, md: 11 }}>
+                  <Text
+                    mt={-3}
+                    color="#202020"
+                    fontSize={{ base: "9px", md: 11 }}
+                  >
                     {formatTime(profile.created_at)}
                   </Text>
                 </Stack>
@@ -114,10 +117,15 @@ export const ProfileDetailsModal = ({
                   bg={"transparent"}
                   color={"#33333399"}
                   border={"1px solid #E4E4E4"}
+                  fontSize={{ base: "11px", md: 16 }}
                 >
-                 Remove Article
+                  Remove Article
                 </Button>
-                <Button onClick={() => onClose()} px={{ base: 5, md: 10 }}>
+                <Button
+                  fontSize={{ base: "11px", md: 16 }}
+                  onClick={() => onClose()}
+                  px={{ base: 5, md: 10 }}
+                >
                   Cancel
                 </Button>
               </HStack>

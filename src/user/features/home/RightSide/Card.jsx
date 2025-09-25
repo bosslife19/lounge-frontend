@@ -1,4 +1,13 @@
-import { Box, Heading,  HStack, Image, Text, Button, Stack, Spinner } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  HStack,
+  Image,
+  Text,
+  Button,
+  Stack,
+  Spinner,
+} from "@chakra-ui/react";
 import { Emojione_fire } from "../../../../assets/emojione_fire";
 import divider from "../../../../assets/Divider.svg";
 import { CiClock2 } from "react-icons/ci";
@@ -17,20 +26,25 @@ export function Card() {
   const [notifications, setNotifications] = useState([]);
   const [currentNotification, setCurrentNotification] = useState(null);
   const [realTime, setRealTime] = useState(false);
-const {makeRequest, loading} = useRequest()
+  const { makeRequest, loading } = useRequest();
 
-   const handleAccept = async(id, notId, is_meeting)=>{
-      const res = await makeRequest('/respond-to-match', {marchId:id, response:'accepted', notId,isMeeting:is_meeting,stay:true });
-      if(res.error) return;
-       toast.success("Match accepted successfully");
-      
+  const handleAccept = async (id, notId, is_meeting) => {
+    const res = await makeRequest("/respond-to-match", {
+      marchId: id,
+      response: "accepted",
+      notId,
+      isMeeting: is_meeting,
+      stay: true,
+    });
+    if (res.error) return;
+    toast.success("Match accepted successfully");
+  };
+
+  useEffect(() => {
+    if (!realTime && notifications) {
+      setCurrentNotification(notifications[0]);
     }
-  
-useEffect(()=>{
- if(!realTime &&notifications){
-  setCurrentNotification(notifications[0]);
- }
-}, [notifications])
+  }, [notifications]);
   useEffect(() => {
     // 1. Fetch existing notifications
     const fetchNotifications = async () => {
@@ -78,18 +92,18 @@ useEffect(()=>{
         <Box
           w={"100%"}
           bg="#6C343314"
-          h={"322px"}
+          h={{ base: "100%", md: "322px" }}
           pb={4}
           borderRadius="2xl"
           borderColor="gray.200"
         >
           {/* Card Title */}
           <Heading
-            fontSize={{ base: 17, md: 22 }}
+            fontSize={{ base: 16, md: 22 }}
             mb={2}
-            px={5}
+            px={{ base: 3, md: 5 }}
             pt={5}
-            pb={2}
+            pb={{ base: 0, md: 2 }}
             fontWeight={"extrabold"}
             fontFamily="LatoBold"
             display={"flex"}
@@ -112,18 +126,18 @@ useEffect(()=>{
             borderRadius="md"
             // objectFit="cover"
           />
-          <Stack px={6} pt={5} pb={2}>
+          <Stack px={{ base: 3, md: 6 }} pt={{ base: 2, md: 5 }} pb={2}>
             <Text
-              fontSize={{ base: 12, md: 18 }}
+              fontSize={{ base: 9, md: 18 }}
               fontWeight={"bold"}
               fontFamily="InterMedium"
             >
-              Friday, 6 July
-              {/* {formatTimestamp(currentNotification.created_at)} */}
+              {/* Friday, 6 July */}
+              {formatTimestamp(currentNotification.created_at)}
             </Text>
             <Text
               fontFamily="InterRegular"
-              fontSize={{ base: 12, md: 13 }}
+              fontSize={{ base: 8, md: 13 }}
               display={"flex"}
               color={"#475367"}
               gap={2}
@@ -132,22 +146,28 @@ useEffect(()=>{
               <CiClock2 /> 11.30 - 12.00 (30 min)
             </Text>
           </Stack>
-          <HStack px={6} pt={5} pb={2} spacing={4} mb={4} align="flex-start">
+          <HStack
+            px={{ base: 3, md: 6 }}
+            pt={{ base: 2, md: 5 }}
+            pb={2}
+            spacing={4}
+            mb={{ base: 2, md: 4 }}
+            align="flex-start"
+          >
             <Stack position={"relative"}>
               <Image
                 src={currentNotification.profile_picture || logo}
                 alt="Update"
-                boxSize="40px"
-                // borderRadius="50"
+                boxSize={{ base: "30px", md: "40px" }}
                 rounded={50}
                 objectFit="cover"
               />
               <Image
                 src={tick}
                 alt="tick"
-                w={4}
+                w={{ base: 2, md: 4 }}
                 position={"absolute"}
-                bottom={"-2"}
+                bottom={{ base: 0, md: "-2" }}
                 right={"0"}
                 // borderRadius="md"
                 objectFit="cover"
@@ -155,13 +175,13 @@ useEffect(()=>{
             </Stack>
 
             <Stack>
-              <Text fontSize={{ base: 11, md: 15 }} fontFamily="InterMedium">
+              <Text fontSize={{ base: 8, md: 15 }} fontFamily="InterMedium">
                 {currentNotification.first_name}
               </Text>
               <Text
                 mt={"-2"}
                 textTransform={"capitalize"}
-                fontSize={{ base: 11, md: 12 }}
+                fontSize={{ base: 8, md: 12 }}
                 color="gray.700"
               >
                 {currentNotification.profession}
@@ -173,6 +193,7 @@ useEffect(()=>{
             src={lightdivider}
             alt="Update"
             w={"100%"}
+            // h={2}
             borderRadius="md"
             // objectFit="cover"
           />
@@ -181,7 +202,7 @@ useEffect(()=>{
           <Box
             display={"flex"}
             justifyContent={"center"}
-            px={5}
+            px={{ base: 3, md: 5 }}
             w={"100%"}
             pt={4}
           >
@@ -192,8 +213,15 @@ useEffect(()=>{
               w={"100%"}
               rounded="lg"
               shadow="xs"
-            onClick={()=>handleAccept(currentNotification.match_id, currentNotification.id, currentNotification.is_meeting)}>
-              {loading?<Spinner/>:"Confirm Appointment"}
+              onClick={() =>
+                handleAccept(
+                  currentNotification.match_id,
+                  currentNotification.id,
+                  currentNotification.is_meeting
+                )
+              }
+            >
+              {loading ? <Spinner /> : "Confirm Appointment"}
             </Button>
           </Box>
         </Box>

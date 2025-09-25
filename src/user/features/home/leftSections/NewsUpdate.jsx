@@ -74,7 +74,7 @@ const NewsUpdate = () => {
     <Box>
       {/* Header with controls */}
       <Flex py={3} justifyContent="space-between" alignItems="center">
-        <Text fontSize={{ base: 13, md: 15 }} color="#202224">
+        <Text fontSize={{ base: 11, md: 15 }} color="#202224">
           News & Updates
         </Text>
         <HStack spacing={2}>
@@ -83,20 +83,20 @@ const NewsUpdate = () => {
             border="1px solid #9E9E9E"
             rounded={20}
             aria-label="Prev"
-            size="xs"
+            size={{ base: "20px", md: "xs" }}
             onClick={handlePrev}
           >
-            <IoIosArrowBack color="#9E9E9E" />
+            <IoIosArrowBack size={20} color="#9E9E9E" />
           </IconButton>
           <IconButton
             bg="#fff"
             border="1px solid #9E9E9E"
             rounded={20}
             aria-label="Next"
-            size="xs"
+            size={{ base: "20px", md: "xs" }}
             onClick={handleNext}
           >
-            <IoIosArrowForward color="#9E9E9E" />
+            <IoIosArrowForward size={20} color="#9E9E9E" />
           </IconButton>
         </HStack>
       </Flex>
@@ -115,9 +115,9 @@ const NewsUpdate = () => {
               display="flex"
               flexDirection="column"
               justifyContent={"space-between"}
-              rounded={20}
+              rounded={{ base: 10, md: 20 }}
               w={{ base: "100%" }}
-              h={{ base: 190, md: 245 }}
+              // h={{ base: 240, md: 245 }}
               className="shadow-lg relative"
               onClick={() => navigate(`/news/${card.id}`)}
             >
@@ -150,8 +150,8 @@ const NewsUpdate = () => {
                   fontWeight={"medium"}
                   // className=" "
                 >
-                  {card.content.length > 90
-                    ? `${card.content.slice(0, 90)}...`
+                  {card.content.length > 103
+                    ? `${card.content.slice(0, 103)}...`
                     : card.content}
                 </Text>
               </Box>

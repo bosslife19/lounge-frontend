@@ -69,7 +69,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
             className="block rounded-sm  p-1.5 shadow-sm"
           >
             <svg
-              className="h-10 w-10 fill-current p-2 border rounded-full text-blue"
+              className="h-[24px] md:h-12 w-[22px] md:w-10 fill-current p-2 border rounded-full text-blue"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -96,7 +96,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
 
         {/* Header Actions */}
         <div className="flex items-center gap-5">
-          <Button bg={"transparent"}>
+          {/* <Button bg={"transparent"}>
             <Image
               w={{ base: 8, md: 10 }}
               h={{ base: 8, md: 10 }}
@@ -104,7 +104,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
               alt="Lounge Logo"
               className="object-cover  rounded-full"
             />
-          </Button>
+          </Button> */}
 
           {/* Avatar Dropdown */}
           <div className="border-l-2 pl-4">

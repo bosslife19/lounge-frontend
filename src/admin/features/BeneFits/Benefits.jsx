@@ -60,7 +60,7 @@ export const BenefitsPoints = () => {
         position={"absolute"}
         right={0}
         top={5}
-        size="sm"
+        size={{ base: "xs", md: "sm" }}
         border={`1px solid #333`}
         rounded={20}
         color={"#333"}
@@ -69,9 +69,9 @@ export const BenefitsPoints = () => {
         _hover={{ bg: "#f0f0f0" }}
       >
         <HStack spacing={2}>
-          <FiPlusCircle size={12} />
+          <FiPlusCircle size={10} />
           <Text
-            fontSize={{ base: 10, md: 13 }}
+            fontSize={{ base: "9px", md: 13 }}
             fontWeight="400"
             fontFamily="OutfitRegular"
           >
@@ -92,18 +92,31 @@ export const BenefitsPoints = () => {
             <Card.Body gap="2">
               <Menu.Root>
                 <Menu.Trigger position={"absolute"} right={5} top={5} asChild>
-                  <Button p={0} rounded={30} bg={"#fff"} size="sm">
+                  <Button
+                    fontSize={{ base: "10px", md: "14px" }}
+                    p={0}
+                    rounded={30}
+                    bg={"#fff"}
+                    size="sm"
+                  >
                     <BiDotsVerticalRounded color="#212121" size={10} />
                   </Button>
                 </Menu.Trigger>
                 <Portal>
                   <Menu.Positioner>
                     <Menu.Content>
-                      <Menu.Item onClick={() => handleAction()} value="new-txt">
+                      <Menu.Item
+                        fontSize={{ base: "10px", md: "14px" }}
+                        onClick={() => handleAction()}
+                        value="new-txt"
+                      >
                         <BiPencil />
                         Edit
                       </Menu.Item>
-                      <Menu.Item value="new-file">
+                      <Menu.Item
+                        fontSize={{ base: "10px", md: "14px" }}
+                        value="new-file"
+                      >
                         <BiTrash />
                         Delete
                       </Menu.Item>
@@ -113,7 +126,7 @@ export const BenefitsPoints = () => {
               </Menu.Root>
               <Text
                 color={"#070416"}
-                fontSize={{ base: 12, md: 16 }}
+                fontSize={{ base: "12px", md: "14px" }}
                 fontFamily="InterRegular"
               >
                 Manuel Neuer
@@ -122,7 +135,8 @@ export const BenefitsPoints = () => {
               <Card.Title
                 mt="2"
                 color={"#070416"}
-                fontSize={{ base: 12, md: 16 }}
+                lineHeight={"20px"}
+                fontSize={{ base: "10px", md: "14px" }}
                 fontFamily="InterBold"
               >
                 {card.title}
@@ -136,7 +150,9 @@ export const BenefitsPoints = () => {
                 alignItems={"center"}
               >
                 <Image src={coins} w={5} h={5} />
-                <Text color={"#fff"}>300</Text>
+                <Text fontSize={{ base: "10px", md: "14px" }} color={"#fff"}>
+                  300
+                </Text>
               </HStack>
             </Card.Body>
           </Card.Root>

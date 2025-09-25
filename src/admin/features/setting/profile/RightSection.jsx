@@ -25,7 +25,7 @@ export const RightSectionProfile = () => {
   const { makeRequest, loading } = useRequest();
 
   const updatePassword = async () => {
-    if (!newPasswordRef.current.value||!currentPasswordRef.current.value)
+    if (!newPasswordRef.current.value || !currentPasswordRef.current.value)
       return toast.error("Please fill the password fields first");
     const res = await makeRequest("/update-admin-password", {
       newPassword: newPasswordRef.current.value,
@@ -34,7 +34,7 @@ export const RightSectionProfile = () => {
     if (res.error) return;
     toast.success("Password updated successfully");
     currentPasswordRef.current.value = "";
-    newPasswordRef.current.value ="";
+    newPasswordRef.current.value = "";
   };
 
   const handleCardClick = () => {
@@ -74,7 +74,7 @@ export const RightSectionProfile = () => {
         <Stack>
           <Fieldset.Legend
             fontWeight={"400"}
-            fontSize={{ base: 15, md: 20 }}
+            fontSize={{ base: "12px", md: 20 }}
             fontFamily="InterBold"
             color={"#1A1A21"}
           >
@@ -82,7 +82,7 @@ export const RightSectionProfile = () => {
           </Fieldset.Legend>
           <Text
             fontWeight={"400"}
-            fontSize={{ base: 12, md: 14 }}
+            fontSize={{ base: "12px", md: 14 }}
             fontFamily="InterRegular"
             color={"#8C94A6"}
           >
@@ -95,38 +95,49 @@ export const RightSectionProfile = () => {
           <Field.Root>
             <Field.Label
               fontWeight={"400"}
-              fontSize={{ base: 12, md: 14 }}
+              fontSize={{ base: "12px", md: 14 }}
               fontFamily="InterMedium"
               color={"#101928"}
             >
               Current Password
             </Field.Label>
             <InputGroup startElement={<CiLock />}>
-              <Input placeholder="Enter Password" ref={currentPasswordRef}/>
+              <Input
+                fontSize={{ base: "10px", md: 14 }}
+                placeholder="Enter Password"
+                ref={currentPasswordRef}
+              />
             </InputGroup>
           </Field.Root>
 
           <Field.Root>
             <Field.Label
               fontWeight={"400"}
-              fontSize={{ base: 12, md: 14 }}
+              fontSize={{ base: "12px", md: 14 }}
               fontFamily="InterMedium"
               color={"#101928"}
             >
               New Password
             </Field.Label>
             <InputGroup startElement={<CiLock />}>
-              <Input placeholder="Enter New Password" ref={newPasswordRef} />
+              <Input
+                fontSize={{ base: "10px", md: 14 }}
+                placeholder="Enter New Password"
+                ref={newPasswordRef}
+              />
             </InputGroup>
           </Field.Root>
         </Fieldset.Content>
 
         {/* Button */}
         <HStack justifyContent={"end"}>
-          <Button p={5} fontSize={{ base: 12, md: 14 }} bg={"#2B362F"} onClick={updatePassword}>
-            {
-              loading? <Spinner/>:'Update Password'
-            }
+          <Button
+            p={{ base: 2, md: 5 }}
+            fontSize={{ base: "10px", md: 14 }}
+            bg={"#2B362F"}
+            onClick={updatePassword}
+          >
+            {loading ? <Spinner /> : "Update Password"}
           </Button>
         </HStack>
       </Fieldset.Root>

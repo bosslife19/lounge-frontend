@@ -1,8 +1,11 @@
-import { Box, Heading, HStack } from "@chakra-ui/react";
+import { Box, Button, Heading, HStack, Text } from "@chakra-ui/react";
 import { LeftSide } from "./LeftSide";
 import { RightSide } from "./RightSide";
 import { useEffect, useState } from "react";
 import axiosClient from "../../../axiosClient";
+import { IoIosAdd } from "react-icons/io";
+import { CreateCommunityModal } from "./modal/RightsideModal";
+import Avatar from "../../components/header/Avatar";
 
 const Community = () => {
   const [posts, setPosts] = useState([]);
@@ -14,11 +17,47 @@ const Community = () => {
     };
     getPosts();
   }, []);
+
+  const [isOpen, setIsOpen] = useState(false); // First modal
+
   return (
-    <Box>
-      <Heading pb={2} px={4}>
-        Community
-      </Heading>
+    <Box w={"100%"}>
+      <Box
+        ml={"auto"}
+        w={"100%"}
+        pr={4}
+        pt={2}
+        justifyContent={"flex-end"}
+        display={{ base: "none", xl: "flex" }}
+        className="border-l-2 pl-4"
+        pb={3}
+      >
+        {/* <button onClick={() => toggleDropdown("avatar")}> */}
+        <Avatar />
+        {/* </button> */}
+      </Box>
+      <HStack justifyContent={"space-between"}>
+        <Heading
+          fontSize={{ base: "13px", md: "24px" }}
+          pb={{ base: 0, md: 2 }}
+          px={4}
+        >
+          Community
+        </Heading>
+        <Button
+          display={{ base: "flex", md: "none" }} // only visible on mobile
+          bg={"#2b362f"}
+          p={1}
+          onClick={() => setIsOpen(true)} // 👈 this opens the modal
+          size={"10"}
+          mr={5}
+        >
+          <IoIosAdd size={10} />
+          <Text fontFamily={"nunitoSemiBold"} fontSize={"8px"}>
+            Create Post
+          </Text>
+        </Button>
+      </HStack>
       <HStack
         justifyContent={"space-between"}
         flexDirection={{ base: "column", md: "row" }}
@@ -27,8 +66,23 @@ const Community = () => {
         px={4}
       >
         <LeftSide posts={posts} setPosts={setPosts} />
-        <RightSide posts={posts} setPosts={setPosts} />
+        <Box
+          display={{ base: "none", md: "block" }}
+          w={{ base: "100%", md: "60%", lg: "50%" }}
+          mb={"auto"}
+          pb={10}
+        >
+          <RightSide posts={posts} setPosts={setPosts} />
+        </Box>
       </HStack>
+      {isOpen && (
+        <CreateCommunityModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          posts={posts}
+          setPosts={setPosts}
+        />
+      )}
     </Box>
   );
 };

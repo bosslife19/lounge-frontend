@@ -47,7 +47,7 @@ const MentorsBoxPage = () => {
     getMentors();
   }, []);
   return (
-    <Box w={"100%"} py={6}>
+    <Box w={"100%"} py={{ base: 1, md: 6 }}>
       {/* Header */}
       <Flex justify="space-between" align="center" mb={6}>
         <Text
@@ -63,11 +63,13 @@ const MentorsBoxPage = () => {
       {/* Grid 2x */}
       <Stack spacing={6}>
         {mentors.length > 0 ? (
-          mentors.map((card) => (
+          mentors.map((card, index) => (
             <Box
               key={card.id}
               transition="all 0.2s ease-in-out"
-              borderBottom={"1px solid #D8D8D8"}
+              borderBottom={
+                index === mentors.length - 1 ? "none" : "1px solid #D8D8D8"
+              }
               pb={3}
             >
               <HStack spacing={4} align="center">
@@ -101,7 +103,7 @@ const MentorsBoxPage = () => {
             </Box>
           ))
         ) : (
-          <Text>No Mentors Yet</Text>
+          <Text textAlign={"center"}>No Mentors Yet</Text>
         )}
       </Stack>
     </Box>

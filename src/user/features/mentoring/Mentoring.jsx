@@ -6,6 +6,7 @@ import {
   createListCollection,
   Flex,
   Heading,
+  HStack,
   IconButton,
   Input,
   InputGroup,
@@ -14,10 +15,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { cardData } from "../../../hooks/useData";
+// import { cardData } from "../../../hooks/useData";
 import { MentoringDetails } from "./MentoringDetails";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { SelectOption } from "../../components/select/Select";
+// import { SelectOption } from "../../components/select/Select";
 import { CiSearch } from "react-icons/ci";
 import { Dropdown } from "../../components/select/Dropdown";
 import { IoIosArrowBack } from "react-icons/io";
@@ -25,6 +26,8 @@ import axiosClient from "../../../axiosClient";
 import { userAvatar } from "../setting/posts/Posts";
 import { useRequest } from "../../../hooks/useRequest";
 import { toast } from "react-toastify";
+import Avatars from "../../components/header/Avatar";
+import { useNavigate } from "react-router-dom";
 
 const Mentoring = () => {
   const [selectedCard, setSelectedCard] = useState(null);
@@ -96,6 +99,7 @@ const Mentoring = () => {
         Mentor Listings
       </Heading>
       <Flex
+        px={{ base: 4, md: 0 }}
         justifyContent={"space-between"}
         flexDirection={{ base: "column", md: "row" }}
         pb={5}
@@ -107,7 +111,7 @@ const Mentoring = () => {
           startElement={<CiSearch size={15} />}
         >
           <Input
-            py={6}
+            py={{ base: 3, md: 6 }}
             fontSize={10}
             borderRadius={10}
             placeholder="Search Listing"
@@ -142,7 +146,7 @@ const Mentoring = () => {
               <Card.Body gap="2">
                 <Avatar.Root
                   mx={"auto"}
-                  boxSize={{ base: "50px", md: "89px" }}
+                  boxSize={{ base: "40px", md: "89px" }}
                   rounded={50}
                 >
                   <Avatar.Image src={card.user.profile_picture || userAvatar} />
@@ -151,7 +155,7 @@ const Mentoring = () => {
                 <Text
                   textAlign={"center"}
                   color={"#070416"}
-                  fontSize={{ base: 12, md: "16px" }}
+                  fontSize={{ base: 11, md: "16px" }}
                   fontFamily="InterRegular"
                 >
                   {card.user.first_name} {card.user.last_name}
@@ -160,14 +164,14 @@ const Mentoring = () => {
                   my="-2"
                   textAlign={"center"}
                   color={"#64626D"}
-                  fontSize={{ base: 12, md: "16px" }}
+                  fontSize={{ base: 11, md: "16px" }}
                   fontFamily="LatoRegular"
                 >
                   {card.category}
                 </Text>
                 <Card.Title
                   color={"#070416"}
-                  fontSize={{ base: 12, md: 16 }}
+                  fontSize={{ base: 11, md: 16 }}
                   textAlign={"center"}
                   fontFamily="InterBold"
                 >
@@ -186,11 +190,12 @@ const Mentoring = () => {
                     justifyContent={"space-between"}
                     textAlign={"center"}
                     px={-4}
+                    mt={{ base: -15, md: 0 }}
                     // gap={40}
                     mx={-43}
                   >
                     <Text
-                      ml={-23}
+                      ml={{ base: -13, md: -23 }}
                       color={"#64626D"}
                       fontSize={{ base: "12px", md: "16px" }}
                       fontFamily="InterRegular"
@@ -211,8 +216,8 @@ const Mentoring = () => {
                   fontSize={{ base: "12px", md: "16px" }}
                   bg={"#F2F2F2"}
                   color={"#333333B2/70"}
-                  rounded={20}
-                  // mt={-50}
+                  rounded={{ base: 10, md: 20 }}
+                  mt={{ base: "-25px", md: 0 }}
                   h={{ base: "30px", md: "43px" }}
                   onClick={() => handleRequestSession(card.user.id)}
                 >
@@ -222,7 +227,9 @@ const Mentoring = () => {
             </Card.Root>
           ))
         ) : (
-          <Text>No Listings yet</Text>
+          <Text fontSize={{ base: "12px", md: "14px" }} textAlign={"center"}>
+            No Listings yet
+          </Text>
         )}
       </SimpleGrid>
 

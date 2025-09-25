@@ -1,16 +1,16 @@
-import { Box, Button, Grid } from "@chakra-ui/react"
-import { useNavigate } from "react-router-dom"
-import { ReusableUserDetailsCard } from "../../../components/Card/UserDetailsCard"
-import avatar from "../../../../assets/userImage.jpg"
-import badge from "../../../../assets/MdBusinessCenter.png"
-import { OrgDetailsTabpanel } from "./OrgTabPanelDetails"
-import { MdOutlineKeyboardArrowLeft } from "react-icons/md"
+import { Box, Button, Grid } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import { ReusableUserDetailsCard } from "../../../components/Card/UserDetailsCard";
+import avatar from "../../../../assets/userImage.jpg";
+import badge from "../../../../assets/MdBusinessCenter.png";
+import { OrgDetailsTabpanel } from "./OrgTabPanelDetails";
+import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 
 export const OrganDetailsAdminMain = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
-    <Box mb={6} p={5} h={"150%"} bg="#F5F6FA">
+    <Box mb={6} p={{ base: 1, md: 5 }} h={"100%"} bg="#F5F6FA">
       <Button
         bg={"transparent"}
         color={"#9E9E9E"}
@@ -55,5 +55,5 @@ export const OrganDetailsAdminMain = () => {
 
       <OrgDetailsTabpanel />
     </Box>
-  )
-}
+  );
+};

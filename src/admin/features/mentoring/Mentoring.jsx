@@ -88,7 +88,7 @@ export const AdminMentor = () => {
           bg="white"
           border={"1px solid #9E9E9E"}
           _hover={{ bg: "whiteAlpha.500" }}
-          size="sm"
+          size={{ base: "10", md: "xs" }}
         >
           <IoIosArrowBack color="#9E9E9E" />
         </IconButton> */}
@@ -107,8 +107,9 @@ export const AdminMentor = () => {
           startElement={<CiSearch size={15} />}
         >
           <Input
-            py={6}
-            fontSize={10}
+            py={{ base: 2, md: 6 }}
+            fontSize={{ base: "10px", md: 14 }}
+            size={{ base: "xs", md: "sm" }}
             borderRadius={10}
             placeholder="Search..."
           />
@@ -116,6 +117,7 @@ export const AdminMentor = () => {
 
         <Dropdown
           frameworks={frameworks}
+
           // title={'finance'}
         />
       </Flex>
@@ -129,10 +131,15 @@ export const AdminMentor = () => {
               shadowColor={"#080F340F"}
               shadow={"sm"}
               rounded={20}
+              size={{ base: "sm", md: "md" }}
               border={"1px solid #fff"}
             >
               <Card.Body gap="2">
-                <Avatar.Root mx={"auto"} boxSize={20} rounded={50}>
+                <Avatar.Root
+                  mx={"auto"}
+                  boxSize={{ base: 10, md: 20 }}
+                  rounded={50}
+                >
                   <Avatar.Image src={card.user.profile_picture || userAvatar} />
                   <Avatar.Fallback name={card.user.name} />
                 </Avatar.Root>
@@ -159,7 +166,8 @@ export const AdminMentor = () => {
                 <Text
                   textAlign={"center"}
                   color={"#070416"}
-                  fontSize={{ base: 12, md: 16 }}
+                  fontSize={{ base: "10px", md: 14 }}
+                  size={{ base: "xs", md: "sm" }}
                   fontFamily="InterRegular"
                 >
                   {card.user.first_name} {card.user.last_name}
@@ -167,21 +175,25 @@ export const AdminMentor = () => {
                 <Text
                   textAlign={"center"}
                   color={"#64626D"}
-                  fontSize={{ base: 12, md: 16 }}
+                  fontSize={{ base: "10px", md: 14 }}
+                  size={{ base: "xs", md: "sm" }}
                   fontFamily="LatoRegular"
                 >
                   {card.user.profession}
                 </Text>
                 <Card.Title
-                  mt="2"
+                  mt={{ base: "-2", md: "2" }}
                   color={"#070416"}
-                  fontSize={{ base: 12, md: 16 }}
+                  fontSize={{ base: "10px", md: 14 }}
+                  size={{ base: "xs", md: "sm" }}
                   textAlign={"center"}
                   fontFamily="InterBold"
                 >
                   {card.title}
                 </Card.Title>
                 <Button
+                  fontSize={{ base: "10px", md: 14 }}
+                  size={{ base: "xs", md: "sm" }}
                   onClick={() => handleCardClick(card)}
                   bg={"transparent"}
                 >
@@ -195,7 +207,8 @@ export const AdminMentor = () => {
                   >
                     <Text
                       color={"#64626D"}
-                      fontSize={{ base: 12, md: 16 }}
+                      fontSize={{ base: "10px", md: 14 }}
+                      size={{ base: "xs", md: "sm" }}
                       fontFamily="InterRegular"
                       textAlign={"left"}
                     >
@@ -208,7 +221,13 @@ export const AdminMentor = () => {
             </Card.Root>
           ))
         ) : (
-          <Text>No Listings available yet</Text>
+          <Text
+            fontSize={{ base: "10px", md: 14 }}
+            size={{ base: "xs", md: "sm" }}
+            textAlign={"center"}
+          >
+            No Listings available yet
+          </Text>
         )}
       </SimpleGrid>
 

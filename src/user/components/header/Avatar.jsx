@@ -183,17 +183,17 @@ const Avatar = ({ options }) => {
             borderRadius={"50px"}
             rounded={50}
             size={"xs"}
-            w={{ base: "30px", md: "56px" }}
-            h={{ base: "30px", md: "50px" }}
+            w={{ base: "30px", md: "45px" }}
+            h={{ base: "30px", md: "45px" }}
           >
-            <BsBell />
+            <BsBell size={10} />
 
             {/* Notification badge */}
             {notifications.length > 0 && (
               <Text
                 fontSize={{ base: "5px", md: "7px" }}
-                w={{ base: "15px", md: "15px" }}
-                h={{ base: "15px", md: "15px" }}
+                w={{ base: "11px", md: "15px" }}
+                h={{ base: "11px", md: "15px" }}
                 position={"absolute"}
                 top={2}
                 right={3}
@@ -201,7 +201,7 @@ const Avatar = ({ options }) => {
          
         bg-[#2B362F] text-white text-xs font-bold
         flex items-center justify-center
-          rounded-full shadow-md
+          rounded-full shadow-md 
         animate-pulse
             "
               >
@@ -211,16 +211,16 @@ const Avatar = ({ options }) => {
           </Button>
 
           <Box
-            py={2}
-            px={6}
-            rounded={50}
-            border={"6px solid #F3F2F3"}
+            py={{ base: 1, md: 2 }}
+            px={{ base: 3, md: 6 }}
+            rounded={{ base: 20, md: 50 }}
+            border={{ base: "2px solid #F3F2F3", md: "6px solid #F3F2F3" }}
             className="flex-col flex px-2 items-center border"
           >
             {/* <span>{userDetails?.name||'Admin'}</span> */}
             <Text
               fontFamily={"InterRegular"}
-              fontSize={{ base: "12px", md: "16px" }}
+              fontSize={{ base: "10px", md: "16px" }}
             >
               {userDetails?.first_name}
             </Text>

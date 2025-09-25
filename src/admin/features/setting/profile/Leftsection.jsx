@@ -1,54 +1,69 @@
-import { Box, Button, Field, Flex, Heading, HStack, Image, Input, InputGroup, List, Spinner, Stack, Text } from '@chakra-ui/react'
- import images from "../../../../assets/course.png"
-import { LuPencil } from 'react-icons/lu'
+import {
+  Box,
+  Button,
+  Field,
+  Flex,
+  Heading,
+  HStack,
+  Image,
+  Input,
+  InputGroup,
+  List,
+  Spinner,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import images from "../../../../assets/course.png";
+import { LuPencil } from "react-icons/lu";
 import tick from "../../../../assets/Verified tick.png";
-import { FaBriefcase } from 'react-icons/fa';
-import { FaLocationDot } from 'react-icons/fa6';
+import { FaBriefcase } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
 // import { truncateText } from '../../../home/RightSide/mentorsCard';
 import logo from "../../../../assets/userImage.jpg";
-import { truncateText } from '../../../../user/features/home/RightSide/mentorsCard';
-import { RxDotsVertical } from 'react-icons/rx';
-import { CiUser } from 'react-icons/ci';
-import { MdOutlineEmail } from 'react-icons/md';
-import { IoCallOutline } from 'react-icons/io5';
-import { useRef } from 'react';
-import { useRequest } from '../../../../hooks/useRequest';
-import { toast } from 'react-toastify';
- 
+import { truncateText } from "../../../../user/features/home/RightSide/mentorsCard";
+import { RxDotsVertical } from "react-icons/rx";
+import { CiUser } from "react-icons/ci";
+import { MdOutlineEmail } from "react-icons/md";
+import { IoCallOutline } from "react-icons/io5";
+import { useRef } from "react";
+import { useRequest } from "../../../../hooks/useRequest";
+import { toast } from "react-toastify";
+
 export const LeftSectionProfile = () => {
-  const emailRef = useRef('');
-  const {makeRequest, loading} = useRequest();
+  const emailRef = useRef("");
+  const { makeRequest, loading } = useRequest();
 
-  const updateEmail = async ()=>{
-    if(!emailRef.current.value) return toast.error("Please fill the email field first");
-    const res = await makeRequest('/update-admin-email', {email: emailRef?.current.value});
-    if(res.error) return;
-    toast.success('Email updated successfully');
+  const updateEmail = async () => {
+    if (!emailRef.current.value)
+      return toast.error("Please fill the email field first");
+    const res = await makeRequest("/update-admin-email", {
+      email: emailRef?.current.value,
+    });
+    if (res.error) return;
+    toast.success("Email updated successfully");
     emailRef.current.value = "";
-  }
+  };
 
-      
-    // Dummy Data
-    const cardData = [
-      {
-        id: 1,
-        image: logo,
-        title: "Project One",
-        subtitle: "software developer",
-      },
-      {
-        id: 2,
-        image: logo,
-        title: "Project One",
-        subtitle: "software developer",
-      },
-    ];
-    
+  // Dummy Data
+  const cardData = [
+    {
+      id: 1,
+      image: logo,
+      title: "Project One",
+      subtitle: "software developer",
+    },
+    {
+      id: 2,
+      image: logo,
+      title: "Project One",
+      subtitle: "software developer",
+    },
+  ];
 
   return (
-    <Box  mb={'auto'} w={'100%'} >
-        {/* profile name */}
-        {/* <Box 
+    <Box mb={"auto"} w={"100%"}>
+      {/* profile name */}
+      {/* <Box 
         shadow={'xs'}
         bg={'#fff'} 
         rounded={10} p={3} 
@@ -129,7 +144,9 @@ export const LeftSectionProfile = () => {
               fontFamily="InterMedium"
               color={'#101928'} >Full Name</Field.Label>
                <InputGroup startElement={<CiUser/>}>
-                   <Input  py={6} fontSize={{base:10,md:13}} 
+                   <Input  py={{ base:1,md:6}} fo
+                               fontSize={{ base: "10px", md: 14 }}
+ntSize={{base:10,md:13}} 
                      placeholder="" />
                 </InputGroup>
            </Field.Root>
@@ -141,8 +158,10 @@ export const LeftSectionProfile = () => {
               fontFamily="InterMedium"
               color={'#101928'} >Email</Field.Label>
                <InputGroup startElement={<MdOutlineEmail/>}>
-                   <Input  py={6} 
-                   type="email"
+                   <Input  py={{ base:1,md:6}} 
+ 
+             fontSize={{ base: "10px", md: 14 }}
+                  type="email"
                    fontSize={{base:10,md:13}} 
                    placeholder="" />
                 </InputGroup>
@@ -153,16 +172,20 @@ export const LeftSectionProfile = () => {
                 <Button 
                     flex={0.4}
                       onClick={()=>onClose()}
-                      py={6} 
-                      px={{base:5,md:50}}
+                      py={{ base:1,md:6}} 
+ 
+             fontSize={{ base: "10px", md: 14 }}
+                     px={{base:5,md:50}}
                       
                       bg={'#fff'} color={'#2B362F'} border={"1px solid #2B362F"} >
                         Cancel
                      </Button>
                  <Button
 
-                  py={6}
-                  flex={1}
+                  py={{ base:1,md:6}}
+  
+              fontSize={{ base: "10px", md: 14 }}
+                flex={1}
                  
                   rounded={5}
                   bg={"#2B362F"}
@@ -173,70 +196,82 @@ export const LeftSectionProfile = () => {
             </HStack>
         </Box> */}
 
-        {/* Help Info */}
-         <Box 
-         mt={5}
-        shadow={'xs'}
-        bg={'#FCFCFC'} 
-        rounded={10} p={3} 
-        w={{base:'100%',xl:475}} 
-        border={'1px solid #EDEDF2'}>
-         
-         <Field.Root py={4}>
-            <Field.Label
-              fontWeight={'400'}
-              fontSize={{base:11,md:14}}
-              fontFamily="InterMedium"
-              color={'#101928'} >Email</Field.Label>
-               <InputGroup startElement={<MdOutlineEmail/>}>
-                   <Input type='email' py={6} fontSize={{base:10,md:13}} 
-                     placeholder="" ref={emailRef} />
-                </InputGroup>
-           </Field.Root>
+      {/* Help Info */}
+      <Box
+        // mt={{ base: 0, md: 5 }}
+        shadow={"xs"}
+        bg={"#FCFCFC"}
+        rounded={10}
+        p={3}
+        w={{ base: "100%", xl: 475 }}
+        border={"1px solid #EDEDF2"}
+      >
+        <Field.Root py={{ base: 1, md: 4 }}>
+          <Field.Label
+            fontWeight={"400"}
+            fontSize={{ base: "10px", md: 14 }}
+            fontFamily="InterMedium"
+            color={"#101928"}
+          >
+            Email
+          </Field.Label>
+          <InputGroup startElement={<MdOutlineEmail />}>
+            <Input
+              type="email"
+              py={{ base: 1, md: 6 }}
+              fontSize={{ base: "10px", md: 14 }}
+              placeholder=""
+              ref={emailRef}
+            />
+          </InputGroup>
+        </Field.Root>
 
-            {/* <Field.Root>
+        {/* <Field.Root>
             <Field.Label
               fontWeight={'400'}
               fontSize={{base:11,md:14}}
               fontFamily="InterMedium"
               color={'#101928'} >Phone Number</Field.Label>
                <InputGroup startElement={<IoCallOutline/>}>
-                   <Input  py={6} 
-                   type="number"
+                   <Input  py={{ base:1,md:6}} 
+ 
+             fontSize={{ base: "10px", md: 14 }}
+                  type="number"
                    fontSize={{base:10,md:13}} 
                    placeholder="" />
                 </InputGroup>
            </Field.Root> */}
 
-           {/* button */}
-              <HStack pt={4} w={'100%'}>
-                <Button 
-                    flex={0.4}
-                      onClick={()=>onClose()}
-                      py={6} 
-                      px={{base:5,md:50}}
-                      // w={{base:'35%'}}
-                      bg={'#fff'} color={'#2B362F'} border={"1px solid #2B362F"} >
-                        Cancel
-                     </Button>
-                 <Button
-                 //   onClick={onFinish}
-                  py={6}
-                  flex={1}
-                  // w={{ base: "100%" }}
-                  rounded={5}
-                  bg={"#2B362F"}
-                  color="white"
-                  onClick={updateEmail}
-                 >
-                  {
-                    loading? <Spinner/>:'Save Changes '
-                  }
-                </Button>
-            </HStack>
-        </Box>
-
-       
+        {/* button */}
+        <HStack pt={4} w={"100%"}>
+          <Button
+            flex={0.4}
+            onClick={() => onClose()}
+            py={{ base: 1, md: 6 }}
+            fontSize={{ base: "10px", md: 14 }}
+            px={{ base: 5, md: 50 }}
+            // w={{base:'35%'}}
+            bg={"#fff"}
+            color={"#2B362F"}
+            border={"1px solid #2B362F"}
+          >
+            Cancel
+          </Button>
+          <Button
+            //   onClick={onFinish}
+            py={{ base: 1, md: 6 }}
+            fontSize={{ base: "10px", md: 14 }}
+            flex={1}
+            // w={{ base: "100%" }}
+            rounded={5}
+            bg={"#2B362F"}
+            color="white"
+            onClick={updateEmail}
+          >
+            {loading ? <Spinner /> : "Save Changes "}
+          </Button>
+        </HStack>
+      </Box>
     </Box>
-  )
-}
+  );
+};

@@ -14,7 +14,7 @@ import { CiSearch } from "react-icons/ci";
 import axiosClient from "../../../axiosClient";
 import { formatTime } from "../../../lib/formatTime";
 import { userAvatar } from "../setting/posts/Posts";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 
 export const VideosPage = () => {
   const [selectedCard, setSelectedCard] = useState(null);
@@ -57,7 +57,12 @@ const[filteredResults, setFilteredResults] = useState([])
   return (
     <Box px={4} py={6}>
       {/* Search Input */}
-      <InputGroup w={300} mt={-5} mb={5} startElement={<CiSearch size={15} />}>
+      <InputGroup
+        w={{ base: "100%", md: 300 }}
+        mt={{ base: -7, md: -5 }}
+        mb={5}
+        startElement={<CiSearch size={15} />}
+      >
         <Input
           py={15}
           fontSize={10}
@@ -66,7 +71,7 @@ const[filteredResults, setFilteredResults] = useState([])
           onChange={(e)=>setSearch(e.target.value)}
 
         />
-      </InputGroup> 
+      </InputGroup>
 
       {/* Video Grid */}
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} gap={7}>
@@ -84,7 +89,7 @@ const[filteredResults, setFilteredResults] = useState([])
                 roundedTop={10}
                 src={card.thumbnail}
                 alt={card.title}
-                h="100px"
+                h={{ base: "100px", md: "200px" }}
                 className="w-full h-30 object-cover"
               />
 
@@ -124,7 +129,10 @@ const[filteredResults, setFilteredResults] = useState([])
 
               {/* Card Title */}
               <Box pt={2} px={2}>
-                <Text fontSize={{ base: 12, md: 14 }} className="font-semibold">
+                <Text
+                  fontSize={{ base: "11px", md: 14 }}
+                  className="font-semibold"
+                >
                   {card.title}
                 </Text>
               </Box>
@@ -143,14 +151,14 @@ const[filteredResults, setFilteredResults] = useState([])
                     <Image
                       src={userAvatar}
                       alt="Update"
-                      boxSize="30px"
+                      boxSize={{ base: "20px", md: "30px" }}
                       rounded="full"
                     />
                   </Stack>
                   <Stack spacing={0}>
                     <Text
                       color="#202020"
-                      fontSize={{ base: 10, md: 12 }}
+                      fontSize={{ base: 8, md: 12 }}
                       fontFamily="InterMedium"
                     >
                       The Lounge Team
@@ -158,7 +166,7 @@ const[filteredResults, setFilteredResults] = useState([])
                     <Text
                       color="#202020"
                       mt={-2}
-                      fontSize={{ base: 9, md: 11 }}
+                      fontSize={{ base: 8, md: 11 }}
                     >
                       {formatTime(card.created_at)}
                     </Text>
@@ -168,7 +176,7 @@ const[filteredResults, setFilteredResults] = useState([])
               </HStack>
             </Box>
           ))}
-        {videos.length === 0 && <Text>No Videos yet</Text>}
+        {videos.length === 0 && <Text textAlign={"center"}>No Videos yet</Text>}
       </SimpleGrid>
 
       {/* Custom Modal */}
@@ -191,7 +199,7 @@ const[filteredResults, setFilteredResults] = useState([])
             style={{
               position: "relative",
               width: "80%",
-             
+
               maxWidth: "900px",
               background: "transparent",
               borderRadius: "12px",
@@ -200,32 +208,31 @@ const[filteredResults, setFilteredResults] = useState([])
             }}
           >
             {/* Close Button */}
-           <button
-  onClick={handleClose}
-  style={{
-    position: "absolute",
-    zIndex: 10000,
-    top: "15px",       // inside modal
-    right: "15px",     // inside modal
-    backgroundColor: "rgba(0,0,0,0.6)",
-    border: "none",
-    borderRadius: "50%",
-    width: "40px",
-    height: "40px",
-    color: "white",
-    fontSize: "22px",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }}
->
-  ✕
-</button>
-
+            <button
+              onClick={handleClose}
+              style={{
+                position: "absolute",
+                zIndex: 10000,
+                top: "15px", // inside modal
+                right: "15px", // inside modal
+                backgroundColor: "rgba(0,0,0,0.6)",
+                border: "none",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                color: "white",
+                fontSize: "22px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              ✕
+            </button>
 
             {/* Video Player */}
-            <ReactPlayer
+            {/* <ReactPlayer
               src={selectedCard.video_link}
               playing
               controls
@@ -236,7 +243,7 @@ const[filteredResults, setFilteredResults] = useState([])
                 overflow: "hidden",
                 backgroundColor: "black",
               }}
-            />
+            /> */}
           </div>
         </div>
       )}

@@ -11,9 +11,10 @@ const LeftSection = () => {
       // h={{ base: "100%" }}
       flexDirection={"column"}
       // gap={4}
-
+      pl={6}
+      pr={{ base: 6, xl: 2 }}
       display={"flex"}
-      pb={10}
+      py={{ base: 3, xl: "6%" }}
     >
       <Banner />
       <NewsUpdate />

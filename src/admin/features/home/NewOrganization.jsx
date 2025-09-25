@@ -70,16 +70,18 @@ export const NewOrganization = () => {
             <Menu.Root key={uniqueKey}>
               <Menu.Trigger asChild>
                 <Button
-                  size="sm"
+                  size={{ base: "10", md: "sm" }}
                   border={`1px solid ${selected.color}`}
-                  rounded={20}
+                  rounded={{ base: 8, md: 20 }}
+                  p={1}
+                  mr={1}
                   variant="outline"
                   color={selected.color}
                 >
                   <HStack spacing={1}>
                     {selected.icon && selected.icon}
                     <Text
-                      fontSize="13px"
+                      fontSize={{ base: "10px", md: "13px" }}
                       fontWeight="400"
                       fontFamily="OutfitRegular"
                     >
@@ -91,9 +93,10 @@ export const NewOrganization = () => {
               </Menu.Trigger>
               <Portal>
                 <Menu.Positioner>
-                  <Menu.Content cursor="pointer" rounded={20}>
+                  <Menu.Content cursor="pointer" rounded={{ base: 9, md: 20 }}>
                     <Menu.Item
                       color="#333333CC"
+                      fontSize={{ base: "10px", md: "13px" }}
                       cursor="pointer"
                       onClick={() => handleApprove(row.id)}
                     >
@@ -107,6 +110,7 @@ export const NewOrganization = () => {
                     </Menu.Item> */}
                     <Menu.Item
                       color="#333333CC"
+                      fontSize={{ base: "10px", md: "13px" }}
                       cursor={"pointer"}
                       onClick={() =>
                         handleSelect(
@@ -130,7 +134,7 @@ export const NewOrganization = () => {
   };
 
   return (
-    <Box bg="#F5F6FA" p={2}>
+    <Box bg="#F5F6FA" p={{ base: 0, md: 2 }}>
       {organizationRequests.length > 0 ? (
         <BottomTable
           dataTable={dataTable}

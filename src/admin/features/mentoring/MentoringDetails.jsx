@@ -24,61 +24,77 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
         <Dialog.Backdrop />
-        <Dialog.Positioner>
-          <Dialog.Content rounded={30} bg="#FAFAFA" p={{base:3, md:4}} 
-           maxW={{base:'xs',md:"lg"}}>
+        <Dialog.Positioner px={5}>
+          <Dialog.Content
+            rounded={30}
+            bg="#FAFAFA"
+            p={{ base: 3, md: 4 }}
+            maxW={{ base: "xs", md: "lg" }}
+          >
             <Dialog.CloseTrigger
               rounded={30}
               border={"1px solid #9E9E9E"}
               asChild
             >
-              <CloseButton size="xs" color={"#9E9E9E"} />
+              <CloseButton size={{ base: "10", md: "xs" }} color={"#9E9E9E"} />
             </Dialog.CloseTrigger>
 
-            <Box bg={"#FAFAFA"} h={"100%"} w={"100%"} p={5}>
+            <Box bg={"#FAFAFA"} h={"100%"} w={"100%"} p={{ base: 2, md: 5 }}>
               {/* Main Profile Card */}
               <Card.Root
                 bg={"#fff"}
                 shadowColor={"#080F340F"}
                 shadow={"sm"}
                 rounded={20}
+                size={{ base: "sm", md: "md" }}
                 border={"1px solid #fff"}
               >
-                <Card.Body  gap="2">
-                  <Avatar.Root mx={"auto"} boxSize={20} rounded={50}>
-                    <Avatar.Image src={profile.user.profile_picture||userAvatar} />
+                <Card.Body gap="2">
+                  <Avatar.Root
+                    mx={"auto"}
+                    boxSize={{ base: 12, md: 20 }}
+                    rounded={50}
+                  >
+                    <Avatar.Image
+                      src={profile.user.profile_picture || userAvatar}
+                    />
                     <Avatar.Fallback name={profile.user.name} />
                   </Avatar.Root>
-                  <Text textAlign={"center"}
-                        color={'#070416'}
-                        fontSize={{base:12,md:16}}
-                        fontFamily="InterRegular">
-                        {profile.user.first_name} {profile.user.last_name} 
-                     </Text>
-                    <Text textAlign={"center"}
-                      color={'#64626D'}
-                      fontSize={{base:12,md:16}}
-                      fontFamily="LatoRegular"
-                      >
-                       {profile.user.profession}
-                     </Text>
-                     <Card.Title
-                       mt="2"
-                       color={'#070416'}
-                       fontSize={{base:12,md:16}}
-                       textAlign={"center"}
-                       fontFamily="InterBold"
-                       >
-                      {profile.title}
-                    </Card.Title>
+                  <Text
+                    textAlign={"center"}
+                    color={"#070416"}
+                    fontSize={{ base: "10px", md: 16 }}
+                    fontFamily="InterRegular"
+                  >
+                    {profile.user.first_name} {profile.user.last_name}
+                  </Text>
+                  <Text
+                    textAlign={"center"}
+                    color={"#64626D"}
+                    mt={{ base: -2, md: 0 }}
+                    fontSize={{ base: "10px", md: 16 }}
+                    fontFamily="LatoRegular"
+                  >
+                    {profile.user.profession}
+                  </Text>
+                  <Card.Title
+                    color={"#070416"}
+                    mt={{ base: -2, md: 2 }}
+                    fontSize={{ base: "10px", md: 16 }}
+                    textAlign={"center"}
+                    fontFamily="InterBold"
+                  >
+                    {profile.title}
+                  </Card.Title>
                 </Card.Body>
-                <Card.Footer flexDirection={'column'}>
+                <Card.Footer flexDirection={"column"}>
                   <Button
                     w={"full"}
                     fontFamily="InterRegular"
-                    fontSize={12}
-                    rounded={20}
-                    p={6}
+                    mt={{ base: -2, md: 0 }}
+                    fontSize={{ base: "10px", md: 16 }}
+                    rounded={{ base: 12, md: 20 }}
+                    p={{ base: 1, md: 6 }}
                   >
                     Request Session
                   </Button>
@@ -89,14 +105,20 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
               </Card.Root>
 
               {/* BIO */}
-              <Card.Root shadow={'sm'} size="sm" px={5} rounded={20} mt={4}>
+              <Card.Root shadow={"sm"} size="sm" px={5} rounded={20} mt={4}>
                 <Card.Header>
-                  <Heading size={{base:'sm',md:"md"}} 
-                  fontFamily="InterRegular" 
-                  fontSize={12}>
+                  <Heading
+                    fontFamily="InterBold"
+                    mt={{ base: -3, md: 0 }}
+                    fontSize={{ base: "10px", md: 16 }}
+                  >
                     Price
                   </Heading>
-                  <Text>
+                  <Text
+                    fontFamily="InterRegular"
+                    mt={{ base: -3, md: 0 }}
+                    fontSize={{ base: "10px", md: 16 }}
+                  >
                     E{profile.price}
                   </Text>
                 </Card.Header>
@@ -121,12 +143,18 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                 fontFamily="InterRegular"
                 fontSize={12}
                 size="sm"
-                shadow={'sm'}
+                shadow={"sm"}
                 rounded={20}
                 mt={4}
               >
                 <Card.Header>
-                  <Heading size="md">Description</Heading>
+                  <Heading
+                    mt={{ base: -3, md: 0 }}
+                    fontSize={{ base: "10px", md: 16 }}
+                    size="md"
+                  >
+                    Description
+                  </Heading>
                 </Card.Header>
                 <Card.Body mt={-2} color="fg.muted">
                   {/* <List.Root>
@@ -135,7 +163,12 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                        <List.Item >{profile.desc3}</List.Item>
                 
                   </List.Root> */}
-                  <Text>{profile.description}</Text>
+                  <Text
+                    mt={{ base: -3, md: 0 }}
+                    fontSize={{ base: "10px", md: 16 }}
+                  >
+                    {profile.description}
+                  </Text>
                 </Card.Body>
               </Card.Root>
 

@@ -4,7 +4,7 @@ import { RightSectionProfile } from "./RightSection";
 
 export const SettingsProfile = () => {
   return (
-    <Box height={"100vh"}>
+    <Box height={"100%"}>
       <HStack
         flexDirection={{ base: "column", xl: "row" }}
         justifyContent={"space-between"}

@@ -16,7 +16,7 @@ export const ReusableCard = ({
         <HStack justifyContent={"space-between"} alignItems={"center"}>
           <Stack>
             <Card.Title
-              mt="0"
+              mt={{ base: "-10px", md: "0" }}
               fontFamily={"nunitoRegular"}
               fontSize={{ base: 13, md: 16 }}
               color={"#606060"}
@@ -25,8 +25,9 @@ export const ReusableCard = ({
             </Card.Title>
             <Card.Description
               fontFamily={"nunitoBold"}
-              fontSize={{ base: 18, md: 28 }}
+              fontSize={{ base: 15, md: 28 }}
               color={"#202224"}
+              mb={{ base: "-10px", md: "0" }}
             >
               {description}
             </Card.Description>
@@ -48,9 +49,12 @@ export const ReusableCard = ({
         color={"#606060"}
         flexDirection={"row"}
         alignItems={"center"}
+        mr={{ base: "auto", md: "0" }}
+        mb={{ base: "-10px", md: "0" }}
       >
-        <Box color={color}>{arrows}</Box> <Text color={color}>{rate}</Text>{" "}
-        <Text>{current}</Text> from <Text>{timestamp} </Text>
+        {arrows && <Box color={color}>{arrows}</Box>}
+        <Text color={color}>{rate}</Text> <Text>{current}</Text> from
+        <Text>{timestamp} </Text>
       </Card.Footer>
     </Card.Root>
   );

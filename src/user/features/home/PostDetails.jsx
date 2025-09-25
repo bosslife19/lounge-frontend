@@ -27,6 +27,7 @@ import { GrSend } from "react-icons/gr";
 import { AuthContext } from "../../../context/AuthContext";
 import { BiMessageRoundedDetail } from "react-icons/bi";
 import { AiOutlineLike } from "react-icons/ai";
+import Avatars from "../../components/header/Avatar";
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -69,11 +70,13 @@ const PostDetails = () => {
     setComment("");
     // toast.success("Comment added successfully");
   };
-  
-    const likePost = async (postId)=>{
-    
-    const res = await makeRequest('/like-post', {userId:userDetails.id, postId});
-    if(!res){
+
+  const likePost = async (postId) => {
+    const res = await makeRequest("/like-post", {
+      userId: userDetails.id,
+      postId,
+    });
+    if (!res) {
       return;
     }
     if(res.error) return;
@@ -81,8 +84,7 @@ const PostDetails = () => {
 setRefresh(prev=>!prev);
 setLiked(prev=>!prev);
     }
-    
-  }
+  };
 
   useEffect(() => {
     const getMoreNews = async () => {
@@ -106,13 +108,19 @@ setLiked(prev=>!prev);
   return (
     <Card.Root>
       <Flex
-        bg={"#F5F6FA"}
         height={"100vw"}
         flexDirection={{ base: "column", md: "row" }}
         alignItems={"flex-start"}
         justifyContent={"space-between"}
+        gap={3}
       >
-        <Box w={{ base: "100%", md: "80%" }} mx="auto" pt={3} px={6}>
+        <Box
+          w={{ base: "100%", md: "80%" }}
+          mx="auto"
+          pt={3}
+          py={{ base: 3, xl: "6%" }}
+          px={6}
+        >
           {/* Back Button */}
           <HStack gap={2} mb={4} alignItems={"center"}>
             <Button
@@ -129,7 +137,16 @@ setLiked(prev=>!prev);
             <Text> Commnunity Posts</Text>
           </HStack>
           {/* Profile Info */}
-          <Stack bg={"#fff"} p={4} borderRadius={10} spacing={4} mb={4}>
+          <Stack
+            bg={"#fff"}
+            p={4}
+            boxShadow={"lg"}
+            boxShadowColor={"whiteAlpha.800"}
+            py={{ base: 3, xl: "6%" }}
+            borderRadius={10}
+            spacing={4}
+            mb={4}
+          >
             <Image
               src={update?.post_image}
               alt={update?.title}
@@ -163,10 +180,17 @@ setLiked(prev=>!prev);
               pt={3}
               gap={4}
             >
-               <p style={{position:'relative', left:'3%'}}>{update?.likes?.length}</p>
-           
-            <Button color={"#212121"} p={0} bg={"transparent"} onClick={()=>likePost(update.id)}>
-              <AiOutlineLike color={liked&&'blue'} />
+              <p style={{ position: "relative", left: "3%" }}>
+                {update?.likes?.length}
+              </p>
+
+              <Button
+                color={"#212121"}
+                p={0}
+                bg={"transparent"}
+                onClick={() => likePost(update.id)}
+              >
+                <AiOutlineLike color={liked && 'blue'}/>
               </Button>
 
               <Button
@@ -297,8 +321,35 @@ setLiked(prev=>!prev);
             </HStack>
           </Stack>
         </Box>
+
         {/* small cards */}
-        <Box w={{ base: "100%", md: "30%" }} className="pb={4}">
+        <Box
+          w={{ base: "100%", md: "30%" }}
+          h={"100%"}
+          overflowY={"auto"}
+          scrollbarWidth={"none"}
+          // shadow={{ base: "none", xl: "lg" }}
+          shadowColor={"#080F340F"}
+          // flex={1}
+          boxShadowColor={"#080F340F"}
+          boxShadow={"xl"}
+          bg={"#fff"}
+          className="flex items-center gap-5"
+          // bg={"#fff"}
+          // pt={1}
+          p={"1.3%"}
+          // border={"2px solid #080F340F"}
+          pb={2}
+          display={{ base: "block" }}
+        >
+          <Box
+            display={{ base: "none", xl: "block" }}
+            className="border-l-2 pl-4"
+          >
+            {/* <button onClick={() => toggleDropdown("avatar")}> */}
+            <Avatars />
+            {/* </button> */}
+          </Box>
           <Text pl={4} pt={3} mb={-2} color={"#101928"} fontWeight={"medium"}>
             More Posts
           </Text>
@@ -308,7 +359,7 @@ setLiked(prev=>!prev);
                 <Box
                   key={`${card.id}-${idx}`}
                   flexShrink={0}
-                  px={4}
+                  px={3}
                   pt={4}
                   m={3}
                   cursor={"pointer"}

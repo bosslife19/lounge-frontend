@@ -1,44 +1,43 @@
-import React, { useState, useEffect, useRef } from "react";
-  import Avatars from "../../../assets/userImage.jpg";
-import { Box, Button, Image, Text } from "@chakra-ui/react";
-import Notfyimage from '../../../assets/Notification.png'
-// import { AuthContext } from "../../../context/AuthContext";
+// import React, { useState, useEffect, useRef } from "react";
+//   import Avatars from "../../../assets/userImage.jpg";
+// import { Box, Button, Image, Text } from "@chakra-ui/react";
+// import Notfyimage from '../../../assets/Notification.png'
+// // import { AuthContext } from "../../../context/AuthContext";
 
-const Avatar = ({ options }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+// const Avatar = ({ options }) => {
+//   const [isOpen, setIsOpen] = useState(false);
+//   const dropdownRef = useRef(null);
 
-  const toggleDropdown = () => setIsOpen((prev) => !prev);
+//   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
-  const closeDropdown = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  };
+//   const closeDropdown = (event) => {
+//     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+//       setIsOpen(false);
+//     }
+//   };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", closeDropdown);
-    return () => {
-      document.removeEventListener("mousedown", closeDropdown);
-    };
-  }, []);
-   return (
-    <div className="relative flex items-center gap-3 cursor-pointer" ref={dropdownRef}>
-      <div className="cursor-pointer gap-[20px] flex items-center" onClick={toggleDropdown}>
-         <Button bg={'transparent'}>
-           <Image src={Notfyimage} alt="Lounge Logo" className="object-cover w-[46px] h-[46px] rounded-full" />
-         </Button>
-         <Box py={2} px={6} rounded={50} border={'6px solid #F3F2F3'} className="flex-col flex px-2 items-center border">
-          {/* <span>{userDetails?.name||'Admin'}</span> */}
-          <Text fontFamily={'inter'} fontSize={{base:'12px',md:'16px'}}>Mentors</Text>
-        </Box>
-        <img src={Avatars} alt="Avatar" className="object-cover w-10 h-10 rounded-full" />
-       
-      </div>
+//   useEffect(() => {
+//     document.addEventListener("mousedown", closeDropdown);
+//     return () => {
+//       document.removeEventListener("mousedown", closeDropdown);
+//     };
+//   }, []);
+//    return (
+//     <div className="relative flex items-center gap-3 cursor-pointer" ref={dropdownRef}>
+//       <div className="cursor-pointer gap-[20px] flex items-center" onClick={toggleDropdown}>
+//          <Button bg={'transparent'}>
+//            <Image src={Notfyimage} alt="Lounge Logo" className="object-cover w-[46px] h-[46px] rounded-full" />
+//          </Button>
+//          <Box py={2} px={6} rounded={50} border={'6px solid #F3F2F3'} className="flex-col flex px-2 items-center border">
+//           {/* <span>{userDetails?.name||'Admin'}</span> */}
+//           <Text fontFamily={'inter'} fontSize={{base:'12px',md:'16px'}}>Mentors</Text>
+//         </Box>
+//         <img src={Avatars} alt="Avatar" className="object-cover w-10 h-10 rounded-full" />
 
-       
-    </div>
-  );
-};
+//       </div>
 
-export default Avatar;
+//     </div>
+//   );
+// };
+
+// export default Avatar;
