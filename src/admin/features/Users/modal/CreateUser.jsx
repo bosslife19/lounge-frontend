@@ -196,7 +196,7 @@ export const CreateNewUser = ({ isOpen, onClose }) => {
           fontWeight={'400'}
            fontSize={{base:11,md:14}}
            fontFamily="InterMedium"
-           color={'#101928'} >Face book</Field.Label>
+           color={'#101928'} >Facebook</Field.Label>
            <InputGroup startElement={<FaFacebook color="#1877F2" />}>
              <Input  py={6} fontSize={{base:10,md:13}} placeholder=" johnmercy" />
          </InputGroup>

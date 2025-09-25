@@ -507,7 +507,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      Linkedin
+                      LinkedIn
                     </Field.Label>
                     <InputGroup startElement={<BsLinkedin color="#0A66C2" />}>
                       <Input
@@ -529,7 +529,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      Profesion
+                      Profession
                     </Field.Label>
                     <InputGroup startElement={<FaBriefcase />}>
                       <Input
@@ -661,7 +661,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
-                    Bio
+                    About Me
                   </Field.Label>
                   <Textarea
                     resize="none"
