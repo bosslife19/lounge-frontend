@@ -12,16 +12,22 @@ import { CiSearch } from "react-icons/ci";
 import { userAvatar } from "../setting/posts/Posts";
 
 export const Links = ({ articles }) => {
+const links = articles.flatMap(item => (item.link ? [item.link] : []));
+
+
+  
+
   const truncateTexts = (text, maxLength) => {
     if (!text) return "";
     return text.length <= maxLength
       ? text
       : text.substring(0, maxLength) + "...";
   };
+ 
 
   return (
     <Box h={"50vw"} px={{ base: 1, md: 5 }}>
-      {articles?.map((card, idx) => (
+      {links?links.map((card, idx) => (
         <Box
           w={{ base: "100%", md: 700 }}
           rounded={{ base: "10px", md: "20px" }}
@@ -47,7 +53,7 @@ export const Links = ({ articles }) => {
               >
                 The Lounge Team
               </Text>
-              <a href={card.link}>
+              <a href={card}>
 <Text
                 fontFamily="InterRegular"
                 color="#808291"
@@ -55,14 +61,14 @@ export const Links = ({ articles }) => {
                 textDecoration={"underline"}
                 fontSize={{ base: 9, md: 11 }}
               >
-                {card.link}
+                {card}
               </Text>
               </a>
               
             </Stack>
           </HStack>
         </Box>
-      ))}
+      )):<Text>No Links yet</Text>}
     </Box>
   );
 };

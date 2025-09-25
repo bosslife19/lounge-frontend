@@ -57,7 +57,7 @@ export const DashboardTabpanel = () => {
         </Tabs.List>
 
         {/* Calendar Date Selector */}
-        <DatePicker
+        {/* <DatePicker
           selected={selectedDate}
           onChange={(date) => setSelectedDate(date)}
           customInput={
@@ -86,7 +86,7 @@ export const DashboardTabpanel = () => {
               </HStack>
             </Button>
           }
-        />
+        /> */}
       </Flex>
 
       {/* Tab Contents */}

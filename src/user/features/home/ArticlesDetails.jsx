@@ -111,7 +111,7 @@ const ArticleDetails = () => {
               // overflow={"hidden"}
               mb={6}
             />
-            <button className=" absolute cursor-pointer top-5 right-6">
+            {/* <button className=" absolute cursor-pointer top-5 right-6">
               <Image
                 roundedTop={10}
                 src={btns}
@@ -120,7 +120,7 @@ const ArticleDetails = () => {
                 objectFit={"cover"}
                 className="w-full "
               />
-            </button>
+            </button> */}
           </Box>
           <Stack mt={-5} spacing={0}>
             <Text
@@ -235,7 +235,7 @@ const ArticleDetails = () => {
                     h={{ base: "100px", md: "200px" }}
                     className="w-full  object-cover"
                   />
-                  <button className="absolute cursor-pointer top-6 right-6">
+                  {/* <button className="absolute cursor-pointer top-6 right-6">
                     <Image
                       roundedTop={10}
                       src={btns}
@@ -243,7 +243,7 @@ const ArticleDetails = () => {
                       alt={card.title}
                       className="w-full  object-cover"
                     />
-                  </button>
+                  </button> */}
                   <Box pt={2}>
                     <Text
                       // fontFamily="LatoMedium"

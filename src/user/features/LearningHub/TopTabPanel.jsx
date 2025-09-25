@@ -28,6 +28,14 @@ const TopTabs = () => {
   const [search, setSearch] = useState('');
 
   const [filteredResults, setFilteredResults] = useState([])
+  const frameworks = createListCollection({
+    items: [
+      { label: "Experience", value: "Experience" },
+      { label: "finances", value: "finances" },
+      { label: "Angular", value: "angular" },
+      { label: "Svelte", value: "svelte" },
+    ],
+  });
 
   useEffect(() => {
     const getArticles = async () => {
@@ -96,7 +104,7 @@ const TopTabs = () => {
               onChange={e=>setSearch(e.target.value)}
             />
           </InputGroup>
-          <Dropdown frameworks={frameworks} icon />
+          {/* <Dropdown frameworks={frameworks} icon /> */}
 
           <Tabs.List
             // bg={"#F5F6FA"}
