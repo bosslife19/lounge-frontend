@@ -487,7 +487,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      Face book
+                      Facebook
                     </Field.Label>
                     <InputGroup startElement={<FaFacebook color="#1877F2" />}>
                       <Input
