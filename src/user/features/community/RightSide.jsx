@@ -81,6 +81,7 @@ export const RightSide = ({ setPosts, posts, onClose }) => {
     toast.success("Post uploaded successfully");
     setIsLoading(false);
     postRef.current.value = "";
+    setPreview(null)
 
     setPostImage(null);
   };
