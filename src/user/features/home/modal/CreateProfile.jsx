@@ -229,7 +229,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
   };
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
+    <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open}>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner px={5}>
