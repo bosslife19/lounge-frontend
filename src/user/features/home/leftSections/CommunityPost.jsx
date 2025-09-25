@@ -193,15 +193,9 @@ const CommunityPost = () => {
               </Text>
 
               <Stack>
-<<<<<<< HEAD
                 {/* <HStack
                   rounded={10}
 
-=======
-                <HStack
-                  rounded={{ base: 5, md: 10 }}
-                  // my={2}
->>>>>>> 5a9c440e2f60e0b1db4f4ebf1e29f002e9fd7a2c
                   py={1}
                   pl={2}
                   pr={3}

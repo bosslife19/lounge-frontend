@@ -65,40 +65,6 @@ export const SettingsPosts = () => {
                   >
                     John
                   </Text>
-<<<<<<< HEAD
-                  {/* <Text  
-                   color={'#0966C2'}
-                   fontSize={{base:12,md:16}}
-                    fontFamily="InterMedium"
-                    >
-                  #hastag #hastag #hashtag 
-                  </Text> */}
-                  
-                </Card.Body>
-                 <Image 
-                   src={card.eImage}
-                      boxSize={'100%'}
-                      h={220}
-                      fit="cover"
-                    />
-                    <HStack alignItems={'center'} px={1} pt={5}>
-                        {actions.map((items,index)=>(
-                            <Button p={0} bg={'transparent'} key={index}>
-                              <Image src={items.image} 
-                               boxSize={5} />
-                             </Button>
-                        ))}
-                        <Text 
-                        color={'#707070'}
-                        fontSize={{base:12,md:14}}>
-                            88 Comments
-                        </Text>
-                    </HStack>
-                <Card.Footer borderTop={'1px solid #E9E5DF'} mt={1} >
-      </Card.Footer>
-      </Card.Root>
-    ))}
-=======
                   <Text
                     mt={-3}
                     color={"#202020"}
@@ -132,13 +98,13 @@ export const SettingsPosts = () => {
             >
               {card.desc3}
             </Text>
-            <Text
+            {/* <Text
               color={"#0966C2"}
               fontSize={{ base: "9px", md: 14 }}
               fontFamily="InterMedium"
             >
               #hastag #hastag #hashtag
-            </Text>
+            </Text> */}
           </Card.Body>
           <Image
             src={card.eImage}
@@ -192,7 +158,6 @@ export const SettingsPosts = () => {
           <Card.Footer borderTop={"1px solid #E9E5DF"} mt={1}></Card.Footer>
         </Card.Root>
       ))}
->>>>>>> 5a9c440e2f60e0b1db4f4ebf1e29f002e9fd7a2c
     </Stack>
   );
 };

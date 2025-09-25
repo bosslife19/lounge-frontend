@@ -25,14 +25,10 @@ import { Dropdown } from "../../components/select/Dropdown";
 
 const TopTabs = () => {
   const [articles, setArticles] = useState([]);
-<<<<<<< HEAD
   const [search, setSearch] = useState('');
 
   const [filteredResults, setFilteredResults] = useState([])
 
-=======
-  const navigate = useNavigate();
->>>>>>> 5a9c440e2f60e0b1db4f4ebf1e29f002e9fd7a2c
   useEffect(() => {
     const getArticles = async () => {
       const res = await axiosClient.get("/get-articles");
@@ -42,7 +38,6 @@ const TopTabs = () => {
     getArticles();
   }, []);
 
-<<<<<<< HEAD
   useEffect(() => {
     if (search) {
      
@@ -72,44 +67,6 @@ const TopTabs = () => {
         </IconButton> */}
         Learning Hub
       </Heading>
-=======
-  const frameworks = createListCollection({
-    items: [
-      { label: "Experience", value: "Experience" },
-      { label: "finances", value: "finances" },
-      { label: "Angular", value: "angular" },
-      { label: "Svelte", value: "svelte" },
-    ],
-  });
-  return (
-    <Box>
-      <HStack pr={7} justifyContent={"space-between"} pt={5}>
-        <Heading pl={5} display={"flex"} pb={4} gap={2} alignItems={"center"}>
-          <IconButton
-            aria-label="Previous"
-            rounded="full"
-            bg="white"
-            onClick={() => navigate("/")}
-            border={"1px solid #9E9E9E"}
-            _hover={{ bg: "whiteAlpha.500" }}
-            size={{ base: "10", md: "sm" }}
-          >
-            <IoIosArrowBack color="#9E9E9E" />
-          </IconButton>
-          <Text fontSize={{ base: "12px", md: "24px" }}>Learning Hub</Text>
-        </Heading>
-
-        <Box
-          display={{ base: "none", xl: "block" }}
-          className="border-l-2 pl-4"
-          pb={5}
-        >
-          {/* <button onClick={() => toggleDropdown("avatar")}> */}
-          <Avatar />
-          {/* </button> */}
-        </Box>
-      </HStack>
->>>>>>> 5a9c440e2f60e0b1db4f4ebf1e29f002e9fd7a2c
       <Tabs.Root
         defaultValue="articles"
         variant="#000"

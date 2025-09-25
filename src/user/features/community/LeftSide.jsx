@@ -50,16 +50,10 @@ const [liked, setLiked] = useState(false);
     if (!res) {
       return;
     }
-<<<<<<< HEAD
     if(res.error) return;
     if(res.response.status){
 setRefresh(prev=>!prev);
 setLiked(prev=>!prev);
-=======
-    if (res.error) return;
-    if (res.response.status) {
-      setRefresh((prev) => !prev);
->>>>>>> 5a9c440e2f60e0b1db4f4ebf1e29f002e9fd7a2c
     }
   };
 
@@ -169,17 +163,7 @@ setLiked(prev=>!prev);
                   </Text>
                 </Stack>
               </HStack>
-<<<<<<< HEAD
               {/* <Button p={0} mt={-2} color={"#707070"} bg={"transparent"}>
-=======
-              <Button
-                p={0}
-                size={{ base: "xs", md: "sm" }}
-                mt={-2}
-                color={"#707070"}
-                bg={"transparent"}
-              >
->>>>>>> 5a9c440e2f60e0b1db4f4ebf1e29f002e9fd7a2c
                 <BsThreeDots />
               </Button> */}
             </Flex>
@@ -208,16 +192,12 @@ setLiked(prev=>!prev);
 
           {/* Post Image */}
           {card.post_image && (
-<<<<<<< HEAD
-            <Image src={card.post_image} boxSize={"100%"} h={270} fit="contain" />
-=======
             <Image
               src={card.post_image}
               boxSize={"100%"}
               h={{ base: 150, md: 270 }}
               fit="cover"
             />
->>>>>>> 5a9c440e2f60e0b1db4f4ebf1e29f002e9fd7a2c
           )}
 
           {/* Comments and actions */}
@@ -228,20 +208,9 @@ setLiked(prev=>!prev);
             pt={{ base: 1, md: 3 }}
             gap={4}
           >
-<<<<<<< HEAD
             <p style={{position:'relative', left:'3%'}}>{card.likes?.length}</p>
            
-            <Button color={liked?'blue':"#212121"} p={0} bg={"transparent"} onClick={()=>likePost(card.id)}>
-              <AiOutlineLike color={liked&&'blue'} />
-=======
-            <Text
-              fontSize={{ base: 10, md: 15 }}
-              style={{ position: "relative", left: "3%" }}
-            >
-              {card.likes?.length}
-            </Text>
->>>>>>> 5a9c440e2f60e0b1db4f4ebf1e29f002e9fd7a2c
-
+           
             <Button
               color={"#212121"}
               p={0}
@@ -250,7 +219,7 @@ setLiked(prev=>!prev);
               onClick={() => likePost(card.id)}
               size={{ base: "xs", md: "sm" }}
             >
-              <AiOutlineLike />
+              <AiOutlineLike color={liked &&'blue'} />
             </Button>
             <Button
               onClick={() => toggleComments(card.id)}
