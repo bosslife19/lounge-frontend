@@ -14,8 +14,31 @@ import btns from "../../../assets/btn.svg";
 import { useEffect, useState } from "react";
 import { formatTime } from "../../../lib/formatTime";
 import axiosClient from "../../../axiosClient";
-import Avatar from "../../components/header/Avatar";
+import Avatars from "../../components/header/Avatar";
+import { FaCog, FaImage } from "react-icons/fa";
+import { HiOutlineLogout } from "react-icons/hi";
 
+const dropdownOptions = [
+  {
+    text: "Change Image",
+    icon: FaImage,
+    handler: () => fileInputRef.current?.click(),
+  },
+  {
+    text: "Settings",
+    icon: FaCog,
+    handler: () => navigate("/settings"),
+  },
+  {
+    text: "Logout",
+    icon: HiOutlineLogout,
+    color: "text-red-500",
+    handler: () => {
+      // localStorage.clear();
+      navigate("/logout");
+    },
+  },
+];
 const NewsDetails = () => {
   const { id } = useParams();
   // console.log(id);
@@ -76,7 +99,7 @@ const NewsDetails = () => {
               fontWeight={"normal"}
               mt={-3}
               fontFamily={"InterMedium"}
-              fontSize={{ base: 13, md: 15 }}
+              fontSize={{ base: "13px", md: "24px" }}
             >
               News & Updates
             </Text>
@@ -191,7 +214,7 @@ const NewsDetails = () => {
             className="border-l-2 pl-4"
           >
             {/* <button onClick={() => toggleDropdown("avatar")}> */}
-            <Avatar />
+            <Avatars options={dropdownOptions} />
             {/* </button> */}
           </Box>
 

@@ -69,7 +69,7 @@ export const BottomBanner = () => {
             rounded={10}
             mr={{ base: 0, md: "auto" }}
           >
-            claim Benefit
+            Claim Benefit
           </Button>
         </Stack>
 

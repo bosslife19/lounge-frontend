@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { HiOutlineLogout } from "react-icons/hi";
 import Avatar from "./Avatar";
 import { Box } from "@chakra-ui/react";
+import { FaCog, FaImage } from "react-icons/fa";
 
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -12,9 +13,25 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
 
   const dropdownOptions = [
     {
+      text: "Change Image",
+      icon: FaImage,
+      handler: () => {
+        if (fileInputRef.current) {
+          fileInputRef.current.click(); // Trigger file picker
+        }
+      },
+    },
+    {
+      text: "Settings",
+      icon: FaCog,
+      handler: () => {
+        navigate("/settings"); // Navigate to settings page
+      },
+    },
+    {
       text: "Logout",
       icon: HiOutlineLogout,
-      color: "text-red",
+      color: "text-red-500",
       handler: () => {
         localStorage.clear();
         navigate("/login");
@@ -43,7 +60,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
           <button
             aria-controls="sidebar"
             onClick={(e) => {
-              e.stopPropagation();
+              // e.stopPropagation();
               setSidebarOpen(!sidebarOpen);
             }}
             className="block rounded-sm p-1.5 shadow-sm"
@@ -73,11 +90,11 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
           px={"6%"}
           pb={2}
         >
-          <div className="border-l-2 pl-4">
+          <Box className="border-l-2 pl-4">
             <button onClick={() => toggleDropdown("avatar")}>
               <Avatar options={dropdownOptions} />
             </button>
-          </div>
+          </Box>
         </Box>
       </div>
     </Box>

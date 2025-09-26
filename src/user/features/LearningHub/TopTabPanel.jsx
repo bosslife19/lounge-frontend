@@ -22,13 +22,15 @@ import { useNavigate } from "react-router-dom";
 import Avatar from "../../components/header/Avatar";
 import { Dropdown } from "../../components/select/Dropdown";
 import ProgramSelector from "./Dropdown";
-// import { Dropdown } from "../../components/select/Dropdown";
+import { FaCog, FaImage } from "react-icons/fa";
+import { HiOutlineLogout } from "react-icons/hi";
+import Avatars from "../../components/header/Avatar";
 
 const TopTabs = () => {
   const [articles, setArticles] = useState([]);
-  const [search, setSearch] = useState('');
-
-  const [filteredResults, setFilteredResults] = useState([])
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  const [filteredResults, setFilteredResults] = useState([]);
   const frameworks = createListCollection({
     items: [
       { label: "Experience", value: "Experience" },
@@ -37,6 +39,27 @@ const TopTabs = () => {
       { label: "Svelte", value: "svelte" },
     ],
   });
+  const dropdownOptions = [
+    {
+      text: "Change Image",
+      icon: FaImage,
+      handler: () => fileInputRef.current?.click(),
+    },
+    {
+      text: "Settings",
+      icon: FaCog,
+      handler: () => navigate("/settings"),
+    },
+    {
+      text: "Logout",
+      icon: HiOutlineLogout,
+      color: "text-red-500",
+      handler: () => {
+        // localStorage.clear();
+        navigate("/logout");
+      },
+    },
+  ];
 
   useEffect(() => {
     const getArticles = async () => {
@@ -49,7 +72,6 @@ const TopTabs = () => {
 
   useEffect(() => {
     if (search) {
-     
       const lowerSearch = search.toLowerCase();
       const results = articles.filter((item) =>
         [item.title, item.content]
@@ -62,9 +84,17 @@ const TopTabs = () => {
     }
   }, [search, articles]);
   return (
-    <Box bg={"#F5F6FA"}>
-      <Heading pl={5} display={"flex"} pb={4} gap={2} alignItems={"center"}>
-        {/* <IconButton
+    <Box>
+      <HStack>
+        <Heading
+          pl={5}
+          fontSize={{ base: "13px", md: "24px" }}
+          display={"flex"}
+          pb={4}
+          gap={2}
+          alignItems={"center"}
+        >
+          {/* <IconButton
           aria-label="Previous"
           rounded="full"
           bg="white"
@@ -74,8 +104,24 @@ const TopTabs = () => {
         >
           <IoIosArrowBack color="#9E9E9E" />
         </IconButton> */}
-        Learning Hub
-      </Heading>
+          Learning Hub
+        </Heading>
+        <Box
+          display={{ base: "none", xl: "flex" }}
+          className="border-l-2 pl-4"
+          pb={6}
+          ml={"auto"}
+          justifyContent={"center"}
+          // bg={"#000"}
+          pr={"2%"}
+          pt={1}
+        >
+          {/* <button onClick={() => toggleDropdown("avatar")}> */}
+          <Avatars options={dropdownOptions} />
+          {/* </button> */}
+        </Box>
+      </HStack>
+
       <Tabs.Root
         defaultValue="articles"
         variant="#000"
@@ -102,7 +148,7 @@ const TopTabs = () => {
               fontSize={10}
               borderRadius={{ base: 5, md: 10 }}
               placeholder="Search..."
-              onChange={e=>setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </InputGroup>
           {/* <Dropdown frameworks={frameworks} icon /> */}

@@ -28,8 +28,32 @@ import { useRequest } from "../../../hooks/useRequest";
 import { toast } from "react-toastify";
 import Avatars from "../../components/header/Avatar";
 import { useNavigate } from "react-router-dom";
+import { HiOutlineLogout } from "react-icons/hi";
+import { FaCog, FaImage } from "react-icons/fa";
 
 const Mentoring = () => {
+  const dropdownOptions = [
+    {
+      text: "Change Image",
+      icon: FaImage,
+      handler: () => fileInputRef.current?.click(),
+    },
+    {
+      text: "Settings",
+      icon: FaCog,
+      handler: () => navigate("/settings"),
+    },
+    {
+      text: "Logout",
+      icon: HiOutlineLogout,
+      color: "text-red-500",
+      handler: () => {
+        // localStorage.clear();
+        navigate("/logout");
+      },
+    },
+  ];
+  const navigate = useNavigate();
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [listings, setListings] = useState([]);
@@ -37,8 +61,8 @@ const Mentoring = () => {
     setSelectedCard(card);
     setIsOpen(true);
   };
-  const [search, setSearch] = useState('');
-  const [filteredResults, setFilteredResults] = useState([])
+  const [search, setSearch] = useState("");
+  const [filteredResults, setFilteredResults] = useState([]);
   const { makeRequest, loading } = useRequest();
 
   const handleClose = () => {
@@ -64,28 +88,41 @@ const Mentoring = () => {
     items: [
       { label: "Finance", value: "finance" },
       { label: "Engineering", value: "engineering" },
-      
     ],
   });
 
-      useEffect(() => {
-        if (search) {
-         
-          const lowerSearch = search.toLowerCase();
-          const results = listings?.filter((item) =>
-            [item.title, item.description, item.category, item.user?.first_name, item.user?.last_name, item.access_email]
-              .filter(Boolean) // removes null/undefined
-              .some((field) => field.toLowerCase().includes(lowerSearch))
-          );
-          setFilteredResults(results);
-        } else {
-          setFilteredResults(listings); // if no search, show all
-        }
-      }, [search, listings]);
+  useEffect(() => {
+    if (search) {
+      const lowerSearch = search.toLowerCase();
+      const results = listings?.filter((item) =>
+        [
+          item.title,
+          item.description,
+          item.category,
+          item.user?.first_name,
+          item.user?.last_name,
+          item.access_email,
+        ]
+          .filter(Boolean) // removes null/undefined
+          .some((field) => field.toLowerCase().includes(lowerSearch))
+      );
+      setFilteredResults(results);
+    } else {
+      setFilteredResults(listings); // if no search, show all
+    }
+  }, [search, listings]);
   return (
-    <Box bg={"#F5F6FA"} h={"100vw"} p={3}>
-      <Heading display={"flex"} pb={4} gap={2} alignItems={"center"}>
-        {/* <IconButton
+    <Box h={"100%"} p={3}>
+      <HStack>
+        <Heading
+          w={"100%"}
+          fontSize={{ base: "13px", md: "24px" }}
+          display={"flex"}
+          pb={4}
+          gap={2}
+          alignItems={"center"}
+        >
+          {/* <IconButton
           aria-label="Previous"
           rounded="full"
           bg="white"
@@ -96,8 +133,23 @@ const Mentoring = () => {
         >
           <IoIosArrowBack color="#9E9E9E" />
         </IconButton> */}
-        Mentor Listings
-      </Heading>
+          Mentor Listings
+        </Heading>
+        <Box
+          ml={"auto"}
+          w={"100%"}
+          pr={4}
+          // pt={2}
+          justifyContent={"flex-end"}
+          display={{ base: "none", xl: "flex" }}
+          className="border-l-2 pl-4"
+          pb={4}
+        >
+          {/* <button onClick={() => toggleDropdown("avatar")}> */}
+          <Avatars options={dropdownOptions} />
+          {/* </button> */}
+        </Box>
+      </HStack>
       <Flex
         px={{ base: 4, md: 0 }}
         justifyContent={"space-between"}
@@ -115,7 +167,7 @@ const Mentoring = () => {
             fontSize={10}
             borderRadius={10}
             placeholder="Search Listing"
-            onChange={e=>setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </InputGroup>
 
@@ -125,8 +177,6 @@ const Mentoring = () => {
           frameworks={frameworks}
           filteredResults={listings}
           setFilteredResults={setFilteredResults}
-          
-          
         />
       </Flex>
 
@@ -141,6 +191,7 @@ const Mentoring = () => {
               w={{ base: "100%", md: "341px" }}
               // h={{ base: "100%", md: "340px" }}
               rounded={20}
+              // mr={5}
               border={"1px solid #fff"}
             >
               <Card.Body gap="2">

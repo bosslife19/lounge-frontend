@@ -13,10 +13,50 @@ import { SettingsPosts } from "./posts/Posts";
 import { SettingHelp } from "./help/SettingHelp";
 import { SettingsListing } from "./listing/Listing";
 import Avatar from "../../components/header/Avatar";
+import { HiOutlineLogout } from "react-icons/hi";
+import { FaCog, FaImage } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const SettingsTab = () => {
+  const dropdownOptions = [
+    {
+      text: "Change Image",
+      icon: FaImage,
+      handler: () => fileInputRef.current?.click(),
+    },
+    {
+      text: "Settings",
+      icon: FaCog,
+      handler: () => navigate("/settings"),
+    },
+    {
+      text: "Logout",
+      icon: HiOutlineLogout,
+      color: "text-red-500",
+      handler: () => {
+        // localStorage.clear();
+        navigate("/logout");
+      },
+    },
+  ];
+  const navigate = useNavigate();
+
   return (
-    <Box bg={"#F5F6FA"} h={"100vw"} p={3}>
+    <Box p={3}>
+      <Box
+        ml={"auto"}
+        w={"100%"}
+        pr={4}
+        // pt={2}
+        justifyContent={"flex-end"}
+        display={{ base: "none", xl: "flex" }}
+        className="border-l-2 pl-4"
+        pb={4}
+      >
+        {/* <button onClick={() => toggleDropdown("avatar")}> */}
+        <Avatar options={dropdownOptions} />
+        {/* </button> */}
+      </Box>
       <Heading pl={5} display={"flex"} pb={4} gap={2} alignItems={"center"}>
         {/* <IconButton
           aria-label="Previous"

@@ -14,14 +14,14 @@ import { CiSearch } from "react-icons/ci";
 import axiosClient from "../../../axiosClient";
 import { formatTime } from "../../../lib/formatTime";
 import { userAvatar } from "../setting/posts/Posts";
- import ReactPlayer from "react-player";
+import ReactPlayer from "react-player";
 
 export const VideosPage = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [videos, setVideos] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [search, setSearch] = useState('')
-const[filteredResults, setFilteredResults] = useState([])
+  const [search, setSearch] = useState("");
+  const [filteredResults, setFilteredResults] = useState([]);
   useEffect(() => {
     const getVideos = async () => {
       const res = await axiosClient.get("/get-videos");
@@ -29,20 +29,19 @@ const[filteredResults, setFilteredResults] = useState([])
     };
     getVideos();
   }, []);
-    useEffect(() => {
-      if (search) {
-       
-        const lowerSearch = search.toLowerCase();
-        const results = videos?.filter((item) =>
-          [item.title, item.video_link]
-            .filter(Boolean) // removes null/undefined
-            .some((field) => field.toLowerCase().includes(lowerSearch))
-        );
-        setFilteredResults(results);
-      } else {
-        setFilteredResults(videos); // if no search, show all
-      }
-    }, [search, videos]);
+  useEffect(() => {
+    if (search) {
+      const lowerSearch = search.toLowerCase();
+      const results = videos?.filter((item) =>
+        [item.title, item.video_link]
+          .filter(Boolean) // removes null/undefined
+          .some((field) => field.toLowerCase().includes(lowerSearch))
+      );
+      setFilteredResults(results);
+    } else {
+      setFilteredResults(videos); // if no search, show all
+    }
+  }, [search, videos]);
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -68,8 +67,7 @@ const[filteredResults, setFilteredResults] = useState([])
           fontSize={10}
           borderRadius={10}
           placeholder="Search..."
-          onChange={(e)=>setSearch(e.target.value)}
-
+          onChange={(e) => setSearch(e.target.value)}
         />
       </InputGroup>
 
@@ -98,7 +96,7 @@ const[filteredResults, setFilteredResults] = useState([])
                 onClick={() => handleCardClick(card)}
                 style={{
                   position: "absolute",
-                  top: "50%",
+                  top: "35%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
                   backgroundColor: "red",

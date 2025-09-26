@@ -24,8 +24,31 @@ import { BiMessageRoundedDetail } from "react-icons/bi";
 import { AiOutlineLike, AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 import Avatars from "../../components/header/Avatar";
+import { HiOutlineLogout } from "react-icons/hi";
+import { FaCog, FaImage } from "react-icons/fa";
 
 const PostDetails = () => {
+  const dropdownOptions = [
+    {
+      text: "Change Image",
+      icon: FaImage,
+      handler: () => fileInputRef.current?.click(),
+    },
+    {
+      text: "Settings",
+      icon: FaCog,
+      handler: () => navigate("/settings"),
+    },
+    {
+      text: "Logout",
+      icon: HiOutlineLogout,
+      color: "text-red-500",
+      handler: () => {
+        // localStorage.clear();
+        navigate("/logout");
+      },
+    },
+  ];
   const { id } = useParams();
   const { makeRequest } = useRequest();
   const navigate = useNavigate();
@@ -133,7 +156,7 @@ const PostDetails = () => {
             >
               <IoIosArrowBack />
             </Button>
-            <Text>Community Posts</Text>
+            <Text fontSize={{ base: "13px", md: "24px" }}>Community Posts</Text>
           </HStack>
 
           {/* Main Post */}
@@ -203,7 +226,7 @@ const PostDetails = () => {
                 {update.comments && update.comments.length > 0 ? (
                   update.comments.map((c, idx) => (
                     <Flex key={idx} gap={3} mb={3} alignItems="flex-start">
-                      <Avatar.Root size="sm">
+                      <Avatar.Root boxSize={{ base: "18px", md: "28px" }}>
                         <Avatar.Image
                           src={c.user_profile_picture || userAvatar}
                         />
@@ -307,7 +330,7 @@ const PostDetails = () => {
             display={{ base: "none", xl: "block" }}
             className="border-l-2 pl-4"
           >
-            <Avatars />
+            <Avatars options={dropdownOptions} />
           </Box>
           <Text pl={4} pt={3} mb={-2} color={"#101928"} fontWeight={"medium"}>
             More Posts
@@ -318,8 +341,7 @@ const PostDetails = () => {
                 likesCount: card.likes?.length || 0,
                 liked: card.likes?.some(
                   (like) =>
-                    like.user_id === userDetails.id &&
-                    like.post_id === card.id
+                    like.user_id === userDetails.id && like.post_id === card.id
                 ),
               };
 

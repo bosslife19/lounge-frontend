@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import Avatars from "../../../assets/userImage.jpg";
-import { Box, Button, Image, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Image, Text } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion"; // for smooth animation
 import Notfyimage from "../../../assets/Notification.png";
 import { AuthContext } from "../../../context/AuthContext";
@@ -10,8 +10,9 @@ import { toast } from "react-toastify";
 import { useRequest } from "../../../hooks/useRequest";
 import { supabase } from "../../../lib/SupabaseClient";
 import { BsBell } from "react-icons/bs";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
-const Avatar = ({ options }) => {
+const Avatar = ({ options = [] }) => {
   const { userDetails, setUserDetails } = useContext(AuthContext);
   const { makeRequest } = useRequest();
   const [isOpen, setIsOpen] = useState(false);
@@ -165,51 +166,61 @@ const Avatar = ({ options }) => {
     };
   }, []);
   return (
-    <>
-      <div
-        className="relative flex items-center gap-3"
-        ref={dropdownRef}
+    <Flex
+      pt={2}
+      alignItems={"center"}
+      gap={{ base: 2, md: 5 }}
+      ml={"auto"}
+      justifyContent={"flex-end"}
+    >
+      <Button
+        bg="transparent"
+        color={"#070416"}
+        onClick={toggleBar}
+        border={"1.5px solid #F3F2F3"}
+        position="relative"
+        borderRadius={"50px"}
+        rounded={50}
+        size={"xs"}
+        w={{ base: "30px", md: "45px" }}
+        h={{ base: "30px", md: "45px" }}
       >
-        <div
-          className="gap-[20px] flex items-center"
-          onClick={toggleDropdown}
-        >
-          <Button
-            bg="transparent"
-            color={"#070416"}
-            onClick={toggleBar}
-            border={"1.5px solid #F3F2F3"}
-            position="relative"
-            borderRadius={"50px"}
-            rounded={50}
-            size={"xs"}
-            w={{ base: "30px", md: "45px" }}
-            h={{ base: "30px", md: "45px" }}
-          >
-            <BsBell size={10} />
+        <BsBell size={10} />
 
-            {/* Notification badge */}
-            {notifications.length > 0 && (
-              <Text
-                fontSize={{ base: "5px", md: "7px" }}
-                w={{ base: "11px", md: "15px" }}
-                h={{ base: "11px", md: "15px" }}
-                position={"absolute"}
-                top={2}
-                right={3}
-                className="
+        {/* Notification badge */}
+        {notifications.length > 0 && (
+          <Text
+            fontSize={{ base: "5px", md: "7px" }}
+            w={{ base: "11px", md: "15px" }}
+            h={{ base: "11px", md: "15px" }}
+            position={"absolute"}
+            top={1}
+            right={2}
+            className="
          
         bg-[#2B362F] text-white text-xs font-bold
         flex items-center justify-center
           rounded-full shadow-md 
         animate-pulse
             "
-              >
-                {notifications.length}
-              </Text>
-            )}
-          </Button>
-
+          >
+            {notifications.length}
+          </Text>
+        )}
+      </Button>
+      <Box
+        // position={"relative"}
+        className="relative flex items-center gap-3"
+        ref={dropdownRef}
+        gap={3}
+      >
+        <HStack
+          alignItems={"center"}
+          gap={3}
+          // position={"relative"}
+          // ml={50}
+          className="gap-[20px] flex items-center relative"
+        >
           <Box
             py={{ base: 1, md: 2 }}
             px={{ base: 3, md: 6 }}
@@ -226,21 +237,89 @@ const Avatar = ({ options }) => {
             </Text>
           </Box>
           <Image
-            onClick={handleImageClick}
-            w={{ base: 6, lg: 10 }}
-            h={{ base: 6, lg: 10 }}
+            // position={"relative"}
+            onClick={(e) => {
+              e.stopPropagation(); // prevent bubbling
+              toggleDropdown();
+            }}
+            w={{ base: 6, lg: "55px" }}
+            h={{ base: 6, lg: "55px" }}
             src={preview || userDetails?.profile_picture || Avatars}
             alt="Avatar"
-            className="object-cover  rounded-full cursor-pointer"
+            className="object-cover relative rounded-full cursor-pointer"
           />
+          {/* <div onClick={toggleDropdown}>
+            {isOpen ? (
+              <FaChevronUp className="text-gray-500" />
+            ) : (
+              <FaChevronDown className="text-gray-500" />
+            )}
+          </div> */}
+          {isOpen && (
+            <Box
+              position="absolute"
+              right="0"
+              top="12"
+              w={{ base: "170px", md: "200px" }}
+              bg="white"
+              shadow="lg"
+              rounded="lg"
+              border="1px solid"
+              borderColor="gray.100"
+              overflow="hidden"
+              zIndex={50}
+            >
+              {options.map((option, index) => (
+                <Box
+                  key={index}
+                  as="button"
+                  onClick={() => {
+                    if (option.text === "Change Image") {
+                      fileInputRef.current?.click();
+                    } else {
+                      option.handler();
+                    }
+                    setIsOpen(false);
+                  }}
+                  display="flex"
+                  alignItems="center"
+                  // justifyContent={"center"}
+                  gap={{ base: 1, md: 3 }}
+                  w="full"
+                  px={4}
+                  // boxSize={"xs"}
+                  py={{ base: 1, md: 3 }}
+                  bg="white"
+                  transition="all 0.2s"
+                  _hover={{ bg: "gray.50" }}
+                  cursor={"pointer"}
+                  _active={{ bg: "gray.100" }}
+                  className={option.color || ""}
+                >
+                  <Box
+                    as={option.icon}
+                    fontSize={{ base: "12px", md: "18px" }}
+                    color="gray.600"
+                  />
+                  <Text
+                    fontSize={{ base: "12px", md: "18px" }}
+                    className="  font-medium text-gray-700"
+                  >
+                    {option.text}
+                  </Text>
+                </Box>
+              ))}
+            </Box>
+          )}
+
           <input
             type="file"
             hidden
             onChange={handleFileChange}
             ref={fileInputRef}
           />
-        </div>
-      </div>
+        </HStack>
+      </Box>
       <AnimatePresence>
         {open && (
           <motion.div
@@ -479,7 +558,7 @@ const Avatar = ({ options }) => {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </Flex>
   );
 };
 
