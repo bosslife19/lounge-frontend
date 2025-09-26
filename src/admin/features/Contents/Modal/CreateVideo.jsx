@@ -122,9 +122,9 @@ export const CreateVideo = ({ isOpen, onClose, setVideos }) => {
               </>
 
               <HStack maxW={200} justifyContent={"flex-start"}>
-                <FileUpload.Root>
+                {/* <FileUpload.Root>
                   <FileUpload.HiddenInput />
-                  <FileUpload.Trigger asChild>
+                  <FileUpload.Trigger asChild> */}
                     <Button
                       variant="outline"
                       size={{ base: "xs", md: "sm" }}
@@ -141,9 +141,9 @@ export const CreateVideo = ({ isOpen, onClose, setVideos }) => {
                       />
                       Add Video Thumbnail
                     </Button>
-                  </FileUpload.Trigger>
+                  {/* </FileUpload.Trigger>
                   <FileUpload.List />
-                </FileUpload.Root>
+                </FileUpload.Root> */}
                 {/* add Link */}
               </HStack>
 

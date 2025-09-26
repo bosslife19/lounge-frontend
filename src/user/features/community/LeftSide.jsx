@@ -33,6 +33,7 @@ export const LeftSide = ({ posts, setPosts }) => {
   const [comment, setComment] = useState("");
   const { makeRequest } = useRequest();
   const [openComments, setOpenComments] = useState({}); // track which posts are expanded
+  const [likedPosts, setLikedPosts] = useState([])
   const trucateText = useTruncate();
 const [liked, setLiked] = useState(false);
   const toggleComments = (postId) => {
@@ -52,7 +53,7 @@ const [liked, setLiked] = useState(false);
     }
     if(res.error) return;
     if(res.response.status){
-setRefresh(prev=>!prev);
+
 setLiked(prev=>!prev);
     }
   };
@@ -201,45 +202,60 @@ setLiked(prev=>!prev);
           )}
 
           {/* Comments and actions */}
-          <HStack
-            justifyContent={"flex-start"}
-            alignItems={"center"}
-            px={1}
-            pt={{ base: 1, md: 3 }}
-            gap={4}
-          >
-            <p style={{position:'relative', left:'3%'}}>{card.likes?.length}</p>
-           
-           
-            <Button
-              color={"#212121"}
-              p={0}
-              fontSize={{ base: 10, md: 15 }}
-              bg={"transparent"}
-              onClick={() => likePost(card.id)}
-              size={{ base: "xs", md: "sm" }}
-            >
-              <AiOutlineLike color={liked &&'blue'} />
-            </Button>
-            <Button
-              onClick={() => toggleComments(card.id)}
-              color={"#212121"}
-              p={0}
-              bg={"transparent"}
-              size={{ base: "xs", md: "sm" }}
-            >
-              <BiMessageRoundedDetail />
+        <HStack
+  justifyContent={"flex-start"}
+  alignItems={"center"}
+  px={1}
+  pt={{ base: 1, md: 3 }}
+  gap={4}
+>
+  <p style={{ position: "relative", left: "3%" }}>
+    {likedPosts.includes(card.id)
+      ? card.likes?.length + 1
+      : card.likes?.length}
+  </p>
 
-              <Text
-                color={"#707070"}
-                fontSize={{ base: 10, md: 14 }}
-                cursor="pointer"
-                // ml={-2}
-              >
-                {card.comments?.length || 0} Comments
-              </Text>
-            </Button>
-          </HStack>
+  <Button
+    color={"#212121"}
+    p={0}
+    fontSize={{ base: 10, md: 15 }}
+    bg={"transparent"}
+    onClick={() => {
+      if (likedPosts.includes(card.id)) {
+        // Unlike
+        setLikedPosts(prev => prev.filter(id => id !== card.id));
+      } else {
+        // Like
+        setLikedPosts(prev => [...prev, card.id]);
+      }
+      likePost(card.id); // still call backend
+    }}
+    size={{ base: "xs", md: "sm" }}
+  >
+    <AiOutlineLike
+      color={likedPosts.includes(card.id) ? "blue" : "black"}
+    />
+  </Button>
+
+  <Button
+    onClick={() => toggleComments(card.id)}
+    color={"#212121"}
+    p={0}
+    bg={"transparent"}
+    size={{ base: "xs", md: "sm" }}
+  >
+    <BiMessageRoundedDetail />
+
+    <Text
+      color={"#707070"}
+      fontSize={{ base: 10, md: 14 }}
+      cursor="pointer"
+    >
+      {card.comments?.length || 0} Comments
+    </Text>
+  </Button>
+</HStack>
+
 
           {/* Expand Comments */}
           {openComments[card.id] && (

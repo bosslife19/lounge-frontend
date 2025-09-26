@@ -221,7 +221,7 @@ const Mentoring = () => {
                   h={{ base: "30px", md: "43px" }}
                   onClick={() => handleRequestSession(card.user.id)}
                 >
-                  {loading ? <Spinner /> : "Request Session"}
+                  Request Session
                 </Button>
               </Card.Footer>
             </Card.Root>
