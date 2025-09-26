@@ -231,7 +231,7 @@ const Avatar = ({ options = [] }) => {
             {/* <span>{userDetails?.name||'Admin'}</span> */}
             <Text
               fontFamily={"InterRegular"}
-              fontSize={{ base: "10px", md: "16px" }}
+              fontSize={{ base: "10px", md: "14px" }}
             >
               {userDetails?.first_name}
             </Text>
@@ -242,8 +242,8 @@ const Avatar = ({ options = [] }) => {
               e.stopPropagation(); // prevent bubbling
               toggleDropdown();
             }}
-            w={{ base: 6, lg: "55px" }}
-            h={{ base: 6, lg: "55px" }}
+            w={{ base: 6, lg: "45px" }}
+            h={{ base: 6, lg: "45px" }}
             src={preview || userDetails?.profile_picture || Avatars}
             alt="Avatar"
             className="object-cover relative rounded-full cursor-pointer"
