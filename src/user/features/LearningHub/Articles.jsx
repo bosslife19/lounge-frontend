@@ -72,14 +72,14 @@ export const Articles = ({ articles, setArticles }) => {
                 className="w-full h-30 object-cover"
               />
 
-              <button className="absolute cursor-pointer top-5 right-6">
+              {/* <button className="absolute cursor-pointer top-5 right-6">
                 <Image
                   src={btns}
                   alt="btn"
                   boxSize={{ base: "15px", md: "20px" }}
                   rounded="full"
                 />
-              </button>
+              </button> */}
 
               <Box pt={2} px={2}>
                 <Text
