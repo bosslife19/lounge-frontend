@@ -9,8 +9,37 @@ import {
 } from "@chakra-ui/react";
 import notify2 from "../../../../assets/coin.png";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { useState } from "react";
+
+const slides = [
+  {
+    title: "Tommy Hilfiger",
+    description: "Enjoy a 20% discount on products from our partner",
+    coins: 300,
+  },
+  {
+    title: "Nike",
+    description: "Grab 15% off on all sneakers collection",
+    coins: 250,
+  },
+  {
+    title: "Adidas",
+    description: "Get 10% cashback on every purchase",
+    coins: 200,
+  },
+];
 
 export const BottomBanner = () => {
+  const [current, setCurrent] = useState(0);
+
+  const handlePrev = () => {
+    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+  };
+
   return (
     <Box bg={"#6C3433"} rounded={{ base: 10, md: 30 }} px={{ base: 2, md: 4 }}>
       <Flex
@@ -26,27 +55,29 @@ export const BottomBanner = () => {
           rounded={20}
           aria-label="Prev"
           size={{ base: "10px", md: "md" }}
-
-          // onClick={handlePrev}
+          onClick={handlePrev}
         >
           <IoIosArrowBack color="#000" />
         </IconButton>
 
-        <Stack py={5}>
+        <Stack py={1}>
           <Text
             fontSize={{ base: "12px", md: "16px" }}
             fontFamily="nunitoSemiBold"
+            textAlign={{ base: "center", md: "left" }}
             color={"#fff"}
           >
-            Tommy Hilfiger
+            {slides[current].title}
           </Text>
           <Text
             fontFamily="InterBold"
             color={"#fff"}
-            fontSize={{ base: 14, md: 35 }}
+            textAlign={{ base: "center", md: "left" }}
+            fontSize={{ base: 14, md: 32 }}
+            lineHeight={{ base: "24px", md: "40px" }}
             maxW={{ base: "100%", md: 500 }}
           >
-            Enjoy a 20% discount on products from our partner
+            {slides[current].description}
           </Text>
           <Button
             fontSize={{ base: 8, md: 18 }}
@@ -62,7 +93,7 @@ export const BottomBanner = () => {
               boxSize={{ base: "12px", md: "22px" }}
               rounded={0}
             />
-            300
+            {slides[current].coins}
           </Button>
           <Button
             fontSize={{ base: 9, md: 14 }}
@@ -79,7 +110,7 @@ export const BottomBanner = () => {
           size={{ base: "10px", md: "md" }}
           border="1px solid #9E9E9E"
           rounded={20}
-          // onClick={handleNext}
+          onClick={handleNext}
         >
           <IoIosArrowForward color="#000" />
         </IconButton>
