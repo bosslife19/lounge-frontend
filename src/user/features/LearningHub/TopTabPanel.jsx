@@ -21,6 +21,7 @@ import { CiSearch } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import Avatar from "../../components/header/Avatar";
 import { Dropdown } from "../../components/select/Dropdown";
+import ProgramSelector from "./Dropdown";
 // import { Dropdown } from "../../components/select/Dropdown";
 
 const TopTabs = () => {
@@ -182,7 +183,7 @@ const TopTabs = () => {
         </Tabs.Content>
         <Tabs.Content value="projects">
           <Box>
-            <Program />
+            <ProgramSelector />
           </Box>
         </Tabs.Content>
         <Tabs.Content value="tasks">

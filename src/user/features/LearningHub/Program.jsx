@@ -20,10 +20,12 @@ import axiosClient from "../../../axiosClient";
 import { formattedDate } from "../../../lib/formatDate";
 
 import { formatTimeToString } from "../../../lib/formatTimeTostring";
+import { useParams } from "react-router-dom";
 // import { CreateSpeakerHighlight } from './Modal/CreateSpeakerHighlight'
 
 export const Program = () => {
   // ---------- News Data (will come from backend) ----------
+   const { id } = useParams();
 
   const [newsData, setNewsData] = useState([
     {
@@ -85,14 +87,16 @@ export const Program = () => {
 
   // ---------- State ----------
   const [newsIndex, setNewsIndex] = useState(0);
-  const currentNews = newsData[newsIndex] || {};
-  const currentSessions = currentNews.sections || [];
-  const currentSpeakers = currentNews.speaker_highlights || [];
+  // const currentNews = newsData[newsIndex] || {};
+  const [currentNews, setCurrentNews] = useState(null)
+// let currentNews;
+  const currentSessions = currentNews?.sections || [];
+  const currentSpeakers = currentNews?.speaker_highlights || [];
   const [refresh, setRefresh] = useState(false);
 
   const [sessionIndex, setSessionIndex] = useState(0);
   const [speakerIndex, setSpeakerIndex] = useState(0);
-
+// const [program, setProgram] = useState(null)
   // Reset sessions/speakers when news changes
   useEffect(() => {
     setSessionIndex(0);
@@ -132,6 +136,16 @@ export const Program = () => {
       prev >= currentSessions.length - 1 ? 0 : prev + 1
     );
 
+    useEffect(()=>{
+      const getProgram = async()=>{
+        const res = await axiosClient.get('/programs/' + id);
+        // setProgram(res.data.program);
+        console.log(res.data)
+     setCurrentNews(res.data.program)
+      }
+      getProgram();
+    }, []);
+
   useEffect(() => {
     const getPrograms = async () => {
       const res = await axiosClient.get("/programs");
@@ -145,7 +159,7 @@ export const Program = () => {
     <Box h={"100%"} mb={"10%"} px={{ base: 1, md: 5 }}>
       {/* ---------- News Section ---------- */}
 
-      <Flex alignItems={"center"} justifyContent={"space-between"}>
+      {/* <Flex alignItems={"center"} justifyContent={"space-between"}>
         <HStack w={"100%"} justifyContent={"flex-end"} gap={2}>
           <IconButton
             bg="#fff"
@@ -168,7 +182,7 @@ export const Program = () => {
             <IoIosArrowForward color="#9E9E9E" />
           </IconButton>
         </HStack>
-      </Flex>
+      </Flex> */}
 
       {currentNews && (
         <Box
@@ -219,8 +233,9 @@ export const Program = () => {
       )}
 
       {/* ---------- Speaker Slider ---------- */}
-
-      <Flex alignItems={"center"} justifyContent={"space-between"}>
+       {currentSpeakers.length > 0 && (
+        <>
+         <Flex alignItems={"center"} justifyContent={"space-between"}>
         <Flex alignItems={"center"}>
           {/* <Button bg={'transparent'} color={'#212121'} onClick={() => setIsOpens(true)}>
             <RiPencilLine />
@@ -259,7 +274,7 @@ export const Program = () => {
       </Flex>
 
       <Flex overflow="hidden" my={{ base: 3, md: 5 }}>
-        {currentSpeakers.length > 0 && (
+       
           <Box flex="1">
             <Box
               position={"relative"}
@@ -314,11 +329,17 @@ export const Program = () => {
               </Button> */}
             </Box>
           </Box>
-        )}
+       
       </Flex>
+        </>
+       )}
+
+     
 
       {/* ---------- Session Slider ---------- */}
-      <Flex alignItems={"center"} justifyContent={"space-between"}>
+              {currentSessions.length > 0 &&(
+                <>
+                 <Flex alignItems={"center"} justifyContent={"space-between"}>
         <Text
           color="#202020"
           fontWeight={"medium"}
@@ -352,7 +373,7 @@ export const Program = () => {
       </Flex>
 
       <Flex overflow="hidden" my={5}>
-        {currentSessions.length > 0 && (
+
           <Box
             overflow={"hidden"}
             border="1px solid #080F340F"
@@ -473,8 +494,12 @@ export const Program = () => {
               </a>
             </Box>
           </Box>
-        )}
+        
       </Flex>
+                </>
+              ) }
+
+     
 
       {/* ---------- Modals ---------- */}
       {/* <EditProgram isOpen={isOpened} onClose={() => setIsOpened(false)} />

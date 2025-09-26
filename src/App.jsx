@@ -66,6 +66,7 @@ import { AdminBenfitsTabPanels } from "./admin/features/BeneFits/AdminBenfitsTab
 
 import { AdminSettingsTab } from "./admin/features/setting/SettingsTabpanel";
 import { HomeScreens } from "./user/features/Landingpage/HomeScreens";
+import { Program } from "./user/features/LearningHub/Program";
 // import { HomeScreens } from "./user/features/Landingpage/HomeScreens";
 
 // Routes (guards)
@@ -107,6 +108,7 @@ function App() {
             <Route path="/mentoring" element={<Mentoring />} />
             <Route path="/community" element={<Community />} />
             <Route path="/settings" element={<SettingsTab />} />
+            <Route path="/programs/:id" element={<Program/>}/>
 
             {/* Admin */}
           </Route>
