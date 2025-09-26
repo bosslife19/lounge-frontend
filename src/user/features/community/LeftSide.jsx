@@ -33,9 +33,12 @@ export const LeftSide = ({ posts, setPosts }) => {
   const [comment, setComment] = useState("");
   const { makeRequest } = useRequest();
   const [openComments, setOpenComments] = useState({}); // track which posts are expanded
-  const [likedPosts, setLikedPosts] = useState([])
+  // const [likedPosts, setLikedPosts] = useState([])
+   const [likes, setLikes] = useState([])
   const trucateText = useTruncate();
 const [liked, setLiked] = useState(false);
+const [likesState, setLikesState] = useState({}); 
+
   const toggleComments = (postId) => {
     setOpenComments((prev) => ({
       ...prev,
@@ -43,7 +46,9 @@ const [liked, setLiked] = useState(false);
     }));
   };
 
+
   const likePost = async (postId) => {
+  
     const res = await makeRequest("/like-post", {
       userId: userDetails.id,
       postId,
@@ -66,6 +71,15 @@ setLiked(prev=>!prev);
     };
     getPosts();
   }, [refresh]);
+useEffect(()=>{
+const getLikes = async ()=>{
+  const res = await axiosClient.get('/likes');
+
+  setLikes(res.data.likes);
+}
+getLikes();
+}, [])
+
 
   const commentRef = useRef();
   function timeAgo(timestamp) {
@@ -116,7 +130,14 @@ setLiked(prev=>!prev);
 
   return (
     <Stack w={"100%"} mb={"auto"} pb={"3%"} gap={5}>
-      {posts?.map((card) => (
+      {posts?.map((card) =>{
+        const state = likesState[card.id] || {
+    likesCount: card.likes?.length || 0,
+    liked: likes.some(
+      like => like.user_id === userDetails.id && like.post_id === card.id
+    ),
+  };
+        return        (
         <Card.Root
           key={card.id}
           bg={"#fff"}
@@ -209,33 +230,31 @@ setLiked(prev=>!prev);
   pt={{ base: 1, md: 3 }}
   gap={4}
 >
-  <p style={{ position: "relative", left: "3%" }}>
-    {likedPosts.includes(card.id)
-      ? card.likes?.length + 1
-      : card.likes?.length}
-  </p>
+<p style={{ position: "relative", left: "3%" }}>
+  {state.likesCount}
+</p>
 
-  <Button
-    color={"#212121"}
-    p={0}
-    fontSize={{ base: 10, md: 15 }}
-    bg={"transparent"}
-    onClick={() => {
-      if (likedPosts.includes(card.id)) {
-        // Unlike
-        setLikedPosts(prev => prev.filter(id => id !== card.id));
-      } else {
-        // Like
-        setLikedPosts(prev => [...prev, card.id]);
-      }
-      likePost(card.id); // still call backend
-    }}
-    size={{ base: "xs", md: "sm" }}
-  >
-    <AiOutlineLike
-      color={likedPosts.includes(card.id) ? "blue" : "black"}
-    />
-  </Button>
+ <Button
+        color={"#212121"}
+        p={0}
+        fontSize={{ base: 10, md: 15 }}
+        bg={"transparent"}
+        onClick={() => {
+          setLikesState(prev => ({
+            ...prev,
+            [card.id]: {
+              likesCount: state.liked
+                ? state.likesCount - 1
+                : state.likesCount + 1,
+              liked: !state.liked,
+            },
+          }));
+          likePost(card.id); // call backend toggle
+        }}
+        size={{ base: "xs", md: "sm" }}
+      >
+        <AiOutlineLike color={state.liked ? "blue" : "black"} />
+      </Button>
 
   <Button
     onClick={() => toggleComments(card.id)}
@@ -357,7 +376,9 @@ setLiked(prev=>!prev);
             </InputGroup>
           </Card.Footer>
         </Card.Root>
-      ))}
+      )
+      }
+)}
     </Stack>
   );
 };
