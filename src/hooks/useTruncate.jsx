@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 function useTruncate() {
   const navigate = useNavigate();
 
-  const truncateText = (text, id, wordLimit = 7) => {
+  const truncateText = (text, id, wordLimit = 56) => {
     const words = text.split(" ");
     const preview =
       words.length > wordLimit

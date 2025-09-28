@@ -6,8 +6,34 @@ import axiosClient from "../../../axiosClient";
 import { IoIosAdd } from "react-icons/io";
 import { CreateCommunityModal } from "./modal/RightsideModal";
 import Avatar from "../../components/header/Avatar";
+import { HiOutlineLogout } from "react-icons/hi";
+import { FaCog, FaImage } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Community = () => {
+  const dropdownOptions = [
+    {
+      text: "Change Image",
+      icon: FaImage,
+      handler: () => fileInputRef.current?.click(),
+    },
+    {
+      text: "Settings",
+      icon: FaCog,
+      handler: () => navigate("/settings"),
+    },
+    {
+      text: "Logout",
+      icon: HiOutlineLogout,
+      color: "text-red-500",
+      handler: () => {
+        // localStorage.clear();
+        navigate("/logout");
+      },
+    },
+  ];
+  const navigate = useNavigate();
+
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     const getPosts = async () => {
@@ -33,7 +59,7 @@ const Community = () => {
         pb={3}
       >
         {/* <button onClick={() => toggleDropdown("avatar")}> */}
-        <Avatar />
+        <Avatar options={dropdownOptions} />
         {/* </button> */}
       </Box>
       <HStack justifyContent={"space-between"}>

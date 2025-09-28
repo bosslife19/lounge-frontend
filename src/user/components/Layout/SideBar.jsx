@@ -71,8 +71,8 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
       { text: "Learning Hub", link: "/learning-hub", icon: LuFolderOpenDot },
       { text: "Mentoring", link: "/mentoring", icon: BiSolidCopyAlt },
       { text: "Community", link: "/community", icon: FaUsers },
-      { text: "Settings", link: "/settings", icon: IoMdSettings },
-      { text: "Logout", link: "/logout", icon: BiLogOut },
+      // { text: "Settings", link: "/settings", icon: IoMdSettings },
+      // { text: "Logout", link: "/logout", icon: BiLogOut },
     ],
     []
   );
@@ -212,11 +212,11 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
           {allItems.map((item, mainIndex) => {
             const isCommunity = item.text === "Community";
             const isLogout = item.text === "Logout";
-            const isSettings = item.text === "Settings";
+            // const isSettings = item.text === "Settings";
 
             return (
-              <Box key={mainIndex} mb={isCommunity || isLogout ? "100px" : "0"}>
-                {isSettings && (
+              <Box key={mainIndex} mb={isCommunity || isLogout ? "40px" : "0"}>
+                {/* {isSettings && (
                   <Text
                     fontWeight="semibold"
                     textTransform="uppercase"
@@ -227,7 +227,7 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
                   >
                     Settings
                   </Text>
-                )}
+                )} */}
                 <Flex
                   py={3}
                   px={4}
