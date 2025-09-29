@@ -278,7 +278,7 @@ export const LeftSide = ({ posts, setPosts }) => {
                 {card.comments && card.comments.length > 0 ? (
                   card.comments.map((c, idx) => (
                     <Flex key={idx} gap={3} mb={3} alignItems="flex-start">
-                      <Avatar.Root boxSize={{ base: "20px", md: "60px" }}>
+                      <Avatar.Root boxSize={{ base: "20px", md: "34px" }}>
                         <Avatar.Image
                           src={c.user_profile_picture || userImage}
                         />

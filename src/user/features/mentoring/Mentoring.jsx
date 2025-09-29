@@ -33,11 +33,11 @@ import { FaCog, FaImage } from "react-icons/fa";
 
 const Mentoring = () => {
   const dropdownOptions = [
-    {
-      text: "Change Image",
-      icon: FaImage,
-      handler: () => fileInputRef.current?.click(),
-    },
+    // {
+    //   text: "Change Image",
+    //   icon: FaImage,
+    //   handler: () => fileInputRef.current?.click(),
+    // },
     {
       text: "Settings",
       icon: FaCog,
