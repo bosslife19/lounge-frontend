@@ -35,6 +35,7 @@ export const LeftSectionProfile = () => {
   const fileInputRef = useRef(null)
   const [profileImage, setProfileImage] = useState()
   const {makeRequest} = useRequest();
+  const [user, setUser] = useState(null);
   useEffect(() => {
       const getMentors = async () => {
         const res = await axiosClient.get("/my-mentors");
@@ -93,7 +94,7 @@ export const LeftSectionProfile = () => {
   useEffect(()=>{
     const getUser = async ()=>{
       const res = await axiosClient.get("/me/" + userDetails.id);
-      
+      setUser(res.data.user);
       setUserDetails(res.data.user);
     }  
     getUser();
@@ -222,7 +223,7 @@ export const LeftSectionProfile = () => {
           <HStack>
             <Stack position={"relative"}>
               <Image
-                src={userDetails.organization?.logo}
+                src={userDetails.organization?.logo|| user?.organization?.logo}
                 alt="Update"
                 boxSize={{ base: "40px", md: "72px" }}
                 objectFit={"cover"}
@@ -245,7 +246,7 @@ export const LeftSectionProfile = () => {
                 fontSize={{ base: 10, md: 14 }}
                 fontFamily="InterBold"
               >
-                {userDetails.organization?.name}
+                {userDetails.organization?.name || user?.organization?.name}
               </Text>
               <Text
                 mt={-3}
@@ -271,7 +272,7 @@ export const LeftSectionProfile = () => {
                 gap={2}
               >
                 <FaLocationDot />
-                {userDetails.organization?.location}
+                {userDetails.organization?.location || user?.organization?.location}
               </Text>
             </Stack>
           </HStack>
@@ -303,7 +304,7 @@ export const LeftSectionProfile = () => {
               Experience in representing and advocating for UX the and users.
             </List.Item>
           </List.Root> */}
-          <Text>{userDetails.organization?.description}</Text>
+          <Text>{userDetails.organization?.description || user?.organization?.description}</Text>
         </Box>
 
         {/*company members*/}

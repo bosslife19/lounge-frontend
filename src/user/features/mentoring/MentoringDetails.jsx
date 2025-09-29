@@ -238,9 +238,9 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                       mb={{ base: -23, md: 0 }}
                       color="#6C3433"
                     >
-                      Finance
+                      {profile.category}
                     </List.Item>
-                    <List.Item
+                    {/* <List.Item
                       fontsize={{ base: "10px,", md: "16px" }}
                       mb={{ base: -23, md: 0 }}
                       color="#6C3433"
@@ -252,9 +252,9 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                       color="#6C3433"
                     >
                       Business
-                    </List.Item>
+                    </List.Item> */}
                   </List.Root>
-                  <List.Root
+                  {/* <List.Root
                     flexDirection={{ base: "column", md: "row" }}
                     gap={10}
                     px={{ base: 3, md: 5 }}
@@ -281,7 +281,7 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
                     >
                       Business
                     </List.Item>
-                  </List.Root>
+                  </List.Root> */}
                 </Card.Body>
                 {/* <Text style={{
                   marginTop:5,

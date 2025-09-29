@@ -263,6 +263,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                         py={6}
                         placeholder="First Name"
                         ref={firstNameRef}
+                        defaultValue={userDetails?.first_name}
                       />
                     </InputGroup>
                   </Field.Root>
@@ -278,7 +279,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                       Last Name
                     </Field.Label>
                     <InputGroup startElement={<CiUser />}>
-                      <Input py={6} placeholder="Last Name" ref={lastNameRef} />
+                      <Input py={6} placeholder="Last Name" ref={lastNameRef} defaultValue={userDetails.last_name} />
                     </InputGroup>
                   </Field.Root>
                 </HStack>
@@ -306,7 +307,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                         <CiUser />
                       </Box>
 
-                      <NativeSelect.Field name="country" pl="10" fontSize={{base:'8px', md:12}}>
+                      <NativeSelect.Field name="country" pl="10" fontSize={{base:'8px', md:12}} defaultValue={userDetails.gender}>
                         <For each={["Male", "Female", "others"]}>
                           {(item) => (
                             <option key={item} value={item} ref={genderRef}>
@@ -341,7 +342,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                         <CiUser />
                       </Box>
 
-                      <NativeSelect.Field name="country" pl="10">
+                      <NativeSelect.Field name="country" pl="10" defaultValue={userDetails.pronouns}>
                         <For each={["He/Him", "She/Her", "others"]}>
                           {(item) => (
                             <option key={item} value={item} ref={pronounsRef}>
@@ -405,6 +406,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                       py={6}
                       placeholder="johnmercy03@gmail.com"
                       ref={emailRef}
+                      defaultValue={userDetails?.email}
                     />
                   </InputGroup>
                 </Field.Root>
@@ -421,7 +423,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                       Phone Number
                     </Field.Label>
                     <InputGroup startElement={<ImPhoneHangUp />}>
-                      <Input py={6} placeholder="phoneNumber" ref={phoneRef} />
+                      <Input py={6} placeholder="phoneNumber" ref={phoneRef} defaultValue={userDetails.phone} />
                     </InputGroup>
                   </Field.Root>
 
@@ -440,6 +442,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                         py={6}
                         placeholder=" johnmercy"
                         ref={facebookRef}
+                        defaultValue={userDetails.facebook_url}
                       />
                     </InputGroup>
                   </Field.Root>
@@ -455,7 +458,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                       LinkedIn
                     </Field.Label>
                     <InputGroup startElement={<BsLinkedin color="#0A66C2" />}>
-                      <Input py={6} placeholder="" ref={linkedinRef} />
+                      <Input py={6} placeholder="" ref={linkedinRef} defaultValue={userDetails.linkedin_url}/>
                     </InputGroup>
                   </Field.Root>
                 </HStack>
@@ -476,6 +479,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                         py={6}
                         placeholder="Financial Analyst"
                         ref={professionRef}
+                        defaultValue={userDetails.profession}
                       />
                     </InputGroup>
                   </Field.Root>
@@ -564,6 +568,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                       placeholder="5"
                       type="number"
                       ref={experienceRef}
+                      defaultValue={userDetails.years_of_experience}
                     />
                   </InputGroup>
                 </Field.Root>
@@ -580,7 +585,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                     City
                   </Field.Label>
                   <InputGroup startElement={<IoLocationOutline />}>
-                    <Input py={6} placeholder="City" ref={locationRef} />
+                    <Input py={6} placeholder="City" ref={locationRef} defaultValue={userDetails.city} />
                   </InputGroup>
                 </Field.Root>
                  <Field.Root>
@@ -597,6 +602,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
                     h={200}
                     placeholder="Type here"
                     ref={bioRef}
+                    defaultValue={userDetails.bio}
                   />
                   <Text
                     fontWeight={"400"}

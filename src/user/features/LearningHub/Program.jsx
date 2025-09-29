@@ -140,7 +140,7 @@ export const Program = () => {
       const getProgram = async()=>{
         const res = await axiosClient.get('/programs/' + id);
         // setProgram(res.data.program);
-        console.log(res.data)
+
      setCurrentNews(res.data.program)
       }
       getProgram();

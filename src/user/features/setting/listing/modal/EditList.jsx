@@ -130,7 +130,8 @@ export const EditList = ({ isOpen, onClose, card, setListings }) => {
                     fontSize={{ base: "9px", md: 12 }}
                     name="title"
                     ref={titleRef}
-                    placeholder={card?.title}
+                    // placeholder={card?.title}
+                    defaultValue={card?.title}
                   />
                 </Field.Root>
 
@@ -149,7 +150,8 @@ export const EditList = ({ isOpen, onClose, card, setListings }) => {
                     type="email"
                     fontSize={{ base: "9px", md: 12 }}
                     ref={emailRef}
-                    placeholder={card?.access_email}
+                    // placeholder={card?.access_email}
+                    defaultValue={card?.access_email}
                   />
                 </Field.Root>
 
@@ -196,7 +198,8 @@ export const EditList = ({ isOpen, onClose, card, setListings }) => {
                     resize={"none"}
                     name="notes"
                     ref={descriptionRef}
-                    placeholder={card?.description}
+                    // placeholder={card?.description}
+                    defaultValue={card?.description}  
                   />
                   <Text
                     fontWeight={"400"}
@@ -223,7 +226,8 @@ export const EditList = ({ isOpen, onClose, card, setListings }) => {
                 </Span>
                 <NumberInput.Root
                   // maxW="200px"
-                  value={value}
+                  // value={value}
+                  defaultValue={card?.isFree ? 0 : card?.price}
                   size={{ base: "xs", md: "sm" }}
                   fontSize={{ base: "9px", md: 12 }}
                   onValueChange={(e) => setValue(e.value)}
@@ -246,7 +250,8 @@ export const EditList = ({ isOpen, onClose, card, setListings }) => {
                 <InputGroup startElement={<CiCalendar />}>
                   <Input
                     fontSize={{ base: "9px", md: 12 }}
-                    placeholder={card?.calendly}
+                    // placeholder={card?.calendly}
+                    defaultValue={card?.calendly}
                     outline={"none"}
                     ref={calendlyRef}
                   />
