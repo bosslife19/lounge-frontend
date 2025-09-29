@@ -12,7 +12,7 @@ export const DashboardTabpanel = () => {
   const [selectedDate, setSelectedDate] = useState(null);
 
   return (
-    <Tabs.Root bg="#F5F6FA" defaultValue="MentorApplication">
+    <Tabs.Root bg="#FDFDFD" defaultValue="MentorApplication">
       <Flex
         overflowX="auto"
         pt={{ base: 2, md: 5 }}

@@ -26,7 +26,7 @@ export const frameworks = createListCollection({
 });
 export const UsersHome = () => {
   return (
-    <Box h="100%" bg="#F5F6FA" px={6}>
+    <Box h="100%" bg="#FDFDFD" px={6}>
       <Stack
         mb={3}
         px={2}

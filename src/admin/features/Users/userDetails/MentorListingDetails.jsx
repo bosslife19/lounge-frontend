@@ -11,10 +11,10 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import  { useState } from "react";
+import { useState } from "react";
 import { cardData } from "../../../../hooks/useData";
 import { MdKeyboardArrowRight } from "react-icons/md";
- import { CiSearch } from "react-icons/ci";
+import { CiSearch } from "react-icons/ci";
 import { Dropdown } from "../../../components/select/Dropdown";
 import { IoIosArrowBack } from "react-icons/io";
 import { AdminMentoringDetails } from "../modal/MentorDetailsModal";
@@ -34,21 +34,21 @@ export const MentorListing = () => {
   };
 
   return (
-    <Box bg={'#F5F6FA'} h={"100%"} p={3}>
-      <Heading display={'flex'} pb={4} gap={2} alignItems={'center'}>
-         <IconButton
-         aria-label="Previous"
+    <Box bg={"#FDFDFD"} h={"100%"} p={3}>
+      <Heading display={"flex"} pb={4} gap={2} alignItems={"center"}>
+        <IconButton
+          aria-label="Previous"
           rounded="full"
-         bg="white"
-         border={'1px solid #9E9E9E'}
-         _hover={{ bg: "whiteAlpha.500" }}
-         size="sm"
-         >
+          bg="white"
+          border={"1px solid #9E9E9E"}
+          _hover={{ bg: "whiteAlpha.500" }}
+          size="sm"
+        >
           <IoIosArrowBack color="#9E9E9E" />
         </IconButton>
         Mentor Listings
       </Heading>
-        
+
       <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={6} gap={5}>
         {cardData.map((card, idx) => (
           <Card.Root
@@ -64,44 +64,50 @@ export const MentorListing = () => {
                 <Avatar.Image src={card.eImage} />
                 <Avatar.Fallback name={card.name} />
               </Avatar.Root>
-              <Text textAlign={"center"}
-              color={'#070416'}
-              fontSize={{base:12,md:16}}
-                fontFamily="InterRegular">
+              <Text
+                textAlign={"center"}
+                color={"#070416"}
+                fontSize={{ base: 12, md: 16 }}
+                fontFamily="InterRegular"
+              >
                 Manuel Neuer
               </Text>
-              <Text textAlign={"center"}
-               color={'#64626D'}
-               fontSize={{base:12,md:16}}
+              <Text
+                textAlign={"center"}
+                color={"#64626D"}
+                fontSize={{ base: 12, md: 16 }}
                 fontFamily="LatoRegular"
-                >
-               Web Developer
+              >
+                Web Developer
               </Text>
               <Card.Title
                 mt="2"
-                color={'#070416'}
-               fontSize={{base:12,md:16}}
+                color={"#070416"}
+                fontSize={{ base: 12, md: 16 }}
                 textAlign={"center"}
                 fontFamily="InterBold"
               >
                 {card.title}
               </Card.Title>
-              <Button 
-              onClick={() => handleCardClick(card)} 
-              bg={'transparent'}>
-              <Card.Description 
-               py={1}
-               w={'100%'}
-              display={'flex'} 
-              alignItems={'center'} 
-              justifyContent={'space-between'} 
-              textAlign={"center"}>
-                <Text color={'#64626D'} 
-                fontSize={{base:12,md:16}}
-                fontFamily="InterRegular"
-                textAlign={"left"}>View Details</Text>
-                <MdKeyboardArrowRight />
-              </Card.Description>
+              <Button onClick={() => handleCardClick(card)} bg={"transparent"}>
+                <Card.Description
+                  py={1}
+                  w={"100%"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                  textAlign={"center"}
+                >
+                  <Text
+                    color={"#64626D"}
+                    fontSize={{ base: 12, md: 16 }}
+                    fontFamily="InterRegular"
+                    textAlign={"left"}
+                  >
+                    View Details
+                  </Text>
+                  <MdKeyboardArrowRight />
+                </Card.Description>
               </Button>
             </Card.Body>
           </Card.Root>

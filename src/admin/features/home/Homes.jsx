@@ -5,7 +5,7 @@ import { DashboardTabpanel } from "./TabPanel";
 
 export const AdminHome = () => {
   return (
-    <Box h="100%" bg="#F5F6FA" px={6}>
+    <Box h="100%" bg="#FDFDFD" px={6}>
       <DashboardCard />
       <DashboardTabpanel />
     </Box>

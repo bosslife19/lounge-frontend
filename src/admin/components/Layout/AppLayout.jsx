@@ -9,7 +9,7 @@ const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="bg-[#F5F6FA] ">
+    <Box bg={"#FDFDFD"} className="bg-[#FDFDFD] ">
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex h-screen  overflow-hidden">
         {/* <!-- ===== Sidebar Start ===== --> */}
@@ -21,19 +21,19 @@ const AdminLayout = () => {
 
         <div className=" flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          <main className='bg-[#F5F6FA]"'>
+          <main className="bg-[#FDFDFD]">
             <Box
-              bg={"#F5F6FA"}
+              bg={"#FDFDFD"}
               h={"110%"}
               pb={10}
-              className="p-4 md:p-6 2xl:p-10 bg-[#F5F6FA]"
+              className="p-4 md:p-6 2xl:p-10 bg-[#FDFDFD]"
             >
               <Outlet />
             </Box>
           </main>
         </div>
       </div>
-    </div>
+    </Box>
   );
 };
 

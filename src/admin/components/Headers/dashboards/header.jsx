@@ -4,13 +4,40 @@ import { HiOutlineLogout } from "react-icons/hi";
 import Avatar from "./Avatar";
 import { Box, Button, Image, Input, InputGroup, Text } from "@chakra-ui/react";
 import Notfyimage from "../../../../assets/btn.png";
-import { BiSearch } from "react-icons/bi";
+import { FaCog, FaImage } from "react-icons/fa";
 
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
   const [searchQuery, setSearchQuery] = useState(""); // State to manage search input
   const [dropdownOpen, setDropdownOpen] = useState(null); // State to track which dropdown is open
   const navigate = useNavigate();
 
+  const dropdownOptions = [
+    // {
+    //   text: "Change Image",
+    //   icon: FaImage,
+    //   handler: () => {
+    //     if (fileInputRef.current) {
+    //       fileInputRef.current.click(); // Trigger file picker
+    //     }
+    //   },
+    // },
+    {
+      text: "Settings",
+      icon: FaCog,
+      handler: () => {
+        navigate("/admin/settings"); // Navigate to settings page
+      },
+    },
+    {
+      text: "Logout",
+      icon: HiOutlineLogout,
+      color: "text-red-500",
+      handler: () => {
+        localStorage.clear();
+        navigate("/login");
+      },
+    },
+  ];
   const location = useLocation();
 
   // Map routes to header titles
@@ -31,17 +58,6 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
 
   // Find the title based on current pathname
   const contents = headerTitles[location.pathname] || "Admin Panel";
-  const dropdownOptions = [
-    {
-      text: "Logout",
-      icon: HiOutlineLogout,
-      color: "text-red",
-      handler: () => {
-        localStorage.clear();
-        navigate("/login");
-      },
-    },
-  ];
 
   const toggleDropdown = (dropdownType) => {
     if (dropdownOpen === dropdownType) {
@@ -54,7 +70,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <Box
       p={4}
-      bg={"#F5F6FA"}
+      bg={"#FDFDFD"}
       className="mt-[20px] top-5 flex flex-col z-[51]  my-[12px]"
     >
       <div className="flex flex-grow items-center justify-between py-[12px] px-4  md:px-6 2xl:px-11">
