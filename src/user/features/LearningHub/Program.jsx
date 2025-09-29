@@ -20,12 +20,12 @@ import axiosClient from "../../../axiosClient";
 import { formattedDate } from "../../../lib/formatDate";
 
 import { formatTimeToString } from "../../../lib/formatTimeTostring";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // import { CreateSpeakerHighlight } from './Modal/CreateSpeakerHighlight'
 
 export const Program = () => {
   // ---------- News Data (will come from backend) ----------
-   const { id } = useParams();
+  const { id } = useParams();
 
   const [newsData, setNewsData] = useState([
     {
@@ -88,15 +88,15 @@ export const Program = () => {
   // ---------- State ----------
   const [newsIndex, setNewsIndex] = useState(0);
   // const currentNews = newsData[newsIndex] || {};
-  const [currentNews, setCurrentNews] = useState(null)
-// let currentNews;
+  const [currentNews, setCurrentNews] = useState(null);
+  // let currentNews;
   const currentSessions = currentNews?.sections || [];
   const currentSpeakers = currentNews?.speaker_highlights || [];
   const [refresh, setRefresh] = useState(false);
 
   const [sessionIndex, setSessionIndex] = useState(0);
   const [speakerIndex, setSpeakerIndex] = useState(0);
-// const [program, setProgram] = useState(null)
+  // const [program, setProgram] = useState(null)
   // Reset sessions/speakers when news changes
   useEffect(() => {
     setSessionIndex(0);
@@ -155,6 +155,8 @@ export const Program = () => {
     getPrograms();
   }, [refresh]);
 
+  const navigate = useNavigate();
+
   return (
     <Box h={"100%"} mb={"10%"} px={{ base: 1, md: 5 }}>
       {/* ---------- News Section ---------- */}
@@ -183,6 +185,32 @@ export const Program = () => {
           </IconButton>
         </HStack>
       </Flex> */}
+
+      <Heading
+        fontSize={{ base: "13px", md: "24px" }}
+        display={"flex"}
+        pt={4}
+        gap={2}
+        alignItems={"center"}
+        cursor="pointer"
+        onClick={() => navigate(-1)} // 👈 goes back
+      >
+        <IconButton
+          aria-label="Previous"
+          rounded="full"
+          bg="white"
+          border={"1px solid #9E9E9E"}
+          _hover={{ bg: "whiteAlpha.500" }}
+          size="sm"
+          onClick={(e) => {
+            e.stopPropagation(); // prevent double trigger
+            navigate(-1);
+          }}
+        >
+          <IoIosArrowBack color="#9E9E9E" />
+        </IconButton>
+        Back
+      </Heading>
 
       {currentNews && (
         <Box
@@ -233,91 +261,90 @@ export const Program = () => {
       )}
 
       {/* ---------- Speaker Slider ---------- */}
-       {currentSpeakers.length > 0 && (
+      {currentSpeakers.length > 0 && (
         <>
-         <Flex alignItems={"center"} justifyContent={"space-between"}>
-        <Flex alignItems={"center"}>
-          {/* <Button bg={'transparent'} color={'#212121'} onClick={() => setIsOpens(true)}>
+          <Flex alignItems={"center"} justifyContent={"space-between"}>
+            <Flex alignItems={"center"}>
+              {/* <Button bg={'transparent'} color={'#212121'} onClick={() => setIsOpens(true)}>
             <RiPencilLine />
           </Button> */}
-          <Text
-            color="#202020"
-            fontWeight={"medium"}
-            fontSize={{ base: "14px", md: 16 }}
-            fontFamily="LatoRegular"
-          >
-            Speaker’s Highlights
-          </Text>
-        </Flex>
-        <HStack gap={2}>
-          <IconButton
-            bg="#fff"
-            border="1px solid #9E9E9E"
-            rounded={20}
-            size={{ base: "10", md: "sm" }}
-            aria-label="Prev"
-            onClick={handleSpeakerPrev}
-          >
-            <IoIosArrowBack color="#9E9E9E" />
-          </IconButton>
-          <IconButton
-            bg="#fff"
-            border="1px solid #9E9E9E"
-            rounded={20}
-            size={{ base: "10", md: "sm" }}
-            aria-label="Next"
-            onClick={handleSpeakerNext}
-          >
-            <IoIosArrowForward color="#9E9E9E" />
-          </IconButton>
-        </HStack>
-      </Flex>
-
-      <Flex overflow="hidden" my={{ base: 3, md: 5 }}>
-       
-          <Box flex="1">
-            <Box
-              position={"relative"}
-              bg="white"
-              p={{ base: 3, md: 5 }}
-              border="1px solid #080F340F"
-              rounded={20}
-              h="100%"
-            >
-              <HStack>
-                <Image
-                  src="https://www.w3schools.com/howto/img_avatar.png"
-                  alt="Speaker"
-                  boxSize={{ base: "30px", md: "40px" }}
-                  rounded="full"
-                />
-                <Stack spacing={0}>
-                  <Text
-                    color="#202020"
-                    fontSize={{ base: "10px", md: 12 }}
-                    fontFamily="InterMedium"
-                  >
-                    {currentSpeakers[speakerIndex]?.speaker_name}
-                  </Text>
-                  <Text
-                    color="#202020"
-                    mt={{ base: -2, md: -1 }}
-                    fontSize={{ base: " 9px", md: 11 }}
-                  >
-                    {formattedDate(currentSpeakers[speakerIndex]?.created_at)}
-                  </Text>
-                </Stack>
-              </HStack>
               <Text
-                mt={3}
-                fontFamily="InterRegular"
-                fontWeight={"normal"}
-                fontSize={{ base: "10px", md: 14 }}
-                color="#333333E5"
+                color="#202020"
+                fontWeight={"medium"}
+                fontSize={{ base: "14px", md: 16 }}
+                fontFamily="LatoRegular"
               >
-                {currentSpeakers[speakerIndex]?.highlight}
+                Speaker’s Highlights
               </Text>
-              {/* <Button
+            </Flex>
+            <HStack gap={2}>
+              <IconButton
+                bg="#fff"
+                border="1px solid #9E9E9E"
+                rounded={20}
+                size={{ base: "10", md: "sm" }}
+                aria-label="Prev"
+                onClick={handleSpeakerPrev}
+              >
+                <IoIosArrowBack color="#9E9E9E" />
+              </IconButton>
+              <IconButton
+                bg="#fff"
+                border="1px solid #9E9E9E"
+                rounded={20}
+                size={{ base: "10", md: "sm" }}
+                aria-label="Next"
+                onClick={handleSpeakerNext}
+              >
+                <IoIosArrowForward color="#9E9E9E" />
+              </IconButton>
+            </HStack>
+          </Flex>
+
+          <Flex overflow="hidden" my={{ base: 3, md: 5 }}>
+            <Box flex="1">
+              <Box
+                position={"relative"}
+                bg="white"
+                p={{ base: 3, md: 5 }}
+                border="1px solid #080F340F"
+                rounded={20}
+                h="100%"
+              >
+                <HStack>
+                  <Image
+                    src="https://www.w3schools.com/howto/img_avatar.png"
+                    alt="Speaker"
+                    boxSize={{ base: "30px", md: "40px" }}
+                    rounded="full"
+                  />
+                  <Stack spacing={0}>
+                    <Text
+                      color="#202020"
+                      fontSize={{ base: "10px", md: 12 }}
+                      fontFamily="InterMedium"
+                    >
+                      {currentSpeakers[speakerIndex]?.speaker_name}
+                    </Text>
+                    <Text
+                      color="#202020"
+                      mt={{ base: -2, md: -1 }}
+                      fontSize={{ base: " 9px", md: 11 }}
+                    >
+                      {formattedDate(currentSpeakers[speakerIndex]?.created_at)}
+                    </Text>
+                  </Stack>
+                </HStack>
+                <Text
+                  mt={3}
+                  fontFamily="InterRegular"
+                  fontWeight={"normal"}
+                  fontSize={{ base: "10px", md: 14 }}
+                  color="#333333E5"
+                >
+                  {currentSpeakers[speakerIndex]?.highlight}
+                </Text>
+                {/* <Button
                 position={'absolute'}
                 top={0}
                 bg={'transparent'}
@@ -327,75 +354,71 @@ export const Program = () => {
               >
                 <RiPencilLine />
               </Button> */}
+              </Box>
             </Box>
-          </Box>
-       
-      </Flex>
+          </Flex>
         </>
-       )}
-
-     
+      )}
 
       {/* ---------- Session Slider ---------- */}
-              {currentSessions.length > 0 &&(
-                <>
-                 <Flex alignItems={"center"} justifyContent={"space-between"}>
-        <Text
-          color="#202020"
-          fontWeight={"medium"}
-          fontSize={{ base: "14px", md: 16 }}
-          fontFamily="LatoRegular"
-        >
-          Session
-        </Text>
-        <HStack gap={2}>
-          <IconButton
-            bg="#fff"
-            border="1px solid #9E9E9E"
-            rounded={20}
-            size={{ base: "10", md: "sm" }}
-            aria-label="Prev"
-            onClick={handleSessionPrev}
-          >
-            <IoIosArrowBack color="#9E9E9E" />
-          </IconButton>
-          <IconButton
-            bg="#fff"
-            border="1px solid #9E9E9E"
-            rounded={20}
-            size={{ base: "10", md: "sm" }}
-            aria-label="Next"
-            onClick={handleSessionNext}
-          >
-            <IoIosArrowForward color="#9E9E9E" />
-          </IconButton>
-        </HStack>
-      </Flex>
-
-      <Flex overflow="hidden" my={5}>
-
-          <Box
-            overflow={"hidden"}
-            border="1px solid #080F340F"
-            rounded={20}
-            h="100%"
-            mr={{ base: 1, md: 5 }}
-            flex="1"
-          >
-            <Stack
-              position={"relative"}
-              p={{ base: 3, md: 5 }}
-              roundedTop={{ base: 5, md: 20 }}
-              bg={"#000"}
+      {currentSessions.length > 0 && (
+        <>
+          <Flex alignItems={"center"} justifyContent={"space-between"}>
+            <Text
+              color="#202020"
+              fontWeight={"medium"}
+              fontSize={{ base: "14px", md: 16 }}
+              fontFamily="LatoRegular"
             >
-              <Text
-                fontFamily="InterBold"
-                fontSize={{ base: "14px", md: 20 }}
-                color={"#fff"}
+              Session
+            </Text>
+            <HStack gap={2}>
+              <IconButton
+                bg="#fff"
+                border="1px solid #9E9E9E"
+                rounded={20}
+                size={{ base: "10", md: "sm" }}
+                aria-label="Prev"
+                onClick={handleSessionPrev}
               >
-                {currentSessions[sessionIndex]?.title}
-              </Text>
-              {/* <Button
+                <IoIosArrowBack color="#9E9E9E" />
+              </IconButton>
+              <IconButton
+                bg="#fff"
+                border="1px solid #9E9E9E"
+                rounded={20}
+                size={{ base: "10", md: "sm" }}
+                aria-label="Next"
+                onClick={handleSessionNext}
+              >
+                <IoIosArrowForward color="#9E9E9E" />
+              </IconButton>
+            </HStack>
+          </Flex>
+
+          <Flex overflow="hidden" my={5}>
+            <Box
+              overflow={"hidden"}
+              border="1px solid #080F340F"
+              rounded={20}
+              h="100%"
+              mr={{ base: 1, md: 5 }}
+              flex="1"
+            >
+              <Stack
+                position={"relative"}
+                p={{ base: 3, md: 5 }}
+                roundedTop={{ base: 5, md: 20 }}
+                bg={"#000"}
+              >
+                <Text
+                  fontFamily="InterBold"
+                  fontSize={{ base: "14px", md: 20 }}
+                  color={"#fff"}
+                >
+                  {currentSessions[sessionIndex]?.title}
+                </Text>
+                {/* <Button
                 position={'absolute'}
                 top={0}
                 bg={'transparent'}
@@ -405,101 +428,98 @@ export const Program = () => {
               >
                 <RiPencilLine color={'#fff'} />
               </Button> */}
-            </Stack>
-            <Box
-              bg="white"
-              p={{ base: 3, md: 5 }}
-              borderBottom={"2px solid #E8E8E8"}
-            >
-              <Text
-                fontFamily="LatoRegular"
-                fontSize={{ base: "11px", md: 16 }}
-                color={"#10192899"}
+              </Stack>
+              <Box
+                bg="white"
+                p={{ base: 3, md: 5 }}
+                borderBottom={"2px solid #E8E8E8"}
               >
-                {currentSessions[sessionIndex]?.description}
-              </Text>
-            </Box>
-            <Flex bg="white" pt={3} pl={4}>
-              <Text
-                fontSize={{ base: "11px", md: 14 }}
-                fontWeight={"bold"}
-                fontFamily="InterMedium"
-              >
-                {formattedDate(currentSessions[sessionIndex]?.date)}
-              </Text>
-              <Text
-                fontFamily="InterRegular"
-                display={"flex"}
-                fontSize={{ base: "11px", md: 14 }}
-                color={"#475367"}
-                gap={2}
-                alignItems={"center"}
-              >
-                <CiClock2 />{" "}
-                {formatTimeToString(currentSessions[sessionIndex]?.time)}
-              </Text>
-            </Flex>
-            <Box mt={{ base: -3, md: 0 }} p={5} bg="white">
-              <HStack>
-                <Stack position={"relative"}>
+                <Text
+                  fontFamily="LatoRegular"
+                  fontSize={{ base: "11px", md: 16 }}
+                  color={"#10192899"}
+                >
+                  {currentSessions[sessionIndex]?.description}
+                </Text>
+              </Box>
+              <Flex bg="white" pt={3} pl={4}>
+                <Text
+                  fontSize={{ base: "11px", md: 14 }}
+                  fontWeight={"bold"}
+                  fontFamily="InterMedium"
+                >
+                  {formattedDate(currentSessions[sessionIndex]?.date)}
+                </Text>
+                <Text
+                  fontFamily="InterRegular"
+                  display={"flex"}
+                  fontSize={{ base: "11px", md: 14 }}
+                  color={"#475367"}
+                  gap={2}
+                  alignItems={"center"}
+                >
+                  <CiClock2 />{" "}
+                  {formatTimeToString(currentSessions[sessionIndex]?.time)}
+                </Text>
+              </Flex>
+              <Box mt={{ base: -3, md: 0 }} p={5} bg="white">
+                <HStack>
+                  <Stack position={"relative"}>
+                    <Image
+                      src={
+                        currentSessions[sessionIndex]?.speaker?.image ||
+                        "https://www.w3schools.com/howto/img_avatar.png"
+                      }
+                      alt="Speaker"
+                      boxSize={{ base: "30px", md: "40px" }}
+                      rounded="full"
+                    />
+                    <Image
+                      src={tick}
+                      alt="tick"
+                      w={{ base: 3, md: 4 }}
+                      position={"absolute"}
+                      bottom={"0"}
+                      right={"-1"}
+                      borderRadius="md"
+                      objectFit="cover"
+                    />
+                  </Stack>
+                  <Stack spacing={0}>
+                    <Text
+                      color="#202020"
+                      fontSize={{ base: "10px", md: 12 }}
+                      fontFamily="InterMedium"
+                    >
+                      {/* {currentSessions[sessionIndex]?.speaker?.name} */}
+                      The Lounge Team
+                    </Text>
+                    <Text
+                      color="#202020"
+                      mt={{ base: -2, md: -1 }}
+                      fontSize={{ base: "9px", md: 11 }}
+                    >
+                      {formattedDate(currentSessions[sessionIndex]?.created_at)}
+                    </Text>
+                  </Stack>
+                </HStack>
+              </Box>
+              <Box bg="white" pb={2}>
+                <a href={currentSessions[sessionIndex]?.video_link}>
+                  {" "}
                   <Image
-                    src={
-                      currentSessions[sessionIndex]?.speaker?.image ||
-                      "https://www.w3schools.com/howto/img_avatar.png"
-                    }
-                    alt="Speaker"
-                    boxSize={{ base: "30px", md: "40px" }}
+                    pl={4}
+                    src={file}
+                    alt="file"
+                    w={{ base: "80px", md: 110 }}
                     rounded="full"
                   />
-                  <Image
-                    src={tick}
-                    alt="tick"
-                    w={{ base: 3, md: 4 }}
-                    position={"absolute"}
-                    bottom={"0"}
-                    right={"-1"}
-                    borderRadius="md"
-                    objectFit="cover"
-                  />
-                </Stack>
-                <Stack spacing={0}>
-                  <Text
-                    color="#202020"
-                    fontSize={{ base: "10px", md: 12 }}
-                    fontFamily="InterMedium"
-                  >
-                    {/* {currentSessions[sessionIndex]?.speaker?.name} */}
-                    The Lounge Team
-                  </Text>
-                  <Text
-                    color="#202020"
-                    mt={{ base: -2, md: -1 }}
-                    fontSize={{ base: "9px", md: 11 }}
-                  >
-                    {formattedDate(currentSessions[sessionIndex]?.created_at)}
-                  </Text>
-                </Stack>
-              </HStack>
+                </a>
+              </Box>
             </Box>
-            <Box bg="white" pb={2}>
-              <a href={currentSessions[sessionIndex]?.video_link}>
-                {" "}
-                <Image
-                  pl={4}
-                  src={file}
-                  alt="file"
-                  w={{ base: "80px", md: 110 }}
-                  rounded="full"
-                />
-              </a>
-            </Box>
-          </Box>
-        
-      </Flex>
-                </>
-              ) }
-
-     
+          </Flex>
+        </>
+      )}
 
       {/* ---------- Modals ---------- */}
       {/* <EditProgram isOpen={isOpened} onClose={() => setIsOpened(false)} />

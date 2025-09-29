@@ -32,6 +32,8 @@ import { Dropdown } from "../../components/select/Dropdown";
 import { BiSearch } from "react-icons/bi";
 import axiosClient from "../../../axiosClient";
 import userImage from "../../../assets/userImage.jpg";
+import { HiOutlineLogout } from "react-icons/hi";
+import { FaCog, FaImage } from "react-icons/fa";
 
 export const frameworks = createListCollection({
   items: [
@@ -41,7 +43,29 @@ export const frameworks = createListCollection({
     { label: "Svelte", value: "svelte" },
   ],
 });
+
 const Directory = () => {
+  const dropdownOptions = [
+    {
+      text: "Change Image",
+      icon: FaImage,
+      handler: () => fileInputRef.current?.click(),
+    },
+    {
+      text: "Settings",
+      icon: FaCog,
+      handler: () => navigate("/settings"),
+    },
+    {
+      text: "Logout",
+      icon: HiOutlineLogout,
+      color: "text-red-500",
+      handler: () => {
+        // localStorage.clear();
+        navigate("/logout");
+      },
+    },
+  ];
   const navigate = useNavigate();
 
   const [directoryData, setDirectoryData] = useState([]);
@@ -51,32 +75,31 @@ const Directory = () => {
   const [filteredResults, setFilteredResults] = useState([]);
 
   useEffect(() => {
-  if (search) {
-    const lowerSearch = search.toLowerCase();
-    const results = directoryData.filter((item) =>
-      [item.first_name, item.last_name, item.name, item.organization?.name]
-        .filter(Boolean) // removes null/undefined
-        .some((field) => field.toLowerCase().includes(lowerSearch))
-    );
-    setFilteredResults(results);
-  } else {
-    setFilteredResults(directoryData); // if no search, show all
-  }
-}, [search, directoryData]);
- useEffect(() => {
-  if (locationSearch) {
-    
-    const lowerSearch = locationSearch.toLowerCase();
-    const results = directoryData.filter((item) =>
-      [item.city, item.organization.location]
-        .filter(Boolean) // removes null/undefined
-        .some((field) => field.toLowerCase().includes(lowerSearch))
-    );
-    setFilteredResults(results);
-  } else {
-    setFilteredResults(directoryData); // if no search, show all
-  }
-}, [locationSearch, directoryData]);
+    if (search) {
+      const lowerSearch = search.toLowerCase();
+      const results = directoryData.filter((item) =>
+        [item.first_name, item.last_name, item.name, item.organization?.name]
+          .filter(Boolean) // removes null/undefined
+          .some((field) => field.toLowerCase().includes(lowerSearch))
+      );
+      setFilteredResults(results);
+    } else {
+      setFilteredResults(directoryData); // if no search, show all
+    }
+  }, [search, directoryData]);
+  useEffect(() => {
+    if (locationSearch) {
+      const lowerSearch = locationSearch.toLowerCase();
+      const results = directoryData.filter((item) =>
+        [item.city, item.organization.location]
+          .filter(Boolean) // removes null/undefined
+          .some((field) => field.toLowerCase().includes(lowerSearch))
+      );
+      setFilteredResults(results);
+    } else {
+      setFilteredResults(directoryData); // if no search, show all
+    }
+  }, [locationSearch, directoryData]);
 
   useEffect(() => {
     const getAllProfessionals = async () => {
@@ -95,6 +118,20 @@ const Directory = () => {
 
   return (
     <Box>
+      <Box
+        ml={"auto"}
+        w={"100%"}
+        pr={4}
+        pt={2}
+        justifyContent={"flex-end"}
+        display={{ base: "none", xl: "flex" }}
+        className="border-l-2 pl-4"
+        pb={4}
+      >
+        {/* <button onClick={() => toggleDropdown("avatar")}> */}
+        <Avatars options={dropdownOptions} />
+        {/* </button> */}
+      </Box>
       <Flex
         flexDirection={{ base: "column", md: "row" }}
         alignItems={"flex-start"}
@@ -264,7 +301,7 @@ const Directory = () => {
           ml={"auto"}
         >
           <Box
-            display={{ base: "none", xl: "flex" }}
+            display={{ base: "none" }}
             className="border-l-2 pl-4"
             pb={5}
             justifyContent={"center"}
@@ -272,7 +309,7 @@ const Directory = () => {
             pr={1}
           >
             {/* <button onClick={() => toggleDropdown("avatar")}> */}
-            <Avatars />
+            <Avatars options={dropdownOptions} />
             {/* </button> */}
           </Box>
 
