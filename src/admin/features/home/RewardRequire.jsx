@@ -151,7 +151,7 @@ export const RewardReq = () => {
   };
 
   return (
-    <Box bg="#F5F6FA" p={{ base: 0, md: 2 }}>
+    <Box bg="#FDFDFD" p={{ base: 0, md: 2 }}>
       <BottomTable
         dataTable={dataTable}
         pageSize={pageSize}

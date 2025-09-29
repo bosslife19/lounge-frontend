@@ -42,11 +42,11 @@ export const AdminContent = () => {
   }, []);
 
   return (
-    <Box w="100%" h="100%" bg="#F5F6FA">
+    <Box w="100%" h="100%" bg="#FDFDFD">
       <Tabs.Root
         defaultValue="articles"
         variant="unstyled"
-        bg="#F5F6FA"
+        bg="#FDFDFD"
         rounded={20}
       >
         <Tabs.List
@@ -55,7 +55,7 @@ export const AdminContent = () => {
           gap={2}
           mx={5}
           p="13px"
-          bg="#F5F6FA"
+          bg="#FDFDFD"
           border="none"
           rounded={30}
         >

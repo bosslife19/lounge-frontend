@@ -28,6 +28,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import axiosClient from "../../../axiosClient";
 import { BiMessageRoundedDetail } from "react-icons/bi";
 import { AiOutlineLike } from "react-icons/ai";
+import { formatDate, timeAgo } from "../../../utlis/FormatDate";
 
 export const AdminLeftSide = ({ posts, setPosts }) => {
   const { userDetails } = useContext(AuthContext);
@@ -205,7 +206,7 @@ export const AdminLeftSide = ({ posts, setPosts }) => {
               {card.comments && card.comments.length > 0 ? (
                 card.comments.map((c, idx) => (
                   <Flex key={idx} gap={3} mb={3} alignItems="flex-start">
-                    <Avatar.Root boxSize={{ base: "20px", md: "60px" }}>
+                    <Avatar.Root boxSize={{ base: "20px", md: "35px" }}>
                       <Avatar.Image src={c.user_profile_picture || userImage} />
                     </Avatar.Root>
                     <Box>
@@ -266,9 +267,9 @@ export const AdminLeftSide = ({ posts, setPosts }) => {
               }
               startElement={
                 <Avatar.Root
-                  ml={-2}
+                  ml={{ base: 0, md: -2 }}
                   mt={-2}
-                  boxSize={{ base: "20px", md: "40px" }}
+                  boxSize={{ base: "20px", md: "35px" }}
                 >
                   <Avatar.Image
                     src={userDetails?.profile_picture || userImage}

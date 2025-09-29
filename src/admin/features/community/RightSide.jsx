@@ -104,7 +104,7 @@ export const AdminRightSide = ({ setPosts }) => {
               <Image
                 src={userDetails?.profile_picture || userAvatar}
                 alt="Update"
-                boxSize={{ base: "35px", md: "59px" }}
+                boxSize={{ base: "35px", md: "50px" }}
                 rounded={50}
               />
             </Stack>

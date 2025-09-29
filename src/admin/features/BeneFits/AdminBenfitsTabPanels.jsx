@@ -5,7 +5,7 @@ import { BonusPoints } from "./BonusPoints";
 
 export const AdminBenfitsTabPanels = () => {
   return (
-    <Tabs.Root bg="#F5F6FA" defaultValue="Benefits">
+    <Tabs.Root bg="#FDFDFD" defaultValue="Benefits">
       <Flex
         alignItems={"center"}
         pt={{ base: 1, md: 0 }}

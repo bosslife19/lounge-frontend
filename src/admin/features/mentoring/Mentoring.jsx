@@ -80,7 +80,7 @@ export const AdminMentor = () => {
     setIsOpened(false);
   };
   return (
-    <Box bg={"#F5F6FA"} h={"100%"} p={3}>
+    <Box bg={"#FDFDFD"} h={"100%"} p={3}>
       <Heading display={"flex"} pb={4} gap={2} alignItems={"center"}>
         {/* <IconButton
           aria-label="Previous"

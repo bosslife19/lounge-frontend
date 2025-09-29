@@ -134,7 +134,7 @@ export const NewOrganization = () => {
   };
 
   return (
-    <Box bg="#F5F6FA" p={{ base: 0, md: 2 }}>
+    <Box bg="#FDFDFD" p={{ base: 0, md: 2 }}>
       {organizationRequests.length > 0 ? (
         <BottomTable
           dataTable={dataTable}

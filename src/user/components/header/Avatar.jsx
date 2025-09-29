@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import { useRequest } from "../../../hooks/useRequest";
 import { supabase } from "../../../lib/SupabaseClient";
 import { BsBell } from "react-icons/bs";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 const Avatar = ({ options = [] }) => {
   const { userDetails, setUserDetails } = useContext(AuthContext);
@@ -24,8 +23,6 @@ const Avatar = ({ options = [] }) => {
   const [notifications, setNotifications] = useState([]);
 
   const [toaster, setToaster] = useState(null);
-
-  //
 
   useEffect(() => {
     if (!userDetails?.id) return;
@@ -51,10 +48,10 @@ const Avatar = ({ options = [] }) => {
           event: "INSERT",
           schema: "public",
           table: "notifications",
-          filter: `user_id=eq.${userDetails.id}`, // ✅ new format
+          filter: `user_id=eq.${userDetails.id}`, //  new format
         },
         (payload) => {
-          // console.log("📩 New notifications:", payload.new);
+          // console.log(" New notifications:", payload.new);
           if (payload.new.type == "user_notification") {
             // Show toast
             setToaster(payload.new);
@@ -259,7 +256,7 @@ const Avatar = ({ options = [] }) => {
             <Box
               position="absolute"
               right="0"
-              top="12"
+              top={{ base: "10", md: "12" }}
               w={{ base: "170px", md: "200px" }}
               bg="white"
               shadow="lg"
