@@ -29,11 +29,11 @@ import { FaCog, FaImage } from "react-icons/fa";
 
 const PostDetails = () => {
   const dropdownOptions = [
-    {
-      text: "Change Image",
-      icon: FaImage,
-      handler: () => fileInputRef.current?.click(),
-    },
+    // {
+    //   text: "Change Image",
+    //   icon: FaImage,
+    //   handler: () => fileInputRef.current?.click(),
+    // },
     {
       text: "Settings",
       icon: FaCog,
@@ -293,7 +293,7 @@ const PostDetails = () => {
             </Card.Footer>
 
             {/* User Info */}
-            <HStack px={5} mt={-4} pb={2} spacing={4} align="flex-start">
+            {/* <HStack px={5} mt={-4} pb={2} spacing={4} align="flex-start">
               <Stack position={"relative"}>
                 <Image
                   src={update?.user.profile_picture || userAvatar}
@@ -314,7 +314,7 @@ const PostDetails = () => {
                   {formatTime(update?.created_at)}
                 </Text>
               </Stack>
-            </HStack>
+            </HStack> */}
           </Stack>
         </Box>
 

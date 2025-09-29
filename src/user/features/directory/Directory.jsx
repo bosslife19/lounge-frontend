@@ -46,11 +46,11 @@ export const frameworks = createListCollection({
 
 const Directory = () => {
   const dropdownOptions = [
-    {
-      text: "Change Image",
-      icon: FaImage,
-      handler: () => fileInputRef.current?.click(),
-    },
+    // {
+    //   text: "Change Image",
+    //   icon: FaImage,
+    //   handler: () => fileInputRef.current?.click(),
+    // },
     {
       text: "Settings",
       icon: FaCog,

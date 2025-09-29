@@ -10,11 +10,11 @@ import { useNavigate } from "react-router-dom";
 export const RightSection = () => {
   const navigate = useNavigate();
   const dropdownOptions = [
-    {
-      text: "Change Image",
-      icon: FaImage,
-      handler: () => fileInputRef.current?.click(),
-    },
+    // {
+    //   text: "Change Image",
+    //   icon: FaImage,
+    //   handler: () => fileInputRef.current?.click(),
+    // },
     {
       text: "Settings",
       icon: FaCog,
