@@ -256,7 +256,7 @@ const Avatar = ({ options = [] }) => {
             <Box
               position="absolute"
               right="0"
-              top="12"
+              top={{ base: "10", md: "12" }}
               w={{ base: "170px", md: "200px" }}
               bg="white"
               shadow="lg"
