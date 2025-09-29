@@ -32,6 +32,12 @@ export const AdminMentor = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [listings, setListings] = useState([]);
+   const handleCardClick = (card) => {
+    setSelectedCard(card);
+    setIsOpen(true);
+  };
+   const [search, setSearch] = useState("");
+    const [filteredResults, setFilteredResults] = useState([]);
 
   const { makeRequest } = useRequest();
 
@@ -51,10 +57,7 @@ export const AdminMentor = () => {
     getListings();
   }, []);
 
-  const handleCardClick = (card) => {
-    setSelectedCard(card);
-    setIsOpen(true);
-  };
+ 
 
   const handleClose = () => {
     setIsOpen(false);
@@ -62,14 +65,31 @@ export const AdminMentor = () => {
   };
 
   const frameworks = createListCollection({
-    items: [
-      { label: "Experience", value: "Experience" },
-      { label: "finances", value: "finances" },
-      { label: "Angular", value: "angular" },
-      { label: "Svelte", value: "svelte" },
-    ],
-  });
-
+      items: [
+        { label: "Finance", value: "finance" },
+        { label: "Engineering", value: "engineering" },
+      ],
+    });
+     useEffect(() => {
+        if (search) {
+          const lowerSearch = search.toLowerCase();
+          const results = listings?.filter((item) =>
+            [
+              item.title,
+              item.description,
+              item.category,
+              item.user?.first_name,
+              item.user?.last_name,
+              item.access_email,
+            ]
+              .filter(Boolean) // removes null/undefined
+              .some((field) => field.toLowerCase().includes(lowerSearch))
+          );
+          setFilteredResults(results);
+        } else {
+          setFilteredResults(listings); // if no search, show all
+        }
+      }, [search, listings]);
   const [isOpened, setIsOpened] = useState(false);
 
   const handleAction = () => {
@@ -112,19 +132,22 @@ export const AdminMentor = () => {
             size={{ base: "xs", md: "sm" }}
             borderRadius={10}
             placeholder="Search..."
+            onChange={(e) => setSearch(e.target.value)}
           />
         </InputGroup>
 
-        <Dropdown
-          frameworks={frameworks}
-
-          // title={'finance'}
-        />
+                <Dropdown
+                  color={"#EBEBEB"}
+                  // title={'finance'}
+                  frameworks={frameworks}
+                  filteredResults={listings}
+                  setFilteredResults={setFilteredResults}
+                />
       </Flex>
 
       <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={6} gap={5}>
-        {listings.length > 0 ? (
-          listings.map((card, idx) => (
+        {filteredResults.length > 0 ? (
+          filteredResults.map((card, idx) => (
             <Card.Root
               key={idx}
               bg={"#fff"}
@@ -179,7 +202,7 @@ export const AdminMentor = () => {
                   size={{ base: "xs", md: "sm" }}
                   fontFamily="LatoRegular"
                 >
-                  {card.user.profession}
+                  {card.category}
                 </Text>
                 <Card.Title
                   mt={{ base: "-2", md: "2" }}

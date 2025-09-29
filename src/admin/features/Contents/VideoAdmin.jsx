@@ -21,11 +21,13 @@ import axiosClient from "../../../axiosClient";
 import { formattedDate } from "../../../lib/formatDate";
 import { formatTime } from "../../../lib/formatTime";
 import { CreateVideo } from "./Modal/CreateVideo";
+import { EditVideo } from "./Modal/EditVideo";
 const localizer = momentLocalizer(moment);
 
 export default function VideoAdmin() {
   const [videos, setVideos] = useState([]);
   const [eventId, setEventId] = useState(0);
+  const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
     const getVideos = async () => {
@@ -34,7 +36,7 @@ export default function VideoAdmin() {
       setVideos(res.data.videos);
     };
     getVideos();
-  }, []);
+  }, [refresh]);
 
   //   const toast = useToast();
 
@@ -54,9 +56,11 @@ export default function VideoAdmin() {
   const handleClose = () => {
     setIsOpen(false);
   };
+  const [videoData, setVideoData] = useState(null)
 
-  const handleCardClicked = (id) => {
-    setEventId(id);
+  const handleCardClicked = (title, link, id) => {
+    // setEventId(id);
+    setVideoData({title, link, videoId:id})
     setIsOpened(true);
   };
 
@@ -126,7 +130,7 @@ export default function VideoAdmin() {
                     </Text>
                     {/* <Text color="gray.500">{video.start_time} - {video.end_time}</Text> */}
                     <Button
-                      onClick={() => handleCardClicked(video.id)}
+                      onClick={() => handleCardClicked(video.title, video.video_link, video.id)}
                       justifyContent={"space-between"}
                       flexDirection={"row"}
                       color={"#919191"}
@@ -168,12 +172,20 @@ export default function VideoAdmin() {
         onClose={handleClose}
         setVideos={setVideos}
       />
-      <EditEvent
+      <EditVideo
+       isOpen={isOpened}
+        onClose={handleCloseed}
+        setVideos={setVideos}
+        setRefresh={setRefresh}
+        videoData={videoData}
+        // eventId={eventId}
+      />
+      {/* <EditEvent
         isOpen={isOpened}
         onClose={handleCloseed}
         setVideos={setVideos}
         eventId={eventId}
-      />
+      /> */}
     </Box>
   );
 }

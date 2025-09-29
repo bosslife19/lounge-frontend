@@ -34,6 +34,7 @@ export const SettingsListing = () => {
   const [isEdit, setisEdit] = useState(false);
   const [listings, setListings] = useState([]);
   const [beingEdited, setBeingEdited] = useState(null);
+  const {userDetails} = useContext(AuthContext)
 
   useEffect(() => {
     const getMyListings = async () => {
@@ -136,7 +137,7 @@ export const SettingsListing = () => {
                   boxSize={{ base: "40px", md: 20 }}
                   rounded={50}
                 >
-                  <Avatar.Image src={card.user.profile_picture || userAvatar} />
+                  <Avatar.Image src={card.user?.profile_picture ||userDetails?.profile_picture ||userAvatar} />
                   <Avatar.Fallback name={card.name} />
                 </Avatar.Root>
                 <Text
@@ -145,7 +146,7 @@ export const SettingsListing = () => {
                   fontSize={{ base: "11px", md: 16 }}
                   fontFamily="InterRegular"
                 >
-                  {card.user.name}
+                  {card.user?.name ||userDetails?.name}
                 </Text>
                 <Text
                   mt={{ base: "-2", md: "0" }}
@@ -154,7 +155,7 @@ export const SettingsListing = () => {
                   fontSize={{ base: "10px", md: 16 }}
                   fontFamily="LatoRegular"
                 >
-                  {card.user.profession}
+                  {card.user?.profession ||userDetails?.profession}
                 </Text>
                 <Card.Title
                   mt={{ base: "-2", md: "2" }}
@@ -203,7 +204,7 @@ export const SettingsListing = () => {
       </SimpleGrid>
 
       {/* Modal */}
-      <CreateListOverlay isOpen={isOpen} onClose={handleClose} />
+      <CreateListOverlay isOpen={isOpen} onClose={handleClose} setListings={setListings} />
 
          <EditList
           isOpen={isEdit}

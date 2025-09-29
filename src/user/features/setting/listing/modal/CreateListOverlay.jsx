@@ -30,7 +30,7 @@ import { AuthContext } from "../../../../../context/AuthContext";
 import { useRequest } from "../../../../../hooks/useRequest";
 import { toast } from "react-toastify";
 
-export const CreateListOverlay = ({ isOpen, onClose }) => {
+export const CreateListOverlay = ({ isOpen, onClose, setListings }) => {
   const { userDetails } = useContext(AuthContext);
   const { makeRequest, loading } = useRequest();
   const titleRef = useRef("");
@@ -65,6 +65,7 @@ export const CreateListOverlay = ({ isOpen, onClose }) => {
     });
     if (res.error) return;
     toast.success("Listing Created Successfully");
+    setListings(prev=>[res.response.listing, ...prev]);
     onClose();
   };
 

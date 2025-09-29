@@ -321,7 +321,7 @@ const Avatar = ({ options = [] }) => {
         </HStack>
       </Box>
 
-      {/* <AnimatePresence>
+      <AnimatePresence>
         {open && (
           <motion.div
             initial={{ x: "100%" }}
@@ -498,7 +498,7 @@ const Avatar = ({ options = [] }) => {
             </div>
           </motion.div>
         )}
-      </AnimatePresence> */}
+      </AnimatePresence>
 
       {/* Toast notification */}
       <AnimatePresence>

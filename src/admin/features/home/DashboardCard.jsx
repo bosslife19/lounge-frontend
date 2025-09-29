@@ -66,8 +66,8 @@ export function DashboardCard() {
         timestamp={"yesterday"}
       />
       <ReusableCard
-        title={"Total Offer Amount"}
-        description={`$${mentors ? mentors.length : "0"}`}
+        title={"Total Mentors"}
+        description={`${mentors ? mentors.length : "0"}`}
         color={"#00B69B"}
         arrows={<IoIosTrendingDown />}
         image={greenlogo}
@@ -76,7 +76,7 @@ export function DashboardCard() {
         timestamp={"yesterday"}
       />
       <ReusableCard
-        title={"Pending withdrawals"}
+        title={"Total Listings"}
         description={listings ? listings.length : "0"}
         image={redlogo}
         rate={"8.5%"}

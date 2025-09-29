@@ -48,7 +48,7 @@ export const MentoringDetails = ({ isOpen, onClose, profile }) => {
               border={"1px solid #9E9E9E"}
               asChild
             >
-              <CloseButton size={9} p={1} color={"#9E9E9E"} />
+                            <CloseButton size={{ base: "10", md: "xs" }} color={"#9E9E9E"} />
             </Dialog.CloseTrigger>
 
             <Box bg={"#FAFAFA"} h={"100%"} w={"100%"} p={{ base: 4, md: 5 }}>

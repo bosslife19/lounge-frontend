@@ -19,11 +19,11 @@ import { FaCog, FaImage } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 
 const dropdownOptions = [
-  {
-    text: "Change Image",
-    icon: FaImage,
-    handler: () => fileInputRef.current?.click(),
-  },
+  // {
+  //   text: "Change Image",
+  //   icon: FaImage,
+  //   handler: () => fileInputRef.current?.click(),
+  // },
   {
     text: "Settings",
     icon: FaCog,
@@ -135,7 +135,7 @@ const NewsDetails = () => {
                 // overflow={"hidden"}
                 mb={6}
               />
-              <button className=" absolute cursor-pointer top-5 right-6">
+              {/* <button className=" absolute cursor-pointer top-5 right-6">
                 <Image
                   roundedTop={10}
                   src={btns}
@@ -144,7 +144,8 @@ const NewsDetails = () => {
                   objectFit={"cover"}
                   className="w-full   "
                 />
-              </button>
+              </button> */}
+              
             </Box>
             <Stack mt={-5} spacing={0}>
               <Text
@@ -258,14 +259,14 @@ const NewsDetails = () => {
                       h={113}
                       className="w-full  object-cover"
                     />
-                    <button className="absolute cursor-pointer top-6 right-6">
+                    {/* <button className="absolute cursor-pointer top-6 right-6">
                       <Image
                         roundedTop={10}
                         src={btns}
                         alt={card.title}
                         className="w-full h-40 object-cover"
                       />
-                    </button>
+                    </button> */}
                     <Box pt={2}>
                       <Text
                         // fontFamily="LatoMedium"

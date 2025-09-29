@@ -25,7 +25,7 @@ export const AdminCommunity = () => {
           pb={{ base: 0, md: 2 }}
           px={4}
         >
-          Admin Community
+           Community
         </Heading>
         <Button
           display={{ base: "flex", md: "none" }} // only visible on mobile

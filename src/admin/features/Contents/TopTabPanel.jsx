@@ -137,7 +137,7 @@ export const AdminContent = () => {
             Create
           </Button>
 
-          <Box ml="auto">
+          {/* <Box ml="auto">
             <Button
               bg="transparent"
               border="1px solid #E4E4E4"
@@ -150,7 +150,7 @@ export const AdminContent = () => {
               <FaRegCalendar size={10} />
               This Month
             </Button>
-          </Box>
+          </Box> */}
 
           {/* <Tabs.Indicator rounded="lg" /> */}
         </Tabs.List>

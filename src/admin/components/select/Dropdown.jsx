@@ -1,31 +1,39 @@
-import { Flex, Portal, Select, createListCollection } from "@chakra-ui/react";
-import { MdBusinessCenter } from "react-icons/md";
-import { RiCalendarEventFill } from "react-icons/ri";
+"use client";
 
-export const Dropdown = ({ icon, frameworks, iconed }) => {
+import { Flex, Portal, Select } from "@chakra-ui/react";
+import { MdAccountCircle, MdBusinessCenter } from "react-icons/md";
+
+export const Dropdown = ({ icon, icons, frameworks, color, filteredResults, setFilteredResults }) => {
+  
+ const handleChange = (value) => {
+
+      // filter cards based on category
+      const filtered = filteredResults.filter(
+        (card) => card.category.toLowerCase() === value.value[0].toLowerCase()
+      );
+      setFilteredResults(filtered);
+    
+  };
   return (
-    <Select.Root collection={frameworks} size="xs" width="auto" minW="140px">
+    <Select.Root collection={frameworks} size="xs" width="auto" minW="140px"  onValueChange={handleChange}>
       <Select.HiddenSelect />
-
-      {/* Trigger */}
       <Select.Control
-        py={{ base: 0, md: 2 }}
-        rounded={{ base: 5, md: 12 }}
-        border="1px solid #CCCCCC"
-        cursor="pointer"
-        _focusWithin={{ borderColor: "blue.400" }}
+         py={1}
+        rounded={12}
+        bg={color}
+        border={"1px solid #EBEBEB"}
       >
-        <Select.Trigger border="none" outline="none">
-          <Flex align="center" gap={2}>
-            {iconed && <RiCalendarEventFill />}
+        <Select.Trigger border={"none"} outline={"none"}>
+          <Flex gap={2} w="full" align="center">
             {icon && <MdBusinessCenter />}
+            {icons && <MdAccountCircle />}
             <Select.ValueText
               fontWeight="medium"
               color="#9E9E9E"
               placeholder="Select"
               textAlign="left"
               flex="1"
-              whiteSpace="nowrap"
+              whiteSpace="normal"
               overflow="visible"
               wordBreak="break-word"
             />
@@ -35,26 +43,11 @@ export const Dropdown = ({ icon, frameworks, iconed }) => {
           <Select.Indicator />
         </Select.IndicatorGroup>
       </Select.Control>
-
-      {/* Dropdown menu */}
       <Portal>
         <Select.Positioner>
-          <Select.Content
-            bg="white"
-            border="1px solid #E2E8F0"
-            rounded="md"
-            shadow="sm"
-            zIndex={2000}
-          >
+          <Select.Content>
             {frameworks.items.map((framework) => (
-              <Select.Item
-                key={framework.value}
-                item={framework}
-                px={3}
-                py={2}
-                cursor="pointer"
-                _hover={{ bg: "gray.100" }}
-              >
+              <Select.Item item={framework} key={framework.value}>
                 {framework.label}
                 <Select.ItemIndicator />
               </Select.Item>
