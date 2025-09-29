@@ -13,21 +13,56 @@ export const OrganizationMembers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowActions, setRowActions] = useState({});
   const navigate = useNavigate();
- 
-    const [isOpen, setIsOpen] = useState(false);
-  
-         const handleAddUser = () => {
-         setIsOpen(true);
-       };
-        const handleClose = () => {
-        setIsOpen(false);
-        };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleAddUser = () => {
+    setIsOpen(true);
+  };
+  const handleClose = () => {
+    setIsOpen(false);
+  };
   const tableData = [
-    { UserId: "#38734", Name: "Jamal", image: img, Profession: "Web Developer", Experience: "3", Timestamp: "09/08/24, 12:00pm" },
-    { UserId: "#12233", Name: "Lydia", image: img, Profession: "UI Designer", Experience: "5", Timestamp: "09/08/24, 12:10pm" },
-    { UserId: "#12234", Name: "Alice", image: img, Profession: "Backend Dev", Experience: "4", Timestamp: "09/08/24, 12:20pm" },
-    { UserId: "#12235", Name: "Bob", image: img, Profession: "Frontend Dev", Experience: "2", Timestamp: "09/08/24, 12:30pm" },
-    { UserId: "#12236", Name: "Charlie", image: img, Profession: "UI Designer", Experience: "5", Timestamp: "09/08/24, 12:40pm" },
+    {
+      UserId: "#38734",
+      Name: "Jamal",
+      image: img,
+      Profession: "Web Developer",
+      Experience: "3",
+      Timestamp: "09/08/24, 12:00pm",
+    },
+    {
+      UserId: "#12233",
+      Name: "Lydia",
+      image: img,
+      Profession: "UI Designer",
+      Experience: "5",
+      Timestamp: "09/08/24, 12:10pm",
+    },
+    {
+      UserId: "#12234",
+      Name: "Alice",
+      image: img,
+      Profession: "Backend Dev",
+      Experience: "4",
+      Timestamp: "09/08/24, 12:20pm",
+    },
+    {
+      UserId: "#12235",
+      Name: "Bob",
+      image: img,
+      Profession: "Frontend Dev",
+      Experience: "2",
+      Timestamp: "09/08/24, 12:30pm",
+    },
+    {
+      UserId: "#12236",
+      Name: "Charlie",
+      image: img,
+      Profession: "UI Designer",
+      Experience: "5",
+      Timestamp: "09/08/24, 12:40pm",
+    },
   ];
 
   const handleSelect = (userId, label, color, icon = null) => {
@@ -44,7 +79,11 @@ export const OrganizationMembers = () => {
       col_6: { col_6_1: "Action" },
     },
     row: tableData.map((row, index) => {
-      const selected = rowActions[row.UserId] || { label: "Action", color: "gray.600", icon: null };
+      const selected = rowActions[row.UserId] || {
+        label: "Action",
+        color: "gray.600",
+        icon: null,
+      };
       const uniqueKey = `${row.UserId}-${index}`;
       return {
         row_0: uniqueKey,
@@ -52,9 +91,7 @@ export const OrganizationMembers = () => {
         row_2: { row_2_1: row.image, row_2_2: row.Name },
         row_3: { row_3_1: row.Profession },
         row_4: { row_4_1: row.Experience },
-        row_5: { row_5_1:(
-          <Text color={'#0EAD69E5'}>Approved</Text>
-        )},
+        row_5: { row_5_1: <Text color={"#0EAD69E5"}>Approved</Text> },
         row_6: { row_6_1: row.Timestamp },
         row_7: {
           row_7_1: (
@@ -69,7 +106,13 @@ export const OrganizationMembers = () => {
                 >
                   <HStack spacing={1}>
                     {selected.icon && selected.icon}
-                    <Text fontSize="13px" fontWeight="400" fontFamily="OutfitRegular">{selected.label}</Text>
+                    <Text
+                      fontSize="13px"
+                      fontWeight="400"
+                      fontFamily="OutfitRegular"
+                    >
+                      {selected.label}
+                    </Text>
                     {!selected.icon && <IoIosArrowDown />}
                   </HStack>
                 </Button>
@@ -79,19 +122,36 @@ export const OrganizationMembers = () => {
                   <Menu.Content cursor="pointer" rounded={20}>
                     <Menu.Item
                       color="#333333CC"
-                      onClick={() => handleSelect(row.UserId, "Approve", "green.500", <IoMdCheckboxOutline boxSize={3} />)}
+                      onClick={() =>
+                        handleSelect(
+                          row.UserId,
+                          "Approve",
+                          "green.500",
+                          <IoMdCheckboxOutline boxSize={3} />
+                        )
+                      }
                     >
                       <IoMdCheckboxOutline /> Send mail
                     </Menu.Item>
-                    <Menu.Item  color="#333333CC" 
-                    onClick={() => navigate(`/admin/user-details`)}>
-                      View Details</Menu.Item>
-                    <Menu.Item 
+                    <Menu.Item
                       color="#333333CC"
-                      onClick={() => handleSelect(row.UserId, "Decline", "red.500", <MdOutlineCancel boxSize={3} />)}
+                      onClick={() => navigate(`/admin/user-details`)}
+                    >
+                      View Details
+                    </Menu.Item>
+                    <Menu.Item
+                      color="#333333CC"
+                      onClick={() =>
+                        handleSelect(
+                          row.UserId,
+                          "Decline",
+                          "red.500",
+                          <MdOutlineCancel boxSize={3} />
+                        )
+                      }
                     >
                       <MdOutlineCancel /> Deactivate
-                     </Menu.Item>
+                    </Menu.Item>
                   </Menu.Content>
                 </Menu.Positioner>
               </Portal>
@@ -103,39 +163,33 @@ export const OrganizationMembers = () => {
   };
 
   return (
-    <Box w={'full'} bg="#F5F6FA"
-     py={5}
-    >
-        <Button
-       position={'absolute'}
-       top={4}
-       right={0}
-             size="sm"
-                 border={`1px solid #333`}
-                    rounded={20}
-                     color={"#333"}
-                      bg="#fff"
-                      onClick={handleAddUser}
-                      _hover={{ bg: "#f0f0f0" }}
-                      >
-                      <HStack spacing={2}>
-                       <FaUserPlus size={12} />
-                       <Text
-                         fontSize={{base:10,md:13}}
-                         fontWeight="400"
-                         fontFamily="OutfitRegular"
-                       >
-                       Add New Member
-                  </Text>
+    <Box w={"full"} bg="#FDFDFD" py={5}>
+      <Button
+        position={"absolute"}
+        top={4}
+        right={0}
+        size="sm"
+        border={`1px solid #333`}
+        rounded={20}
+        color={"#333"}
+        bg="#fff"
+        onClick={handleAddUser}
+        _hover={{ bg: "#f0f0f0" }}
+      >
+        <HStack spacing={2}>
+          <FaUserPlus size={12} />
+          <Text
+            fontSize={{ base: 10, md: 13 }}
+            fontWeight="400"
+            fontFamily="OutfitRegular"
+          >
+            Add New Member
+          </Text>
 
-
-                  {/* create member */}
-                      <CreateNewOrgMember
-                       isOpen={isOpen}
-                       onClose={handleClose}
-                       />
-                </HStack>
-         </Button>
+          {/* create member */}
+          <CreateNewOrgMember isOpen={isOpen} onClose={handleClose} />
+        </HStack>
+      </Button>
       <BottomTable
         dataTable={dataTable}
         pageSize={pageSize}

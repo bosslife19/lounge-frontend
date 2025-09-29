@@ -143,7 +143,7 @@ export const MentorApplication = () => {
   };
 
   return (
-    <Box w={"full"} bg="#F5F6FA" p={{ base: 0, md: 2 }}>
+    <Box w={"full"} bg="#FDFDFD" p={{ base: 0, md: 2 }}>
       {mentorRequests.length > 0 ? (
         <BottomTable
           dataTable={dataTable}

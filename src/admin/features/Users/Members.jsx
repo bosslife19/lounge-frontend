@@ -176,7 +176,7 @@ export const Members = () => {
   };
 
   return (
-    <Box w={"full"} bg="#F5F6FA" py={{ base: 1, md: 6 }}>
+    <Box w={"full"} bg="#FDFDFD" py={{ base: 1, md: 6 }}>
       {/* <Button
           mb={4}
            position={'absolute'}

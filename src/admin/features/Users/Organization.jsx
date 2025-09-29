@@ -185,7 +185,7 @@ export const Organization = () => {
   };
 
   return (
-    <Box bg="#F5F6FA" py={{ base: 1, md: 6 }}>
+    <Box bg="#FDFDFD" py={{ base: 1, md: 6 }}>
       <Button
         mb={4}
         position={"absolute"}
