@@ -12,15 +12,15 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
 
   const dropdownOptions = [
-    {
-      text: "Change Image",
-      icon: FaImage,
-      handler: () => {
-        if (fileInputRef.current) {
-          fileInputRef.current.click(); // Trigger file picker
-        }
-      },
-    },
+    // {
+    //   text: "Change Image",
+    //   icon: FaImage,
+    //   handler: () => {
+    //     if (fileInputRef.current) {
+    //       fileInputRef.current.click(); // Trigger file picker
+    //     }
+    //   },
+    // },
     {
       text: "Settings",
       icon: FaCog,

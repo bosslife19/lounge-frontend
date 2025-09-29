@@ -12,11 +12,11 @@ import { useNavigate } from "react-router-dom";
 
 const Community = () => {
   const dropdownOptions = [
-    {
-      text: "Change Image",
-      icon: FaImage,
-      handler: () => fileInputRef.current?.click(),
-    },
+    // {
+    //   text: "Change Image",
+    //   icon: FaImage,
+    //   handler: () => fileInputRef.current?.click(),
+    // },
     {
       text: "Settings",
       icon: FaCog,
