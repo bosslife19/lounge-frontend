@@ -20,13 +20,13 @@ export const AdminCommunity = () => {
   return (
     <Box>
       <HStack justifyContent={"space-between"}>
-        <Heading
+        {/* <Heading
           fontSize={{ base: "13px", md: "24px" }}
           pb={{ base: 0, md: 2 }}
           px={4}
         >
-           Community
-        </Heading>
+          Admin Community
+        </Heading> */}
         <Button
           display={{ base: "flex", md: "none" }} // only visible on mobile
           bg={"#2b362f"}
