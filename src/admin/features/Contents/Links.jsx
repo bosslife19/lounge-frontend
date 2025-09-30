@@ -76,7 +76,7 @@ export const AdminLinks = ({ articles, setArticles }) => {
                 </Stack>
               </HStack>
             </Box>
-            <Button
+            {/* <Button
               onClick={handleCardClick}
               bg={"transparent"}
               rounded={50}
@@ -86,7 +86,7 @@ export const AdminLinks = ({ articles, setArticles }) => {
               border={"1px solid #E4E4E4"}
             >
               <RxDotsVertical size={10} />
-            </Button>
+            </Button> */}
           </HStack>
         ))
       ) : (
