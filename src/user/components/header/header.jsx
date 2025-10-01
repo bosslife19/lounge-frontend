@@ -60,7 +60,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
           <button
             aria-controls="sidebar"
             onClick={(e) => {
-              // e.stopPropagation();
+               e.stopPropagation();
               setSidebarOpen(!sidebarOpen);
             }}
             className="block rounded-sm p-1.5 shadow-sm"
