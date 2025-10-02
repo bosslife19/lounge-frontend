@@ -28,7 +28,7 @@ import { CreateSpeakerHighlight } from "./Modal/CreateSpeakerHighlight";
 
 export const AdminProgram = () => {
   // ---------- News Data (will come from backend) ----------
-
+const [currentContent, setCurrentContent] = useState(null)
   const [newsData, setNewsData] = useState([
     {
       id: 1,
@@ -228,7 +228,10 @@ export const AdminProgram = () => {
             right={0}
             p={2}
             size={{ base: "10", md: "sm" }}
-            onClick={() => setIsOpened(true)}
+            onClick={() => {
+              setIsOpened(true);
+              setCurrentContent(currentNews)
+            }}
           >
             <RiPencilLine />
           </Button>
@@ -252,7 +255,7 @@ export const AdminProgram = () => {
             color={"#212121"}
             onClick={() => setIsOpens(true)}
           >
-            <RiPencilLine />
+            {/* <RiPencilLine /> */}
           </Button>
           <Text
             color="#202020"
@@ -337,7 +340,10 @@ export const AdminProgram = () => {
                 bg={"transparent"}
                 color={"#212121"}
                 right={0}
-                onClick={() => setIsOpen(true)}
+                onClick={() => {
+                  setIsOpen(true);
+                  setCurrentContent(currentSpeakers[speakerIndex])
+                }}
               >
                 <RiPencilLine />
               </Button>
@@ -409,7 +415,10 @@ export const AdminProgram = () => {
                 bg={"transparent"}
                 color={"#212121"}
                 right={0}
-                onClick={() => setIsOpenin(true)}
+                onClick={() => {
+                  setIsOpenin(true)
+                  setCurrentContent(currentSessions[sessionIndex])
+                }}
               >
                 <RiPencilLine color={"#fff"} />
               </Button>
@@ -507,10 +516,10 @@ export const AdminProgram = () => {
       </Flex>
 
       {/* ---------- Modals ---------- */}
-      <EditProgram isOpen={isOpened} onClose={() => setIsOpened(false)} />
-      <EditSpeakerHeader isOpen={isOpens} onClose={() => setIsOpens(false)} />
-      <EditSpeakerHighlight isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      <EditSession isOpen={isOpenin} onClose={() => setIsOpenin(false)} />
+      <EditProgram isOpen={isOpened} onClose={() => setIsOpened(false)} currentContent={currentContent} setRefresh={setRefresh}/>
+      <EditSpeakerHeader isOpen={isOpens} onClose={() => setIsOpens(false)} currentContent={currentContent}/>
+      <EditSpeakerHighlight isOpen={isOpen} onClose={() => setIsOpen(false)} currentContent={currentContent} setRefresh={setRefresh}/>
+      <EditSession isOpen={isOpenin} onClose={() => setIsOpenin(false)} currentContent={currentContent} setRefresh={setRefresh}/>
       <CreateProgram
         onClose={closeModal}
         open={open}

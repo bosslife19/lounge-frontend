@@ -19,11 +19,43 @@ import { cardData } from "../../../hooks/useData";
 import { ProfileDetailsModal } from "./profileDetails";
 import { BiDotsVerticalRounded, BiPencil, BiTrash } from "react-icons/bi";
 import { EditArticle } from "./Modal/EditArticle";
+import ConfirmDeleteModal from "../../../components/ConfirmDelete";
+import { toast } from "react-toastify";
+import axiosClient from "../../../axiosClient";
 
 export const AdminArticles = ({ articles, setArticles }) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [activePostId, setActivePostId] = useState()
+  const[loading, setLoading] = useState(false)
+
+  const handleDelete = (id) => {
+  
+    setActivePostId(id)
+    setConfirmOpen(true);
+  };
+
+      const handleConfirm = async (postId) => {
+     
+      
+        try {
+          setLoading(true);
+          await axiosClient.delete(`/articles/${postId}`);
+          // Remove the deleted post from the state
+          setArticles(articles.filter((post) => post.id !== postId));
+          setLoading(false)
+          toast.success("Article deleted successfully");
+          setConfirmOpen(false);
+        } catch (error) {
+          console.error("Error deleting post:", error);
+          setLoading(false)
+          toast.error("Failed to delete the post. Please try again.");
+        }
+      
+    };
+  
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -35,11 +67,13 @@ export const AdminArticles = ({ articles, setArticles }) => {
     setSelectedCard(null);
   };
 
-  const handleAction = () => {
+  const handleAction = (card) => {
+    setSelectedCard(card);
     setIsOpened(true);
   };
 
   const handleClosed = () => {
+    
     setIsOpened(false);
   };
   return (
@@ -72,7 +106,7 @@ export const AdminArticles = ({ articles, setArticles }) => {
                   <Menu.Content>
                     <Menu.Item
                       fontSize={{ base: "10px", md: "13px" }}
-                      onClick={() => handleAction()}
+                      onClick={() => handleAction(card)}
                       value="new-txt"
                     >
                       <BiPencil />
@@ -81,6 +115,7 @@ export const AdminArticles = ({ articles, setArticles }) => {
                     <Menu.Item
                       fontSize={{ base: "10px", md: "13px" }}
                       value="new-file"
+                      onClick={()=>handleDelete(card.id)}
                     >
                       <BiTrash />
                       Delete
@@ -144,7 +179,8 @@ export const AdminArticles = ({ articles, setArticles }) => {
         />
       )}
 
-      <EditArticle isOpen={isOpened} onClose={handleClosed} />
+      <EditArticle isOpen={isOpened} onClose={handleClosed} article={selectedCard} setArticles={setArticles}/>
+       <ConfirmDeleteModal onClose={()=>setConfirmOpen(false)} onConfirm={()=>handleConfirm(activePostId)} isOpen={confirmOpen} loading={loading}/>
     </Box>
   );
 };

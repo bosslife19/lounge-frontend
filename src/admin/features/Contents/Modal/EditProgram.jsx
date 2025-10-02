@@ -11,12 +11,37 @@ import {
   Input,
   FileUpload,
   Textarea,
+  Spinner,
 } from "@chakra-ui/react";
+import { useRef } from "react";
 import { CgAttachment } from "react-icons/cg";
 import { CiImageOn } from "react-icons/ci";
 import { PiTelegramLogoLight } from "react-icons/pi";
+import { useRequest } from "../../../../hooks/useRequest";
+import { toast } from "react-toastify";
 
-export const EditProgram = ({ isOpen, onClose }) => {
+export const EditProgram = ({ isOpen, onClose, currentContent, setRefresh }) => {
+  const titleRef = useRef("");
+    const descRef=useRef('');
+    const {loading, makeRequest} = useRequest()
+   const handleSave = async()=>{
+      if(!titleRef.current.value || !descRef.current.value ){
+        return toast.error('Please fill in the required fields')
+      }
+  
+      const res = await makeRequest('/update-title', {
+        programId: currentContent.id,
+        title: titleRef.current.value, 
+        description: descRef.current.value,
+        
+  
+      })
+      if(res.error) return;
+      toast.success('Program updated successfully');
+      setRefresh(prev => !prev)
+      onClose()
+  
+    }
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
@@ -43,12 +68,12 @@ export const EditProgram = ({ isOpen, onClose }) => {
               >
                 Title
               </Text>
-              <Input fontSize={{ base: "10px", md: 14 }} type="text" />
+              <Input ref={titleRef} fontSize={{ base: "10px", md: 14 }} type="text" defaultValue={currentContent?.title} />
               <Text
                 fontSize={{ base: "10px", md: 14 }}
                 size={{ base: "xs", md: "sm" }}
               >
-                Brief Description
+               Description
               </Text>
               <Textarea
                 border={"1px solid #D3D4D7"}
@@ -56,7 +81,9 @@ export const EditProgram = ({ isOpen, onClose }) => {
                 fontSize={{ base: "10px", md: 14 }}
                 autoresize
                 variant="subtle"
-                placeholder="Write your post or question here"
+                defaultValue={currentContent?.content}
+                ref={descRef}
+                // placeholder="Write your post or question here"
               />
               <Text
                 color={"#667185"}
@@ -80,7 +107,7 @@ export const EditProgram = ({ isOpen, onClose }) => {
                   Cancel
                 </Button>
                 <Button
-                  //   onClick={onFinish}
+                     onClick={handleSave}
                   py={{ base: 1, md: 6 }}
                   flex={1}
                   fontSize={{ base: "10px", md: 14 }}
@@ -90,7 +117,9 @@ export const EditProgram = ({ isOpen, onClose }) => {
                   bg={"#2B362F"}
                   color="white"
                 >
-                  Save Changes
+                 {
+                  loading?<Spinner/>:'Save Changes'
+                 }
                 </Button>
               </HStack>
             </Stack>

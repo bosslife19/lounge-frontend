@@ -207,7 +207,7 @@ export const SettingsPosts = () => {
           ))
         : "No Posts Yet"}
 
-        <ConfirmDeleteModal onClose={()=>setConfirmOpen(false)} onConfirm={()=>handleConfirm(activePostId)} isOpen={confirmOpen} loadig={loading}/>
+        <ConfirmDeleteModal onClose={()=>setConfirmOpen(false)} onConfirm={()=>handleConfirm(activePostId)} isOpen={confirmOpen} loading={loading}/>
     </Stack>
   );
 };

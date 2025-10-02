@@ -4,19 +4,90 @@ import {
   CloseButton,
   Stack,
   HStack,
-  Image,
   Text,
   Button,
   Heading,
   Input,
-  FileUpload,
   Textarea,
+  Spinner,
 } from "@chakra-ui/react";
 import { CgAttachment } from "react-icons/cg";
 import { CiImageOn } from "react-icons/ci";
-import { PiTelegramLogoLight } from "react-icons/pi";
 
-export const EditArticle = ({ isOpen, onClose }) => {
+import { useRef, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useRequest } from "../../../../hooks/useRequest";
+
+export const EditArticle = ({ isOpen, onClose, setArticles, article }) => {
+  const { loading, makeRequest } = useRequest();
+  const [addLink, setAddLink] = useState(false);
+  const [postImage, setPostImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [type, setType] = useState("article"); // <-- new state for type
+
+  const titleRef = useRef("");
+  const contentRef = useRef("");
+  const fileInputRef = useRef(null);
+  const linkRef = useRef("");
+
+  const handlePost = async () => {
+
+
+    let image;
+    if (postImage) {
+      const formData = new FormData();
+      formData.append("file", postImage);
+      formData.append("upload_preset", "lounge-platform"); // replace with your preset
+
+      try {
+        setIsLoading(true);
+        const res = await axios.post(
+          "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
+          formData
+        );
+        image = res.data.secure_url;
+      } catch (error) {
+        console.error("Image upload failed", error);
+        setIsLoading(false);
+        toast.error("Image Upload Failed. Please try again.");
+        return;
+      }
+    }
+
+    const response = await makeRequest("/update-article", {
+      title: titleRef.current?.value,
+      content: contentRef.current.value,
+      link: linkRef.current?.value,
+      image: image || article?.image,
+      type, // <-- send article/news type
+      articleId: article?.id,
+    });
+
+    if (response.error) return;
+
+    toast.success("Content Edited successfully");
+setArticles((prev) =>
+  prev.map((item) =>
+    item.id === response.response.article.id ? response.response.article : item
+  )
+);
+    setIsLoading(false);
+    
+
+    // reset form
+    
+    
+    onClose();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setPostImage(file); // store selected file
+    }
+  };
+
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
@@ -28,54 +99,156 @@ export const EditArticle = ({ isOpen, onClose }) => {
               border={"1px solid #9E9E9E"}
               asChild
             >
-              <CloseButton size={{ base: "10", md: "xs" }} color={"#9E9E9E"} />
+              <CloseButton size="xs" color={"#9E9E9E"} />
             </Dialog.CloseTrigger>
-            <Stack spacing={0}>
-              <Heading fontSize={{ base: "13px", md: "24px" }}>
-                Edit Article
+
+            <Stack spacing={3}>
+              <Heading fontSize={{ base: "12px", md: 18 }}>
+                {" "}
+                Edit Content
               </Heading>
-              <Text fontSize={{ base: "11px", md: "14px" }}>Title</Text>
-              <Input type="text" fontSize={{ base: "10px", md: "14px" }} />
+
+              {/* Type selector */}
+              {/* <Text fontWeight="semibold">Type</Text> */}
+              <Text fontSize={{ base: "10px", md: 14 }} fontWeight="semibold">
+                Type
+              </Text>
+              <div style={{ margin: "20px 0" }}>
+                <Text
+                  fontSize={{ base: "10px", md: 14 }}
+                  style={{
+                    fontWeight: "600",
+                    marginBottom: "10px",
+                    display: "block",
+                  }}
+                >
+                  Select Content Type:
+                </Text>
+
+                <Text
+                  fontSize={{ base: "10px", md: 14 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "8px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="contentType"
+                    value="article"
+                    checked={type === "article"}
+                    onChange={(e) => setType(e.target.value)}
+                    style={{
+                      marginRight: "8px",
+                      // width: "16px",
+                      // height: "16px",
+                      accentColor: "#111", // modern blue highlight
+                    }}
+                  />
+                  Article
+                </Text>
+
+                <Text
+                  fontSize={{ base: "10px", md: 14 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "8px",
+                    cursor: "pointer",
+                    // fontSize: "15px",
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="contentType"
+                    value="news"
+                    checked={type === "news"}
+                    onChange={(e) => setType(e.target.value)}
+                    style={{
+                      marginRight: "8px",
+                      // width: "16px",
+                      // height: "16px",
+                      accentColor: "#111",
+                    }}
+                  />
+                  News / Update
+                </Text>
+              </div>
+
+              <Text fontSize={{ base: "12px", md: 14 }}>Title</Text>
+              <Input type="text" ref={titleRef} defaultValue={article?.title}/>
+
               <Textarea
                 border={"1px solid #D3D4D7"}
                 h={100}
-                pb={{ base: 50, md: 300 }}
-                fontSize={{ base: "10px", md: "14px" }}
+                pb={{ base: 20, md: 200 }}
+                fontSize={{ base: "10px", md: 14 }}
                 autoresize
                 variant="subtle"
-                placeholder="Write your post or question here"
+                placeholder="Write your article or update here"
+                ref={contentRef}
+                defaultValue={article?.content}
               />
-              <HStack maxW={200} justifyContent={"flex-start"}>
-                <FileUpload.Root>
-                  <FileUpload.HiddenInput />
-                  <FileUpload.Trigger asChild>
-                    <Button
-                      fontSize={{ base: "10px", md: "14px" }}
-                      rounded={{ base: 8, md: 30 }}
-                      variant="outline"
-                      size="sm"
-                    >
-                      <CiImageOn /> Add media
-                    </Button>
-                  </FileUpload.Trigger>
-                  <FileUpload.List />
-                </FileUpload.Root>
-                {/* add Link */}
+
+              <HStack>
+                <Button
+                  variant="outline"
+                  fontSize={{ base: "10px", md: 14 }}
+                  size={{ base: "xs", md: "sm" }}
+                  leftIcon={<CiImageOn />}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  Add media
+                </Button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
 
                 <Button
-                  my={4}
                   bg={"#EFF2FC"}
                   color={"#292D32"}
-                  size="sm"
+                  fontSize={{ base: "10px", md: 14 }}
+                  size={{ base: "xs", md: "sm" }}
                   rounded={{ base: 8, md: 20 }}
-                  fontSize={{ base: "10px", md: "14px" }}
+                  onClick={() => setAddLink(!addLink)}
                 >
-                  <CgAttachment size={10} />
+                  <CgAttachment />
                   Add Link
                 </Button>
               </HStack>
-              <Button rounded={{ base: 8, md: 20 }}>
-                Post <PiTelegramLogoLight />
+
+              {postImage && (
+                <Text fontSize={{ base: "10px", md: 14 }} color="green.600">
+                  Selected: {postImage.name}
+                </Text>
+              )}
+
+              {addLink && (
+                <>
+                  <Text fontSize={{ base: "10px", md: 14 }}>Add your link</Text>
+                  <Input
+                    type="text"
+                    placeholder="Paste link here"
+                    ref={linkRef}
+                    defaultValue={article?.link}
+                  />
+                </>
+              )}
+
+              <Button
+                fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+                rounded={{ base: 8, md: 20 }}
+                onClick={handlePost}
+                disabled={loading || isLoading}
+              >
+                {loading || isLoading ? <Spinner /> : "Update"}
               </Button>
             </Stack>
           </Dialog.Content>

@@ -10,11 +10,12 @@ import {
   Heading,
   Textarea,
   Field,
+  Input,
 } from "@chakra-ui/react";
 
-export const EditSpeakerHeader = ({ isOpen, onClose }) => {
+export const EditSpeakerHeader = ({ isOpen, onClose, currentContent }) => {
   return (
-    <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
+ <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner px={5}>
@@ -27,34 +28,47 @@ export const EditSpeakerHeader = ({ isOpen, onClose }) => {
               <CloseButton size="xs" color={"#9E9E9E"} />
             </Dialog.CloseTrigger>
             <Stack spacing={0}>
-              <Heading fontSize={{ base: "10px", md: 14 }}>
-                Edit Programs
-              </Heading>
-              <Text fontSize={{ base: "10px", md: 14 }}>
-                Speaker's Highlight
-              </Text>
-              <Textarea
-                border={"1px solid #D3D4D7"}
+              <Heading
                 fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+              >
+                Edit Speaker's Highlight
+              </Heading>
+              <Text
+                fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+              >
+                Speaker
+              </Text>
+              <Input fontSize={{ base: "10px", md: 14 }} type="text" defaultValue={currentContent?.speaker_name} />
+              <Text
+                fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+              >
+               Highlight
+              </Text>
+              <Input
+                border={"1px solid #D3D4D7"}
+                // minH={200}
+                // fontSize={{ base: "10px", md: 14 }}
                 autoresize
                 variant="subtle"
-                placeholder="Write your post or question here"
+                defaultValue={currentContent?.higlight}
+                // placeholder="Write your post or question here"
               />
-              <Text
-                fontSize={{ base: "7px", md: 10 }}
-                size={{ base: "xs", md: "sm" }}
+              {/* <Text
                 color={"#667185"}
+                fontSize={{ base: "7px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
               >
                 0/100 words
-              </Text>
-
+              </Text> */}
               <HStack w={"100%"}>
                 <Button
                   onClick={() => onClose()}
-                  flex={1}
+                  py={{ base: 1, md: 6 }}
                   fontSize={{ base: "10px", md: 14 }}
                   size={{ base: "xs", md: "sm" }}
-                  py={{ base: 2, md: 6 }}
                   px={{ base: 5, md: 50 }}
                   // w={{base:'35%'}}
                   bg={"#fff"}
@@ -64,17 +78,17 @@ export const EditSpeakerHeader = ({ isOpen, onClose }) => {
                   Cancel
                 </Button>
                 <Button
-                  onClick={() => onClose()}
-                  py={{ base: 2, md: 6 }}
+                  //   onClick={onFinish}
+                  py={{ base: 1, md: 6 }}
+                  flex={1}
                   fontSize={{ base: "10px", md: 14 }}
                   size={{ base: "xs", md: "sm" }}
-                  flex={1}
                   // w={{ base: "100%" }}
                   rounded={5}
                   bg={"#2B362F"}
                   color="white"
                 >
-                  Edit Information
+                  Save Changes
                 </Button>
               </HStack>
             </Stack>

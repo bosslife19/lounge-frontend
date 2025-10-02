@@ -37,6 +37,7 @@ const CreateProgram = ({ open, onClose, setNewsData }) => {
     if (res.error) return;
     toast.success("Program Created Successfully");
     setNewsData((prev) => [res.response.program, ...prev]);
+    onClose()
   };
   if (!open) return null;
 
@@ -326,7 +327,7 @@ const CreateProgram = ({ open, onClose, setNewsData }) => {
           onClick={addSession}
           style={{
             padding: "10px 15px",
-            backgroundColor: "#007bff",
+            backgroundColor: "#111",
             color: "#fff",
             border: "none",
             borderRadius: "6px",
@@ -365,7 +366,7 @@ const CreateProgram = ({ open, onClose, setNewsData }) => {
             size={{ base: "xs", md: "sm" }}
             style={{
               padding: "10px 15px",
-              backgroundColor: "#28a745",
+              backgroundColor: "#000",
               color: "#fff",
               border: "none",
               borderRadius: "6px",

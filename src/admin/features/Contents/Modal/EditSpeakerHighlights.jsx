@@ -12,14 +12,40 @@ import {
   FileUpload,
   Textarea,
   Field,
+  Spinner,
 } from "@chakra-ui/react";
 import logo from "../../../../assets/userImage.jpg";
 import { MdAddCircleOutline } from "react-icons/md";
 import { RxDotsVertical } from "react-icons/rx";
 import { FiPlusCircle } from "react-icons/fi";
-export const EditSpeakerHighlight = ({ isOpen, onClose }) => {
+import { useRef } from "react";
+import { useRequest } from "../../../../hooks/useRequest";
+import { toast } from "react-toastify";
+export const EditSpeakerHighlight = ({ isOpen, onClose, currentContent, setRefresh }) => {
+   const speakerRef = useRef("");
+      const highlightRef=useRef('');
+      const {loading, makeRequest} = useRequest()
+     const handleSave = async()=>{
+        if(!speakerRef.current.value || !speakerRef.current.value ){
+          return toast.error('Please fill in the required fields')
+        }
+    
+        const res = await makeRequest('/update-highlight', {
+          highlightId: currentContent.id,
+          speaker: speakerRef.current.value, 
+          highlight: highlightRef.current.value,
+          
+    
+        })
+        if(res.error) return;
+        toast.success('Highlight updated successfully');
+        setRefresh(prev => !prev)
+        onClose()
+    
+      }
+  
   return (
-    <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
+ <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner px={5}>
@@ -33,139 +59,47 @@ export const EditSpeakerHighlight = ({ isOpen, onClose }) => {
             </Dialog.CloseTrigger>
             <Stack spacing={0}>
               <Heading
-                fontSize={{ base: "12px", md: 18 }}
+                fontSize={{ base: "10px", md: 14 }}
                 size={{ base: "xs", md: "sm" }}
               >
-                Edit Speaker Higlights
+                Edit Speaker's Highlight
               </Heading>
-              <HStack justifyContent={"space-between"}>
-                <Text
-                  fontSize={{ base: "10px", md: 14 }}
-                  size={{ base: "xs", md: "sm" }}
-                >
-                  Title
-                </Text>
-
-                <Button
-                  fontSize={{ base: "10px", md: 14 }}
-                  size={{ base: "xs", md: "sm" }}
-                  bg={"transparent"}
-                  color={"#212121"}
-                >
-                  <FiPlusCircle />
-                </Button>
-              </HStack>
-              <HStack
-                gap="1"
-                flexDirection={{ base: "column", md: "row" }}
-                alignItems={"center"}
-                width="full"
-              >
-                <Image
-                  src={logo}
-                  alt="Member"
-                  boxSize={{ base: "20px", md: "30px" }}
-                  borderRadius="full"
-                  objectFit="cover"
-                />
-                <Field.Root>
-                  <Input
-                    placeholder="Name"
-                    fontSize={{ base: "10px", md: 14 }}
-                    //   value={member.name}
-                    //      onChange={(e) =>
-                    //      handleMemberChange(index, "name", e.target.value)
-                    //    }
-                    variant="outline"
-                  />
-                </Field.Root>
-                <Field.Root>
-                  <Input
-                    fontSize={{ base: "10px", md: 14 }}
-                    placeholder="profession"
-                    //     value={member.profession}
-                    //     onChange={(e) =>
-                    //     handleMemberChange(index, "profession", e.target.value)
-                    //    }
-                    variant="outline"
-                  />
-                </Field.Root>
-                {/* <RxDotsVertical cursor="pointer" size={40} /> */}
-              </HStack>
-              <Textarea
-                border={"1px solid #D3D4D7"}
+              <Text
                 fontSize={{ base: "10px", md: 14 }}
-                autoresize
-                variant="subtle"
-                placeholder="Write your post or question here"
-              />
-              <Text color={"#667185"} fontSize={{ base: "9px", md: 14 }}>
-                0/100 words
+                size={{ base: "xs", md: "sm" }}
+              >
+                Speaker
               </Text>
-              {/* <HStack gap="1" alignItems={"center"} width="full">
-                <Image
-                  src={logo}
-                  alt="Member"
-                  boxSize="30px"
-                  borderRadius="md"
-                  objectFit="cover"
-                />
-                <Field.Root>
-                  <Input
-                    placeholder="Name"
-                    //   value={member.name}
-                    //      onChange={(e) =>
-                    //      handleMemberChange(index, "name", e.target.value)
-                    //    }
-                    variant="outline"
-                  />
-                </Field.Root>
-                <Field.Root>
-                  <Input
-                    placeholder="profession"
-                    //     value={member.profession}
-                    //     onChange={(e) =>
-                    //     handleMemberChange(index, "profession", e.target.value)
-                    //    }
-                    variant="outline"
-                  />
-                </Field.Root>
-                <RxDotsVertical cursor="pointer" size={40} />
-              </HStack>
-              <Textarea
+              <Input ref={speakerRef} fontSize={{ base: "10px", md: 14 }} type="text" defaultValue={currentContent?.speaker_name} />
+              <Text
+                fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+              >
+               Highlight
+              </Text>
+              <Input
                 border={"1px solid #D3D4D7"}
-                //    minH={100}
-                fontSize={13}
+                // minH={200}
+                // fontSize={{ base: "10px", md: 14 }}
                 autoresize
                 variant="subtle"
-                placeholder="Write your post or question here"
+                defaultValue={currentContent?.highlight}
+                ref={highlightRef}
+                // placeholder="Write your post or question here"
               />
-              <Text color={"#667185"} size={{ base: "9", md: "sm" }}>
+              {/* <Text
+                color={"#667185"}
+                fontSize={{ base: "7px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+              >
                 0/100 words
               </Text> */}
-              <Button
-                border={"1px solid #DFDFDF"}
-                //  onClick={handleAddMember}
-                fontWeight={"400"}
-                fontSize={{ base: "10px", md: 14 }}
-                size={{ base: "xs", md: "sm" }}
-                fontFamily="InterRegular"
-                py={{ base: 1, md: 6 }}
-                my={3}
-                color={"#333333CC"}
-                bg={"#EDEDED"}
-              >
-                <MdAddCircleOutline color="#1D1B20" />
-                Add Members
-              </Button>
-
               <HStack w={"100%"}>
                 <Button
                   onClick={() => onClose()}
-                  flex={1}
+                  py={{ base: 1, md: 6 }}
                   fontSize={{ base: "10px", md: 14 }}
                   size={{ base: "xs", md: "sm" }}
-                  py={{ base: 1, md: 6 }}
                   px={{ base: 5, md: 50 }}
                   // w={{base:'35%'}}
                   bg={"#fff"}
@@ -175,17 +109,19 @@ export const EditSpeakerHighlight = ({ isOpen, onClose }) => {
                   Cancel
                 </Button>
                 <Button
-                  fontSize={{ base: "10px", md: 14 }}
-                  size={{ base: "xs", md: "sm" }}
-                  onClick={() => onClose()}
+                     onClick={handleSave}
                   py={{ base: 1, md: 6 }}
                   flex={1}
+                  fontSize={{ base: "10px", md: 14 }}
+                  size={{ base: "xs", md: "sm" }}
                   // w={{ base: "100%" }}
                   rounded={5}
                   bg={"#2B362F"}
                   color="white"
                 >
-                  Edit Information
+                 {
+                  loading?<Spinner/>:'Save Changes'
+                 }
                 </Button>
               </HStack>
             </Stack>

@@ -13,15 +13,46 @@ import {
   Textarea,
   Field,
   InputGroup,
+  Spinner,
 } from "@chakra-ui/react";
 import logo from "../../../../assets/userImage.jpg";
 import { MdAddCircleOutline, MdCalendarToday } from "react-icons/md";
 import { RxDotsVertical } from "react-icons/rx";
 import { FiPlusCircle } from "react-icons/fi";
 import { CgAttachment } from "react-icons/cg";
-export const EditSession = ({ isOpen, onClose }) => {
+import { useRef } from "react";
+import { toast } from "react-toastify";
+import { useRequest } from "../../../../hooks/useRequest";
+export const EditSession = ({ isOpen, onClose, currentContent, setRefresh}) => {
+  const titleRef = useRef("");
+  const descRef=useRef('');
+  const linkRef= useRef('')
+  const timeRef = useRef();
+  const dateRef = useRef();
+  const {loading, makeRequest} = useRequest()
+
+  const handleSave = async()=>{
+    if(!titleRef.current.value || !descRef.current.value || !linkRef.current.value || !timeRef.current.value ||!dateRef.current.value){
+      return toast.error('Please fill in the required fields')
+    }
+
+    const res = await makeRequest('/update-session', {
+      sessionId: currentContent.id,
+      title: titleRef.current.value, 
+      description: descRef.current.value,
+      link: linkRef.current.value,
+      time: timeRef.current.value,
+      date: dateRef.current.value,
+
+    })
+    if(res.error) return;
+    toast.success('Session updated successfully')
+    setRefresh(prev => !prev)
+    onClose()
+
+  }
   return (
-    <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
+ <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner px={5}>
@@ -34,140 +65,70 @@ export const EditSession = ({ isOpen, onClose }) => {
               <CloseButton size="xs" color={"#9E9E9E"} />
             </Dialog.CloseTrigger>
             <Stack spacing={0}>
-              <Heading>Edit Session</Heading>
-              <HStack justifyContent={"space-between"}>
-                <Text
-                  fontSize={{ base: "10px", md: 14 }}
-                  size={{ base: "xs", md: "sm" }}
-                >
-                  Session
-                </Text>
-
-                <Button
-                  fontSize={{ base: "10px", md: 14 }}
-                  size={{ base: "xs", md: "sm" }}
-                  bg={"transparent"}
-                  color={"#212121"}
-                >
-                  <FiPlusCircle />
-                </Button>
-              </HStack>
-              <Stack>
-                <Text
-                  fontSize={{ base: "10px", md: 14 }}
-                  size={{ base: "xs", md: "sm" }}
-                >
-                  Session 1 (Description)
-                </Text>
-                <Textarea
-                  border={"1px solid #D3D4D7"}
-                  bg={"#fff"}
-                  fontSize={{ base: "10px", md: 14 }}
-                  autoresize
-                  variant="subtle"
-                  placeholder="Summarize in Brief Points"
-                />
-                <Field.Root>
-                  <Field.Label
-                    fontWeight={"400"}
-                    fontSize={{ base: "10px", md: 14 }}
-                    fontFamily="InterMedium"
-                    color={"#101928"}
-                  >
-                    Date & Time
-                  </Field.Label>
-                  <InputGroup>
-                    <Input
-                      type="datetime-local"
-                      py={{ base: 2, md: 6 }}
-                      fontSize={{ base: 10, md: 13 }}
-                      placeholder="Surname"
-                    />
-                  </InputGroup>
-                </Field.Root>
-                <HStack
-                  flexDirection={{ base: "column", md: "row" }}
-                  gap="1"
-                  alignItems={"center"}
-                  width="full"
-                  pt={2}
-                >
-                  <Image
-                    src={logo}
-                    alt="Member"
-                    boxSize={{ base: "19px", md: "30px" }}
-                    borderRadius="md"
-                    objectFit="cover"
-                  />
-                  <Field.Root>
-                    <Input
-                      placeholder="Name"
-                      fontSize={{ base: "10px", md: 14 }}
-                      //   value={member.name}
-                      //      onChange={(e) =>
-                      //      handleMemberChange(index, "name", e.target.value)
-                      //    }
-                      variant="outline"
-                    />
-                  </Field.Root>
-                  <Field.Root>
-                    <Input
-                      fontSize={{ base: "10px", md: 14 }}
-                      placeholder="profession"
-                      //     value={member.profession}
-                      //     onChange={(e) =>
-                      //     handleMemberChange(index, "profession", e.target.value)
-                      //    }
-                      variant="outline"
-                    />
-                  </Field.Root>
-                  {/* <RxDotsVertical cursor="pointer" size={40} /> */}
-                </HStack>
-
-                <Field.Root>
-                  <Field.Label
-                    fontWeight={"400"}
-                    fontSize={{ base: "10px", md: 14 }}
-                    size={{ base: "xs", md: "sm" }}
-                    fontFamily="InterMedium"
-                    color={"#101928"}
-                  >
-                    Video Link
-                  </Field.Label>
-                  <InputGroup startElement={<CgAttachment />}>
-                    <Input
-                      py={{ base: 2, md: 6 }}
-                      fontSize={{ base: "10px", md: 14 }}
-                      placeholder=""
-                    />
-                  </InputGroup>
-                </Field.Root>
-              </Stack>
-
-              <Button
-                border={"1px solid #DFDFDF"}
-                //  onClick={handleAddMember}
-                fontWeight={"400"}
+              <Heading
                 fontSize={{ base: "10px", md: 14 }}
                 size={{ base: "xs", md: "sm" }}
-                fontFamily="InterRegular"
-                py={{ base: 2, md: 6 }}
-                my={3}
-                color={"#333333CC"}
-                bg={"#EDEDED"}
               >
-                <MdAddCircleOutline color="#1D1B20" />
-                Add Members
-              </Button>
-
+                Edit Session
+              </Heading>
+              <Text
+                fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+              >
+                Title
+              </Text>
+              <Input ref={titleRef} fontSize={{ base: "10px", md: 14 }} type="text" defaultValue={currentContent?.title} />
+              <Text
+                fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+              >
+              Description
+              </Text>
+              <Textarea 
+                border={"1px solid #D3D4D7"}
+                 minH={200}
+                 fontSize={{ base: "10px", md: 14 }}
+                autoresize
+                variant="subtle"
+                defaultValue={currentContent?.description}
+                ref={descRef}
+                // placeholder="Write your post or question here"
+              />
+              {/* <Text
+                color={"#667185"}
+                fontSize={{ base: "7px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+              >
+                0/100 words
+              </Text> */}
+              <Text
+                fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+              >
+                Link
+              </Text>
+              <Input ref={linkRef} fontSize={{ base: "10px", md: 14 }} type="text" defaultValue={currentContent?.video_link} />
+                 <Text
+                fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+              >
+                Time
+              </Text>
+              <Input fontSize={{ base: "10px", md: 14 }} type="time" defaultValue={currentContent?.time} ref={timeRef} />
+               <Text
+                fontSize={{ base: "10px", md: 14 }}
+                size={{ base: "xs", md: "sm" }}
+              >
+                Date
+              </Text>
+              <Input fontSize={{ base: "10px", md: 14 }} type="date" defaultValue={currentContent?.date} ref={dateRef} />
               <HStack w={"100%"}>
                 <Button
                   onClick={() => onClose()}
-                  flex={0.6}
-                  py={{ base: 2, md: 6 }}
-                  px={{ base: 5, md: 50 }}
+                  py={{ base: 1, md: 6 }}
                   fontSize={{ base: "10px", md: 14 }}
                   size={{ base: "xs", md: "sm" }}
+                  px={{ base: 5, md: 50 }}
                   // w={{base:'35%'}}
                   bg={"#fff"}
                   color={"#2B362F"}
@@ -176,17 +137,20 @@ export const EditSession = ({ isOpen, onClose }) => {
                   Cancel
                 </Button>
                 <Button
-                  onClick={() => onClose()}
-                  py={{ base: 2, md: 6 }}
+                  //   onClick={onFinish}
+                  py={{ base: 1, md: 6 }}
+                  flex={1}
                   fontSize={{ base: "10px", md: 14 }}
                   size={{ base: "xs", md: "sm" }}
-                  flex={1}
                   // w={{ base: "100%" }}
                   rounded={5}
                   bg={"#2B362F"}
                   color="white"
+                  onClick={handleSave}
                 >
-                  Edit Information
+{
+  loading?<Spinner/>:'Save Changes'
+}
                 </Button>
               </HStack>
             </Stack>

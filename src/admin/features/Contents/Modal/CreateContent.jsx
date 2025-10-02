@@ -71,13 +71,8 @@ export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
     setIsLoading(false);
     
 
-    // reset form
-    contentRef.current.value = "";
-    titleRef.current.value = "";
-    linkRef.current.value = "";
-    setPostImage(null);
-    setAddLink(false);
-    setType("article");
+   
+    
     onClose();
   };
 
