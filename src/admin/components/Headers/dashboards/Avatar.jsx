@@ -27,52 +27,42 @@ const Avatar = ({ options = [] }) => {
 
   const [toaster, setToaster] = useState(null);
 
-  useEffect(() => {
-    if (!userDetails?.id) return;
-
-    // 1. Fetch existing notifications
-    const fetchNotifications = async () => {
-      const { data, error } = await supabase
-        .from("notifications")
-        .select("*")
-        .eq("user_id", userDetails.id)
-        .order("created_at", { ascending: false });
-
-      if (!error) setNotifications(data);
-    };
-
-    fetchNotifications();
-
-    const channel = supabase
-      .channel(`notifications-${userDetails.id}`) // unique per user
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "notifications",
-          filter: `user_id=eq.${userDetails.id}`, //  new format
-        },
-        (payload) => {
-          // console.log(" New notifications:", payload.new);
-          if (payload.new.type == "user_notification") {
-            // Show toast
-            setToaster(payload.new);
-
-            setTimeout(() => setToaster(null), 5000);
-          }
-          setNotifications((prev) => [payload.new, ...prev]);
-        }
-      )
-      .subscribe((status, err) => {
-        console.log("📡 Channel status:", status, err || "");
-      });
-
-    // 3. Cleanup
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [userDetails?.id]);
+   useEffect(() => {
+   if (!userDetails?.id) return;
+ 
+   // 1. Fetch existing notifications
+   const fetchNotifications = async () => {
+     const { data, error } = await supabase
+       .from("notifications")
+       .select("*")
+       .eq("user_id", userDetails.id)
+       .order("created_at", { ascending: false });
+ 
+     if (!error) setNotifications(data);
+   };
+ 
+   fetchNotifications();
+ 
+   // 2. Subscribe to new notifications (v1 syntax)
+   const subscription = supabase
+     .from("notifications:user_id=eq." + userDetails.id) // use RLS filter here
+     .on("INSERT", (payload) => {
+       if (payload.new.type === "user_notification") {
+         setToaster(payload.new);
+ 
+         setTimeout(() => setToaster(null), 5000);
+       }
+       setNotifications((prev) => [payload.new, ...prev]);
+     })
+     .subscribe(()=>{
+      //  console.log('Subscribed to notifications channel');
+     });
+ 
+   // 3. Cleanup
+   return () => {
+     supabase.removeSubscription(subscription);
+   };
+ }, [userDetails?.id]);
 
   const toggleBar = () => {
     setOpen(!open);

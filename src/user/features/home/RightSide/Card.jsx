@@ -45,46 +45,40 @@ export function Card() {
       setCurrentNotification(notifications[0]);
     }
   }, [notifications]);
-  useEffect(() => {
-    // 1. Fetch existing notifications
-    const fetchNotifications = async () => {
-      const { data, error } = await supabase
-        .from("notifications")
-        .select("*")
-        .eq("type", "mentor_matching")
-        .eq("user_id", userDetails?.id)
-        .order("created_at", { ascending: false });
+useEffect(() => {
+  if (!userDetails?.id) return;
 
-      if (!error) setNotifications(data);
-    };
+  // 1. Fetch existing notifications
+  const fetchNotifications = async () => {
+    const { data, error } = await supabase
+      .from("notifications")
+      .select("*")
+      .eq("type", "mentor_matching")
+      .eq("user_id", userDetails.id)
+      .order("created_at", { ascending: false });
 
-    fetchNotifications();
+    if (!error) setNotifications(data);
+  };
 
-    // 2. Subscribe to real-time notifications
-    const channel = supabase
-      .channel("notifications-channel")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "notifications",
-          filter: `user_id=eq.${userDetails.id},type=eq.mentor_matching`,
-        },
-        (payload) => {
-          // console.log("New notification:", payload.new);
-          setNotifications((prev) => [payload.new, ...prev]);
-          setRealTime(true);
-          setCurrentNotification(payload.new);
-        }
-      )
-      .subscribe();
+  fetchNotifications();
 
-    // 3. Cleanup subscription
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [userDetails.id]);
+  // 2. Subscribe to real-time notifications (v1 style)
+  const subscription = supabase
+    .from(`notifications:user_id=eq.${userDetails.id},type=eq.mentor_matching`)
+    .on("INSERT", (payload) => {
+      // console.log("New notification:", payload.new);
+      setNotifications((prev) => [payload.new, ...prev]);
+      setRealTime(true);
+      setCurrentNotification(payload.new);
+    })
+    .subscribe();
+
+  // 3. Cleanup subscription
+  return () => {
+    supabase.removeSubscription(subscription);
+  };
+}, [userDetails?.id]);
+
 
   return (
     <>
