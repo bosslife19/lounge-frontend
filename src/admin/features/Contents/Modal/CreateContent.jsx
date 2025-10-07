@@ -69,6 +69,12 @@ export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
     toast.success("Content uploaded successfully");
     setArticles((prev) => [response.response.article, ...prev]);
     setIsLoading(false);
+
+    setPostImage(null);
+    setAddLink(false);
+    titleRef.current.value = "";
+    contentRef.current.value = "";
+    linkRef.current.value = "";
     
 
    

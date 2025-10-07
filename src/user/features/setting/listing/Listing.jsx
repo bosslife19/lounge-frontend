@@ -106,7 +106,7 @@ export const SettingsListing = () => {
               </Text>
             </Stack>
             {/* switch */}
-            <SwitchPage />
+            <SwitchPage setIsOpen={setIsOpen} />
           </Flex>
         </Box>
         <Button

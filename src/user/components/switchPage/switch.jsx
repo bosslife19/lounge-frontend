@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRequest } from "../../../hooks/useRequest";
 import { toast } from "react-toastify";
 
-export const SwitchPage = ({ coffee }) => {
+export const SwitchPage = ({ coffee,setIsOpen }) => {
   const { makeRequest } = useRequest();
   const [checked, setChecked] = useState(false);
 
@@ -21,6 +21,8 @@ export const SwitchPage = ({ coffee }) => {
       mentor: "",
     });
     if (res.response) toast.success(res.response.message);
+    setIsOpen(true)
+    
   };
 
   useEffect(() => {

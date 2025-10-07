@@ -265,8 +265,8 @@ const Mentoring = () => {
                   w={"full"}
                   fontFamily="InterMedium"
                   fontSize={{ base: "12px", md: "16px" }}
-                  bg={"#F2F2F2"}
-                  color={"#333333B2/70"}
+                  bg={"#2B362F"}
+                  color={"white"}
                   rounded={{ base: 10, md: 20 }}
                   mt={{ base: "-25px", md: 0 }}
                   h={{ base: "30px", md: "43px" }}

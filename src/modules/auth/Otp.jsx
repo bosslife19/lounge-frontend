@@ -66,8 +66,11 @@ function maskEmail(email) {
     if(res.error) return;
    
     toast.success(res.response.message);
-    setTimeout(()=>{
- navigate('/login');
+   setTimeout(() => {
+      if (res.response.user.role === "admin") {
+        return navigate("/admin/dashboard");
+      }
+      navigate("/dashboard");
     }, 2000);
    
 

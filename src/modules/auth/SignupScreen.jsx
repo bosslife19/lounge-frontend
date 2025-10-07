@@ -64,6 +64,8 @@ try {
     if(res.response){
       toast.success(res.response.message);
       setUserDetails(res.response.user);
+      localStorage.setItem("ACCESS_TOKEN", res.response.token);
+   
       setTimeout(()=>{
 return navigate('/otp');
       }, 2000);

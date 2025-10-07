@@ -132,6 +132,13 @@ const Directory = () => {
         <Avatars options={dropdownOptions} />
         {/* </button> */}
       </Box>
+       <Heading
+                fontSize={{ base: "13px", md: "24px" }}
+                pb={{ base: 0, md: 2 }}
+                px={4}
+              >
+                Directory
+              </Heading>
       <Flex
         flexDirection={{ base: "column", md: "row" }}
         alignItems={"flex-start"}
@@ -376,6 +383,7 @@ const Directory = () => {
               </Card.Description>
             </Card.Body>
             <Card.Footer>
+
               <Button
                 w={"full"}
                 mb={-2}
@@ -386,6 +394,9 @@ const Directory = () => {
                 bg={"#2B362F"}
                 // p={6}
                 h={{ base: "35px", md: "56px" }}
+                as={"a"}
+                href={`mailto:${selected?.email}`}
+                target="_blank"
               >
                 Contact Now
               </Button>
