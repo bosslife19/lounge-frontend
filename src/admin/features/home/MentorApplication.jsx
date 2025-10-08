@@ -1,11 +1,10 @@
 import { Box, Menu, Button, Portal, HStack, Text } from "@chakra-ui/react";
 import { BottomTable } from "../../components/BottomTable";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import img from "../../../assets/userImage.jpg";
 import { IoIosArrowDown, IoMdCheckboxOutline } from "react-icons/io";
 import { MdOutlineCancel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import axiosClient from "../../../axiosClient";
 import { formatTime } from "../../../lib/formatTime";
 import { useRequest } from "../../../hooks/useRequest";
@@ -15,48 +14,48 @@ export const MentorApplication = () => {
   const [pageSize, setPageSize] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowActions, setRowActions] = useState({});
-  const navigate = useNavigate();
   const [mentorRequests, setMentorRequests] = useState([]);
+  const navigate = useNavigate();
   const { makeRequest } = useRequest();
 
-  useEffect(() => {
-    const getRequests = async () => {
+  // ✅ useCallback so we can re-use this inside handlers
+  const getRequests = useCallback(async () => {
+    try {
       const res = await axiosClient.get("/get-all-mentor-requests");
-
       setMentorRequests(res.data.requests);
-    };
-    getRequests();
+    } catch (error) {
+      console.error("Error fetching mentor requests:", error);
+    }
   }, []);
+
+  useEffect(() => {
+    getRequests();
+  }, [getRequests]);
 
   const handleApprove = async (id) => {
     const res = await makeRequest("/approve-mentor", {
       approved: true,
       requestId: id,
     });
-    if (res.response.status) {
+    if (res.response?.status) {
       toast.success("Mentorship request approved successfully");
-
-      handleSelect(
-        row.id,
-        "Approve",
-        "green.500",
-        <IoMdCheckboxOutline boxSize={3} />
-      );
-      setMentorRequests(mentorRequests.filter((item) => item.id !== id));
+      await getRequests(); // ✅ Refresh the data
+    } else if (res.error) {
+      toast.error("Error approving mentorship request");
     }
-    if (res.error) return;
   };
+
   const handleReject = async (id) => {
     const res = await makeRequest("/approve-mentor", {
       approved: false,
       requestId: id,
     });
-    if (res.response.status) {
+    if (res.response?.status) {
       toast.success("Mentorship request rejected");
-
-      setMentorRequests(mentorRequests.filter((item) => item.id !== id));
+      await getRequests(); // ✅ Refresh the data
+    } else if (res.error) {
+      toast.error("Error rejecting mentorship request");
     }
-    if (res.error) return;
   };
 
   const handleSelect = (id, label, color, icon = null) => {
@@ -123,7 +122,6 @@ export const MentorApplication = () => {
                     >
                       <IoMdCheckboxOutline /> Approve
                     </Menu.Item>
-                    {/* <Menu.Item  color="#333333CC" onClick={() => navigate(`/users/${row.UserId}`)}>View Details</Menu.Item> */}
                     <Menu.Item
                       color="#333333CC"
                       cursor="pointer"

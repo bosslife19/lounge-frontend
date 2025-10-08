@@ -252,6 +252,12 @@ const PostDetails = () => {
 
             {/* Comment input */}
             <Card.Footer borderTop={"1px solid #E9E5DF"} mt={1} pt={6}>
+              <Avatar.Root ml={-2} mt={-2} size="xs">
+                <Avatar.Image
+                  src={userDetails?.profile_picture || userAvatar}
+                />
+              </Avatar.Root>
+
               <InputGroup
                 endElement={
                   <Flex align="right">
@@ -259,18 +265,12 @@ const PostDetails = () => {
                       w={10}
                       h={10}
                       bg="transparent"
+                      color="#000"
                       onClick={() => handleComment(update.id)}
                     >
                       <GrSend />
                     </Button>
                   </Flex>
-                }
-                startElement={
-                  <Avatar.Root ml={-2} mt={-2} size="xs">
-                    <Avatar.Image
-                      src={userDetails?.profile_picture || userAvatar}
-                    />
-                  </Avatar.Root>
                 }
               >
                 <Box w="100%" position="relative">
@@ -283,8 +283,9 @@ const PostDetails = () => {
                     value={comment}
                     outline={"none"}
                     py={3}
-                    pr="80px"
-                    pl="40px"
+                    lineHeight="1.4"
+                    pr={{ base: "40px", md: "50px" }}
+                    // pl="40px"
                     borderRadius="xl"
                     fontSize="11px"
                   />

@@ -304,7 +304,7 @@ export const EditNewUser = ({ isOpen, onClose }) => {
                 </HStack>
 
                 <HStack flexDirection={{ base: "column", md: "row" }}>
-                  {/* Profesion */}
+                  {/* Profession  */}
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
@@ -312,7 +312,7 @@ export const EditNewUser = ({ isOpen, onClose }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      Profesion
+                      Profession
                     </Field.Label>
                     <InputGroup startElement={<FaBriefcase />}>
                       <Input
@@ -417,7 +417,7 @@ export const EditNewUser = ({ isOpen, onClose }) => {
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
-                    Bio
+                    About me
                   </Field.Label>
                   <Textarea
                     resize="none"

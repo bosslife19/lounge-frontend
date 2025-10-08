@@ -1,6 +1,5 @@
 import { Box, Table, Image, Text, HStack } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import Pagination from "./pagination/adminpagination";
 import React from "react";
 
 const MotionTbody = motion(Table.Body);
@@ -16,17 +15,7 @@ const rowAnimation = {
   visible: { opacity: 1, y: 0 },
 };
 
-export const BottomTable = ({
-  dataTable,
-  pageSize,
-  currentPage,
-  setCurrentPage,
-  setPageSize,
-}) => {
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const paginatedRows = dataTable.row.slice(startIndex, endIndex);
-
+export const BottomTable = ({ dataTable }) => {
   return (
     <Box
       bg="#fff"
@@ -63,7 +52,7 @@ export const BottomTable = ({
           animate="visible"
           variants={containerVariants}
         >
-          {paginatedRows.map((row, rowIndex) => (
+          {dataTable.row.map((row, rowIndex) => (
             <MotionTr
               key={row.row_0}
               variants={rowAnimation}
@@ -123,14 +112,6 @@ export const BottomTable = ({
           ))}
         </MotionTbody>
       </Table.Root>
-
-      <Pagination
-        count={dataTable.row.length}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-      />
     </Box>
   );
 };
