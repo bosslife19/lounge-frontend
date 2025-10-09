@@ -295,7 +295,7 @@ const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
       p={4}
     >
       <Text fontWeight="bold" mb={2}>
-        Crop Image
+        Resize Image
       </Text>
 
       <Box position="relative" w="100%" h="350px" bg="gray.200">
@@ -362,7 +362,7 @@ const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
             setIsCropping(false);
           }}
         >
-          Save Crop
+          Save
         </Button>
       </Flex>
     </Box>
