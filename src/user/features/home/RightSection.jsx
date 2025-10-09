@@ -66,7 +66,7 @@ export const RightSection = () => {
         bg={"#fff"}
         rounded={10}
         p={6}
-        mt={-2}
+        mt={4}
         // w={{ base: "50%", xl: 475 }}
         border={"1px solid #EDEDF2"}
       >

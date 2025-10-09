@@ -303,7 +303,7 @@ const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
           image={preview}
           crop={crop}
           zoom={zoom}
-          aspect={4/3}
+          aspect={3/2}
           onCropChange={setCrop}
           onZoomChange={setZoom}
           onCropComplete={(_, croppedAreaPixels) =>
