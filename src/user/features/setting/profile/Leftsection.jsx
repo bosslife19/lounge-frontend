@@ -31,74 +31,74 @@ export const LeftSectionProfile = () => {
   const { userDetails, setUserDetails } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [mentors, setMentors] = useState([]);
-  const [preview, setPreview] = useState(null)
-  const fileInputRef = useRef(null)
-  const [profileImage, setProfileImage] = useState()
-  const {makeRequest} = useRequest();
+  const [preview, setPreview] = useState(null);
+  const fileInputRef = useRef(null);
+  const [profileImage, setProfileImage] = useState();
+  const { makeRequest } = useRequest();
   const [user, setUser] = useState(null);
   useEffect(() => {
-      const getMentors = async () => {
-        const res = await axiosClient.get("/my-mentors");
-  
-        setMentors(res.data.mentors);
-      };
-      getMentors();
-    }, []);
-      const handleImageClick = () => {
-        if (fileInputRef.current) {
-          fileInputRef.current.click(); // open file picker
-        }
-      };
-      const handleFileChange = async (event) => {
-        const file = event.target.files?.[0];
-        if (file) {
-          // show preview
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setPreview(reader.result);
-          };
-          reader.readAsDataURL(file);
-    
-          // TODO: send `file` to your backend API for upload
-          const formData = new FormData();
-          formData.append("file", file);
-          formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
-    
-          try {
-            const res = await axios.post(
-              "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
-              formData
-            );
-    
-            const imageUrl = res.data.secure_url;
-            setProfileImage(imageUrl);
-    
-            const resp = await makeRequest("/profile/upload", {
-              profilePic: imageUrl,
-            });
-    
-            if (resp.error) {
-              return;
-            }
-            setUserDetails(resp.response.user);
-    
-            toast.success(resp.response.message);
-            // If you have a callback to inform parent component
-          } catch (error) {
-            console.error("Image upload failed", error);
-            toast.error("Image Upload Failed. Please try again.");
-          }
-        }
-      };
+    const getMentors = async () => {
+      const res = await axiosClient.get("/my-mentors");
 
-  useEffect(()=>{
-    const getUser = async ()=>{
+      setMentors(res.data.mentors);
+    };
+    getMentors();
+  }, []);
+  const handleImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click(); // open file picker
+    }
+  };
+  const handleFileChange = async (event) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // show preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+
+      // TODO: send `file` to your backend API for upload
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
+
+      try {
+        const res = await axios.post(
+          "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
+          formData
+        );
+
+        const imageUrl = res.data.secure_url;
+        setProfileImage(imageUrl);
+
+        const resp = await makeRequest("/profile/upload", {
+          profilePic: imageUrl,
+        });
+
+        if (resp.error) {
+          return;
+        }
+        setUserDetails(resp.response.user);
+
+        toast.success(resp.response.message);
+        // If you have a callback to inform parent component
+      } catch (error) {
+        console.error("Image upload failed", error);
+        toast.error("Image Upload Failed. Please try again.");
+      }
+    }
+  };
+
+  useEffect(() => {
+    const getUser = async () => {
       const res = await axiosClient.get("/me/" + userDetails.id);
       setUser(res.data.user);
       setUserDetails(res.data.user);
-    }  
+    };
     getUser();
-  }, [])
+  }, []);
 
   const handleCardClick = () => {
     setIsOpen(true);
@@ -151,16 +151,16 @@ export const LeftSectionProfile = () => {
                 right={"-1"}
                 borderRadius="md"
                 objectFit="cover"
-                cursor='pointer'
-                 onClick={handleImageClick}
+                cursor="pointer"
+                onClick={handleImageClick}
               />
-               <input
-                  type="file"
-                  accept="image/*"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                />
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
             </Stack>
             <Stack>
               <Text
@@ -212,18 +212,18 @@ export const LeftSectionProfile = () => {
       {/* ABout Company */}
       <Box
         mt={5}
-        // shadow={"xs"}
+        shadow={"xs"}
         bg={"#FCFCFC"}
         rounded={10}
         p={3}
         w={{ base: "100%", xl: 475 }}
-        // border={"1px solid #EDEDF2"}
+        border={"1px solid #EDEDF2"}
       >
         <Flex alignItems={"center"} justifyContent={"space-between"}>
           <HStack>
             <Stack position={"relative"}>
               <Image
-                src={userDetails.organization?.logo|| user?.organization?.logo}
+                src={userDetails.organization?.logo || user?.organization?.logo}
                 alt="Update"
                 boxSize={{ base: "40px", md: "72px" }}
                 objectFit={"cover"}
@@ -258,9 +258,7 @@ export const LeftSectionProfile = () => {
                 alignItems={"center"}
                 gap={2}
                 py={1}
-              >
-                
-              </Text>
+              ></Text>
               <Text
                 mt={-3}
                 color={"#7C7C7C"}
@@ -272,11 +270,19 @@ export const LeftSectionProfile = () => {
                 gap={2}
               >
                 <FaLocationDot />
-                {userDetails.organization?.location || user?.organization?.location}
+                {userDetails.organization?.location ||
+                  user?.organization?.location}
               </Text>
             </Stack>
           </HStack>
-          {/* <LuPencil /> */}
+          <Button
+            bg={"transparent"}
+            color={"#475367"}
+            size={{ base: "xs" }}
+            // onClick={() => handleCardClick()}
+          >
+            <LuPencil />
+          </Button>
         </Flex>
         <Box shadow={"xl"} mt={4} rounded={20} pb={4} bg={"#fff"} px={7}>
           <Heading
@@ -304,7 +310,10 @@ export const LeftSectionProfile = () => {
               Experience in representing and advocating for UX the and users.
             </List.Item>
           </List.Root> */}
-          <Text>{userDetails.organization?.description || user?.organization?.description}</Text>
+          <Text>
+            {userDetails.organization?.description ||
+              user?.organization?.description}
+          </Text>
         </Box>
 
         {/*company members*/}
@@ -312,50 +321,60 @@ export const LeftSectionProfile = () => {
           <Heading pt={5} pb={2} textAlign={"center"}>
             {/* Company Members */}
             Mentors
-          </Heading>
-      <Stack spacing={6}>
-        {mentors.length > 0 ? (
-          mentors.map((card) => (
-            <Box
-              key={card.id}
-              transition="all 0.2s ease-in-out"
-              borderBottom={"1px solid #D8D8D8"}
-              pb={3}
+            {/* <Button
+              // position={"absolute"}
+              // right={0}
+              bg={"transparent"}
+              color={"#475367"}
+              size={{ base: "xs" }}
+              // onClick={() => handleCardClick()}
             >
-              <HStack spacing={4} align="center">
-                <Image
-                  src={card.profile_picture || logo}
-                  alt={card.name}
-                  boxSize="24px"
-                  rounded="full"
-                />
-                <Stack spacing={0} flex="1">
-                  <Text fontSize={12} fontWeight="semibold" color="#111827">
-                    {/* {truncateText(card.)} */}
-                    {card.name}
-                  </Text>
-                  <Text mt={-2} fontSize={9} color="#6B7280">
-                    {/* {truncateText(card.subtitle)} */}
-                    {card.profession}
-                  </Text>
-                </Stack>
-                <Button
-                  size="xs"
-                  bg={"#2B362F"}
-                  borderColor="#E5E7EB"
-                  rounded="14px"
-                  overflow={"hidden"}
-                  fontSize={12}
+              <LuPencil />
+            </Button> */}
+          </Heading>
+          <Stack spacing={6}>
+            {mentors.length > 0 ? (
+              mentors.map((card) => (
+                <Box
+                  key={card.id}
+                  transition="all 0.2s ease-in-out"
+                  borderBottom={"1px solid #D8D8D8"}
+                  pb={3}
                 >
-                  View Profile
-                </Button>
-              </HStack>
-            </Box>
-          ))
-        ) : (
-          <Text>No Mentors Yet</Text>
-        )}
-      </Stack>
+                  <HStack spacing={4} align="center">
+                    <Image
+                      src={card.profile_picture || logo}
+                      alt={card.name}
+                      boxSize="24px"
+                      rounded="full"
+                    />
+                    <Stack spacing={0} flex="1">
+                      <Text fontSize={12} fontWeight="semibold" color="#111827">
+                        {/* {truncateText(card.)} */}
+                        {card.name}
+                      </Text>
+                      <Text mt={-2} fontSize={9} color="#6B7280">
+                        {/* {truncateText(card.subtitle)} */}
+                        {card.profession}
+                      </Text>
+                    </Stack>
+                    <Button
+                      size="xs"
+                      bg={"#2B362F"}
+                      borderColor="#E5E7EB"
+                      rounded="14px"
+                      overflow={"hidden"}
+                      fontSize={12}
+                    >
+                      View Profile
+                    </Button>
+                  </HStack>
+                </Box>
+              ))
+            ) : (
+              <Text>No Mentors Yet</Text>
+            )}
+          </Stack>
         </Box>
       </Box>
       <EditProfile isOpen={isOpen} onClose={handleClose} />

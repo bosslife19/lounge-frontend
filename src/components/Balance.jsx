@@ -1,8 +1,8 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex, Image } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-
+import img from "../assets/coingold.png";
 const Balance = () => {
   const navigate = useNavigate();
   const { userDetails } = useContext(AuthContext);
@@ -118,6 +118,15 @@ const Balance = () => {
             height="30"
             fill="url(#pattern0_2_1173)"
           />
+          <image
+            href={img} // Use `href` instead of `src`
+            x="56.5" // Position (same as your rect)
+            y="48"
+            width="30"
+            height="30"
+            preserveAspectRatio="xMidYMid slice"
+          />
+
           <text
             x="100"
             y="70"

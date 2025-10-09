@@ -29,6 +29,7 @@ export const AdminRightSide = ({ setPosts }) => {
   const postRef = useRef(null);
   const fileInputRef = useRef(null);
   const [postImage, setPostImage] = useState(null);
+  const [fileName, setFileName] = useState(""); // ✅ store file name
   const { userDetails } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   let image;
@@ -38,6 +39,7 @@ export const AdminRightSide = ({ setPosts }) => {
     }
   };
   const { makeRequest, loading } = useRequest();
+
   const handlePost = async () => {
     if (postImage) {
       const formData = new FormData();
@@ -70,24 +72,23 @@ export const AdminRightSide = ({ setPosts }) => {
     setIsLoading(false);
     postRef.current.value = "";
     setPostImage(null);
+    setFileName(""); // ✅ clear after posting
   };
+
   const handleFileChange = async (event) => {
     const file = event.target.files?.[0];
     if (file) {
-      // show preview
-      const reader = new FileReader();
-
-      reader.readAsDataURL(file);
-
-      // TODO: send `file` to your backend API for upload
       setPostImage(file);
+      setFileName(file.name); // ✅ show file name instead of preview
     }
   };
+
   const actions = [
     { id: 1, image: like },
     { id: 2, image: heart },
     { id: 3, image: bulb },
   ];
+
   return (
     <Stack mb={"auto"}>
       <Card.Root
@@ -128,6 +129,7 @@ export const AdminRightSide = ({ setPosts }) => {
             </Stack>
           </HStack>
         </Card.Body>
+
         <Textarea
           ref={postRef}
           h={100}
@@ -161,6 +163,14 @@ export const AdminRightSide = ({ setPosts }) => {
           />
           Add media
         </Button>
+
+        {/* ✅ Display green file name if selected */}
+        {fileName && (
+          <Text color="green.500" fontSize={{ base: 10, md: 13 }} ml={2} mb={2}>
+            {fileName}
+          </Text>
+        )}
+
         <Card.Footer borderTop={"1px solid #D4D7E5"}>
           <Button
             mt={{ base: 2, md: 5 }}

@@ -180,7 +180,13 @@ const Mentoring = () => {
         />
       </Flex>
 
-      <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={6} gap={5}>
+      <SimpleGrid
+        columns={{ base: 1, md: 2, xl: 3 }}
+        spacing={{ base: 5, md: 8 }} // space between grid items
+        gap={{ base: 5, md: 8 }} // consistent gap for all breakpoints
+        py={4}
+        pr={{ base: 0, md: 5 }}
+      >
         {filteredResults.length > 0 ? (
           filteredResults.map((card, idx) => (
             <Card.Root
@@ -188,10 +194,9 @@ const Mentoring = () => {
               bg={"#fff"}
               shadowColor={"#080F340F"}
               shadow={"sm"}
-              w={{ base: "100%", md: "341px" }}
+              w={{ base: "100%", md: "331px" }}
               // h={{ base: "100%", md: "340px" }}
               rounded={20}
-              // mr={5}
               border={"1px solid #fff"}
             >
               <Card.Body gap="2">

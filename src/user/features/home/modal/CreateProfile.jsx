@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import logo from "../../../../assets/userImage.jpg";
 import tick from "../../../../assets/Verified tick2.png";
-import { FaBriefcase, FaFacebook } from "react-icons/fa";
+import { FaBriefcase, FaFacebook, FaStar } from "react-icons/fa";
 import { CiUser } from "react-icons/ci";
 import { BsLinkedin } from "react-icons/bs";
 import { RxDotsVertical } from "react-icons/rx";
@@ -285,8 +285,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      {" "}
-                      First Name
+                      <HStack spacing={1} align="center">
+                        <Text>First Name</Text>
+                        <FaStar color="#FFD700" size={8} />{" "}
+                        {/* Yellow star icon */}
+                      </HStack>
                     </Field.Label>
                     <InputGroup startElement={<CiUser size={12} />}>
                       <Input
@@ -306,7 +309,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      Last Name
+                      <HStack spacing={1} align="center">
+                        <Text>Last Name</Text>
+                        <FaStar color="#FFD700" size={8} />{" "}
+                        {/* Yellow star icon */}
+                      </HStack>
                     </Field.Label>
                     <InputGroup startElement={<CiUser />}>
                       <Input
@@ -367,7 +374,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      Pronouns
+                      <HStack spacing={1} align="center">
+                        <Text> Pronouns</Text>
+                        <FaStar color="#FFD700" size={8} />{" "}
+                        {/* Yellow star icon */}
+                      </HStack>
                     </Field.Label>
                     <NativeSelect.Root>
                       {/* Icon on the left */}
@@ -406,11 +417,22 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      Roots
+                      <HStack spacing={1} align="center">
+                        <Text> Roots</Text>
+                        <FaStar color="#FFD700" size={8} />{" "}
+                        {/* Yellow star icon */}
+                      </HStack>
                     </Field.Label>
-                    <NativeSelect.Root>
-                      {/* Icon on the left */}
-                      <Box
+                    <InputGroup startElement={<CiUser />}>
+                      <Input
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
+                        placeholder="Enter your roots (e.g. African, American, Asian)"
+                        ref={rootsRef}
+                      />
+                    </InputGroup>
+                    {/* <NativeSelect.Root>
+                       <Box
                         position="absolute"
                         left="3"
                         top="50%"
@@ -434,7 +456,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                         </For>
                       </NativeSelect.Field>
                       <NativeSelect.Indicator />
-                    </NativeSelect.Root>
+                    </NativeSelect.Root> */}
                   </Field.Root>
                 </HStack>
 
@@ -446,7 +468,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
-                    Email
+                    <HStack spacing={1} align="center">
+                      <Text>Email</Text>
+                      <FaStar color="#FFD700" size={8} />{" "}
+                      {/* Yellow star icon */}
+                    </HStack>
                   </Field.Label>
                   <InputGroup startElement={<MdEmail />}>
                     <Input
@@ -467,7 +493,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      Phone Number
+                      <HStack spacing={1} align="center">
+                        <Text> Phone Number</Text>
+                        <FaStar color="#FFD700" size={8} />{" "}
+                        {/* Yellow star icon */}
+                      </HStack>
                     </Field.Label>
                     <InputGroup startElement={<ImPhoneHangUp />}>
                       <Input
@@ -487,7 +517,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      Facebook
+                      <HStack spacing={1} align="center">
+                        <Text> Facebook</Text>
+                        <FaStar color="#FFD700" size={8} />{" "}
+                        {/* Yellow star icon */}
+                      </HStack>
                     </Field.Label>
                     <InputGroup startElement={<FaFacebook color="#1877F2" />}>
                       <Input
@@ -507,7 +541,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      LinkedIn
+                      <HStack spacing={1} align="center">
+                        <Text> LinkedIn</Text>
+                        <FaStar color="#FFD700" size={8} />{" "}
+                        {/* Yellow star icon */}
+                      </HStack>
                     </Field.Label>
                     <InputGroup startElement={<BsLinkedin color="#0A66C2" />}>
                       <Input
@@ -521,7 +559,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                 </HStack>
 
                 <HStack>
-                  {/* Profesion */}
+                  {/* Profession  */}
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
@@ -529,7 +567,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      Profession
+                      <HStack spacing={1} align="center">
+                        <Text> Profession</Text>
+                        <FaStar color="#FFD700" size={8} />{" "}
+                        {/* Yellow star icon */}
+                      </HStack>
                     </Field.Label>
                     <InputGroup startElement={<FaBriefcase />}>
                       <Input
@@ -549,7 +591,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      Category
+                      <HStack spacing={1} align="center">
+                        <Text> Category</Text>
+                        <FaStar color="#FFD700" size={8} />{" "}
+                        {/* Yellow star icon */}
+                      </HStack>
                     </Field.Label>
                     <NativeSelect.Root>
                       {/* Icon on the left */}
@@ -621,7 +667,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
-                    Experience Level (Years)
+                    <HStack spacing={1} align="center">
+                      <Text> Experience Level (Years)</Text>
+                      <FaStar color="#FFD700" size={8} />{" "}
+                      {/* Yellow star icon */}
+                    </HStack>
                   </Field.Label>
                   <InputGroup startElement={<FaBriefcase />}>
                     <Input
@@ -643,7 +693,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
-                    City
+                    <HStack spacing={1} align="center">
+                      <Text> City</Text>
+                      <FaStar color="#FFD700" size={8} />{" "}
+                      {/* Yellow star icon */}
+                    </HStack>{" "}
                   </Field.Label>
                   <InputGroup startElement={<IoLocationOutline />}>
                     <Input
@@ -654,6 +708,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     />
                   </InputGroup>
                 </Field.Root>
+
                 <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
@@ -661,7 +716,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     fontFamily="InterMedium"
                     color={"#101928"}
                   >
-                    About Me
+                    <HStack spacing={1} align="center">
+                      <Text> About Me</Text>
+                      <FaStar color="#FFD700" size={8} />{" "}
+                      {/* Yellow star icon */}
+                    </HStack>{" "}
                   </Field.Label>
                   <Textarea
                     resize="none"
@@ -740,7 +799,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
-                        Organization Name{" "}
+                        <HStack spacing={1} align="center">
+                          <Text> Organization Name</Text>
+                          <FaStar color="#FFD700" size={8} />{" "}
+                          {/* Yellow star icon */}
+                        </HStack>
                       </Field.Label>
 
                       <Input
@@ -758,7 +821,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
-                        Description{" "}
+                        <HStack spacing={1} align="center">
+                          <Text> Description</Text>
+                          <FaStar color="#FFD700" size={8} />{" "}
+                          {/* Yellow star icon */}
+                        </HStack>
                       </Field.Label>
 
                       <Textarea
@@ -776,7 +843,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
-                        Organization Logo{" "}
+                        <HStack spacing={1} align="center">
+                          <Text> Organization Logo</Text>
+                          <FaStar color="#FFD700" size={8} />{" "}
+                          {/* Yellow star icon */}
+                        </HStack>
                       </Text>
                       <Image
                         src={organizationLogoPreview || temporalLogo} // fallback to default image
@@ -804,7 +875,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
-                        Organization Location{" "}
+                        <HStack spacing={1} align="center">
+                          <Text> Organization Location</Text>
+                          <FaStar color="#FFD700" size={8} />{" "}
+                          {/* Yellow star icon */}
+                        </HStack>
                       </Field.Label>
 
                       <Input
@@ -821,7 +896,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
-                        Organization Email{" "}
+                        <HStack spacing={1} align="center">
+                          <Text> Organization Email</Text>
+                          <FaStar color="#FFD700" size={8} />{" "}
+                          {/* Yellow star icon */}
+                        </HStack>
                       </Field.Label>
 
                       <Input
@@ -838,7 +917,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
-                        Organization Website{" "}
+                        <HStack spacing={1} align="center">
+                          <Text> Organization Website</Text>
+                          <FaStar color="#FFD700" size={8} />{" "}
+                          {/* Yellow star icon */}
+                        </HStack>{" "}
                       </Field.Label>
 
                       <Input

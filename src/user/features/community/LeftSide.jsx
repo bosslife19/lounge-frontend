@@ -319,6 +319,14 @@ export const LeftSide = ({ posts, setPosts }) => {
               mt={1}
               pt={{ base: 2, md: 6 }}
             >
+              <Avatar.Root
+                // ml={-2}
+                mt={-2}
+                borderRadius={"full"}
+                boxSize={{ base: "20px", md: "34px" }}
+              >
+                <Avatar.Image src={userDetails?.profile_picture || userImage} />
+              </Avatar.Root>
               <InputGroup
                 endElement={
                   <Flex align="right">
@@ -342,32 +350,20 @@ export const LeftSide = ({ posts, setPosts }) => {
                     </Button>
                   </Flex>
                 }
-                startElement={
-                  <Avatar.Root
-                    // ml={-2}
-                    mt={-2}
-                    borderRadius={"full"}
-                    boxSize={{ base: "20px", md: "34px" }}
-                  >
-                    <Avatar.Image
-                      src={userDetails?.profile_picture || userImage}
-                    />
-                  </Avatar.Root>
-                }
               >
                 <Box w="100%" position="relative">
                   <Textarea
                     placeholder="Write a comment"
                     resize="none"
-                    minH={{ base: "15px", md: "60px" }}
+                    minH={{ base: "15px", md: "50px" }}
                     bg={"#F6F6F6"}
                     textWrap={"stable"}
                     onChange={(e) => setComment(e.target.value)}
                     value={comment}
                     outline={"none"}
-                    pt={{ base: "10px", md: 23 }}
-                    pr={{ base: "40px", md: "60px" }}
-                    pl={{ base: "30px", md: "50px" }}
+                    // pt={{ base: "10px", md: 23 }}
+                    pr={{ base: "40px", md: "50px" }}
+                    // pl={{ base: "30px", md: "50px" }}
                     borderRadius={{ base: "5px", md: "xl" }}
                     fontSize={{ base: "9px", md: "11px" }}
                     lineHeight="1.4"

@@ -10,14 +10,14 @@ import {
   Button,
   Image,
   HStack,
-   Box,
-   InputGroup,
-   Text,
-   Textarea,
-   Spinner,
-   } from "@chakra-ui/react";
- import logo from "../../../../../assets/userImage.jpg";
- import tick from "../../../../../assets/Verified tick2.png";
+  Box,
+  InputGroup,
+  Text,
+  Textarea,
+  Spinner,
+} from "@chakra-ui/react";
+import logo from "../../../../../assets/userImage.jpg";
+import tick from "../../../../../assets/Verified tick2.png";
 import { FaBriefcase, FaFacebook } from "react-icons/fa";
 import { CiUser } from "react-icons/ci";
 import { BsLinkedin } from "react-icons/bs";
@@ -25,7 +25,7 @@ import { RxDotsVertical } from "react-icons/rx";
 import { MdEmail } from "react-icons/md";
 import { ImPhoneHangUp } from "react-icons/im";
 import { IoLocationOutline } from "react-icons/io5";
-import images from "../../../../../assets/course.png"
+import images from "../../../../../assets/course.png";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useRequest } from "../../../../../hooks/useRequest";
 import axiosClient from "../../../../../axiosClient";
@@ -36,174 +36,168 @@ import SearchableDropdown from "../../../../../components/Layout/SearchableDropD
 
 export const EditProfile = ({ isOpen, onClose }) => {
   const { userDetails, setUserDetails } = useContext(AuthContext);
-  
-    const { makeRequest, loading } = useRequest();
-    const fileInputRef = useRef(null);
-    const [preview, setPreview] = useState(null);
-    const [profileImage, setProfileImage] = useState(null);
-    const firstNameRef = useRef();
-    const lastNameRef = useRef();
-    const emailRef = useRef();
-    const phoneRef = useRef();
-    const facebookRef = useRef();
-    const linkedinRef = useRef();
-    const professionRef = useRef();
-    const categoryRef = useRef("Founder");
-    const experienceRef = useRef();
-    const locationRef = useRef();
-    const rootsRef = useRef("African");
-    const bioRef = useRef();
-    const pronounsRef = useRef("He/Him");
-    const genderRef = useRef("Male");
-    const organizationNameRef = useRef();
-    const temporalLogo = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKgAAACUCAMAAAAwLZJQAAAAY1BMVEX///8AAADY2Nh+fn5KSkqTk5OoqKglJSWkpKTq6uo+Pj5OTk7y8vL8/PyGhobAwMANDQ20tLRaWloVFRXi4uKbm5vIyMhfX181NTV2dnZTU1MqKipmZmZvb2+MjIzS0tIdHR11wAe4AAAEIUlEQVR4nO2ca5uqIBCAl+6WaV4yy9rt///Ks26nA+KADCL4nJ33q2y9Cw4Mtz4+CIIgiF/JMcqS/LAKTH7NoqPWs1qyuXBJ1ZpxcgqtJ3KLFZ5lHVpN4vkFekaH0GI9tiUURnloLYAn0Pq70FIgSS/44ya0E8xCFt2ENlJwld/Qa2gjFXLXJLR8sglNIthIbb/gT85g5+WXlI88WfcJF62jMG5d+Niz6T7goqtZiO7/+ey6D0jUEhJ1DYm6xl40qrIsq6D8cBIsRePzqim+nxXNPin1s66QomXCRK7wBCG8aCZPpQoP2QBe9JiwPnfV/DCg6BrwZOwx9YuKFj2DnowtJzbFii4gyR+kNDGwqGYKXUxbpUjRTOnJ2HpGoseHRvQw6VCLE400noxV8xFNtaKTdvs4Uaiv5+TYL68QwwROVL9stkV67tjdvKfAie4hPw7W8zufMa7TcKKvodi4TnGiF61ng/F8r8GZDr04UTghefNAePJPupi1Pk600opKn6BDXCQ2S7xcdvjmiX43BTNKZpFDqG7XKTeOYDlVvBjUKTIp0Q1Nxi3fT2kfw/8jNh9VZyW1qecn8MfDEYUVVb+lpikJvNkyGFHoqYgq8KXlVSVQfbbkA0kifnIH75b0t39gVFOuwTHKYl6fARu5a0NP3Yhx19apzQLEl7xH2mg2qI09Gbvp/lurJZ14sxU+/7Q2nYOo2/2FrpeyXc3Lkrwu2Km+LTfGOaU+7W7RjBn2y45xufhalIgJ3VB9tqgjyt9C7nB9ttxUX+ZNVB9HHFXr+xJV9fN9LvDXeRI1a/cX8BEXP6Km7f4CzE+9iGLPTkGLQz5EcfXZAmR904uCS+mDddrbFppe1DzeO6ZynToSVa4iHe08+/mpG9H0tFcUsj+DKEWUE9HqBLTVD/g44nR7fheir0y6AYqNO9O5EiPKgWhVvMr1ez/b9/ONOEaNF02Ld8Ftt/W1qxVmCP3paFHuKZe06T8lhEYaKyp6MibEvlU/P51oVnQ/mR/mcnK0z5lofzXiXXhsHLkVhfbxira0q6OSjkRT8Eh5W9zF++lOFFoxaXmWzs7uOxGV44ijfBBEFG53xzgQ9XMCeryofvd2PqK+TpSPFVXF+9xEdec15iS68Xd1aJSov/ocJ+r1ZsYIUZ/1OUbU89Uha1HfN3KsRX3fwbMWHThTQqIkSqIkSqIkSqIk6kd09dz65Jnbii48I9zp+gV37jxDoq4hUdf8T6KNt9u0Ogx+sYAtJ79LOchR2PiXzoBGwrieL0Nz5zJMehMdbGJPhFzbftftzOnfQfSd05nx7Ie2py0aJNDFvjm+pXvoyO4Mf/enhnvKWHdfNQSqY2DAnf+QNJ8qzW/K8yq031/qde+3s6T2L9PzOjTnrAw/jhMEQRAEQRAE5w/6VlvVhOzL/AAAAABJRU5ErkJggg=='
-    const [organizationShow, setOrganizationShow] = useState(false);
-    const [organizationList, setOrganizationList] = useState([]);
-    const [organization, setOrganization] = useState("");
-    const logoInputRef = useRef(null);
-    const organizationDescRef = useRef("");
-    const organizationEmailRef = useRef("");
-    const organizationLocationRef = useRef("");
-    const organizationWebsiteRef = useRef("");
-    const [organizationLogo, setOrganizationLogo] = useState("");
-    const [organizationLogoPreview, setOrganizationLogoPreview] = useState(null);
-    const [createOrg, setCreateOrg] = useState(false);
-  
-    useEffect(() => {
-      const getOrganizations = async () => {
-        const res = await axiosClient.get("/get-organizations");
-        setOrganizationList(res.data.organizations);
+
+  const { makeRequest, loading } = useRequest();
+  const fileInputRef = useRef(null);
+  const [preview, setPreview] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
+  const firstNameRef = useRef();
+  const lastNameRef = useRef();
+  const emailRef = useRef();
+  const phoneRef = useRef();
+  const facebookRef = useRef();
+  const linkedinRef = useRef();
+  const professionRef = useRef();
+  const categoryRef = useRef("Founder");
+  const experienceRef = useRef();
+  const locationRef = useRef();
+  const rootsRef = useRef("African");
+  const bioRef = useRef();
+  const pronounsRef = useRef("He/Him");
+  const genderRef = useRef("Male");
+  const organizationNameRef = useRef();
+  const temporalLogo =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKgAAACUCAMAAAAwLZJQAAAAY1BMVEX///8AAADY2Nh+fn5KSkqTk5OoqKglJSWkpKTq6uo+Pj5OTk7y8vL8/PyGhobAwMANDQ20tLRaWloVFRXi4uKbm5vIyMhfX181NTV2dnZTU1MqKipmZmZvb2+MjIzS0tIdHR11wAe4AAAEIUlEQVR4nO2ca5uqIBCAl+6WaV4yy9rt///Ks26nA+KADCL4nJ33q2y9Cw4Mtz4+CIIgiF/JMcqS/LAKTH7NoqPWs1qyuXBJ1ZpxcgqtJ3KLFZ5lHVpN4vkFekaH0GI9tiUURnloLYAn0Pq70FIgSS/44ya0E8xCFt2ENlJwld/Qa2gjFXLXJLR8sglNIthIbb/gT85g5+WXlI88WfcJF62jMG5d+Niz6T7goqtZiO7/+ey6D0jUEhJ1DYm6xl40qrIsq6D8cBIsRePzqim+nxXNPin1s66QomXCRK7wBCG8aCZPpQoP2QBe9JiwPnfV/DCg6BrwZOwx9YuKFj2DnowtJzbFii4gyR+kNDGwqGYKXUxbpUjRTOnJ2HpGoseHRvQw6VCLE400noxV8xFNtaKTdvs4Uaiv5+TYL68QwwROVL9stkV67tjdvKfAie4hPw7W8zufMa7TcKKvodi4TnGiF61ng/F8r8GZDr04UTghefNAePJPupi1Pk600opKn6BDXCQ2S7xcdvjmiX43BTNKZpFDqG7XKTeOYDlVvBjUKTIp0Q1Nxi3fT2kfw/8jNh9VZyW1qecn8MfDEYUVVb+lpikJvNkyGFHoqYgq8KXlVSVQfbbkA0kifnIH75b0t39gVFOuwTHKYl6fARu5a0NP3Yhx19apzQLEl7xH2mg2qI09Gbvp/lurJZ14sxU+/7Q2nYOo2/2FrpeyXc3Lkrwu2Km+LTfGOaU+7W7RjBn2y45xufhalIgJ3VB9tqgjyt9C7nB9ttxUX+ZNVB9HHFXr+xJV9fN9LvDXeRI1a/cX8BEXP6Km7f4CzE+9iGLPTkGLQz5EcfXZAmR904uCS+mDddrbFppe1DzeO6ZynToSVa4iHe08+/mpG9H0tFcUsj+DKEWUE9HqBLTVD/g44nR7fheir0y6AYqNO9O5EiPKgWhVvMr1ez/b9/ONOEaNF02Ld8Ftt/W1qxVmCP3paFHuKZe06T8lhEYaKyp6MibEvlU/P51oVnQ/mR/mcnK0z5lofzXiXXhsHLkVhfbxira0q6OSjkRT8Eh5W9zF++lOFFoxaXmWzs7uOxGV44ijfBBEFG53xzgQ9XMCeryofvd2PqK+TpSPFVXF+9xEdec15iS68Xd1aJSov/ocJ+r1ZsYIUZ/1OUbU89Uha1HfN3KsRX3fwbMWHThTQqIkSqIkSqIkSqIk6kd09dz65Jnbii48I9zp+gV37jxDoq4hUdf8T6KNt9u0Ogx+sYAtJ79LOchR2PiXzoBGwrieL0Nz5zJMehMdbGJPhFzbftftzOnfQfSd05nx7Ie2py0aJNDFvjm+pXvoyO4Mf/enhnvKWHdfNQSqY2DAnf+QNJ8qzW/K8yq031/qde+3s6T2L9PzOjTnrAw/jhMEQRAEQRAE5w/6VlvVhOzL/AAAAABJRU5ErkJggg==";
+  const [organizationShow, setOrganizationShow] = useState(false);
+  const [organizationList, setOrganizationList] = useState([]);
+  const [organization, setOrganization] = useState("");
+  const logoInputRef = useRef(null);
+  const organizationDescRef = useRef("");
+  const organizationEmailRef = useRef("");
+  const organizationLocationRef = useRef("");
+  const organizationWebsiteRef = useRef("");
+  const [organizationLogo, setOrganizationLogo] = useState("");
+  const [organizationLogoPreview, setOrganizationLogoPreview] = useState(null);
+  const [createOrg, setCreateOrg] = useState(false);
+
+  useEffect(() => {
+    const getOrganizations = async () => {
+      const res = await axiosClient.get("/get-organizations");
+      setOrganizationList(res.data.organizations);
+    };
+
+    getOrganizations();
+  }, []);
+
+  const organizationOptions = organizationList?.map((org) => org.name);
+
+  const handleLogoClick = () => {
+    if (logoInputRef.current) {
+      logoInputRef.current.click(); // open file picker
+    }
+  };
+  const handleLogoChange = async (event) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // show preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setOrganizationLogoPreview(reader.result);
       };
-  
-      getOrganizations();
-    }, []);
-  
-    const organizationOptions = organizationList?.map((org) => org.name);
-  
-    const handleLogoClick = () => {
-      if (logoInputRef.current) {
-        logoInputRef.current.click(); // open file picker
+      reader.readAsDataURL(file);
+
+      // TODO: send `file` to your backend API for upload
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
+
+      try {
+        const res = await axios.post(
+          "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
+          formData
+        );
+
+        const imageUrl = res.data.secure_url;
+        setOrganizationLogo(imageUrl);
+      } catch (error) {
+        console.error("Image upload failed", error);
+        toast.error("Image Upload Failed. Please try again.");
       }
-    };
-    const handleLogoChange = async (event) => {
-      const file = event.target.files?.[0];
-      if (file) {
-        // show preview
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setOrganizationLogoPreview(reader.result);
-        };
-        reader.readAsDataURL(file);
-  
-        // TODO: send `file` to your backend API for upload
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
-  
-        try {
-          const res = await axios.post(
-            "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
-            formData
-          );
-  
-          const imageUrl = res.data.secure_url;
-          setOrganizationLogo(imageUrl);
-        } catch (error) {
-          console.error("Image upload failed", error);
-          toast.error("Image Upload Failed. Please try again.");
-        }
-      }
-    };
-    const handleImageClick = () => {
-      if (fileInputRef.current) {
-        fileInputRef.current.click(); // open file picker
-      }
-    };
-    const handleFileChange = async (event) => {
-      const file = event.target.files?.[0];
-      if (file) {
-        // show preview
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setPreview(reader.result);
-        };
-        reader.readAsDataURL(file);
-  
-        // TODO: send `file` to your backend API for upload
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
-  
-        try {
-          const res = await axios.post(
-            "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
-            formData
-          );
-  
-          const imageUrl = res.data.secure_url;
-          setProfileImage(imageUrl);
-  
-          const resp = await makeRequest("/profile/upload", {
-            profilePic: imageUrl,
-          });
-  
-          if (resp.error) {
-            return;
-          }
-          setUserDetails(resp.response.user);
-  
-          toast.success(resp.response.message);
-          // If you have a callback to inform parent component
-        } catch (error) {
-          console.error("Image upload failed", error);
-          toast.error("Image Upload Failed. Please try again.");
-        }
-      }
-    };
-  
-    const handleEditProfile = async () => {
-     
-  
-     
-     
-      const profileData = {
-        firstName: firstNameRef.current.value,
-        lastName: lastNameRef.current.value,
-        email: emailRef.current.value,
-        phone: phoneRef.current.value,
-        facebook: facebookRef.current.value,
-        linkedin: linkedinRef.current.value,
-        profession: professionRef.current.value,
-        category: categoryRef.current.value,
-        experience: experienceRef.current.value,
-        location: locationRef.current.value,
-        roots: rootsRef.current.value,
-        bio: bioRef.current.value,
-        pronouns: pronounsRef.current.value,
-        profilePic: profileImage,
-        organizationName: organizationNameRef.current?.value,
-        organizationDescription: organizationDescRef.current?.value,
-        organizationEmail: organizationEmailRef.current.value,
-        organizationLocation: organizationLocationRef.current.value,
-        organizationWebsite: organizationWebsiteRef.current.value,
-        organizationLogo: organizationLogo,
-        organization: organization,
+    }
+  };
+  const handleImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click(); // open file picker
+    }
+  };
+  const handleFileChange = async (event) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // show preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
       };
-  
-     
-  
-      const res = await makeRequest("/edit-profile", profileData);
-    
-      
-      setUserDetails(res.response.user);
-  
-      if (res.error) {
-        return;
+      reader.readAsDataURL(file);
+
+      // TODO: send `file` to your backend API for upload
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
+
+      try {
+        const res = await axios.post(
+          "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
+          formData
+        );
+
+        const imageUrl = res.data.secure_url;
+        setProfileImage(imageUrl);
+
+        const resp = await makeRequest("/profile/upload", {
+          profilePic: imageUrl,
+        });
+
+        if (resp.error) {
+          return;
+        }
+        setUserDetails(resp.response.user);
+
+        toast.success(resp.response.message);
+        // If you have a callback to inform parent component
+      } catch (error) {
+        console.error("Image upload failed", error);
+        toast.error("Image Upload Failed. Please try again.");
       }
-      toast.success("Profile Edited Successfully");
-      onClose() // notify parent component
+    }
+  };
+
+  const handleEditProfile = async () => {
+    const profileData = {
+      firstName: firstNameRef.current.value,
+      lastName: lastNameRef.current.value,
+      email: emailRef.current.value,
+      phone: phoneRef.current.value,
+      facebook: facebookRef.current.value,
+      linkedin: linkedinRef.current.value,
+      profession: professionRef.current.value,
+      category: categoryRef.current.value,
+      experience: experienceRef.current.value,
+      location: locationRef.current.value,
+      roots: rootsRef.current.value,
+      bio: bioRef.current.value,
+      pronouns: pronounsRef.current.value,
+      profilePic: profileImage,
+      organizationName: organizationNameRef.current?.value,
+      organizationDescription: organizationDescRef.current?.value,
+      organizationEmail: organizationEmailRef.current.value,
+      organizationLocation: organizationLocationRef.current.value,
+      organizationWebsite: organizationWebsiteRef.current.value,
+      organizationLogo: organizationLogo,
+      organization: organization,
     };
- 
+
+    const res = await makeRequest("/edit-profile", profileData);
+
+    setUserDetails(res.response.user);
+
+    if (res.error) {
+      return;
+    }
+    toast.success("Profile Edited Successfully");
+    onClose(); // notify parent component
+  };
+
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
@@ -279,7 +273,12 @@ export const EditProfile = ({ isOpen, onClose }) => {
                       Last Name
                     </Field.Label>
                     <InputGroup startElement={<CiUser />}>
-                      <Input py={6} placeholder="Last Name" ref={lastNameRef} defaultValue={userDetails.last_name} />
+                      <Input
+                        py={6}
+                        placeholder="Last Name"
+                        ref={lastNameRef}
+                        defaultValue={userDetails.last_name}
+                      />
                     </InputGroup>
                   </Field.Root>
                 </HStack>
@@ -307,7 +306,12 @@ export const EditProfile = ({ isOpen, onClose }) => {
                         <CiUser />
                       </Box>
 
-                      <NativeSelect.Field name="country" pl="10" fontSize={{base:'8px', md:12}} defaultValue={userDetails.gender}>
+                      <NativeSelect.Field
+                        name="country"
+                        pl="10"
+                        fontSize={{ base: "8px", md: 12 }}
+                        defaultValue={userDetails.gender}
+                      >
                         <For each={["Male", "Female", "others"]}>
                           {(item) => (
                             <option key={item} value={item} ref={genderRef}>
@@ -342,7 +346,11 @@ export const EditProfile = ({ isOpen, onClose }) => {
                         <CiUser />
                       </Box>
 
-                      <NativeSelect.Field name="country" pl="10" defaultValue={userDetails.pronouns}>
+                      <NativeSelect.Field
+                        name="country"
+                        pl="10"
+                        defaultValue={userDetails.pronouns}
+                      >
                         <For each={["He/Him", "She/Her", "others"]}>
                           {(item) => (
                             <option key={item} value={item} ref={pronounsRef}>
@@ -423,7 +431,12 @@ export const EditProfile = ({ isOpen, onClose }) => {
                       Phone Number
                     </Field.Label>
                     <InputGroup startElement={<ImPhoneHangUp />}>
-                      <Input py={6} placeholder="phoneNumber" ref={phoneRef} defaultValue={userDetails.phone} />
+                      <Input
+                        py={6}
+                        placeholder="phoneNumber"
+                        ref={phoneRef}
+                        defaultValue={userDetails.phone}
+                      />
                     </InputGroup>
                   </Field.Root>
 
@@ -458,13 +471,18 @@ export const EditProfile = ({ isOpen, onClose }) => {
                       LinkedIn
                     </Field.Label>
                     <InputGroup startElement={<BsLinkedin color="#0A66C2" />}>
-                      <Input py={6} placeholder="" ref={linkedinRef} defaultValue={userDetails.linkedin_url}/>
+                      <Input
+                        py={6}
+                        placeholder=""
+                        ref={linkedinRef}
+                        defaultValue={userDetails.linkedin_url}
+                      />
                     </InputGroup>
                   </Field.Root>
                 </HStack>
 
                 <HStack>
-                  {/* Profesion */}
+                  {/* Profession  */}
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
@@ -585,10 +603,15 @@ export const EditProfile = ({ isOpen, onClose }) => {
                     City
                   </Field.Label>
                   <InputGroup startElement={<IoLocationOutline />}>
-                    <Input py={6} placeholder="City" ref={locationRef} defaultValue={userDetails.city} />
+                    <Input
+                      py={6}
+                      placeholder="City"
+                      ref={locationRef}
+                      defaultValue={userDetails.city}
+                    />
                   </InputGroup>
                 </Field.Root>
-                 <Field.Root>
+                <Field.Root>
                   <Field.Label
                     fontWeight={"400"}
                     fontSize={{ base: 12, md: 14 }}
@@ -633,9 +656,8 @@ export const EditProfile = ({ isOpen, onClose }) => {
                       /> */}
                     <SearchableDropdown
                       options={organizationOptions}
-                     placeholder="Search organizations..."
-                      
-                       onSelect={(value) => setOrganization(value)}
+                      placeholder="Search organizations..."
+                      onSelect={(value) => setOrganization(value)}
                     />
 
                     <Text
@@ -662,7 +684,6 @@ export const EditProfile = ({ isOpen, onClose }) => {
                     Create Organization
                   </Button> */}
                 </HStack>
-                
 
                 {/* Bio */}
                 {organizationShow && (
@@ -691,13 +712,13 @@ export const EditProfile = ({ isOpen, onClose }) => {
                       </Field.Label>
 
                       <Textarea
-                    resize="none"
-                    h={200}
-                    placeholder="Type here"
-                    ref={organizationDescRef}
-                  />
+                        resize="none"
+                        h={200}
+                        placeholder="Type here"
+                        ref={organizationDescRef}
+                      />
                     </Field.Root>
-                    <Stack  position={"relative"}>
+                    <Stack position={"relative"}>
                       <Text
                         fontWeight={"400"}
                         fontSize={{ base: 12, md: 14 }}
@@ -771,8 +792,6 @@ export const EditProfile = ({ isOpen, onClose }) => {
                     </Field.Root>
                   </>
                 )}
-
-               
               </Fieldset.Content>
 
               {/* Button */}
