@@ -221,7 +221,7 @@ export const Organization = () => {
         </HStack>
       </Button>
 
-      <CreateOrganization isOpen={isOpen} onClose={handleClose} />
+      <CreateOrganization isOpen={isOpen} onClose={handleClose} setOrganizations={setOrganizations} />
       {organizations.length > 0 ? (
         <BottomTable
           dataTable={dataTable}
