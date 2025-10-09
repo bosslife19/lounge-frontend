@@ -11,10 +11,27 @@ import {
   Textarea,
   Field,
   InputGroup,
+  Spinner,
 } from "@chakra-ui/react";
 import { CgAttachment } from "react-icons/cg";
+import { useRequest } from "../../../../hooks/useRequest";
+import { useRef } from "react";
+import { toast } from "react-toastify";
 
-export const CreateLink = ({ isOpen, onClose }) => {
+export const CreateLink = ({ isOpen, onClose, setLinks}) => {
+  const {loading, makeRequest} = useRequest();
+  const linkRef = useRef()
+
+  const handleLinkPost = async ()=>{
+    if(!linkRef.current.value) return toast.error("Link url is required");
+    const res = await makeRequest('/link', {url:linkRef.current.value});
+    if(res.error) return;
+    toast.success("Link posted successfully");
+    setLinks(prev=>[res.response.link, ...prev]);
+    onClose();
+    linkRef.current.value = "";
+    
+  }
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
@@ -30,10 +47,10 @@ export const CreateLink = ({ isOpen, onClose }) => {
             </Dialog.CloseTrigger>
             <Stack spacing={0}>
               <Heading fontSize={{ base: "14px", md: "24px" }}>
-                Edit Program
+                Post New Link
               </Heading>
-              <Text fontSize={{ base: "10px", md: "12px" }}>Title</Text>
-              <Input fontSize={{ base: "10px", md: "12px" }} type="text" />
+              {/* <Text fontSize={{ base: "10px", md: "12px" }}>Title</Text>
+              <Input fontSize={{ base: "10px", md: "12px" }} type="text" /> */}
               <Field.Root>
                 <Field.Label
                   fontWeight={"400"}
@@ -41,13 +58,15 @@ export const CreateLink = ({ isOpen, onClose }) => {
                   fontFamily="InterMedium"
                   color={"#101928"}
                 >
-                  Video Link
+                   Link Url
                 </Field.Label>
                 <InputGroup startElement={<CgAttachment />}>
                   <Input
                     py={{ base: 2, md: 6 }}
                     fontSize={{ base: "10px", md: "12px" }}
                     placeholder=""
+                    type="url"
+                    ref={linkRef}
                   />
                 </InputGroup>
               </Field.Root>
@@ -75,8 +94,11 @@ export const CreateLink = ({ isOpen, onClose }) => {
                   bg={"#2B362F"}
                   fontSize={{ base: "10px", md: "12px" }}
                   color="white"
+                  onClick={handleLinkPost}
                 >
-                  Create
+                  {
+                    loading?<Spinner color="white" />:"Post Link"
+                  }
                 </Button>
               </HStack>
             </Stack>

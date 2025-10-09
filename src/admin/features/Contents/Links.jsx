@@ -12,8 +12,9 @@ import { cardData } from "../../../hooks/useData";
 import { CiSearch } from "react-icons/ci";
 import { RxDotsVertical } from "react-icons/rx";
 import { CreateLink } from "./Modal/CreateLink";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { userAvatar } from "../../../user/features/setting/posts/Posts";
+import axiosClient from "../../../axiosClient";
 export const AdminLinks = ({ articles, setArticles }) => {
   const truncateTexts = (text, maxLength) => {
     if (!text) return "";
@@ -21,6 +22,16 @@ export const AdminLinks = ({ articles, setArticles }) => {
       ? text
       : text.substring(0, maxLength) + "...";
   };
+  const [links, setLinks] = useState([]);
+
+  useEffect(()=>{
+    const getLinks = async ()=>{
+      const res = await axiosClient.get('/links');
+      console.log(res.data)
+      setLinks(res.data.links)
+    }
+    getLinks()
+  },[])
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,8 +44,19 @@ export const AdminLinks = ({ articles, setArticles }) => {
   };
   return (
     <Box mb={"10%"} px={{ base: 5, md: 5 }} py={{ base: 0, md: 5 }}>
-      {articles.length > 0 ? (
-        articles.map((card, idx) => (
+       <Button
+              ml={"auto"}
+              colorScheme="blue"
+              w={{ base: "auto" }}
+              onClick={() => setIsOpen(true)}
+              fontSize={{ base: "10px", md: "14px" }}
+              style={{ marginLeft: 10 }}
+              mt={{ base: -3, md: 0 }}
+            >
+              + Post New Link
+            </Button>
+      {links.length > 0 ? (
+        links.map((card, idx) => (
           <HStack>
             <Box
               w={{ base: "100%", md: 700 }}
@@ -71,7 +93,8 @@ export const AdminLinks = ({ articles, setArticles }) => {
                     wordBreak="break-word" // ensures long text breaks instead of overflowing
                     whiteSpace="normal" // allows wrapping
                   >
-                    {card.link}
+                    {card.url}
+                    
                   </Text>
                 </Stack>
               </HStack>
@@ -93,7 +116,7 @@ export const AdminLinks = ({ articles, setArticles }) => {
         <Text>No links yet</Text>
       )}
 
-      <CreateLink isOpen={isOpen} onClose={handleClose} />
+      <CreateLink isOpen={isOpen} onClose={handleClose} setLinks={setLinks} />
     </Box>
   );
 };

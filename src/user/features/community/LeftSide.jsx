@@ -355,7 +355,7 @@ export const LeftSide = ({ posts, setPosts }) => {
                   <Textarea
                     placeholder="Write a comment"
                     resize="none"
-                    minH={{ base: "15px", md: "50px" }}
+                    minH={{ base: "9px", md: "10px" }}
                     bg={"#F6F6F6"}
                     textWrap={"stable"}
                     onChange={(e) => setComment(e.target.value)}

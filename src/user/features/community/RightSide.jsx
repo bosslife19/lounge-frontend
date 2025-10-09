@@ -6,12 +6,13 @@ import {
   CloseButton,
   Flex,
   HStack,
-  Image,
+  
   InputGroup,
   Spinner,
   Stack,
   Text,
   Textarea,
+  Slider
 } from "@chakra-ui/react";
 import { cardData } from "../../../hooks/useData";
 import { BsThreeDots } from "react-icons/bs";
@@ -28,6 +29,43 @@ import { useRequest } from "../../../hooks/useRequest";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
 import { TfiClose } from "react-icons/tfi";
+import Cropper from "react-easy-crop";
+
+export const getCroppedImg = (imageSrc, crop) => {
+  return new Promise((resolve, reject) => {
+     const image = new Image();
+    image.src = imageSrc;
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = crop.width;
+      canvas.height = crop.height;
+
+      ctx.drawImage(
+        image,
+        crop.x,
+        crop.y,
+        crop.width,
+        crop.height,
+        0,
+        0,
+        crop.width,
+        crop.height
+      );
+
+      canvas.toBlob((blob) => {
+        if (!blob) return reject("Canvas is empty");
+        blob.name = "cropped.jpeg";
+        const croppedUrl = URL.createObjectURL(blob);
+        resolve({ blob, croppedUrl });
+      }, "image/jpeg");
+    };
+    image.onerror = (error) => reject(error);
+  });
+};
+
+
 
 export const RightSide = ({ setPosts, posts, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +74,10 @@ export const RightSide = ({ setPosts, posts, onClose }) => {
   //   { id: 2, image: heart },
   //   { id: 3, image: bulb},
   //    ];
+  const [isCropping, setIsCropping] = useState(false);
+const [crop, setCrop] = useState({ x: 0, y: 0 });
+const [zoom, setZoom] = useState(1);
+const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
   const postRef = useRef(null);
    const temporalLogo = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKgAAACUCAMAAAAwLZJQAAAAY1BMVEX///8AAADY2Nh+fn5KSkqTk5OoqKglJSWkpKTq6uo+Pj5OTk7y8vL8/PyGhobAwMANDQ20tLRaWloVFRXi4uKbm5vIyMhfX181NTV2dnZTU1MqKipmZmZvb2+MjIzS0tIdHR11wAe4AAAEIUlEQVR4nO2ca5uqIBCAl+6WaV4yy9rt///Ks26nA+KADCL4nJ33q2y9Cw4Mtz4+CIIgiF/JMcqS/LAKTH7NoqPWs1qyuXBJ1ZpxcgqtJ3KLFZ5lHVpN4vkFekaH0GI9tiUURnloLYAn0Pq70FIgSS/44ya0E8xCFt2ENlJwld/Qa2gjFXLXJLR8sglNIthIbb/gT85g5+WXlI88WfcJF62jMG5d+Niz6T7goqtZiO7/+ey6D0jUEhJ1DYm6xl40qrIsq6D8cBIsRePzqim+nxXNPin1s66QomXCRK7wBCG8aCZPpQoP2QBe9JiwPnfV/DCg6BrwZOwx9YuKFj2DnowtJzbFii4gyR+kNDGwqGYKXUxbpUjRTOnJ2HpGoseHRvQw6VCLE400noxV8xFNtaKTdvs4Uaiv5+TYL68QwwROVL9stkV67tjdvKfAie4hPw7W8zufMa7TcKKvodi4TnGiF61ng/F8r8GZDr04UTghefNAePJPupi1Pk600opKn6BDXCQ2S7xcdvjmiX43BTNKZpFDqG7XKTeOYDlVvBjUKTIp0Q1Nxi3fT2kfw/8jNh9VZyW1qecn8MfDEYUVVb+lpikJvNkyGFHoqYgq8KXlVSVQfbbkA0kifnIH75b0t39gVFOuwTHKYl6fARu5a0NP3Yhx19apzQLEl7xH2mg2qI09Gbvp/lurJZ14sxU+/7Q2nYOo2/2FrpeyXc3Lkrwu2Km+LTfGOaU+7W7RjBn2y45xufhalIgJ3VB9tqgjyt9C7nB9ttxUX+ZNVB9HHFXr+xJV9fN9LvDXeRI1a/cX8BEXP6Km7f4CzE+9iGLPTkGLQz5EcfXZAmR904uCS+mDddrbFppe1DzeO6ZynToSVa4iHe08+/mpG9H0tFcUsj+DKEWUE9HqBLTVD/g44nR7fheir0y6AYqNO9O5EiPKgWhVvMr1ez/b9/ONOEaNF02Ld8Ftt/W1qxVmCP3paFHuKZe06T8lhEYaKyp6MibEvlU/P51oVnQ/mR/mcnK0z5lofzXiXXhsHLkVhfbxira0q6OSjkRT8Eh5W9zF++lOFFoxaXmWzs7uOxGV44ijfBBEFG53xzgQ9XMCeryofvd2PqK+TpSPFVXF+9xEdec15iS68Xd1aJSov/ocJ+r1ZsYIUZ/1OUbU89Uha1HfN3KsRX3fwbMWHThTQqIkSqIkSqIkSqIk6kd09dz65Jnbii48I9zp+gV37jxDoq4hUdf8T6KNt9u0Ogx+sYAtJ79LOchR2PiXzoBGwrieL0Nz5zJMehMdbGJPhFzbftftzOnfQfSd05nx7Ie2py0aJNDFvjm+pXvoyO4Mf/enhnvKWHdfNQSqY2DAnf+QNJ8qzW/K8yq031/qde+3s6T2L9PzOjTnrAw/jhMEQRAEQRAE5w/6VlvVhOzL/AAAAABJRU5ErkJggg=='
@@ -86,21 +128,18 @@ export const RightSide = ({ setPosts, posts, onClose }) => {
     setPostImage(null);
   };
 
-  const handleFileChange = async (event) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // show preview
-      const reader = new FileReader();
+ const handleFileChange = async (event) => {
+  const file = event.target.files?.[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreview(reader.result);  // show preview in cropper
+      setIsCropping(true);        // open crop overlay
+    };
+  }
+};
 
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-          setPreview(reader.result);
-        };
-
-      // TODO: send `file` to your backend API for upload
-      setPostImage(file);
-    }
-  };
   return (
     <Stack>
       <Card.Root
@@ -115,12 +154,17 @@ export const RightSide = ({ setPosts, posts, onClose }) => {
           <HStack alignItems={"flex-start"} justifyContent={"space-between"}>
             <HStack mt={{ base: -2, md: 0 }} ml={-5} alignItems={"flex-start"}>
               <Stack position={"relative"}>
-                <Image
-                  src={userDetails?.profile_picture || userImage}
-                  alt="Update"
-                  boxSize={{ base: "35px", md: "59px" }}
-                  rounded={50}
-                />
+                <img
+  src={userDetails?.profile_picture || userImage}
+  alt="Update"
+  style={{
+    width: window.innerWidth < 768 ? "35px" : "59px",
+    height: window.innerWidth < 768 ? "35px" : "59px",
+    borderRadius: "50%",
+    objectFit: "cover",
+  }}
+/>
+
               </Stack>
               <Stack>
                 <Text
@@ -180,16 +224,21 @@ export const RightSide = ({ setPosts, posts, onClose }) => {
           Add media
         </Button>
         {
-          preview &&
-          <Image
-                                src={preview ||temporalLogo} // fallback to default image
-                                alt="logo"
-                                // boxSize={{ base: "100px", md: "4000px" }}
-                                // borderRadius="10px"
-                                objectFit="cover"
-                                cursor="pointer"
-                                // onClick={handleLogoClick}
-                              />
+          postImage &&
+//          <img
+//   src={preview || temporalLogo}
+//   alt="logo"
+//   style={{
+//     width: "100px", // or adjust as needed
+//     height: "100px",
+//     borderRadius: "10px",
+//     objectFit: "cover",
+//     cursor: "pointer",
+//   }}
+//   // onClick={handleLogoClick} // uncomment if you have this function
+// />
+<Text style={{color:'green'}}>{postImage.name}</Text>
+
         }
                               
         <Card.Footer borderTop={"1px solid #D4D7E5"}>
@@ -219,6 +268,108 @@ export const RightSide = ({ setPosts, posts, onClose }) => {
           </Button>
         </Card.Footer>
       </Card.Root>
+{isCropping && (
+  <Box
+    position="fixed"
+    top="0"
+    left="0"
+    w="100vw"
+    h="100vh"
+    bg="rgba(0,0,0,0.8)"
+    display="flex"
+    alignItems="center"
+    justifyContent="center"
+    zIndex="9999"
+  >
+    <Box
+      position="relative"
+      bg="#fff"
+      rounded="lg"
+      overflow="hidden"
+      width={["90%", "70%", "500px"]}
+      height="500px"
+      display="flex"
+      flexDir="column"
+      alignItems="center"
+      justifyContent="center"
+      p={4}
+    >
+      <Text fontWeight="bold" mb={2}>
+        Crop Image
+      </Text>
+
+      <Box position="relative" w="100%" h="350px" bg="gray.200">
+        <Cropper
+          image={preview}
+          crop={crop}
+          zoom={zoom}
+          aspect={4/3}
+          onCropChange={setCrop}
+          onZoomChange={setZoom}
+          onCropComplete={(_, croppedAreaPixels) =>
+            setCroppedAreaPixels(croppedAreaPixels)
+          }
+        />
+      </Box>
+
+      {/* 🔧 Custom Zoom Slider */}
+      <Box w="80%" mt={4}>
+        <Box display="flex" alignItems="center" justifyContent="space-between" mb={1}>
+          <Text fontSize="sm">Zoom</Text>
+          <Text fontSize="sm">{zoom.toFixed(1)}x</Text>
+        </Box>
+        <input
+          type="range"
+          min="1"
+          max="3"
+          step="0.1"
+          value={zoom}
+          onChange={(e) => setZoom(Number(e.target.value))}
+          style={{
+            width: "100%",
+            appearance: "none",
+            height: "6px",
+            borderRadius: "5px",
+            background: "#e2e8f0",
+            outline: "none",
+            cursor: "pointer",
+            accentColor: "#000", // works in most modern browsers
+          }}
+        />
+      </Box>
+
+      {/* Buttons */}
+      <Flex justify="space-between" mt={6} w="100%">
+        <Button
+          flex={1}
+          bg="gray.300"
+          color="black"
+          mr={2}
+          onClick={() => setIsCropping(false)}
+        >
+          Cancel
+        </Button>
+        <Button
+          flex={1}
+          bg="black"
+          color="white"
+          onClick={async () => {
+            
+            const { blob, croppedUrl } = await getCroppedImg(preview, croppedAreaPixels);
+            setPostImage(new File([blob], "Post_Image.jpeg", { type: "image/jpeg" }));
+
+            setPreview(croppedUrl);
+            setIsCropping(false);
+          }}
+        >
+          Save Crop
+        </Button>
+      </Flex>
+    </Box>
+  </Box>
+)}
+
+
     </Stack>
   );
 };

@@ -10,10 +10,19 @@ import {
 import { cardData } from "../../../hooks/useData";
 import { CiSearch } from "react-icons/ci";
 import { userAvatar } from "../setting/posts/Posts";
+import { useEffect, useState } from "react";
+import axiosClient from "../../../axiosClient";
 
 export const Links = ({ articles }) => {
-  const links = articles.flatMap((item) => (item.link ? [item.link] : []));
-
+const [links, setLinks] = useState([]);
+  useEffect(()=>{
+      const getLinks = async ()=>{
+        const res = await axiosClient.get('/links');
+       
+        setLinks(res.data.links)
+      }
+      getLinks()
+    },[])
   const truncateTexts = (text, maxLength) => {
     if (!text) return "";
     return text.length <= maxLength
@@ -58,7 +67,7 @@ export const Links = ({ articles }) => {
                     textDecoration={"underline"}
                     fontSize={{ base: 9, md: 11 }}
                   >
-                    {card}
+                    {card.url}
                   </Text>
                 </a>
               </Stack>

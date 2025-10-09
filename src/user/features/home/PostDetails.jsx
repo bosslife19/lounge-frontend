@@ -277,7 +277,8 @@ const PostDetails = () => {
                   <Textarea
                     placeholder="Write a comment"
                     resize="none"
-                    minH="60px"
+                     minH={{ base: "9px", md: "10px" }}
+                    // minH="60px"
                     bg={"#F6F6F6"}
                     onChange={(e) => setComment(e.target.value)}
                     value={comment}

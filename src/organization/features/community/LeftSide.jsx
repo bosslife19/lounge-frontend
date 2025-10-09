@@ -163,7 +163,7 @@ const actions = [
          placeholder="write a comment"
          resize="none"
          autoresize 
-         minH="60px"
+          minH={{ base: "9px", md: "10px" }}
          bg={'#F6F6F6'}
          textWrap={'stable'}
          outline={'none'}

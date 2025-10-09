@@ -287,7 +287,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     >
                       <HStack spacing={1} align="center">
                         <Text>First Name</Text>
-                        <FaStar color="#FFD700" size={8} />{" "}
+                        *
                         {/* Yellow star icon */}
                       </HStack>
                     </Field.Label>
@@ -311,7 +311,8 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     >
                       <HStack spacing={1} align="center">
                         <Text>Last Name</Text>
-                        <FaStar color="#FFD700" size={8} />{" "}
+                        {/* <FaStar color="#FFD700" size={8} />{" "} */}
+                        *
                         {/* Yellow star icon */}
                       </HStack>
                     </Field.Label>
@@ -376,7 +377,8 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     >
                       <HStack spacing={1} align="center">
                         <Text> Pronouns</Text>
-                        <FaStar color="#FFD700" size={8} />{" "}
+                        {/* <FaStar color="#FFD700" size={8} />{" "} */}
+                        *
                         {/* Yellow star icon */}
                       </HStack>
                     </Field.Label>
@@ -419,7 +421,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     >
                       <HStack spacing={1} align="center">
                         <Text> Roots</Text>
-                        <FaStar color="#FFD700" size={8} />{" "}
+                          *
                         {/* Yellow star icon */}
                       </HStack>
                     </Field.Label>
@@ -470,7 +472,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                   >
                     <HStack spacing={1} align="center">
                       <Text>Email</Text>
-                      <FaStar color="#FFD700" size={8} />{" "}
+                        *
                       {/* Yellow star icon */}
                     </HStack>
                   </Field.Label>
@@ -495,7 +497,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     >
                       <HStack spacing={1} align="center">
                         <Text> Phone Number</Text>
-                        <FaStar color="#FFD700" size={8} />{" "}
+                          *
                         {/* Yellow star icon */}
                       </HStack>
                     </Field.Label>
@@ -519,7 +521,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     >
                       <HStack spacing={1} align="center">
                         <Text> Facebook</Text>
-                        <FaStar color="#FFD700" size={8} />{" "}
+
                         {/* Yellow star icon */}
                       </HStack>
                     </Field.Label>
@@ -543,7 +545,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     >
                       <HStack spacing={1} align="center">
                         <Text> LinkedIn</Text>
-                        <FaStar color="#FFD700" size={8} />{" "}
+
                         {/* Yellow star icon */}
                       </HStack>
                     </Field.Label>
@@ -569,7 +571,8 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     >
                       <HStack spacing={1} align="center">
                         <Text> Profession</Text>
-                        <FaStar color="#FFD700" size={8} />{" "}
+                        *
+                          {" "}
                         {/* Yellow star icon */}
                       </HStack>
                     </Field.Label>
@@ -593,7 +596,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                     >
                       <HStack spacing={1} align="center">
                         <Text> Category</Text>
-                        <FaStar color="#FFD700" size={8} />{" "}
+                        *
                         {/* Yellow star icon */}
                       </HStack>
                     </Field.Label>
@@ -669,7 +672,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                   >
                     <HStack spacing={1} align="center">
                       <Text> Experience Level (Years)</Text>
-                      <FaStar color="#FFD700" size={8} />{" "}
+                      *{" "}
                       {/* Yellow star icon */}
                     </HStack>
                   </Field.Label>
@@ -695,7 +698,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                   >
                     <HStack spacing={1} align="center">
                       <Text> City</Text>
-                      <FaStar color="#FFD700" size={8} />{" "}
+*{" "}
                       {/* Yellow star icon */}
                     </HStack>{" "}
                   </Field.Label>
@@ -718,7 +721,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                   >
                     <HStack spacing={1} align="center">
                       <Text> About Me</Text>
-                      <FaStar color="#FFD700" size={8} />{" "}
+                          *
                       {/* Yellow star icon */}
                     </HStack>{" "}
                   </Field.Label>
@@ -801,7 +804,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       >
                         <HStack spacing={1} align="center">
                           <Text> Organization Name</Text>
-                          <FaStar color="#FFD700" size={8} />{" "}
+                          *
                           {/* Yellow star icon */}
                         </HStack>
                       </Field.Label>
@@ -823,7 +826,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       >
                         <HStack spacing={1} align="center">
                           <Text> Description</Text>
-                          <FaStar color="#FFD700" size={8} />{" "}
+                          *
                           {/* Yellow star icon */}
                         </HStack>
                       </Field.Label>
@@ -845,7 +848,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       >
                         <HStack spacing={1} align="center">
                           <Text> Organization Logo</Text>
-                          <FaStar color="#FFD700" size={8} />{" "}
+                              *
                           {/* Yellow star icon */}
                         </HStack>
                       </Text>
@@ -877,7 +880,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       >
                         <HStack spacing={1} align="center">
                           <Text> Organization Location</Text>
-                          <FaStar color="#FFD700" size={8} />{" "}
+                            *
                           {/* Yellow star icon */}
                         </HStack>
                       </Field.Label>
@@ -898,7 +901,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       >
                         <HStack spacing={1} align="center">
                           <Text> Organization Email</Text>
-                          <FaStar color="#FFD700" size={8} />{" "}
+                              *
                           {/* Yellow star icon */}
                         </HStack>
                       </Field.Label>
@@ -919,7 +922,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       >
                         <HStack spacing={1} align="center">
                           <Text> Organization Website</Text>
-                          <FaStar color="#FFD700" size={8} />{" "}
+                            *
                           {/* Yellow star icon */}
                         </HStack>{" "}
                       </Field.Label>

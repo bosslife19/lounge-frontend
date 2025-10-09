@@ -29,11 +29,35 @@ import axiosClient from "../../../axiosClient";
 import { BiMessageRoundedDetail } from "react-icons/bi";
 import { AiOutlineLike } from "react-icons/ai";
 import { formatDate, timeAgo } from "../../../utlis/FormatDate";
+import { TrashIcon } from "lucide-react";
+import ConfirmDeleteModal from "../../../components/ConfirmDelete";
+import { toast } from "react-toastify";
 
 export const AdminLeftSide = ({ posts, setPosts }) => {
   const { userDetails } = useContext(AuthContext);
   const [refresh, setRefresh] = useState(false);
   const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false)
+  const [activePostId, setActivePostId] = useState(0)
+  const [confirmOpen, setConfirmOpen] = useState(false)
+      const handleConfirm = async (postId) => {
+     
+      
+        try {
+          setLoading(true);
+          await axiosClient.delete(`/posts/${postId}`);
+          // Remove the deleted post from the state
+          setPosts(posts.filter((post) => post.id !== postId));
+          setLoading(false)
+          toast.success("Post deleted successfully");
+          setConfirmOpen(false);
+        } catch (error) {
+          console.error("Error deleting post:", error);
+          setLoading(false)
+          alert("Failed to delete the post. Please try again.");
+        }
+      
+    }
 
   useEffect(() => {
     const getPosts = async () => {
@@ -67,7 +91,11 @@ export const AdminLeftSide = ({ posts, setPosts }) => {
   ];
   const { makeRequest } = useRequest();
   const [openComments, setOpenComments] = useState({}); // track which posts are expanded
+ const handleDeletePost = async (postId) => {
+    setActivePostId(postId)
+    setConfirmOpen(true);
 
+  };
   const toggleComments = (postId) => {
     setOpenComments((prev) => ({
       ...prev,
@@ -85,7 +113,13 @@ export const AdminLeftSide = ({ posts, setPosts }) => {
           rounded={{ base: 10, md: 20 }}
           border={"1px solid #fff"}
         >
-          <Card.Body gap="2" mt={-3} mx={-3}>
+          <Card.Body gap="2" mt={-3} mx={-3} position={"relative"}>
+            <div style={{position:'absolute', right:'3%'}}>
+              <button style={{cursor:'pointer'}} onClick={()=>handleDeletePost(card.id)}>
+              <TrashIcon color='coral'/>
+              </button>
+              
+              </div>
             <Flex alignItems={"flex-start"} justifyContent={"space-between"}>
               <HStack>
                 <Stack position={"relative"}>
@@ -278,28 +312,29 @@ export const AdminLeftSide = ({ posts, setPosts }) => {
               }
             >
               <Box w="100%" position="relative">
-                <Textarea
-                  placeholder="Write a comment"
-                  resize="none"
-                  minH={{ base: "15px", md: "60px" }}
-                  bg={"#F6F6F6"}
-                  textWrap={"stable"}
-                  onChange={(e) => setComment(e.target.value)}
-                  value={comment}
-                  outline={"none"}
-                  pt={{ base: "10px", md: 23 }}
-                  pr={{ base: "40px", md: "60px" }}
-                  pl={{ base: "30px", md: "50px" }}
-                  borderRadius={{ base: "5px", md: "xl" }}
-                  fontSize={{ base: "9px", md: "11px" }}
-                  lineHeight="1.4"
-                  _placeholder={{ color: "#0000005C" }}
-                />
+ <Textarea
+                    placeholder="Write a comment"
+                    resize="none"
+                    minH={{ base: "15px", md: "10px" }}
+                    bg={"#F6F6F6"}
+                    textWrap={"stable"}
+                    onChange={(e) => setComment(e.target.value)}
+                    value={comment}
+                    outline={"none"}
+                    // pt={{ base: "10px", md: 23 }}
+                    pr={{ base: "40px", md: "50px" }}
+                    // pl={{ base: "30px", md: "50px" }}
+                    borderRadius={{ base: "5px", md: "xl" }}
+                    fontSize={{ base: "9px", md: "11px" }}
+                    lineHeight="1.4"
+                    _placeholder={{ color: "#0000005C" }}
+                  />
               </Box>
             </InputGroup>
           </Card.Footer>
         </Card.Root>
       ))}
+      <ConfirmDeleteModal onClose={()=>setConfirmOpen(false)} onConfirm={()=>handleConfirm(activePostId)} isOpen={confirmOpen} loading={loading}/>
     </Stack>
   );
 };
