@@ -26,7 +26,7 @@ const ProtectedRoute = ({ children }) => {
     const fetchUser = async () => {
       // Redirect immediately if no token
       if (!token) {
-        navigate("/homepage", { replace: true, state: { from: location } });
+        navigate("/login", { replace: true, state: { from: location } });
         setLoading(false);
         return;
       }
@@ -49,7 +49,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) return <Loader />;
 
-  if (!isAuthenticated) return <Navigate to="/homepage" replace />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
 
   // Redirect admin users to admin dashboard
   if (userDetails?.role === "admin")
