@@ -88,10 +88,11 @@ const Directory = () => {
     }
   }, [search, directoryData]);
   useEffect(() => {
+   
     if (locationSearch) {
       const lowerSearch = locationSearch.toLowerCase();
       const results = directoryData.filter((item) =>
-        [item.city, item.organization.location]
+        [item.city, item.organization?.location]
           .filter(Boolean) // removes null/undefined
           .some((field) => field.toLowerCase().includes(lowerSearch))
       );
