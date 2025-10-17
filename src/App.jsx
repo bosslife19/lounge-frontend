@@ -104,6 +104,7 @@ function App() {
             <Route path="/profile/:id" element={<ProfileDetails />} /> */}
             <Route path="/points-history" element={<PostHistory />} />
             <Route path="/directory" element={<Directory />} />
+            <Route path="/directory/:id" element={<Directory />} />
             <Route path="/learning-hub" element={<TopTabs />} />
             <Route path="/mentoring" element={<Mentoring />} />
             <Route path="/community" element={<Community />} />

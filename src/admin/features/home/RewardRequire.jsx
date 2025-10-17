@@ -1,16 +1,20 @@
 import { Box, Menu, Button, Portal, HStack, Text } from "@chakra-ui/react";
 import { BottomTable } from "../../components/BottomTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import img from "../../../assets/userImage.jpg";
 import { IoIosArrowDown, IoMdCheckboxOutline } from "react-icons/io";
 import { MdOutlineCancel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import axiosClient from "../../../axiosClient";
+import { toast } from "react-toastify";
 
 export const RewardReq = () => {
   const [pageSize, setPageSize] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowActions, setRowActions] = useState({});
   const navigate = useNavigate();
+  const [requests, setRequests] = useState([]);
+  const [refresh, setRefresh] = useState(false)
 
   const tableData = [
     {
@@ -59,29 +63,53 @@ export const RewardReq = () => {
     setRowActions((prev) => ({ ...prev, [userId]: { label, color, icon } }));
   };
 
+  const handleApprove = async (id)=>{
+    const res = await axiosClient.post('/approve-reward', {id});
+    if(res.data.error)return toast.error(res.data.error); 
+    toast.success('Reward approved successfully');
+    // setRefresh(prev=>!prev)
+     setRequests((prev)=>prev.filter((req)=>req.id !== id));
+  }
+  const handleDecline = async (id)=>{
+    const res = await axiosClient.post('/decline-reward', {id});
+    if(res.data.error)return toast.error(res.data.error); 
+    toast.success('Reward declined successfully');
+    // setRefresh(prev=>!prev)
+    setRequests((prev)=>prev.filter((req)=>req.id !== id));
+  }
+
+  useEffect(()=>{
+    const fetchRequests = async()=>{
+      const res = await axiosClient.get('/reward-requests');
+     
+      setRequests(res.data.requests);
+    }
+    fetchRequests();
+  }, [refresh]);
+
   const dataTable = {
     col: {
-      col_1: { col_1_1: "User ID" },
-      col_2: { col_2_1: "Name & Image" },
+      col_1: { col_1_1: "ID" },
+      col_2: { col_2_1: "Name" },
       col_3: { col_3_1: "Profession" },
-      col_4: { col_4_1: "Experience" },
-      col_5: { col_5_1: "Last Visited" },
+      col_4: { col_4_1: "User Points" },
+      col_5: { col_5_1: "Benefit Requested" },
       col_6: { col_6_1: "Action" },
     },
-    row: tableData.map((row, index) => {
+    row: requests?.map((row, index) => {
       const selected = rowActions[row.UserId] || {
         label: "Action",
         color: "gray.600",
         icon: null,
       };
-      const uniqueKey = `${row.UserId}-${index}`;
+      const uniqueKey = `${row.id}-${index}`;
       return {
         row_0: uniqueKey,
-        row_1: { row_1_1: row.UserId },
-        row_2: { row_2_1: row.image, row_2_2: row.Name },
-        row_3: { row_3_1: row.Profession },
-        row_4: { row_4_1: row.Experience },
-        row_5: { row_5_1: row.Timestamp },
+        row_1: { row_1_1: row.id },
+        row_2: { row_2_1: row.name},
+        row_3: { row_3_1: row.profession },
+        row_4: { row_4_1: row.points },
+        row_5: { row_5_1: row.benefit },
         row_6: {
           row_6_1: (
             <Menu.Root key={uniqueKey}>
@@ -115,12 +143,13 @@ export const RewardReq = () => {
                       color="#333333CC"
                       fontSize={{ base: "10px", md: "13px" }}
                       onClick={() =>
-                        handleSelect(
-                          row.UserId,
-                          "Approve",
-                          "green.500",
-                          <IoMdCheckboxOutline boxSize={3} />
-                        )
+                        // handleSelect(
+                        //   row.UserId,
+                        //   "Approve",
+                        //   "green.500",
+                        //   <IoMdCheckboxOutline boxSize={3} />
+                        // )
+                        handleApprove(row.id)
                       }
                     >
                       <IoMdCheckboxOutline /> Approve
@@ -130,12 +159,13 @@ export const RewardReq = () => {
                       color="#333333CC"
                       fontSize={{ base: "10px", md: "13px" }}
                       onClick={() =>
-                        handleSelect(
-                          row.UserId,
-                          "Decline",
-                          "red.500",
-                          <MdOutlineCancel boxSize={3} />
-                        )
+                        // handleSelect(
+                        //   row.UserId,
+                        //   "Decline",
+                        //   "red.500",
+                        //   <MdOutlineCancel boxSize={3} />
+                        // )
+                        handleDecline(row.id)
                       }
                     >
                       <MdOutlineCancel /> Decline

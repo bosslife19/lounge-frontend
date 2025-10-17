@@ -20,6 +20,8 @@ import logo from "../../../../assets/userImage.jpg";
 import tick from "../../../../assets/Verified tick2.png";
 import { FaBriefcase, FaFacebook, FaStar } from "react-icons/fa";
 import { CiUser } from "react-icons/ci";
+import Cropper from "react-easy-crop";
+import getCroppedImg from "../../../../lib/getCroppedImage";
 import { BsLinkedin } from "react-icons/bs";
 import { RxDotsVertical } from "react-icons/rx";
 import { MdEmail } from "react-icons/md";
@@ -36,6 +38,66 @@ import SearchableDropdown from "../../../../components/Layout/SearchableDropDown
 import axiosClient from "../../../../axiosClient";
 export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
   const { userDetails, setUserDetails } = useContext(AuthContext);
+  const [imageSrc, setImageSrc] = useState(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [cropType, setCropType] = useState(null); // "profile" or "logo"
+  const [zoom, setZoom] = useState(1);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [showCropper, setShowCropper] = useState(false);
+
+
+
+  const handleCropComplete = async () => {
+  try {
+    const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
+    if (!croppedImage) throw new Error("Cropping failed");
+
+    setShowCropper(false);
+    setImageSrc(null);
+
+    // Show local preview first
+    if (cropType === "profile") {
+      setProfileImage(croppedImage);
+      setPreview(croppedImage);
+    } else if (cropType === "logo") {
+      setOrganizationLogo(croppedImage);
+      setOrganizationLogoPreview(croppedImage);
+    }
+
+    // ✅ Upload to Cloudinary
+    const formData = new FormData();
+    formData.append("file", croppedImage);
+    formData.append("upload_preset", "lounge-platform");
+
+    const res = await axios.post(
+      "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
+      formData
+    );
+
+    const imageUrl = res.data.secure_url;
+
+    if (cropType === "profile") {
+      setProfileImage(imageUrl);
+
+      // Notify backend of profile image update
+      const resp = await makeRequest("/profile/upload", {
+        profilePic: imageUrl,
+      });
+
+      if (resp.error) return;
+      setUserDetails(resp.response.user);
+      toast.success(resp.response.message);
+    } else if (cropType === "logo") {
+      setOrganizationLogo(imageUrl);
+
+
+    }
+  } catch (e) {
+    console.error(e);
+    toast.error("Error cropping or uploading image. Please try again.");
+  }
+};
+
 
   const { makeRequest, loading } = useRequest();
   const fileInputRef = useRef(null);
@@ -83,10 +145,11 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
 
   const handleLogoClick = () => {
     if (logoInputRef.current) {
+      setCropType("logo");
       logoInputRef.current.click(); // open file picker
     }
   };
-  const handleLogoChange = async (event) => {
+  const handleLogoChange = async (event, type) => {
     const file = event.target.files?.[0];
     if (file) {
       // show preview
@@ -94,33 +157,39 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
       reader.onloadend = () => {
         setOrganizationLogoPreview(reader.result);
       };
+      reader.addEventListener("load", () => {
+        setImageSrc(reader.result);
+        setShowCropper(true);
+        setCropType(type);
+      });
       reader.readAsDataURL(file);
 
       // TODO: send `file` to your backend API for upload
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
+      // const formData = new FormData();
+      // formData.append("file", file);
+      // formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
 
-      try {
-        const res = await axios.post(
-          "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
-          formData
-        );
+      // try {
+      //   const res = await axios.post(
+      //     "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
+      //     formData
+      //   );
 
-        const imageUrl = res.data.secure_url;
-        setOrganizationLogo(imageUrl);
-      } catch (error) {
-        console.error("Image upload failed", error);
-        toast.error("Image Upload Failed. Please try again.");
-      }
+      //   const imageUrl = res.data.secure_url;
+      //   setOrganizationLogo(imageUrl);
+      // } catch (error) {
+      //   console.error("Image upload failed", error);
+      //   toast.error("Image Upload Failed. Please try again.");
+      // }
     }
   };
   const handleImageClick = () => {
     if (fileInputRef.current) {
+      setCropType("profile");
       fileInputRef.current.click(); // open file picker
     }
   };
-  const handleFileChange = async (event) => {
+  const handleFileChange = async (event, type) => {
     const file = event.target.files?.[0];
     if (file) {
       // show preview
@@ -128,37 +197,15 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
       reader.onloadend = () => {
         setPreview(reader.result);
       };
+      reader.addEventListener("load", () => {
+        setImageSrc(reader.result);
+        setShowCropper(true);
+        setCropType(type);
+      });
       reader.readAsDataURL(file);
 
-      // TODO: send `file` to your backend API for upload
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "lounge-platform"); // Replace with your Cloudinary preset
-
-      try {
-        const res = await axios.post(
-          "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
-          formData
-        );
-
-        const imageUrl = res.data.secure_url;
-        setProfileImage(imageUrl);
-
-        const resp = await makeRequest("/profile/upload", {
-          profilePic: imageUrl,
-        });
-
-        if (resp.error) {
-          return;
-        }
-        setUserDetails(resp.response.user);
-
-        toast.success(resp.response.message);
-        // If you have a callback to inform parent component
-      } catch (error) {
-        console.error("Image upload failed", error);
-        toast.error("Image Upload Failed. Please try again.");
-      }
+      
+     
     }
   };
 
@@ -181,7 +228,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
         !organizationDescRef.current.value ||
         !organizationEmailRef.current.value ||
         !organizationLocationRef.current.value ||
-        !organizationWebsiteRef.current.value ||
+         
         !organizationNameRef.current.value
       )
         return toast.error("All fields are required to create an organization");
@@ -219,6 +266,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
 
     const res = await makeRequest("/profile", profileData);
 
+
     setUserDetails(res.response.user);
 
     if (res.error) {
@@ -229,6 +277,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
   };
 
   return (
+    <>
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open}>
       <Portal>
         <Dialog.Backdrop />
@@ -272,7 +321,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                   accept="image/*"
                   ref={fileInputRef}
                   style={{ display: "none" }}
-                  onChange={handleFileChange}
+                  onChange={(e)=>handleFileChange(e, cropType)}
                 />
               </Stack>
               <Fieldset.Content>
@@ -848,7 +897,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       >
                         <HStack spacing={1} align="center">
                           <Text> Organization Logo</Text>
-                              *
+                              
                           {/* Yellow star icon */}
                         </HStack>
                       </Text>
@@ -867,7 +916,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                         accept="image/*"
                         ref={logoInputRef}
                         style={{ display: "none" }}
-                        onChange={handleLogoChange}
+                        onChange={(e)=>handleLogoChange(e, cropType)}
                       />
                     </Stack>
 
@@ -922,7 +971,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       >
                         <HStack spacing={1} align="center">
                           <Text> Organization Website</Text>
-                            *
+                            
                           {/* Yellow star icon */}
                         </HStack>{" "}
                       </Field.Label>
@@ -952,9 +1001,69 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                 </Button>
               </HStack>
             </Fieldset.Root>
+             {showCropper && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.75)",
+            zIndex: 10000,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              position: "relative",
+              width: "90%",
+              maxWidth: "400px",
+              height: "400px",
+              background: "#333",
+            }}
+          >
+            <Cropper
+              image={imageSrc}
+              crop={crop}
+              zoom={zoom}
+              aspect={cropType === "profile" ? 1 : 1}
+              cropShape='round'
+              onCropChange={setCrop}
+              onCropComplete={(_, croppedPixels) =>
+                setCroppedAreaPixels(croppedPixels)
+              }
+              onZoomChange={setZoom}
+            />
+          </div>
+
+          <div
+            style={{
+              marginTop: 20,
+              display: "flex",
+              gap: 10,
+            }}
+          >
+            <Button onClick={() => setShowCropper(false)}>Cancel</Button>
+            <Button colorScheme="blue" onClick={handleCropComplete} style={{cursor:'pointer'}}>
+              Crop & Save
+            </Button>
+          </div>
+        </div>
+      )}
           </Dialog.Content>
+
         </Dialog.Positioner>
+       
       </Portal>
     </Dialog.Root>
+
+        
+    </>
+    
+
   );
 };

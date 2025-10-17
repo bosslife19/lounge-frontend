@@ -74,10 +74,10 @@ const NewsUpdate = () => {
     <Box>
       {/* Header with controls */}
       <Flex py={3} justifyContent="space-between" alignItems="center">
-        <Text fontSize={{ base: 11, md: 15 }} color="#202224">
+        <Text style={{marginTop:10}} fontSize={{ base: 11, md: 15 }} color="#202224">
           News & Updates
         </Text>
-        <HStack spacing={2}>
+        {/* <HStack spacing={2}>
           <IconButton
             bg="#fff"
             border="1px solid #9E9E9E"
@@ -98,7 +98,7 @@ const NewsUpdate = () => {
           >
             <IoIosArrowForward size={20} color="#9E9E9E" />
           </IconButton>
-        </HStack>
+        </HStack> */}
       </Flex>
 
       {/* Slider */}

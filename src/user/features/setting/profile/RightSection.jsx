@@ -69,7 +69,7 @@ export const RightSectionProfile = () => {
                 </Text>
 
                 {/* Simple ? with hover explanation */}
-                <Text
+                {/* <Text
                   as="span"
                   fontWeight="bold"
                   cursor="pointer"
@@ -78,7 +78,7 @@ export const RightSectionProfile = () => {
                   title="Coffee Roulette is an opt-in feature that pairs a mentor with a non-mentor once a week for a 15-minute virtual coffee chat. It helps build connections, share knowledge, and strengthen community bonds."
                 >
                   ?
-                </Text>
+                </Text> */}
               </Flex>
 
               <Text

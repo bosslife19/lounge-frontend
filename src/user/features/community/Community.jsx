@@ -67,6 +67,10 @@ const Community = () => {
           fontSize={{ base: "13px", md: "24px" }}
           pb={{ base: 0, md: 2 }}
           px={4}
+          style={{
+                  position:"relative",
+                  top:"-50px"
+                }}
         >
           Community
         </Heading>

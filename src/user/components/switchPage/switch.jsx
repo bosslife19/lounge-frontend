@@ -2,10 +2,35 @@ import { Switch } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useRequest } from "../../../hooks/useRequest";
 import { toast } from "react-toastify";
+import axiosClient from "../../../axiosClient";
 
 export const SwitchPage = ({ coffee,setIsOpen }) => {
   const { makeRequest } = useRequest();
   const [checked, setChecked] = useState(false);
+  const [noApi, setNoApi] = useState(false);
+
+  useEffect(()=>{
+const checkIfmentorRequested = async ()=>{
+  const res = await axiosClient.get('/check-mentor-requested');
+  if(res.data.requested){
+    setChecked(true)
+    setNoApi(true)
+  }
+}
+const checkIfOptedInForCoffee = async()=>{
+  const res = await axiosClient.get('/check-opted-in-coffee-roulette');
+  if(res.data.optedIn){
+    setChecked(true)
+    setNoApi(true)
+  } 
+}
+if(!coffee){
+checkIfmentorRequested();
+}else{
+  checkIfOptedInForCoffee();
+}
+
+  }, [])
 
   const optInForRoulette = async () => {
     const res = await makeRequest("/opt-in", { mentor: "" });
@@ -26,10 +51,10 @@ export const SwitchPage = ({ coffee,setIsOpen }) => {
   };
 
   useEffect(() => {
-    if (checked && !coffee) {
+    if (checked && !coffee && !noApi) {
       RequestToMentor();
     }
-    if (checked && coffee) {
+    if (checked && coffee && !noApi) {
       optInForRoulette();
     }
   }, [checked]);

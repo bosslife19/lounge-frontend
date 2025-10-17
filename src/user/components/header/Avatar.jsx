@@ -172,7 +172,7 @@ const Avatar = ({ options = [] }) => {
         w={{ base: "30px", md: "45px" }}
         h={{ base: "30px", md: "45px" }}
       >
-        <BsBell size={10} />
+        <BsBell size={10} color="coral" />
 
         {/* Notification badge */}
         {notifications.length > 0 && (

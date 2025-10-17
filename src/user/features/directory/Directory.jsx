@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Image,
@@ -67,7 +67,7 @@ const Directory = () => {
     },
   ];
   const navigate = useNavigate();
-
+const{id}= useParams()
   const [directoryData, setDirectoryData] = useState([]);
   const [selected, setSelected] = useState(directoryData[0] || null); // default profile
   const [search, setSearch] = useState("");
@@ -107,8 +107,13 @@ const Directory = () => {
       const res = await axiosClient.get("/users");
 
       setDirectoryData(res.data.users);
-
-      setSelected(res.data.users[0] || null);
+      if(id){
+     const currentUser =   res.data.users.find(item=>item.id ==id);
+        setSelected(currentUser);
+      }else{
+setSelected(res.data.users[0] || null);
+      }
+      
     };
     getAllProfessionals();
   }, []);
@@ -137,6 +142,10 @@ const Directory = () => {
                 fontSize={{ base: "13px", md: "24px" }}
                 pb={{ base: 0, md: 2 }}
                 px={4}
+                style={{
+                  position:"relative",
+                  top:"-60px"
+                }}
               >
                 Directory
               </Heading>

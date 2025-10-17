@@ -54,7 +54,7 @@ const NewsDetails = () => {
 
       const same = res.data.articles.filter((item) => item.id == id);
       setUpdate(same[0]);
-      setMoreNews(res.data.articles);
+      setMoreNews(res.data.articles.filter((item) => item.id != id));
     };
     getMoreNews();
   }, []);

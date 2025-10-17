@@ -17,6 +17,8 @@ import { useRequest } from "../../../../hooks/useRequest";
 import { useRef, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Cropper from "react-easy-crop";
+import getCroppedImg from "../../../../lib/getCroppedImage";
 
 export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
   const { loading, makeRequest } = useRequest();
@@ -24,7 +26,12 @@ export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
   const [postImage, setPostImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [type, setType] = useState("article"); // <-- new state for type
-
+ const [imageSrc, setImageSrc] = useState(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [cropType, setCropType] = useState('profile'); // "profile" or "logo"
+  const [zoom, setZoom] = useState(1);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [showCropper, setShowCropper] = useState(false);
   const titleRef = useRef("");
   const contentRef = useRef("");
   const fileInputRef = useRef(null);
@@ -85,9 +92,41 @@ export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
   const handleFileChange = (event) => {
     const file = event.target.files?.[0];
     if (file) {
-      setPostImage(file); // store selected file
+      const reader = new FileReader();
+      // reader.onloadend = () => {
+      //   setOrganizationLogoPreview(reader.result);
+      // };
+      reader.addEventListener("load", () => {
+        setImageSrc(reader.result);
+        setShowCropper(true);
+        
+      });
+      reader.readAsDataURL(file);
+      // setPostImage(file); // store selected file
     }
   };
+ const handleCropComplete = async () => {
+  try {
+    const croppedBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
+    if (!croppedBlob) throw new Error("Cropping failed");
+
+    // 🔹 Create a unique file name
+    const fileName = `cropped_${Date.now()}.jpg`;
+
+    // 🔹 Convert blob to File
+    const croppedFile = new File([croppedBlob], fileName, { type: "image/jpeg" });
+
+    setPostImage(croppedFile);
+
+    
+
+    setShowCropper(false)
+    // etc...
+  } catch (e) {
+    console.error(e);
+    toast.error("Error cropping or uploading image. Please try again.");
+  }
+};
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
@@ -250,6 +289,59 @@ export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
                 {loading || isLoading ? <Spinner /> : "Post"}
               </Button>
             </Stack>
+            {showCropper && (
+                                <div
+                                  style={{
+                                    position: "fixed",
+                                    top: 0,
+                                    left: 0,
+                                    width: "100vw",
+                                    height: "100vh",
+                                    background: "rgba(0,0,0,0.75)",
+                                    zIndex: 10000,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      position: "relative",
+                                      width: "90%",
+                                      maxWidth: "400px",
+                                      height: "400px",
+                                      background: "#333",
+                                    }}
+                                  >
+                                    <Cropper
+                                      image={imageSrc}
+                                      crop={crop}
+                                      zoom={zoom}
+                                      aspect={3/2}
+                                      cropShape='rect'
+                                      onCropChange={setCrop}
+                                      onCropComplete={(_, croppedPixels) =>
+                                        setCroppedAreaPixels(croppedPixels)
+                                      }
+                                      onZoomChange={setZoom}
+                                    />
+                                  </div>
+                        
+                                  <div
+                                    style={{
+                                      marginTop: 20,
+                                      display: "flex",
+                                      gap: 10,
+                                    }}
+                                  >
+                                    <Button onClick={() => setShowCropper(false)}>Cancel</Button>
+                                    <Button colorScheme="blue" onClick={handleCropComplete} style={{cursor:'pointer'}}>
+                                      Crop & Save
+                                    </Button>
+                                  </div>
+                                </div>
+                              )}
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>

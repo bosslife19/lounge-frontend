@@ -53,6 +53,7 @@ const Mentoring = () => {
       },
     },
   ];
+  const [requestedMentorIds, setRequestedMentorIds] = useState([]);
   const navigate = useNavigate();
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -74,6 +75,16 @@ const Mentoring = () => {
     if (res.error) return;
     toast.success("Session Requested successfully");
   };
+
+  useEffect(()=>{
+    const checkRequestedSessions = async()=>{
+      const res = await axiosClient.get("/get-requested-sessions");
+      const requestedMentorIds = res.data.sessions.map(session=>session.mentor_id);
+      
+    setRequestedMentorIds(requestedMentorIds);
+    }
+    checkRequestedSessions();
+  },[])
 
   useEffect(() => {
     const getAlllistings = async () => {
@@ -275,9 +286,12 @@ const Mentoring = () => {
                   rounded={{ base: 10, md: 20 }}
                   mt={{ base: "-25px", md: 0 }}
                   h={{ base: "30px", md: "43px" }}
+                  disabled={requestedMentorIds.includes(card.user.id)}
                   onClick={() => handleRequestSession(card.user.id)}
                 >
-                  Request Session
+                 {
+                  requestedMentorIds.includes(card.user.id) ? 'Session Requested' : 'Request Session'
+                 }
                 </Button>
               </Card.Footer>
             </Card.Root>

@@ -111,6 +111,11 @@ const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
         return;
       }
     }
+    if(!postImage || !postRef.current?.value){
+      toast.error("Please add some content to post");
+      setIsLoading(false);
+      return;
+    }
 
     const response = await makeRequest("/upload-post", {
       body: postRef.current?.value,

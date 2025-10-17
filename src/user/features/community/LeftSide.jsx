@@ -26,6 +26,7 @@ import { AiOutlineLike } from "react-icons/ai";
 import useTruncate from "../../../hooks/useTruncate";
 import { BiMessageRoundedDetail } from "react-icons/bi";
 import axiosClient from "../../../axiosClient";
+import { Link } from "react-router-dom";
 
 export const LeftSide = ({ posts, setPosts }) => {
   const { userDetails } = useContext(AuthContext);
@@ -38,6 +39,18 @@ export const LeftSide = ({ posts, setPosts }) => {
   const trucateText = useTruncate();
   const [liked, setLiked] = useState(false);
   const [likesState, setLikesState] = useState({});
+  const [openLikes, setOpenLikes] = useState({});
+  const toggleLikes = (postId) => {
+  setOpenLikes((prev) => ({
+    [postId]: !prev[postId], // closes others
+  }));
+};
+//   const toggleLikes = (postId) => {
+//   setOpenLikes((prev) => ({
+//     ...prev,
+//     [postId]: !prev[postId],
+//   }));
+// };
 
   const toggleComments = (postId) => {
     setOpenComments((prev) => ({
@@ -71,7 +84,7 @@ export const LeftSide = ({ posts, setPosts }) => {
   useEffect(() => {
     const getLikes = async () => {
       const res = await axiosClient.get("/likes");
-
+      console.log(res.data.likes);
       setLikes(res.data.likes);
     };
     getLikes();
@@ -147,12 +160,15 @@ export const LeftSide = ({ posts, setPosts }) => {
               <Flex alignItems={"flex-start"} justifyContent={"space-between"}>
                 <HStack>
                   <Stack position={"relative"}>
-                    <Image
+                    <Link to={`/directory/${card.user?.id}`}>
+                     <Image
                       src={card.user?.profile_picture || userImage}
                       alt="Update"
                       boxSize={{ base: "40px", md: "50px" }}
                       rounded={50}
                     />
+                    </Link>
+                   
                   </Stack>
                   <Stack>
                     <Text
@@ -214,63 +230,130 @@ export const LeftSide = ({ posts, setPosts }) => {
               <Image
                 src={card.post_image}
                 boxSize={"100%"}
-                h={{ base: 150, md: 270 }}
+                h={{ base: 150, md: 372 }}
                 fit="cover"
               />
             )}
 
             {/* Comments and actions */}
-            <HStack
-              justifyContent={"flex-start"}
-              alignItems={"center"}
-              px={1}
-              pt={{ base: 1, md: 3 }}
-              gap={4}
-            >
-              <p style={{ position: "relative", left: "3%" }}>
-                {state.likesCount}
-              </p>
+           <HStack
+  justifyContent={"flex-start"}
+  alignItems={"center"}
+  px={1}
+  pt={{ base: 1, md: 3 }}
+  gap={4}
+>
+  {/* Likes Preview */}
+  <div
+    style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+    onClick={() => toggleLikes(card.id)}
+  >
+    {likes
+      .filter((like) => like.post_id === card.id)
+      .slice(0, 3) // ✅ Only show first 3
+      .map((like) => (
+        <img
+          key={like.id}
+          src={like.user?.profile_picture || userImage}
+          alt="like"
+          style={{
+            width: "20px",
+            height: "20px",
+            borderRadius: "50%",
+            marginLeft: "-5px",
+            border: "2px solid white",
+          }}
+        />
+      ))}
 
-              <Button
-                color={"#212121"}
-                p={0}
-                fontSize={{ base: 10, md: 15 }}
-                bg={"transparent"}
-                onClick={() => {
-                  setLikesState((prev) => ({
-                    ...prev,
-                    [card.id]: {
-                      likesCount: state.liked
-                        ? state.likesCount - 1
-                        : state.likesCount + 1,
-                      liked: !state.liked,
-                    },
-                  }));
-                  likePost(card.id); // call backend toggle
-                }}
-                size={{ base: "xs", md: "sm" }}
+    {/* If more than 3 likes, show "+x" */}
+    {likes.filter((like) => like.post_id === card.id).length > 3 && (
+      <span
+        style={{
+          fontSize: "10px",
+          color: "#707070",
+          marginLeft: "4px",
+        }}
+      >
+        +
+        {likes.filter((like) => like.post_id === card.id).length - 3}
+      </span>
+    )}
+  </div>
+
+  <p style={{ position: "relative", left: "3%" }}>{state.likesCount}</p>
+
+  <Button
+    color={"#212121"}
+    p={0}
+    fontSize={{ base: 10, md: 15 }}
+    bg={"transparent"}
+    onClick={() => {
+      setLikesState((prev) => ({
+        ...prev,
+        [card.id]: {
+          likesCount: state.liked
+            ? state.likesCount - 1
+            : state.likesCount + 1,
+          liked: !state.liked,
+        },
+      }));
+      likePost(card.id); // call backend toggle
+    }}
+    size={{ base: "xs", md: "sm" }}
+  >
+    <AiOutlineLike color={state.liked ? "blue" : "black"} />
+  </Button>
+
+  <Button
+    onClick={() => toggleComments(card.id)}
+    color={"#212121"}
+    p={0}
+    bg={"transparent"}
+    size={{ base: "xs", md: "sm" }}
+  >
+    <BiMessageRoundedDetail />
+    <Text color={"#707070"} fontSize={{ base: 10, md: 14 }} cursor="pointer">
+      {card.comments?.length || 0} Comments
+    </Text>
+  </Button>
+</HStack>
+{openLikes[card.id] && (
+  <Box px={4} py={2}>
+    {likes.filter((like) => like.post_id === card.id).length > 0 ? (
+      likes
+        .filter((like) => like.post_id === card.id)
+        .map((like) => (
+          <Flex key={like.id} gap={3} mb={3} alignItems="center">
+            <Avatar.Root boxSize={{ base: "10px", md: "24px" }}>
+              <Avatar.Image
+                src={like.user?.profile_picture || userImage}
+              />
+            </Avatar.Root>
+            <Box>
+              <Text
+                fontWeight="bold"
+                fontSize={{ base: "8px", md: "10px" }}
               >
-                <AiOutlineLike color={state.liked ? "blue" : "black"} />
-              </Button>
-
-              <Button
-                onClick={() => toggleComments(card.id)}
-                color={"#212121"}
-                p={0}
-                bg={"transparent"}
-                size={{ base: "xs", md: "sm" }}
+                {like.user?.first_name} {like.user?.last_name}
+              </Text>
+              <Text
+                fontSize={{ base: "10px", md: "12px" }}
+                color="gray.500"
               >
-                <BiMessageRoundedDetail />
+                {like.user?.profession}
+              </Text>
+            </Box>
+          </Flex>
+        ))
+    ) : (
+      <Text fontSize={{ base: "10px", md: "13px" }} color="gray.500">
+        No likes yet.
+      </Text>
+    )}
+  </Box>
+)}
 
-                <Text
-                  color={"#707070"}
-                  fontSize={{ base: 10, md: 14 }}
-                  cursor="pointer"
-                >
-                  {card.comments?.length || 0} Comments
-                </Text>
-              </Button>
-            </HStack>
 
             {/* Expand Comments */}
             {openComments[card.id] && (
