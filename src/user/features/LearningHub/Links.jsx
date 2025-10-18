@@ -14,15 +14,15 @@ import { useEffect, useState } from "react";
 import axiosClient from "../../../axiosClient";
 
 export const Links = ({ articles }) => {
-const [links, setLinks] = useState([]);
-  useEffect(()=>{
-      const getLinks = async ()=>{
-        const res = await axiosClient.get('/links');
-       
-        setLinks(res.data.links)
-      }
-      getLinks()
-    },[])
+  const [links, setLinks] = useState([]);
+  useEffect(() => {
+    const getLinks = async () => {
+      const res = await axiosClient.get("/links");
+
+      setLinks(res.data.links);
+    };
+    getLinks();
+  }, []);
   const truncateTexts = (text, maxLength) => {
     if (!text) return "";
     return text.length <= maxLength
