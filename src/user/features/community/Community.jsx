@@ -68,9 +68,9 @@ const Community = () => {
           pb={{ base: 0, md: 2 }}
           px={4}
           style={{
-                  position:"relative",
-                  top:"-50px"
-                }}
+            position: "relative",
+            top: "-50px",
+          }}
         >
           Community
         </Heading>

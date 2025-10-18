@@ -67,7 +67,7 @@ const Directory = () => {
     },
   ];
   const navigate = useNavigate();
-const{id}= useParams()
+  const { id } = useParams();
   const [directoryData, setDirectoryData] = useState([]);
   const [selected, setSelected] = useState(directoryData[0] || null); // default profile
   const [search, setSearch] = useState("");
@@ -88,7 +88,6 @@ const{id}= useParams()
     }
   }, [search, directoryData]);
   useEffect(() => {
-   
     if (locationSearch) {
       const lowerSearch = locationSearch.toLowerCase();
       const results = directoryData.filter((item) =>
@@ -107,13 +106,12 @@ const{id}= useParams()
       const res = await axiosClient.get("/users");
 
       setDirectoryData(res.data.users);
-      if(id){
-     const currentUser =   res.data.users.find(item=>item.id ==id);
+      if (id) {
+        const currentUser = res.data.users.find((item) => item.id == id);
         setSelected(currentUser);
-      }else{
-setSelected(res.data.users[0] || null);
+      } else {
+        setSelected(res.data.users[0] || null);
       }
-      
     };
     getAllProfessionals();
   }, []);
@@ -138,17 +136,17 @@ setSelected(res.data.users[0] || null);
         <Avatars options={dropdownOptions} />
         {/* </button> */}
       </Box>
-       <Heading
-                fontSize={{ base: "13px", md: "24px" }}
-                pb={{ base: 0, md: 2 }}
-                px={4}
-                style={{
-                  position:"relative",
-                  top:"-60px"
-                }}
-              >
-                Directory
-              </Heading>
+      <Heading
+        fontSize={{ base: "13px", md: "24px" }}
+        pb={{ base: 0, md: 2 }}
+        px={4}
+        style={{
+          position: "relative",
+          top: "-60px",
+        }}
+      >
+        Directory
+      </Heading>
       <Flex
         flexDirection={{ base: "column", md: "row" }}
         alignItems={"flex-start"}
@@ -244,7 +242,7 @@ setSelected(res.data.users[0] || null);
                 <HStack mt={3}>
                   <Stack position={"relative"}>
                     <Image
-                      rounded={12}
+                      rounded={50}
                       src={card.organization?.logo || googlebig}
                       alt="Company"
                       boxSize={{ base: "40px", md: "50px" }}
@@ -393,7 +391,6 @@ setSelected(res.data.users[0] || null);
               </Card.Description>
             </Card.Body>
             <Card.Footer>
-
               <Button
                 w={"full"}
                 mb={-2}
