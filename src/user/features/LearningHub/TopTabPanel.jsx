@@ -97,42 +97,36 @@ const TopTabs = () => {
   }, [search, articles]);
   return (
     <Box>
-      <HStack>
-        <Heading
-          pl={5}
-          fontSize={{ base: "13px", md: "24px" }}
-          display={"flex"}
-          pb={4}
-          gap={2}
-          alignItems={"center"}
-        >
-          {/* <IconButton
-          aria-label="Previous"
-          rounded="full"
-          bg="white"
-          border={"1px solid #9E9E9E"}
-          _hover={{ bg: "whiteAlpha.500" }}
-          size="sm"
-        >
-          <IoIosArrowBack color="#9E9E9E" />
-        </IconButton> */}
-          Learning Hub
-        </Heading>
-        <Box
-          display={{ base: "none", xl: "flex" }}
-          className="border-l-2 pl-4"
-          pb={6}
-          ml={"auto"}
-          justifyContent={"center"}
-          // bg={"#000"}
-          pr={"2%"}
-          pt={1}
-        >
-          {/* <button onClick={() => toggleDropdown("avatar")}> */}
-          <Avatars options={dropdownOptions} />
-          {/* </button> */}
-        </Box>
-      </HStack>
+      <Box
+        ml={"auto"}
+        w={"100%"}
+        h={"100%"}
+        pr={4}
+        pt={2}
+        justifyContent={"flex-end"}
+        display={{ base: "none", xl: "flex" }}
+        className="border-l-2 pl-4"
+        pb={5}
+        // bg={"#000"}
+        position="relative"
+        zIndex={10}
+        cursor="pointer"
+        onClick={() => console.log("clicked")}
+      >
+        <Avatars options={dropdownOptions} />
+      </Box>
+      <Heading
+        fontSize={{ base: "13px", md: "24px" }}
+        pb={{ base: 0, md: 2 }}
+        px={4}
+        style={{
+          position: "relative",
+        }}
+        top={{ base: "-40px", md: "-50px" }}
+        ml={{ base: 25, lg: 0 }}
+      >
+        Learning Hub
+      </Heading>
 
       <Tabs.Root
         defaultValue="articles"

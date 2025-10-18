@@ -109,7 +109,7 @@ function App() {
             <Route path="/mentoring" element={<Mentoring />} />
             <Route path="/community" element={<Community />} />
             <Route path="/settings" element={<SettingsTab />} />
-            <Route path="/programs/:id" element={<Program/>}/>
+            <Route path="/programs/:id" element={<Program />} />
 
             {/* Admin */}
           </Route>

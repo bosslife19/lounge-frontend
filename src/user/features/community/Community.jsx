@@ -51,17 +51,22 @@ const Community = () => {
       <Box
         ml={"auto"}
         w={"100%"}
+        h={"100%"}
         pr={4}
         pt={2}
         justifyContent={"flex-end"}
         display={{ base: "none", xl: "flex" }}
         className="border-l-2 pl-4"
-        pb={3}
+        pb={5}
+        // bg={"#000"}
+        position="relative"
+        zIndex={10}
+        cursor="pointer"
+        onClick={() => console.log("clicked")}
       >
-        {/* <button onClick={() => toggleDropdown("avatar")}> */}
         <Avatar options={dropdownOptions} />
-        {/* </button> */}
       </Box>
+
       <HStack justifyContent={"space-between"}>
         <Heading
           fontSize={{ base: "13px", md: "24px" }}
@@ -69,8 +74,9 @@ const Community = () => {
           px={4}
           style={{
             position: "relative",
-            top: "-50px",
           }}
+          top={{ base: "-40px", md: "-50px" }}
+          ml={{ base: 25, lg: 0 }}
         >
           Community
         </Heading>

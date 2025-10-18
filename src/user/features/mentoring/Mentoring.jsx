@@ -76,15 +76,17 @@ const Mentoring = () => {
     toast.success("Session Requested successfully");
   };
 
-  useEffect(()=>{
-    const checkRequestedSessions = async()=>{
+  useEffect(() => {
+    const checkRequestedSessions = async () => {
       const res = await axiosClient.get("/get-requested-sessions");
-      const requestedMentorIds = res.data.sessions.map(session=>session.mentor_id);
-      
-    setRequestedMentorIds(requestedMentorIds);
-    }
+      const requestedMentorIds = res.data.sessions.map(
+        (session) => session.mentor_id
+      );
+
+      setRequestedMentorIds(requestedMentorIds);
+    };
     checkRequestedSessions();
-  },[])
+  }, []);
 
   useEffect(() => {
     const getAlllistings = async () => {
@@ -123,44 +125,38 @@ const Mentoring = () => {
     }
   }, [search, listings]);
   return (
-    <Box h={"100%"} p={3}>
-      <HStack>
-        <Heading
-          w={"100%"}
-          fontSize={{ base: "13px", md: "24px" }}
-          display={"flex"}
-          pb={4}
-          gap={2}
-          alignItems={"center"}
-        >
-          {/* <IconButton
-          aria-label="Previous"
-          rounded="full"
-          bg="white"
-          border={"1px solid #9E9E9E"}
-          _hover={{ bg: "whiteAlpha.500" }}
-          size="xs"
-          color={"#202020"}
-        >
-          <IoIosArrowBack color="#9E9E9E" />
-        </IconButton> */}
-          Mentor Listings
-        </Heading>
-        <Box
-          ml={"auto"}
-          w={"100%"}
-          pr={4}
-          // pt={2}
-          justifyContent={"flex-end"}
-          display={{ base: "none", xl: "flex" }}
-          className="border-l-2 pl-4"
-          pb={4}
-        >
-          {/* <button onClick={() => toggleDropdown("avatar")}> */}
-          <Avatars options={dropdownOptions} />
-          {/* </button> */}
-        </Box>
-      </HStack>
+    <Box>
+      <Box
+        ml={"auto"}
+        w={"100%"}
+        h={"100%"}
+        pr={4}
+        pt={2}
+        justifyContent={"flex-end"}
+        display={{ base: "none", xl: "flex" }}
+        className="border-l-2 pl-4"
+        pb={5}
+        // bg={"#000"}
+        position="relative"
+        zIndex={10}
+        cursor="pointer"
+        onClick={() => console.log("clicked")}
+      >
+        <Avatars options={dropdownOptions} />
+      </Box>
+      <Heading
+        fontSize={{ base: "13px", md: "24px" }}
+        pb={{ base: 0, md: 2 }}
+        px={4}
+        style={{
+          position: "relative",
+        }}
+        top={{ base: "-40px", md: "-50px" }}
+        ml={{ base: 25, lg: 0 }}
+      >
+        Mentoring
+      </Heading>
+
       <Flex
         px={{ base: 4, md: 0 }}
         justifyContent={"space-between"}
@@ -289,9 +285,9 @@ const Mentoring = () => {
                   disabled={requestedMentorIds.includes(card.user.id)}
                   onClick={() => handleRequestSession(card.user.id)}
                 >
-                 {
-                  requestedMentorIds.includes(card.user.id) ? 'Session Requested' : 'Request Session'
-                 }
+                  {requestedMentorIds.includes(card.user.id)
+                    ? "Session Requested"
+                    : "Request Session"}
                 </Button>
               </Card.Footer>
             </Card.Root>

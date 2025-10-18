@@ -121,20 +121,24 @@ const Directory = () => {
   }, []);
 
   return (
-    <Box>
+    <Box w={"100%"}>
       <Box
         ml={"auto"}
         w={"100%"}
+        h={"100%"}
         pr={4}
         pt={2}
         justifyContent={"flex-end"}
         display={{ base: "none", xl: "flex" }}
         className="border-l-2 pl-4"
-        pb={4}
+        pb={5}
+        // bg={"#000"}
+        position="relative"
+        zIndex={10}
+        cursor="pointer"
+        onClick={() => console.log("clicked")}
       >
-        {/* <button onClick={() => toggleDropdown("avatar")}> */}
         <Avatars options={dropdownOptions} />
-        {/* </button> */}
       </Box>
       <Heading
         fontSize={{ base: "13px", md: "24px" }}
@@ -142,8 +146,9 @@ const Directory = () => {
         px={4}
         style={{
           position: "relative",
-          top: "-60px",
         }}
+        top={{ base: "-40px", md: "-50px" }}
+        ml={{ base: 25, lg: 0 }}
       >
         Directory
       </Heading>
@@ -433,7 +438,7 @@ const Directory = () => {
               color="#7C7C7C"
             >
               <Text fontFamily="InterRegular" fontSize={{ base: 10, md: 12 }}>
-                {selected?.bio} Years of Experience
+                {selected?.bio}
               </Text>
               {/* <Text fontFamily="InterRegular" fontSize={14} color={"#202020"}>
                 {selected?.bio}
