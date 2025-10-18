@@ -65,7 +65,7 @@ const Mentoring = () => {
   const [search, setSearch] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
   const { makeRequest, loading } = useRequest();
-
+const [requestedId, setRequestedId] = useState(0)
   const handleClose = () => {
     setIsOpen(false);
     setSelectedCard(null);
@@ -74,8 +74,9 @@ const Mentoring = () => {
     const res = await makeRequest("/request-session", { mentorId: id });
     if (res.error) return;
     toast.success("Session Requested successfully");
+    setRefresh(prev=>!prev);
   };
-
+const [refresh, setRefresh] = useState(false)
   useEffect(()=>{
     const checkRequestedSessions = async()=>{
       const res = await axiosClient.get("/get-requested-sessions");
@@ -84,7 +85,7 @@ const Mentoring = () => {
     setRequestedMentorIds(requestedMentorIds);
     }
     checkRequestedSessions();
-  },[])
+  },[refresh])
 
   useEffect(() => {
     const getAlllistings = async () => {
@@ -287,10 +288,13 @@ const Mentoring = () => {
                   mt={{ base: "-25px", md: 0 }}
                   h={{ base: "30px", md: "43px" }}
                   disabled={requestedMentorIds.includes(card.user.id)}
-                  onClick={() => handleRequestSession(card.user.id)}
+                  onClick={() => {
+                    setRequestedId(card.id)
+                    handleRequestSession(card.user.id)
+                  }}
                 >
                  {
-                  requestedMentorIds.includes(card.user.id) ? 'Session Requested' : 'Request Session'
+                  requestedMentorIds.includes(card.user.id) ? 'Session Requested' : loading &&card.id==requestedId?'Processing':'Request Session'
                  }
                 </Button>
               </Card.Footer>
@@ -309,6 +313,7 @@ const Mentoring = () => {
           isOpen={isOpen}
           onClose={handleClose}
           profile={selectedCard}
+          setRefresh={setRefresh}
         />
       )}
     </Box>

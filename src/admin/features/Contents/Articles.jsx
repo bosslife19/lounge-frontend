@@ -11,6 +11,7 @@ import {
   Button,
   Menu,
   Portal,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
@@ -88,13 +89,16 @@ export const AdminArticles = ({ articles, setArticles }) => {
             border="1px solid #080F340F"
             className="rounded-2xl relative"
           >
-            <Image
-              roundedTop={10}
+             <AspectRatio ratio={4 / 1} w="100%">
+             <Image
+              // roundedTop={10}
               src={card.image}
               alt={card.title}
-              h={{ base: "70px", md: "100px" }}
-              className="w-full  object-cover"
+              // h={{ base: "70px", md: "100px" }}
+              className="object-cover"
             />
+              </AspectRatio>
+            
             <Menu.Root>
               <Menu.Trigger position={"absolute"} right={5} top={5} asChild>
                 <Button p={0} rounded={30} bg={"#55555580"} size="sm">

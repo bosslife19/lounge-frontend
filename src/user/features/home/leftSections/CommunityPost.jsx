@@ -137,9 +137,9 @@ const CommunityPost = () => {
         </Button>
       </Flex>
 
-      <Box className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-3">
+      <Box className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
         {posts.length > 0 ? (
-          posts.map((card) => (
+          posts.slice(0, 6).map((card) => (
             <Box
               px={3}
               pb={2}
@@ -168,7 +168,7 @@ const CommunityPost = () => {
                   <Text
                     // whiteSpace={"nowrap"}
                     color={"#202020"}
-                    fontSize={{ base: 8, md: 12 }}
+                    fontSize={{ base: 8, md: 10 }}
                     fontFamily="InterMedium"
                   >
                     {/* {card.user.name.length > 8

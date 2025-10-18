@@ -436,7 +436,7 @@ setSelected(res.data.users[0] || null);
               color="#7C7C7C"
             >
               <Text fontFamily="InterRegular" fontSize={{ base: 10, md: 12 }}>
-                {selected?.bio} Years of Experience
+                {selected?.bio} 
               </Text>
               {/* <Text fontFamily="InterRegular" fontSize={14} color={"#202020"}>
                 {selected?.bio}

@@ -1,4 +1,5 @@
 import {
+  AspectRatio,
   Avatar,
   Box,
   Button,
@@ -227,12 +228,15 @@ export const LeftSide = ({ posts, setPosts }) => {
 
             {/* Post Image */}
             {card.post_image && (
-              <Image
+              <AspectRatio ratio={3 / 2} w="100%">
+<Image
                 src={card.post_image}
-                boxSize={"100%"}
-                h={{ base: 150, md: 372 }}
+                // boxSize={"100%"}
+                // h={{ base: 150, md: 372 }}
                 fit="cover"
               />
+              </AspectRatio>
+              
             )}
 
             {/* Comments and actions */}

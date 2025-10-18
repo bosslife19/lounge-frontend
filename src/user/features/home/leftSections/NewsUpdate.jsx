@@ -73,7 +73,8 @@ const NewsUpdate = () => {
   return (
     <Box>
       {/* Header with controls */}
-      <Flex py={3} justifyContent="space-between" alignItems="center">
+      {
+        news.length>0 && <Flex py={3} justifyContent="space-between" alignItems="center">
         <Text style={{marginTop:10}} fontSize={{ base: 11, md: 15 }} color="#202224">
           News & Updates
         </Text>
@@ -100,6 +101,8 @@ const NewsUpdate = () => {
           </IconButton>
         </HStack> */}
       </Flex>
+      }
+     
 
       {/* Slider */}
       <Box w="100%" overflow="hidden" pb={4}>

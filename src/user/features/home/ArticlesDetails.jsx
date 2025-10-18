@@ -7,6 +7,7 @@ import {
   HStack,
   Button,
   Flex,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { IoIosArrowBack } from "react-icons/io";
 import { cardData } from "../../../hooks/useData";
@@ -31,7 +32,7 @@ const ArticleDetails = () => {
 
       const same = res.data.articles.filter((item) => item.id == id);
       setUpdate(same[0]);
-      setMoreNews(res.data.articles);
+      setMoreNews(res.data.articles.filter(item=>item.id !==id));
     };
     getMoreNews();
   }, []);
@@ -100,17 +101,20 @@ const ArticleDetails = () => {
             {update?.title}
           </Text>
           <Box position={"relative"}>
-            <Image
+          <AspectRatio ratio={4 / 1} w="100%">
+          <Image
               src={update?.image}
               alt={update?.title}
-              w="100%"
-              h={{ base: "100px", md: "200px" }}
+              // w="100%"
+              // h={{ base: "100px", md: "200px" }}
               objectFit="cover"
               objectPosition={"center"}
-              rounded={12}
+              // rounded={12}
               // overflow={"hidden"}
               mb={6}
             />
+              </AspectRatio>
+         
             {/* <button className=" absolute cursor-pointer top-5 right-6">
               <Image
                 roundedTop={10}

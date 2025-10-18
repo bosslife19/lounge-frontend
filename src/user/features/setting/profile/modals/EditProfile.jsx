@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import logo from "../../../../../assets/userImage.jpg";
 import tick from "../../../../../assets/Verified tick2.png";
+import tick2 from "../../../../../assets/Verified tick.png";
 import { FaBriefcase, FaFacebook } from "react-icons/fa";
 import { CiUser } from "react-icons/ci";
 import { BsLinkedin } from "react-icons/bs";
@@ -273,6 +274,18 @@ export const EditProfile = ({ isOpen, onClose }) => {
                   cursor="pointer"
                   onClick={handleImageClick}
                 />
+                 <Image
+                src={tick2}
+                alt="tick"
+                w={4}
+                position={"absolute"}
+                bottom={"0"}
+                right={"-1"}
+                borderRadius="md"
+                objectFit="cover"
+                cursor="pointer"
+                onClick={handleImageClick}
+              />
 
                 <input
                   type="file"

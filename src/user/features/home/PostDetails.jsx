@@ -11,6 +11,7 @@ import {
   Card,
   Avatar,
   Textarea,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useContext, useEffect, useState } from "react";
@@ -110,7 +111,7 @@ const PostDetails = () => {
     const res = await axiosClient.get("/get-all-posts");
     const same = res.data.posts.filter((item) => item.id == id);
     setUpdate(same[0]);
-    setMoreNews(res.data.posts);
+    setMoreNews(res.data.posts.filter(item=>item.id !==id));
   };
 
   useEffect(() => {
@@ -168,21 +169,25 @@ const PostDetails = () => {
             spacing={4}
             mb={4}
           >
-            <Image
+
+              <AspectRatio ratio={3/2} w="100%">
+              <Image
               src={update?.post_image}
               alt={update?.title}
-              w="100%"
-              h={{ base: "200px", md: "300px" }}
-              objectFit="cover"
-              rounded="xl"
+              // w="100%"
+              // h={{ base: "200px", md: "300px" }}
+              fit="cover"
+              // rounded="xl"
               mb={6}
             />
+              </AspectRatio>
+
 
             <Text
               fontFamily="LatoRegular"
               fontSize={{ base: 14, md: 16 }}
               color={"#1C1C1CB2"}
-              my={-4}
+              my={2}
             >
               {update?.body}
             </Text>

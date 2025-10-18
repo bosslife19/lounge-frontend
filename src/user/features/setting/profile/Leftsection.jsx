@@ -26,6 +26,7 @@ import { redirect } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRequest } from "../../../../hooks/useRequest";
+import EditOrganization from "./modals/EditOrganization";
 
 export const LeftSectionProfile = () => {
   const { userDetails, setUserDetails } = useContext(AuthContext);
@@ -36,6 +37,7 @@ export const LeftSectionProfile = () => {
   const [profileImage, setProfileImage] = useState();
   const { makeRequest } = useRequest();
   const [user, setUser] = useState(null);
+  const [orgOpen, setOrgOpen] = useState(false)
   useEffect(() => {
     const getMentors = async () => {
       const res = await axiosClient.get("/my-mentors");
@@ -103,6 +105,9 @@ export const LeftSectionProfile = () => {
   const handleCardClick = () => {
     setIsOpen(true);
   };
+  const handleOrgClose = ()=>{
+    setOrgOpen(false)
+  }
   const handleClose = () => {
     setIsOpen(false);
   };
@@ -142,18 +147,7 @@ export const LeftSectionProfile = () => {
                 boxSize={{ base: "40px", md: "72px" }}
                 rounded={50}
               />
-              <Image
-                src={tick}
-                alt="tick"
-                w={4}
-                position={"absolute"}
-                bottom={"0"}
-                right={"-1"}
-                borderRadius="md"
-                objectFit="cover"
-                cursor="pointer"
-                onClick={handleImageClick}
-              />
+             
               <input
                 type="file"
                 accept="image/*"
@@ -275,14 +269,17 @@ export const LeftSectionProfile = () => {
               </Text>
             </Stack>
           </HStack>
-          <Button
+                   <Button
             bg={"transparent"}
             color={"#475367"}
             size={{ base: "xs" }}
             // onClick={() => handleCardClick()}
+            onClick={()=>setOrgOpen(true)}
           >
             <LuPencil />
           </Button>
+          
+
         </Flex>
         <Box shadow={"xl"} mt={4} rounded={20} pb={4} bg={"#fff"} px={7}>
           <Heading
@@ -378,6 +375,7 @@ export const LeftSectionProfile = () => {
         </Box>
       </Box>
       <EditProfile isOpen={isOpen} onClose={handleClose} />
+      <EditOrganization isOpen={orgOpen} onClose={handleOrgClose}/>
     </Box>
   );
 };

@@ -127,7 +127,7 @@ function Login() {
               fontWeight={"600"}
               fontSize={{ base: 24, md: 36 }}
             >
-              Welcome Back!
+              Welcome back!
             </Fieldset.Legend>
             <Flex fontSize="sm" color="gray.600" textAlign="center">
               <Text

@@ -81,7 +81,7 @@ export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
     setAddLink(false);
     titleRef.current.value = "";
     contentRef.current.value = "";
-    linkRef.current.value = "";
+    // linkRef.current.value = "";
     
 
    
@@ -318,7 +318,7 @@ export const CreateArticle = ({ isOpen, onClose, setArticles }) => {
                                       image={imageSrc}
                                       crop={crop}
                                       zoom={zoom}
-                                      aspect={3/2}
+                                      aspect={4/1}
                                       cropShape='rect'
                                       onCropChange={setCrop}
                                       onCropComplete={(_, croppedPixels) =>
