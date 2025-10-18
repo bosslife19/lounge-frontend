@@ -271,9 +271,9 @@ const SideBarItem = ({ sidebarOpen, setSidebarOpen }) => {
               </Box>
             );
           })}
-          <Link to={"#"}>
+          {/* <Link to={"#"}>
             <Balance />
-          </Link>
+          </Link> */}
         </Flex>
         {/* Balance Component */}
       </Flex>

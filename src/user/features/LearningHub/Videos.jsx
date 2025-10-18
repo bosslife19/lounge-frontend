@@ -15,6 +15,7 @@ import axiosClient from "../../../axiosClient";
 import { formatTime } from "../../../lib/formatTime";
 import { userAvatar } from "../setting/posts/Posts";
 import ReactPlayer from "react-player";
+import { getVideoThumbnail } from "../../../utlis/ResponsiveText";
 
 export const VideosPage = () => {
   const [selectedCard, setSelectedCard] = useState(null);
@@ -85,7 +86,7 @@ export const VideosPage = () => {
             >
               <Image
                 roundedTop={10}
-                src={card.thumbnail}
+                src={card.thumbnail || getVideoThumbnail(card.video_link)}
                 alt={card.title}
                 h={{ base: "100px", md: "200px" }}
                 className="w-full h-30 object-cover"

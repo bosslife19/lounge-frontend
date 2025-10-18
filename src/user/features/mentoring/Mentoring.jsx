@@ -70,9 +70,25 @@ const Mentoring = () => {
     setIsOpen(false);
     setSelectedCard(null);
   };
+  // const handleRequestSession = async (id) => {
+  //   const res = await makeRequest("/request-session", { mentorId: id });
+  //   if (res.error) return;
+  //   toast.success("Session Requested successfully");
+  // };
   const handleRequestSession = async (id) => {
+    // 🧠 Instantly update UI (add mentor id to requestedMentorIds)
+    setRequestedMentorIds((prev) => [...prev, id]);
+
     const res = await makeRequest("/request-session", { mentorId: id });
-    if (res.error) return;
+    if (res.error) {
+      // If API fails, revert the UI change
+      setRequestedMentorIds((prev) =>
+        prev.filter((mentorId) => mentorId !== id)
+      );
+      toast.error("Failed to request session");
+      return;
+    }
+
     toast.success("Session Requested successfully");
   };
 

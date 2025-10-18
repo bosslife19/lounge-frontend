@@ -59,12 +59,12 @@ export const Links = ({ articles }) => {
                 >
                   The Lounge Team
                 </Text>
-                <a href={card}>
+                <a href={card.url} target="_blank" rel="noopener noreferrer">
                   <Text
                     fontFamily="InterRegular"
                     color="#808291"
                     mt={-1}
-                    textDecoration={"underline"}
+                    textDecoration="underline"
                     fontSize={{ base: 9, md: 11 }}
                   >
                     {card.url}
