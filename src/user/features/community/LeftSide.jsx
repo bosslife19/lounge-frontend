@@ -244,6 +244,7 @@ export const LeftSide = ({ posts, setPosts }) => {
               gap={4}
             >
               {/* Likes Preview */}
+
               <div
                 style={{
                   display: "flex",
@@ -252,27 +253,28 @@ export const LeftSide = ({ posts, setPosts }) => {
                 }}
                 onClick={() => toggleLikes(card.id)}
               >
-                {likes
-                  .filter((like) => like.post_id === card.id)
-                  .slice(0, 3) // ✅ Only show first 3
-                  .map((like) => (
-                    <img
-                      key={like.id}
-                      src={like.user?.profile_picture || userImage}
-                      alt="like"
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        borderRadius: "50%",
-                        marginLeft: "-5px",
-                        border: "2px solid white",
-                      }}
-                    />
-                  ))}
+                {likes.filter((like) => like.post_id === card.id).length > 1 &&
+                  likes
+                    .filter((like) => like.post_id === card.id)
+                    .slice(0, 4) // ✅ Only show first 3
+                    .map((like) => (
+                      <img
+                        key={like.id}
+                        src={like.user?.profile_picture || userImage}
+                        alt="like"
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          borderRadius: "50%",
+                          marginLeft: "-5px",
+                          border: "2px solid white",
+                        }}
+                      />
+                    ))}
 
-                {/* If more than 3 likes, show "+x" */}
+                {/* If more than 4 likes, show "+x" */}
                 {likes.filter((like) => like.post_id === card.id).length >
-                  3 && (
+                  4 && (
                   <span
                     style={{
                       fontSize: "10px",
