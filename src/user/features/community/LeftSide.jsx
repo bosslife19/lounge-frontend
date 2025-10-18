@@ -244,13 +244,15 @@ export const LeftSide = ({ posts, setPosts }) => {
   gap={4}
 >
   {/* Likes Preview */}
+  
   <div
     style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
     onClick={() => toggleLikes(card.id)}
   >
-    {likes
+    {
+      likes.filter(like=>like.post_id ===card.id).length> 1 &&likes
       .filter((like) => like.post_id === card.id)
-      .slice(0, 3) // ✅ Only show first 3
+      .slice(0, 4) // ✅ Only show first 3
       .map((like) => (
         <img
           key={like.id}
@@ -264,10 +266,12 @@ export const LeftSide = ({ posts, setPosts }) => {
             border: "2px solid white",
           }}
         />
-      ))}
+      ))
+    }
+   
 
-    {/* If more than 3 likes, show "+x" */}
-    {likes.filter((like) => like.post_id === card.id).length > 3 && (
+    {/* If more than 4 likes, show "+x" */}
+    {likes.filter((like) => like.post_id === card.id).length > 4 && (
       <span
         style={{
           fontSize: "10px",
