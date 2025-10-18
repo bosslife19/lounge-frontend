@@ -11,6 +11,7 @@ import {
   Card,
   Avatar,
   Textarea,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useContext, useEffect, useState } from "react";
@@ -168,16 +169,17 @@ const PostDetails = () => {
             spacing={4}
             mb={4}
           >
-            <Image
-              src={update?.post_image}
-              alt={update?.title}
-              w="100%"
-              h={{ base: "200px", md: "300px" }}
-              objectFit="cover"
-              rounded="xl"
-              mb={6}
-            />
-
+            <AspectRatio ratio={16 / 5} w="100%" mb={6}>
+              <Image
+                src={update?.post_image}
+                alt={update?.title}
+                w="100%"
+                h={{ base: "200px", md: "300px" }}
+                objectFit="cover"
+                rounded="xl"
+                mb={6}
+              />
+            </AspectRatio>
             <Text
               fontFamily="LatoRegular"
               fontSize={{ base: 14, md: 16 }}
@@ -277,7 +279,7 @@ const PostDetails = () => {
                   <Textarea
                     placeholder="Write a comment"
                     resize="none"
-                     minH={{ base: "9px", md: "10px" }}
+                    minH={{ base: "9px", md: "10px" }}
                     // minH="60px"
                     bg={"#F6F6F6"}
                     onChange={(e) => setComment(e.target.value)}

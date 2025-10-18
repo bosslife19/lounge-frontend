@@ -1,4 +1,5 @@
 import {
+  AspectRatio,
   Box,
   Button,
   Flex,
@@ -222,13 +223,17 @@ export const LeftSectionProfile = () => {
         <Flex alignItems={"center"} justifyContent={"space-between"}>
           <HStack>
             <Stack position={"relative"}>
-              <Image
-                src={userDetails.organization?.logo || user?.organization?.logo}
-                alt="Update"
-                boxSize={{ base: "40px", md: "72px" }}
-                objectFit={"cover"}
-                rounded={50}
-              />
+              <AspectRatio ratio={16 / 5} w="100%" mb={6}>
+                <Image
+                  src={
+                    userDetails.organization?.logo || user?.organization?.logo
+                  }
+                  alt="Update"
+                  boxSize={{ base: "40px", md: "72px" }}
+                  objectFit={"cover"}
+                  rounded={50}
+                />
+              </AspectRatio>
               {/* <Image
                 src={tick}
                 alt="tick"

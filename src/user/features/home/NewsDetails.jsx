@@ -7,6 +7,7 @@ import {
   HStack,
   Button,
   Flex,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { IoIosArrowBack } from "react-icons/io";
 import { cardData } from "../../../hooks/useData";
@@ -123,18 +124,19 @@ const NewsDetails = () => {
             >
               {update?.title}
             </Text>
-            <Box position={"relative"}>
-              <Image
-                src={update?.image}
-                alt={update?.title}
-                w="100%"
-                h={{ base: "100px", md: "200px" }}
-                objectFit="cover"
-                objectPosition={"center"}
-                rounded={12}
-                // overflow={"hidden"}
-                mb={6}
-              />
+            <Box position={"relative"} mb={6}>
+              <AspectRatio ratio={16 / 5} w="100%">
+                <Image
+                  src={update?.image}
+                  alt={update?.title}
+                  w="100%"
+                  // h={{ base: "100px", md: "200px" }}
+                  objectFit="cover"
+                  objectPosition={"center"}
+                  rounded={12}
+                  // overflow={"hidden"}
+                />
+              </AspectRatio>
               {/* <button className=" absolute cursor-pointer top-5 right-6">
                 <Image
                   roundedTop={10}
@@ -145,7 +147,6 @@ const NewsDetails = () => {
                   className="w-full   "
                 />
               </button> */}
-              
             </Box>
             <Stack mt={-5} spacing={0}>
               <Text

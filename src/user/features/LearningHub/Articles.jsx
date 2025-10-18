@@ -8,6 +8,7 @@ import {
   SimpleGrid,
   InputGroup,
   Input,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
@@ -64,13 +65,15 @@ export const Articles = ({ articles, setArticles }) => {
               className="rounded-2xl relative"
               onClick={() => handleCardClick(card)}
             >
-              <Image
-                roundedTop={12}
-                src={card.image}
-                alt={card.title}
-                h={{ base: "80px", md: "110px" }}
-                className="w-full h-30 object-cover"
-              />
+              <AspectRatio ratio={16 / 9} w="100%">
+                <Image
+                  roundedTop={12}
+                  src={card.image}
+                  alt={card.title}
+                  h={{ base: "80px", md: "110px" }}
+                  className="w-full h-30 object-cover"
+                />
+              </AspectRatio>
 
               {/* <button className="absolute cursor-pointer top-5 right-6">
                 <Image

@@ -36,34 +36,26 @@ function Login() {
     return () => clearTimeout(timer);
   }, []);
 
-   const handleSuccess = async (credentialResponse) => {
-      const token = credentialResponse.credential;
-  
-  
-  
-      // Send to your Laravel backend
-      try {
-        
-        const res = await axiosClient.post('/google', {token});
-        if(res.error) return toast.error(res.error);
-          if(res.data.status){
-        toast.success('Login Successful');
-        localStorage.setItem('ACCESS_TOKEN', res.data.token)
+  const handleSuccess = async (credentialResponse) => {
+    const token = credentialResponse.credential;
+
+    // Send to your Laravel backend
+    try {
+      const res = await axiosClient.post("/google", { token });
+      if (res.error) return toast.error(res.error);
+      if (res.data.status) {
+        toast.success("Login Successful");
+        localStorage.setItem("ACCESS_TOKEN", res.data.token);
         setUserDetails(res.data.user);
-        setTimeout(()=>{
-  return navigate('/dashboard');
+        setTimeout(() => {
+          return navigate("/dashboard");
         }, 2000);
-        
       }
-  
-      } catch (error) {
-        console.log(error);
-        alert('Error');
-      }
-      
-  
-     
-    };
+    } catch (error) {
+      console.log(error);
+      alert("Error");
+    }
+  };
 
   const handleLogin = async () => {
     if (!emailRef.current.value || !passwordRef.current.value) {
@@ -244,10 +236,10 @@ function Login() {
           >
             <Image src={Google} />
           </Button> */}
-           <GoogleLogin
-                onSuccess={handleSuccess}
-                onError={() => console.log("Login Failed")}
-              />
+          <GoogleLogin
+            onSuccess={handleSuccess}
+            onError={() => console.log("Login Failed")}
+          />
         </Fieldset.Root>
       </Flex>
     </Flex>
