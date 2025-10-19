@@ -3,6 +3,7 @@ import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import {
+  AspectRatio,
   Box,
   Button,
   Card,
@@ -108,13 +109,17 @@ export default function VideoAdmin() {
                 overflow="hidden"
                 _hover={{ shadow: "lg" }}
               >
-                <Image
+                 <AspectRatio ratio={3/2} w="100%">
+                   <Image
                   src={video.thumbnail}
                   alt="Video Thumbnail"
                   objectFit="cover"
-                  w="100%"
-                  h={{ base: "100px", md: "180px" }}
+                  // w="100%"
+                  // h={{ base: "100px", md: "180px" }}
                 />
+
+                              </AspectRatio>
+              
 
                 <Card.Body mt={{ base: "-10px", md: "0" }}>
                   <Stack spacing={3}>

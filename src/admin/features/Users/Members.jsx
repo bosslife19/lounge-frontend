@@ -12,10 +12,11 @@ import { formatTime } from "../../../lib/formatTime";
 import { useRequest } from "../../../hooks/useRequest";
 import { toast } from "react-toastify";
 
-export const Members = () => {
+export const Members = ({search, locationSearch, setSearch, setLocationSearch}) => {
   const [pageSize, setPageSize] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
   const { makeRequest } = useRequest();
+   const [filteredResults, setFilteredResults] = useState([]);
   const handleAddUser = () => {
     setIsOpen(true);
   };
@@ -88,6 +89,34 @@ export const Members = () => {
   const handleSelect = (userId, label, color, icon = null) => {
     setRowActions((prev) => ({ ...prev, [userId]: { label, color, icon } }));
   };
+   useEffect(() => {
+      if (search) {
+        const lowerSearch = search.toLowerCase();
+        const results = users.filter((item) =>
+          [item.first_name, item.last_name, item.name, item.organization?.name, item.profession]
+            .filter(Boolean) // removes null/undefined
+            .some((field) => field.toLowerCase().includes(lowerSearch))
+        );
+        setFilteredResults(results);
+      } else {
+        setFilteredResults(users); // if no search, show all
+      }
+    }, [search, users]);
+
+      useEffect(() => {
+        if (locationSearch) {
+          const lowerSearch = locationSearch.toLowerCase();
+          const results = users.filter((item) =>
+            [item.city, item.organization?.location]
+              .filter(Boolean) // removes null/undefined
+              .some((field) => field.toLowerCase().includes(lowerSearch))
+          );
+          setFilteredResults(results);
+        } else {
+          setFilteredResults(users); // if no search, show all
+        }
+      }, [locationSearch, users]);
+    
 
   const dataTable = {
     col: {
@@ -99,8 +128,8 @@ export const Members = () => {
       col_6: { col_6_1: "Action" },
     },
     row:
-      users.length > 0 ? (
-        users.map((row, index) => {
+      filteredResults.length > 0 ? (
+        filteredResults.map((row, index) => {
           const selected = rowActions[row.id] || {
             label: "Action",
             color: "gray.600",
@@ -203,7 +232,7 @@ export const Members = () => {
             </Button> */}
 
       <CreateNewUser isOpen={isOpen} onClose={handleClose} />
-      {users.length > 0 ? (
+      {filteredResults.length > 0 ? (
         <BottomTable
           dataTable={dataTable}
           pageSize={pageSize}

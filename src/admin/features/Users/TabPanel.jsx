@@ -6,7 +6,7 @@ import { FaUserPlus } from "react-icons/fa";
 import { useState } from "react";
 import { CreateNewUser } from "./modal/CreateUser";
 
-export const DashboardTabpanel = () => {
+export const DashboardTabpanel = ({search, setSearch, setLocationSearch, locationSearch}) => {
   return (
     <Tabs.Root bg="#FDFDFD" defaultValue="Members">
       <Flex
@@ -38,10 +38,10 @@ export const DashboardTabpanel = () => {
 
       {/* Tab Contents */}
       <Tabs.Content value="Members">
-        <Members />
+        <Members search={search} setLocationSearch={setLocationSearch} setSearch={setSearch} locationSearch={locationSearch}/>
       </Tabs.Content>
       <Tabs.Content value="Organization">
-        <Organization />
+        <Organization search={search} setLocationSearch={setLocationSearch} setSearch={setSearch} locationSearch={locationSearch} />
       </Tabs.Content>
     </Tabs.Root>
   );

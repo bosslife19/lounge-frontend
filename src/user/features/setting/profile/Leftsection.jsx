@@ -217,7 +217,7 @@ export const LeftSectionProfile = () => {
         <Flex alignItems={"center"} justifyContent={"space-between"}>
           <HStack>
             <Stack position={"relative"}>
-              <AspectRatio ratio={16 / 5} w="100%" mb={6}>
+             
                 <Image
                   src={
                     userDetails.organization?.logo || user?.organization?.logo
@@ -227,7 +227,7 @@ export const LeftSectionProfile = () => {
                   objectFit={"cover"}
                   rounded={50}
                 />
-              </AspectRatio>
+
               {/* <Image
                 src={tick}
                 alt="tick"

@@ -25,6 +25,9 @@ export const frameworks = createListCollection({
   ],
 });
 export const UsersHome = () => {
+  const [search, setSearch] = useState('');
+  const [locationSearch, setLocationSearch] = useState('')
+
   return (
     <Box h="100%" bg="#FDFDFD" px={6}>
       <Stack
@@ -41,6 +44,7 @@ export const UsersHome = () => {
             fontSize={10}
             borderRadius={10}
             placeholder="Name, Industry & Skill"
+            onChange={(e)=>setSearch(e.target.value)}
           />
         </InputGroup>
         <InputGroup startElement={<FaLocationDot size={10} />}>
@@ -49,6 +53,7 @@ export const UsersHome = () => {
             fontSize={10}
             borderRadius={10}
             placeholder="Location"
+            onChange={(e)=>setLocationSearch(e.target.value)}
           />
         </InputGroup>
         <Flex
@@ -58,11 +63,11 @@ export const UsersHome = () => {
           alignItems={"center"}
           justifyContent={"center"}
         >
-          <Dropdown frameworks={frameworks} icon />
+          {/* <Dropdown frameworks={frameworks} icon /> */}
         </Flex>
       </Stack>
       {/* <DashboardCard/> */}
-      <DashboardTabpanel />
+      <DashboardTabpanel search={search} setSearch={setSearch} locationSearch={locationSearch} setLocationSearch={setLocationSearch} />
     </Box>
   );
 };

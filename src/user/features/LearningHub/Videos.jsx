@@ -8,6 +8,7 @@ import {
   SimpleGrid,
   InputGroup,
   Input,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
@@ -84,13 +85,18 @@ export const VideosPage = () => {
               border="1px solid #080F340F"
               className="rounded-2xl relative"
             >
-              <Image
+                           <AspectRatio ratio={3 / 2} w="100%">
+                            <Image
                 roundedTop={10}
                 src={card.thumbnail || getVideoThumbnail(card.video_link)}
                 alt={card.title}
-                h={{ base: "100px", md: "200px" }}
-                className="w-full h-30 object-cover"
+                // h={{ base: "100px", md: "200px" }}
+                // className="w-full h-30 object-cover"
+                className="object-cover"
               />
+                           
+                            </AspectRatio>
+             
 
               {/* Play Button Overlay */}
               <button

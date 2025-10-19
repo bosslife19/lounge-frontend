@@ -196,6 +196,44 @@ console.log(profile)
                 </Card.Body>
               </Card.Root>
 
+                            <Card.Root
+                px={5}
+                fontFamily="InterRegular"
+                fontSize={12}
+                size="sm"
+                shadow={"lg"}
+                shadowColor={"#0000001A/90"}
+                rounded={{ base: 10, md: 20 }}
+                mt={4}
+              >
+                <Card.Header ml={{ base: -6, md: -4 }}>
+                  <Heading
+                    my={{ base: -2, md: 0 }}
+                    fontSize={{ base: "12px", md: "16px" }}
+                    color={"#3B3B3B"}
+                    fontFamily={"InterSemiBold"}
+                    fontWeight={"medium"}
+                    size="md"
+                  >
+                    Price
+                  </Heading>
+                </Card.Header>
+                <Card.Body mt={-2} color="fg.muted">
+                  {/* <List.Root>
+                       <List.Item fontsize={{base:012px,',md:'16px'}} >{profile.desc}</List.Item>
+                       <List.Item >{profile.desc2}</List.Item>
+                       <List.Item >{profile.desc3}</List.Item>
+                
+                  </List.Root> */}
+                  <Text
+                    fontSize={{ base: 10, md: 14 }}
+                    ml={{ base: -6, md: -4 }}
+                  >
+                    €{profile.price}
+                  </Text>
+                </Card.Body>
+              </Card.Root>
+
               <Card.Root
                 px={5}
                 fontFamily="InterRegular"

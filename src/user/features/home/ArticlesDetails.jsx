@@ -126,7 +126,7 @@ const ArticleDetails = () => {
               />
             </button> */}
           </Box>
-          <Stack mt={-5} spacing={0}>
+          <Stack mt={3} spacing={0}>
             <Text
               fontFamily="LatoRegular"
               fontSize={{ base: "13px", md: "16px" }}

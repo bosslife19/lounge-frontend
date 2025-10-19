@@ -22,6 +22,7 @@ import { EditSession } from "./Modal/EditSession";
 import CreateProgram from "./Modal/CreateProgram";
 import axiosClient from "../../../axiosClient";
 import { formattedDate } from "../../../lib/formatDate";
+import { motion } from "framer-motion";
 
 import { formatTimeToString } from "../../../lib/formatTimeTostring";
 import { CreateSpeakerHighlight } from "./Modal/CreateSpeakerHighlight";
@@ -82,6 +83,7 @@ const [currentContent, setCurrentContent] = useState(null)
     },
   ]);
   const [spOpen, setSpOpen] = useState(false);
+  const MotionFlex = motion(Flex);
 
   const closeSpOpen = () => {
     setSpOpen(false);
@@ -96,6 +98,8 @@ const [currentContent, setCurrentContent] = useState(null)
 
   const [sessionIndex, setSessionIndex] = useState(0);
   const [speakerIndex, setSpeakerIndex] = useState(0);
+  const itemsPerSlide = 3; // show 3 speakers at once
+
 
   // Reset sessions/speakers when news changes
   useEffect(() => {
@@ -118,14 +122,17 @@ const [currentContent, setCurrentContent] = useState(null)
   const handleNewsNext = () =>
     setNewsIndex((prev) => (prev >= newsData.length - 1 ? 0 : prev + 1));
 
-  const handleSpeakerPrev = () =>
-    setSpeakerIndex((prev) =>
-      prev <= 0 ? currentSpeakers.length - 1 : prev - 1
-    );
-  const handleSpeakerNext = () =>
-    setSpeakerIndex((prev) =>
-      prev >= currentSpeakers.length - 1 ? 0 : prev + 1
-    );
+ const handleSpeakerNext = () => {
+  if (speakerIndex + itemsPerSlide < currentSpeakers.length) {
+    setSpeakerIndex((prev) => prev + itemsPerSlide);
+  }
+};
+
+const handleSpeakerPrev = () => {
+  if (speakerIndex - itemsPerSlide >= 0) {
+    setSpeakerIndex((prev) => prev - itemsPerSlide);
+  }
+};
 
   const handleSessionPrev = () =>
     setSessionIndex((prev) =>
@@ -290,67 +297,90 @@ const [currentContent, setCurrentContent] = useState(null)
         </HStack>
       </Flex>
 
-      <Flex overflow="hidden" my={{ base: 3, md: 5 }}>
-        {currentSpeakers.length > 0 && (
-          <Box flex="1">
-            <Box
-              position={"relative"}
-              bg="white"
-              p={5}
-              border="1px solid #080F340F"
-              rounded={{ base: 8, md: 20 }}
-              h="100%"
+      <MotionFlex overflow="hidden" my={{ base: 3, md: 5 }}>
+  {currentSpeakers.length > 0 ? (
+    <Flex
+      gap={4}
+      w="100%"
+      justifyContent="space-between"
+      flexWrap="wrap"
+    >
+      {currentSpeakers
+        .slice(speakerIndex, speakerIndex + itemsPerSlide)
+        .map((speaker, idx) => (
+          <Box
+            key={`${speaker.id}-${idx}`}
+            flex={{ base: "1 1 100%", md: "1 1 calc(33.333% - 1rem)" }}
+            bg="white"
+            p={5}
+            border="1px solid #080F340F"
+            rounded={{ base: 8, md: 20 }}
+            position="relative"
+            boxShadow="sm"
+          >
+            {/* Header with Image and Name */}
+            <HStack>
+              <Image
+                src={speaker?.speaker_image}
+                alt="Speaker"
+                boxSize={{ base: "25px", md: "40px" }}
+                rounded="full"
+                objectFit="cover"
+              />
+              <Stack spacing={0}>
+                <Text
+                  color="#202020"
+                  fontSize={{ base: "10px", md: 12 }}
+                  fontFamily="InterMedium"
+                >
+                  {speaker?.speaker_name}
+                </Text>
+                <Text
+                  color="#808291"
+                  mt={-1}
+                  fontSize={{ base: "9px", md: 11 }}
+                >
+                  {formattedDate(speaker?.created_at)}
+                </Text>
+              </Stack>
+            </HStack>
+
+            {/* Highlight */}
+            <Text
+              mt={3}
+              fontFamily="InterRegular"
+              fontWeight="normal"
+              fontSize={{ base: "11px", md: 14 }}
+              color="#333333E5"
+              noOfLines={4} // prevents overflow
             >
-              <HStack>
-                <Image
-                  src="https://www.w3schools.com/howto/img_avatar.png"
-                  alt="Speaker"
-                  boxSize={{ base: "25px", md: "40px" }}
-                  rounded="full"
-                />
-                <Stack spacing={0}>
-                  <Text
-                    color="#202020"
-                    fontSize={{ base: "10px", md: 12 }}
-                    fontFamily="InterMedium"
-                  >
-                    {currentSpeakers[speakerIndex]?.speaker_name}
-                  </Text>
-                  <Text
-                    color="#202020"
-                    mt={-1}
-                    fontSize={{ base: "9px", md: 11 }}
-                  >
-                    {formattedDate(currentSpeakers[speakerIndex]?.created_at)}
-                  </Text>
-                </Stack>
-              </HStack>
-              <Text
-                mt={3}
-                fontFamily="InterRegular"
-                fontWeight={"normal"}
-                fontSize={{ base: "11px", md: 14 }}
-                color="#333333E5"
-              >
-                {currentSpeakers[speakerIndex]?.highlight}
-              </Text>
-              <Button
-                position={"absolute"}
-                top={0}
-                bg={"transparent"}
-                color={"#212121"}
-                right={0}
-                onClick={() => {
-                  setIsOpen(true);
-                  setCurrentContent(currentSpeakers[speakerIndex])
-                }}
-              >
-                <RiPencilLine />
-              </Button>
-            </Box>
+              {speaker?.highlight}
+            </Text>
+
+            {/* Edit button */}
+            <Button
+              position="absolute"
+              top={0}
+              right={0}
+              bg="transparent"
+              color="#212121"
+              onClick={() => {
+                setIsOpen(true);
+                setCurrentContent(speaker);
+              }}
+            >
+              <RiPencilLine />
+            </Button>
           </Box>
-        )}
-      </Flex>
+        ))}
+    </Flex>
+  ) : (
+    <Text textAlign="center" w="100%">
+      No Speaker Highlights yet
+    </Text>
+  )}
+</MotionFlex>
+
 
       {/* ---------- Session Slider ---------- */}
       <Flex alignItems={"center"} justifyContent={"space-between"}>

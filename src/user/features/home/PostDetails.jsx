@@ -188,6 +188,10 @@ const PostDetails = () => {
               fontSize={{ base: 14, md: 16 }}
               color={"#1C1C1CB2"}
               my={2}
+              whiteSpace={'pre-line'}
+               textAlign="left"
+              letterSpacing="0.1px"
+              wordBreak="break-word"
             >
               {update?.body}
             </Text>

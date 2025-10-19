@@ -42,6 +42,8 @@ export const EditList = ({ isOpen, onClose, card, setListings }) => {
   const { userDetails } = useContext(AuthContext);
   const { makeRequest, loading } = useRequest();
 
+ 
+
   const handleEditListing = async () => {
 
     const res = await makeRequest("/edit-listing", {
@@ -283,6 +285,7 @@ export const EditList = ({ isOpen, onClose, card, setListings }) => {
                     outline={"none"}
                     resize={"none"}
                     name="notes"
+                    defaultValue={card?.preparation_notice}
                   />
                 </Field.Root>
               </Fieldset.Content>

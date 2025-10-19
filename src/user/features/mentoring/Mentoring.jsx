@@ -157,7 +157,7 @@ const [refresh, setRefresh] = useState(false)
         position="relative"
         zIndex={10}
         cursor="pointer"
-        onClick={() => console.log("clicked")}
+        // onClick={() => console.log("clicked")}
       >
         <Avatars options={dropdownOptions} />
       </Box>

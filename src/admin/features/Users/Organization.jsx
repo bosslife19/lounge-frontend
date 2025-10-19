@@ -12,7 +12,7 @@ import { useRequest } from "../../../hooks/useRequest";
 import { toast } from "react-toastify";
 import { FiUserPlus } from "react-icons/fi";
 
-export const Organization = () => {
+export const Organization = ({search, setSearch, locationSearch, setLocationSearch}) => {
   const [pageSize, setPageSize] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowActions, setRowActions] = useState({});
@@ -20,6 +20,7 @@ export const Organization = () => {
   const [organizations, setOrganizations] = useState([]);
   const { makeRequest } = useRequest();
   const [refresh, setRefresh] = useState(false);
+  const [filteredResults, setFilteredResults] = useState([])
   useEffect(() => {
     const getOrgs = async () => {
       const res = await axiosClient.get("/get-organizations");
@@ -46,6 +47,35 @@ export const Organization = () => {
   const handleClose = () => {
     setIsOpen(false);
   };
+   useEffect(() => {
+        if (search) {
+          const lowerSearch = search.toLowerCase();
+          const results = organizations.filter((item) =>
+            [item.name]
+              .filter(Boolean) // removes null/undefined
+              .some((field) => field.toLowerCase().includes(lowerSearch))
+          );
+          setFilteredResults(results);
+        } else {
+          setFilteredResults(organizations); // if no search, show all
+        }
+      }, [search, organizations]);
+  
+        useEffect(() => {
+          if (locationSearch) {
+           
+            const lowerSearch = locationSearch.toLowerCase();
+            const results = organizations.filter((item) =>
+              [ item.location]
+                .filter(Boolean) // removes null/undefined
+                .some((field) => field.toLowerCase().includes(lowerSearch))
+            );
+           
+            setFilteredResults(results);
+          } else {
+            setFilteredResults(organizations); // if no search, show all
+          }
+        }, [locationSearch, organizations]);
 
   const tableData = [
     {
@@ -104,8 +134,8 @@ export const Organization = () => {
       col_6: { col_6_1: "Action" },
     },
     row:
-      organizations.length > 0 ? (
-        organizations.map((row, index) => {
+      filteredResults.length > 0 ? (
+        filteredResults.map((row, index) => {
           const selected = rowActions[row.id] || {
             label: "Action",
             color: "gray.600",
@@ -222,7 +252,7 @@ export const Organization = () => {
       </Button>
 
       <CreateOrganization isOpen={isOpen} onClose={handleClose} setOrganizations={setOrganizations} />
-      {organizations.length > 0 ? (
+      {filteredResults.length > 0 ? (
         <BottomTable
           dataTable={dataTable}
           pageSize={pageSize}

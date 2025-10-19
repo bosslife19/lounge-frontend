@@ -27,7 +27,7 @@ export const AdminLinks = ({ articles, setArticles }) => {
   useEffect(()=>{
     const getLinks = async ()=>{
       const res = await axiosClient.get('/links');
-      console.log(res.data)
+     
       setLinks(res.data.links)
     }
     getLinks()

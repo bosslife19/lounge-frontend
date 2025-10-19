@@ -111,7 +111,7 @@ const TopTabs = () => {
         position="relative"
         zIndex={10}
         cursor="pointer"
-        onClick={() => console.log("clicked")}
+        // onClick={() => console.log("clicked")}
       >
         <Avatars options={dropdownOptions} />
       </Box>
@@ -219,9 +219,9 @@ const TopTabs = () => {
                   <div
                     style={{
                       position: "absolute",
-                      top: "21.5%", // adjust based on where the button sits
+                      top: "28%", // adjust based on where the button sits
                       // left: "50%",
-                      right: "2%",
+                      right: "6%",
                       transform: "translateX(-50%)",
                       backgroundColor: "#fff",
                       boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",

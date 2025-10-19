@@ -204,6 +204,103 @@ const PostHistory = () => {
         >
           <Box>
             <Card />
+            <Box
+  bg="#F8FBFF"
+  mt={5}
+  p={5}
+  borderRadius="xl"
+  boxShadow="md"
+  border="1px solid #E3ECF6"
+>
+  <Heading
+    as="h3"
+    size="md"
+    color="#111"
+    // fontFamily="InterBold"
+    mb={3}
+    textAlign="center"
+  >
+    Understanding Your Points
+  </Heading>
+
+  <Stack spacing={3} fontSize="sm" color="#3E4C59">
+    <Box
+      bg="white"
+      p={3}
+      borderRadius="lg"
+      boxShadow="sm"
+      border="1px solid #E6EDF5"
+    >
+      <HStack justify="space-between">
+        <Text fontFamily="InterMedium">Login</Text>
+        <Text color="#179F3B" fontFamily="InterBold">+2 pts</Text>
+      </HStack>
+    </Box>
+
+    <Box
+      bg="white"
+      p={3}
+      borderRadius="lg"
+      boxShadow="sm"
+      border="1px solid #E6EDF5"
+    >
+      <HStack justify="space-between">
+        <Text fontFamily="InterMedium">Post on the community</Text>
+        <Text color="#179F3B" fontFamily="InterBold">+5 pts</Text>
+      </HStack>
+    </Box>
+
+    <Box
+      bg="white"
+      p={3}
+      borderRadius="lg"
+      boxShadow="sm"
+      border="1px solid #E6EDF5"
+    >
+      <HStack justify="space-between">
+        <Text fontFamily="InterMedium">Comment on a post</Text>
+        <Text color="#179F3B" fontFamily="InterBold">+3 pts</Text>
+      </HStack>
+    </Box>
+
+    <Box
+      bg="white"
+      p={3}
+      borderRadius="lg"
+      boxShadow="sm"
+      border="1px solid #E6EDF5"
+    >
+      <HStack justify="space-between">
+        <Text fontFamily="InterMedium">Like a post</Text>
+        <Text color="#179F3B" fontFamily="InterBold">+2 pts</Text>
+      </HStack>
+    </Box>
+  </Stack>
+
+  <Box
+    mt={5}
+    bg="#E9F5EE"
+    p={4}
+    borderRadius="lg"
+    textAlign="center"
+    border="1px solid #CDE9D6"
+  >
+    <Text fontSize="sm" color="#2C7A4B" fontFamily="InterMedium">
+      Accumulate points through daily engagement.
+      Redeem them for exclusive benefits such as:
+    </Text>
+    <Text
+      mt={2}
+      fontFamily="InterBold"
+      color="#179F3B"
+      fontSize="sm"
+    >
+      🎁 LinkedIn Premium (3 Months) <br />
+      💡 Skill Courses & Platform Perks
+    </Text>
+  </Box>
+</Box>
+
             <MentorsBoxPage />
           </Box>
         </Box>
