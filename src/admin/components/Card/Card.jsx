@@ -1,4 +1,4 @@
-import { Avatar, Button, Card } from "@chakra-ui/react"
+import { Avatar, Button, Card } from "@chakra-ui/react";
 
 export const Card = () => {
   return (
@@ -20,5 +20,5 @@ export const Card = () => {
         <Button>Join</Button>
       </Card.Footer>
     </Card.Root>
-  )
-}
+  );
+};
