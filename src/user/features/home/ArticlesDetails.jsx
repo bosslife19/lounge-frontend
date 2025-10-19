@@ -129,8 +129,17 @@ const ArticleDetails = () => {
           <Stack mt={-5} spacing={0}>
             <Text
               fontFamily="LatoRegular"
-              fontSize={{ base: "11px", md: 16 }}
-              color={"#1C1C1CB2/70"}
+              fontSize={{ base: "13px", md: "16px" }}
+              color="#1C1C1C"
+              // lineHeight="taller"
+              whiteSpace="pre-line"
+              textAlign="left"
+              letterSpacing="0.1px"
+              wordBreak="break-word"
+              style={{
+                color: "rgba(28, 28, 28, 0.8)",
+                marginTop: "4px",
+              }}
             >
               {update?.content}
             </Text>

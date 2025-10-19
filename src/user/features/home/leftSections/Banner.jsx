@@ -1,5 +1,3 @@
-
-
 import {
   Box,
   VStack,
@@ -34,39 +32,41 @@ export function Banner() {
   const [slides, setSlides] = useState([]);
   const [current, setCurrent] = useState(0);
 
-  const quoteImage = 'https://media.licdn.com/dms/image/v2/C4D12AQFD6RhJMVtskQ/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1617945315771?e=2147483647&v=beta&t=SaDX5kJpDHSJyDePwJdPFyaaXs8BmD0rsKu3XmevvH0'
+  const quoteImage =
+    "https://media.licdn.com/dms/image/v2/C4D12AQFD6RhJMVtskQ/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1617945315771?e=2147483647&v=beta&t=SaDX5kJpDHSJyDePwJdPFyaaXs8BmD0rsKu3XmevvH0";
   // 🔹 Motivational quotes with images
- const motivationalQuotes = [
-  {
-    title: "Become the person you needed when you started",
-    body: "Every journey begins with uncertainty, but courage turns that uncertainty into strength. Growth happens when you choose to move forward, even without clarity. You are not behind. You are becoming.",
-   image:quoteImage,
-  },
-  {
-    title: "Rise through the storm",
-    body: "The moments that challenge you are the ones that refine you. Strength grows in the silence of perseverance. Every storm you endure teaches you how to stand taller the next time.",
-    image: quoteImage,
-  },
-  {
-    title: "Lead with meaning",
-    body: "When you understand why you do what you do, direction follows naturally. Purpose turns obstacles into opportunities. Meaningful work is what makes progress feel alive.",
-    image: quoteImage
-  },
-  {
-    title: "Do it scared",
-    body: "Courage begins when comfort ends. Fear is proof that you are stretching into something new. Take the step anyway and watch your confidence grow with every attempt.",
-    image: quoteImage
-  },
-  {
-    title: "Train your thoughts",
-    body: "The quality of your thoughts defines the quality of your life. Choose focus over fear and progress over doubt. A disciplined mind creates a powerful reality.",
-    image: quoteImage
-  },
-  {
-    title: "Consistency beats intensity",
-    body: "It is not what you do once that changes you, but what you",
-    image: quoteImage
-  }]
+  const motivationalQuotes = [
+    {
+      title: "Become the person you needed when you started",
+      body: "Every journey begins with uncertainty, but courage turns that uncertainty into strength. Growth happens when you choose to move forward, even without clarity. You are not behind. You are becoming.",
+      image: quoteImage,
+    },
+    {
+      title: "Rise through the storm",
+      body: "The moments that challenge you are the ones that refine you. Strength grows in the silence of perseverance. Every storm you endure teaches you how to stand taller the next time.",
+      image: quoteImage,
+    },
+    {
+      title: "Lead with meaning",
+      body: "When you understand why you do what you do, direction follows naturally. Purpose turns obstacles into opportunities. Meaningful work is what makes progress feel alive.",
+      image: quoteImage,
+    },
+    {
+      title: "Do it scared",
+      body: "Courage begins when comfort ends. Fear is proof that you are stretching into something new. Take the step anyway and watch your confidence grow with every attempt.",
+      image: quoteImage,
+    },
+    {
+      title: "Train your thoughts",
+      body: "The quality of your thoughts defines the quality of your life. Choose focus over fear and progress over doubt. A disciplined mind creates a powerful reality.",
+      image: quoteImage,
+    },
+    {
+      title: "Consistency beats intensity",
+      body: "It is not what you do once that changes you, but what you",
+      image: quoteImage,
+    },
+  ];
 
   // 🔹 Fetch events and combine with quotes
   useEffect(() => {
@@ -136,7 +136,10 @@ export function Banner() {
         align={{ base: "center", md: "flex-start" }}
         spacing={4}
         mt={{ base: 5, lg: -4 }}
-        w={{ base: "100%", md: "60%" }}
+        pt={{ base: 0, md: 5 }}
+        w={{ base: "100%", md: "100%" }}
+        h={{ base: "40vh", md: "28vh" }}
+        overflow={"hidden"}
       >
         {slide.type === "event" ? (
           <>
@@ -204,7 +207,7 @@ export function Banner() {
             </Button>
           </>
         ) : (
-          // 🔹 Quote Slide
+          //  Quote Slide
           <>
             <Text
               fontWeight="light"
@@ -221,7 +224,10 @@ export function Banner() {
               textAlign={{ base: "center", md: "left" }}
               fontWeight="600"
             >
-              {slide.title}
+              {/* {slide.title} */}
+              {slide.title.length > 45
+                ? `${slide.title.slice(0, 45)}...`
+                : slide.title}
             </Heading>
 
             <Text
@@ -230,16 +236,19 @@ export function Banner() {
               color="#fff/85"
               textAlign={{ base: "center", md: "left" }}
               lineHeight="1.6"
-              maxW="90%"
+              // maxW="90%"
             >
-              {slide.body}
+              {slide.body.length > 320
+                ? `${slide.body.slice(0, 320)}...`
+                : slide.body}
+              {/* {slide.body} */}
             </Text>
           </>
         )}
       </VStack>
 
       {/* Image Section for both Events and Quotes */}
-      <Box textAlign="center" position="relative">
+      {/* <Box textAlign="center" position="relative">
         <Image
           src={slide.type === "event" ? slide.event_image : slide.image}
           alt={slide.title}
@@ -249,7 +258,7 @@ export function Banner() {
           objectFit="cover"
           shadow="lg"
         />
-      </Box>
+      </Box> */}
 
       {/* Navigation Arrows */}
       <HStack

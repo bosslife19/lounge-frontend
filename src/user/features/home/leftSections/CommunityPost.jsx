@@ -137,7 +137,11 @@ const CommunityPost = () => {
         </Button>
       </Flex>
 
+<<<<<<< HEAD
       <Box className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+=======
+      <Box className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+>>>>>>> 0bb18e6f1b1dde0e6a04ef208b013d660529273c
         {posts.length > 0 ? (
           posts.slice(0, 6).map((card) => (
             <Box
@@ -174,7 +178,7 @@ const CommunityPost = () => {
                     {/* {card.user.name.length > 8
                       ? `${card.user.name.slice(0, 8)}...`
                       : card.user.name} */}
-                      {card.user?.first_name} {card.user?.last_name}
+                    {card.user?.first_name} {card.user?.last_name}
                   </Text>
                   <Text color={"#98A2B3"} fontSize={{ base: 8, md: 11 }}>
                     {formatTime(card.created_at)}

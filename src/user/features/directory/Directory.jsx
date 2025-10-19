@@ -67,7 +67,7 @@ const Directory = () => {
     },
   ];
   const navigate = useNavigate();
-const{id}= useParams()
+  const { id } = useParams();
   const [directoryData, setDirectoryData] = useState([]);
   const [selected, setSelected] = useState(directoryData[0] || null); // default profile
   const [search, setSearch] = useState("");
@@ -88,7 +88,6 @@ const{id}= useParams()
     }
   }, [search, directoryData]);
   useEffect(() => {
-   
     if (locationSearch) {
       const lowerSearch = locationSearch.toLowerCase();
       const results = directoryData.filter((item) =>
@@ -107,13 +106,12 @@ const{id}= useParams()
       const res = await axiosClient.get("/users");
 
       setDirectoryData(res.data.users);
-      if(id){
-     const currentUser =   res.data.users.find(item=>item.id ==id);
+      if (id) {
+        const currentUser = res.data.users.find((item) => item.id == id);
         setSelected(currentUser);
-      }else{
-setSelected(res.data.users[0] || null);
+      } else {
+        setSelected(res.data.users[0] || null);
       }
-      
     };
     getAllProfessionals();
   }, []);
@@ -123,32 +121,37 @@ setSelected(res.data.users[0] || null);
   }, []);
 
   return (
-    <Box>
+    <Box w={"100%"}>
       <Box
         ml={"auto"}
         w={"100%"}
+        h={"100%"}
         pr={4}
         pt={2}
         justifyContent={"flex-end"}
         display={{ base: "none", xl: "flex" }}
         className="border-l-2 pl-4"
-        pb={4}
+        pb={5}
+        // bg={"#000"}
+        position="relative"
+        zIndex={10}
+        cursor="pointer"
+        onClick={() => console.log("clicked")}
       >
-        {/* <button onClick={() => toggleDropdown("avatar")}> */}
         <Avatars options={dropdownOptions} />
-        {/* </button> */}
       </Box>
-       <Heading
-                fontSize={{ base: "13px", md: "24px" }}
-                pb={{ base: 0, md: 2 }}
-                px={4}
-                style={{
-                  position:"relative",
-                  top:"-60px"
-                }}
-              >
-                Directory
-              </Heading>
+      <Heading
+        fontSize={{ base: "13px", md: "24px" }}
+        pb={{ base: 0, md: 2 }}
+        px={4}
+        style={{
+          position: "relative",
+        }}
+        top={{ base: "-40px", md: "-50px" }}
+        ml={{ base: 25, lg: 0 }}
+      >
+        Directory
+      </Heading>
       <Flex
         flexDirection={{ base: "column", md: "row" }}
         alignItems={"flex-start"}
@@ -244,7 +247,7 @@ setSelected(res.data.users[0] || null);
                 <HStack mt={3}>
                   <Stack position={"relative"}>
                     <Image
-                      rounded={12}
+                      rounded={50}
                       src={card.organization?.logo || googlebig}
                       alt="Company"
                       boxSize={{ base: "40px", md: "50px" }}
@@ -393,7 +396,6 @@ setSelected(res.data.users[0] || null);
               </Card.Description>
             </Card.Body>
             <Card.Footer>
-
               <Button
                 w={"full"}
                 mb={-2}
@@ -436,7 +438,11 @@ setSelected(res.data.users[0] || null);
               color="#7C7C7C"
             >
               <Text fontFamily="InterRegular" fontSize={{ base: 10, md: 12 }}>
+<<<<<<< HEAD
                 {selected?.bio} 
+=======
+                {selected?.bio}
+>>>>>>> 0bb18e6f1b1dde0e6a04ef208b013d660529273c
               </Text>
               {/* <Text fontFamily="InterRegular" fontSize={14} color={"#202020"}>
                 {selected?.bio}

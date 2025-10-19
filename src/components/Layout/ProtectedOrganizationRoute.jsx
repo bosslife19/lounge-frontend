@@ -4,26 +4,18 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Flex, Spinner } from "@chakra-ui/react";
-import axiosClient from '../../axiosClient'
+import axiosClient from "../../axiosClient";
 
-
-const ProtectedOrganizationRoute= ({ children }) => {
-
-   const Loader = ()=>{
-  return (
-     <Flex
-            align="center"
-            justify="center"
-            h="100vh"
-            w="full"
-            color="#0A2EE2"
-          >
-            <Spinner size="xl" thickness="4px" speed="0.65s" />
-          </Flex>
-  )
- }
+const ProtectedOrganizationRoute = ({ children }) => {
+  const Loader = () => {
+    return (
+      <Flex align="center" justify="center" h="100vh" w="full" color="#0A2EE2">
+        <Spinner size="xl" thickness="4px" speed="0.65s" />
+      </Flex>
+    );
+  };
   const token = localStorage.getItem("ACCESS_TOKEN");
-  const {userDetails, setUserDetails} = useContext(AuthContext);
+  const { userDetails, setUserDetails } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -35,8 +27,8 @@ const ProtectedOrganizationRoute= ({ children }) => {
       }
 
       try {
-       const res = await axiosClient.get('/user');
-    
+        const res = await axiosClient.get("/user");
+
         setUserDetails(res.data); // store user in AuthContext
         setIsAuthenticated(true);
       } catch (error) {
@@ -51,13 +43,13 @@ const ProtectedOrganizationRoute= ({ children }) => {
     fetchUser();
   }, []);
 
-  if (loading) return <Loader/>;
+  if (loading) return <Loader />;
 
-  if (userDetails?.role === 'user') return <Navigate to="/dashboard" replace />;
-  if (userDetails?.role === 'admin') return <Navigate to="/admin/dashboard" replace />;
+  if (userDetails?.role === "user") return <Navigate to="/dashboard" replace />;
+  if (userDetails?.role === "admin")
+    return <Navigate to="/admin/dashboard" replace />;
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
-  
 
   return children;
 };

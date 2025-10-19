@@ -32,17 +32,17 @@ const TopTabs = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const [filteredResults, setFilteredResults] = useState([]);
-    const [open, setOpen] = useState(false);
-      const [programs, setPrograms] = useState([]);
-    
-      useEffect(() => {
-        const getPrograms = async () => {
-          const res = await axiosClient.get("/programs");
-    
-          setPrograms(res.data.programs);
-        };
-        getPrograms();
-      }, []);
+  const [open, setOpen] = useState(false);
+  const [programs, setPrograms] = useState([]);
+
+  useEffect(() => {
+    const getPrograms = async () => {
+      const res = await axiosClient.get("/programs");
+
+      setPrograms(res.data.programs);
+    };
+    getPrograms();
+  }, []);
   const frameworks = createListCollection({
     items: [
       { label: "Experience", value: "Experience" },
@@ -97,42 +97,36 @@ const TopTabs = () => {
   }, [search, articles]);
   return (
     <Box>
-      <HStack>
-        <Heading
-          pl={5}
-          fontSize={{ base: "13px", md: "24px" }}
-          display={"flex"}
-          pb={4}
-          gap={2}
-          alignItems={"center"}
-        >
-          {/* <IconButton
-          aria-label="Previous"
-          rounded="full"
-          bg="white"
-          border={"1px solid #9E9E9E"}
-          _hover={{ bg: "whiteAlpha.500" }}
-          size="sm"
-        >
-          <IoIosArrowBack color="#9E9E9E" />
-        </IconButton> */}
-          Learning Hub
-        </Heading>
-        <Box
-          display={{ base: "none", xl: "flex" }}
-          className="border-l-2 pl-4"
-          pb={6}
-          ml={"auto"}
-          justifyContent={"center"}
-          // bg={"#000"}
-          pr={"2%"}
-          pt={1}
-        >
-          {/* <button onClick={() => toggleDropdown("avatar")}> */}
-          <Avatars options={dropdownOptions} />
-          {/* </button> */}
-        </Box>
-      </HStack>
+      <Box
+        ml={"auto"}
+        w={"100%"}
+        h={"100%"}
+        pr={4}
+        pt={2}
+        justifyContent={"flex-end"}
+        display={{ base: "none", xl: "flex" }}
+        className="border-l-2 pl-4"
+        pb={5}
+        // bg={"#000"}
+        position="relative"
+        zIndex={10}
+        cursor="pointer"
+        onClick={() => console.log("clicked")}
+      >
+        <Avatars options={dropdownOptions} />
+      </Box>
+      <Heading
+        fontSize={{ base: "13px", md: "24px" }}
+        pb={{ base: 0, md: 2 }}
+        px={4}
+        style={{
+          position: "relative",
+        }}
+        top={{ base: "-40px", md: "-50px" }}
+        ml={{ base: 25, lg: 0 }}
+      >
+        Learning Hub
+      </Heading>
 
       <Tabs.Root
         defaultValue="articles"
@@ -193,71 +187,71 @@ const TopTabs = () => {
               <LuCircleAlert />
               Information
             </Tabs.Trigger>
-<div style={{ position: "relative", display: "inline-block" }}>
- <button
-        onClick={() => setOpen(!open)}
-        style={{
-          backgroundColor: "#EBEBEB",
-          color: "#9E9E9E",
-          border: "none",
-          borderRadius: "8px",
-          padding: "8px 16px",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          fontSize: "14px",
-          cursor: "pointer",
-          height: "43px",
-          transition: "all 0.2s ease-in-out",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#ddd")}
-        onMouseLeave={(e) =>
-          (e.currentTarget.style.backgroundColor = "#EBEBEB")
-        }
-      >
-        <MdStars />
-        Program
-      </button>
-{open && (
-    <Portal>
-      <div
-        style={{
-          position: "absolute",
-          top: "21.5%", // adjust based on where the button sits
-          // left: "50%",
-          right:'2%',
-          transform: "translateX(-50%)",
-          backgroundColor: "#fff",
-          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-          borderRadius: "10px",
-          overflow: "hidden",
-          minWidth: "100px",
-          zIndex: 2000,
-        }}
-      >
-        {programs?.map(
-          (item) => (
-            <div
-              key={item}
-              style={{
-                padding: "10px 14px",
-                fontSize: "14px",
-                color: "#333",
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                navigate(`/programs/${item?.id}`)
-                setOpen(false);
-              }}
-            >
-              {item?.title}
+            <div style={{ position: "relative", display: "inline-block" }}>
+              <button
+                onClick={() => setOpen(!open)}
+                style={{
+                  backgroundColor: "#EBEBEB",
+                  color: "#9E9E9E",
+                  border: "none",
+                  borderRadius: "8px",
+                  padding: "8px 16px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  fontSize: "14px",
+                  cursor: "pointer",
+                  height: "43px",
+                  transition: "all 0.2s ease-in-out",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#ddd")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#EBEBEB")
+                }
+              >
+                <MdStars />
+                Program
+              </button>
+              {open && (
+                <Portal>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "21.5%", // adjust based on where the button sits
+                      // left: "50%",
+                      right: "2%",
+                      transform: "translateX(-50%)",
+                      backgroundColor: "#fff",
+                      boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+                      borderRadius: "10px",
+                      overflow: "hidden",
+                      minWidth: "100px",
+                      zIndex: 2000,
+                    }}
+                  >
+                    {programs?.map((item) => (
+                      <div
+                        key={item}
+                        style={{
+                          padding: "10px 14px",
+                          fontSize: "14px",
+                          color: "#333",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          navigate(`/programs/${item?.id}`);
+                          setOpen(false);
+                        }}
+                      >
+                        {item?.title}
+                      </div>
+                    ))}
+                  </div>
+                </Portal>
+              )}
             </div>
-          )
-        )}
-      </div>
-    </Portal>
-  )}
-</div>
             <Tabs.Trigger
               value="tasks"
               color={"#9E9E9E"}

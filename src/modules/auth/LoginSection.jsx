@@ -11,9 +11,11 @@ import {
   Stack,
   Text,
   Spinner,
+  Heading,
+  HStack,
 } from "@chakra-ui/react";
 
-import LoungeLogo from "../../assets/Frame.png";
+import LoungeLogo from "../../assets/Image.png";
 import Google from "../../assets/google.png";
 import { GoogleLogin } from "@react-oauth/google";
 import divder from "../../assets/Dividers.svg";
@@ -22,6 +24,9 @@ import { useRequest } from "../../hooks/useRequest";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthContext";
 import axiosClient from "../../axiosClient";
+// import Notfyimage from "../../assets/btn.png";
+// import Notfyimage from "../../assets/userImage.jpg";
+import Notfyimage from "../../assets/lougelogos.png";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -36,34 +41,26 @@ function Login() {
     return () => clearTimeout(timer);
   }, []);
 
-   const handleSuccess = async (credentialResponse) => {
-      const token = credentialResponse.credential;
-  
-  
-  
-      // Send to your Laravel backend
-      try {
-        
-        const res = await axiosClient.post('/google', {token});
-        if(res.error) return toast.error(res.error);
-          if(res.data.status){
-        toast.success('Login Successful');
-        localStorage.setItem('ACCESS_TOKEN', res.data.token)
+  const handleSuccess = async (credentialResponse) => {
+    const token = credentialResponse.credential;
+
+    // Send to your Laravel backend
+    try {
+      const res = await axiosClient.post("/google", { token });
+      if (res.error) return toast.error(res.error);
+      if (res.data.status) {
+        toast.success("Login Successful");
+        localStorage.setItem("ACCESS_TOKEN", res.data.token);
         setUserDetails(res.data.user);
-        setTimeout(()=>{
-  return navigate('/dashboard');
+        setTimeout(() => {
+          return navigate("/dashboard");
         }, 2000);
-        
       }
-  
-      } catch (error) {
-        console.log(error);
-        alert('Error');
-      }
-      
-  
-     
-    };
+    } catch (error) {
+      console.log(error);
+      alert("Error");
+    }
+  };
 
   const handleLogin = async () => {
     if (!emailRef.current.value || !passwordRef.current.value) {
@@ -96,10 +93,11 @@ function Login() {
 
   return (
     <Flex
-      minH={{ base: "100vh", lg: "100%" }}
+      h={{ base: "100vh", lg: "100%" }}
       w="full"
       fontFamily="Poppins"
       overflow="hidden"
+      py={{ base: 5, lg: 0 }}
     >
       {/* LEFT SIDE */}
       <Flex
@@ -107,11 +105,132 @@ function Login() {
         flexDir="column"
         justify="space-between"
         w={"45%"}
-        px={2}
-        py={2}
+        px={5}
+        py={5}
       >
-        <Image src={LoungeLogo} alt="Lounge Logo" />
+        <Box
+          h={{ base: "100vh", xl: "50vw" }}
+          bg="#000"
+          p={6}
+          borderRadius={"30px"}
+          textAlign={"center"}
+          flexDirection={"column"}
+          justifyContent={"space-between"}
+          display={"flex"}
+        >
+          <Stack>
+            <HStack alignItems={"center"}>
+              <Image
+                src={Notfyimage}
+                alt="Lounge Logo"
+                w={{ base: "10px", md: "40px" }}
+                className="object-cover  rounded-full"
+              />
+              <Text
+                color="#fff"
+                fontSize={{ base: "15px", md: "24px" }}
+                fontWeight="bold"
+                textAlign={"left"}
+                fontFamily={"LatoBold"}
+              >
+                THE LOUNGE
+              </Text>
+            </HStack>
+            <Flex
+              maxWidth={{ base: "70%" }}
+              align="flex-start"
+              flexWrap="wrap"
+              mr={"auto"}
+              mt={"15%"}
+              gap={{ base: 2, md: 4 }}
+              fontFamily={"LatoBold"}
+            >
+              <Text
+                color="#fff"
+                fontSize={{ base: "15px", md: "36px" }}
+                fontWeight="bold"
+                textAlign={"left"}
+                lineHeight={"45px"}
+                // mt={"-2"}
+              >
+                Elevate your journey as a Founder with{" "}
+              </Text>
+              <Text
+                color="#6C3433"
+                fontWeight="extrabold"
+                fontSize={{ base: "15px", md: "36px" }}
+                textAlign={"left"}
+                borderRadius="md"
+                mt={"-5"}
+              >
+                THE LOUNGE
+              </Text>
+            </Flex>
+
+            <Text
+              mt={4}
+              textAlign={"left"}
+              fontSize={{
+                base: "12px",
+                md: "18px",
+              }}
+              color={"#E4DBDB"}
+              fontFamily={"LatoRegular"}
+            >
+              Access exclusive resources, expert insights, and a network of
+              peers who believe in building together. Welcome to The Lounge —
+              your space to learn, grow, and thrive with AiDiA.{" "}
+            </Text>
+          </Stack>
+
+          <Box p={5} rounded={"20px"} bg={"#3E3838"}>
+            <Text
+              textAlign={"left"}
+              fontSize={{
+                base: "12px",
+                md: "15px",
+              }}
+              color={"#F0E6E6"}
+              fontFamily={"LatoRegular"}
+            >
+              Through The Lounge, I’ve met founders and mentors who truly
+              understand my challenges. Every session, every conversation brings
+              new perspectives — it’s like having an entire community behind
+              your growth.
+            </Text>
+            <HStack textAlign={"left"} mt={2.8}>
+              <Image
+                src={LoungeLogo}
+                alt="User Photo"
+                w={"30px"}
+                h={"30px"}
+                borderRadius={"full"}
+                className="object-cover"
+              />
+              <Stack mt={1}>
+                <Text
+                  color={"#fff"}
+                  fontFamily={"LatoBold"}
+                  fontWeight={"bold"}
+                  fontSize={{ base: "10px", md: "12px" }}
+                >
+                  Jane Cooper
+                </Text>
+                <Text
+                  color={"#A29999"}
+                  fontFamily={"LatoRegular"}
+                  mt={"-8px"}
+                  fontSize={{ base: "10px", md: "11px" }}
+                >
+                  Product Designer at Acme Inc
+                </Text>
+              </Stack>
+            </HStack>
+          </Box>
+        </Box>
+        {/* <Image src={LoungeLogo} alt="Lounge Logo" /> */}
       </Flex>
+      {/* Right Side */}
       <Flex
         flex="1"
         bg="white"
@@ -244,10 +363,10 @@ function Login() {
           >
             <Image src={Google} />
           </Button> */}
-           <GoogleLogin
-                onSuccess={handleSuccess}
-                onError={() => console.log("Login Failed")}
-              />
+          <GoogleLogin
+            onSuccess={handleSuccess}
+            onError={() => console.log("Login Failed")}
+          />
         </Fieldset.Root>
       </Flex>
     </Flex>

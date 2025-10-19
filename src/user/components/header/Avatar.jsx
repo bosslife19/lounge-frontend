@@ -25,41 +25,41 @@ const Avatar = ({ options = [] }) => {
   const [toaster, setToaster] = useState(null);
 
   useEffect(() => {
-  if (!userDetails?.id) return;
+    if (!userDetails?.id) return;
 
-  // 1. Fetch existing notifications
-  const fetchNotifications = async () => {
-    const { data, error } = await supabase
-      .from("notifications")
-      .select("*")
-      .eq("user_id", userDetails.id)
-      .order("created_at", { ascending: false });
+    // 1. Fetch existing notifications
+    const fetchNotifications = async () => {
+      const { data, error } = await supabase
+        .from("notifications")
+        .select("*")
+        .eq("user_id", userDetails.id)
+        .order("created_at", { ascending: false });
 
-    if (!error) setNotifications(data);
-  };
+      if (!error) setNotifications(data);
+    };
 
-  fetchNotifications();
+    fetchNotifications();
 
-  // 2. Subscribe to new notifications (v1 syntax)
-  const subscription = supabase
-    .from("notifications:user_id=eq." + userDetails.id) // use RLS filter here
-    .on("INSERT", (payload) => {
-      if (payload.new.type === "user_notification") {
-        setToaster(payload.new);
+    // 2. Subscribe to new notifications (v1 syntax)
+    const subscription = supabase
+      .from("notifications:user_id=eq." + userDetails.id) // use RLS filter here
+      .on("INSERT", (payload) => {
+        if (payload.new.type === "user_notification") {
+          setToaster(payload.new);
 
-        setTimeout(() => setToaster(null), 5000);
-      }
-      setNotifications((prev) => [payload.new, ...prev]);
-    })
-    .subscribe(()=>{
-      // console.log('Subscribed to notifications channel');
-    });
+          setTimeout(() => setToaster(null), 5000);
+        }
+        setNotifications((prev) => [payload.new, ...prev]);
+      })
+      .subscribe(() => {
+        // console.log('Subscribed to notifications channel');
+      });
 
-  // 3. Cleanup
-  return () => {
-    supabase.removeSubscription(subscription);
-  };
-}, [userDetails?.id]);
+    // 3. Cleanup
+    return () => {
+      supabase.removeSubscription(subscription);
+    };
+  }, [userDetails?.id]);
 
   const toggleBar = () => {
     setOpen(!open);
