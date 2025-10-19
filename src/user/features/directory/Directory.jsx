@@ -438,11 +438,7 @@ const Directory = () => {
               color="#7C7C7C"
             >
               <Text fontFamily="InterRegular" fontSize={{ base: 10, md: 12 }}>
-<<<<<<< HEAD
                 {selected?.bio} 
-=======
-                {selected?.bio}
->>>>>>> 0bb18e6f1b1dde0e6a04ef208b013d660529273c
               </Text>
               {/* <Text fontFamily="InterRegular" fontSize={14} color={"#202020"}>
                 {selected?.bio}

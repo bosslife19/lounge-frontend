@@ -65,7 +65,6 @@ export const Articles = ({ articles, setArticles }) => {
               className="rounded-2xl relative"
               onClick={() => handleCardClick(card)}
             >
-<<<<<<< HEAD
                <AspectRatio ratio={4 / 1} w="100%">
                <Image
                 // roundedTop={12}
@@ -76,17 +75,6 @@ export const Articles = ({ articles, setArticles }) => {
               />
               </AspectRatio>
 
-=======
-              <AspectRatio ratio={16 / 9} w="100%">
-                <Image
-                  roundedTop={12}
-                  src={card.image}
-                  alt={card.title}
-                  h={{ base: "80px", md: "110px" }}
-                  className="w-full h-30 object-cover"
-                />
-              </AspectRatio>
->>>>>>> 0bb18e6f1b1dde0e6a04ef208b013d660529273c
 
               {/* <button className="absolute cursor-pointer top-5 right-6">
                 <Image

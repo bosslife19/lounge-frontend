@@ -227,7 +227,6 @@ export const LeftSide = ({ posts, setPosts }) => {
 
             {/* Post Image */}
             {card.post_image && (
-<<<<<<< HEAD
               <AspectRatio ratio={3 / 2} w="100%">
 <Image
                 src={card.post_image}
@@ -237,16 +236,6 @@ export const LeftSide = ({ posts, setPosts }) => {
               />
               </AspectRatio>
               
-=======
-              <AspectRatio ratio={16 / 9} w="100%">
-                <Image
-                  src={card.post_image}
-                  alt="Post"
-                  objectFit="contain"
-                  borderRadius={{ base: "10px", md: "20px" }}
-                />
-              </AspectRatio>
->>>>>>> 0bb18e6f1b1dde0e6a04ef208b013d660529273c
             )}
 
             {/* Comments and actions */}
