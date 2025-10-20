@@ -16,12 +16,13 @@ import { useEffect, useState } from "react";
 import { formatTime } from "../../../lib/formatTime";
 import axiosClient from "../../../axiosClient";
 import Avatar from "../../components/header/Avatar";
+import { userAvatar } from "../setting/posts/Posts";
 
 const ArticleDetails = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
-  const profile = cardData.find((item) => item.id === Number(id));
+ 
 
   const [moreNews, setMoreNews] = useState([]);
 
@@ -41,9 +42,7 @@ const ArticleDetails = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  if (!profile) {
-    return <Text>Profile not found</Text>;
-  }
+
 
   return (
     <Flex
@@ -153,7 +152,7 @@ const ArticleDetails = () => {
           >
             <Stack position={"relative"}>
               <Image
-                src={profile.subimage}
+                src={userAvatar}
                 alt="Update"
                 boxSize={{ base: "20px", md: "30px" }}
                 rounded={20}
@@ -277,7 +276,7 @@ const ArticleDetails = () => {
                   >
                     <Stack position={"relative"}>
                       <Image
-                        src={profile.subimage}
+                        src={userAvatar}
                         alt="Update"
                         boxSize={{ base: "20px", md: "30px" }}
                         rounded={50}

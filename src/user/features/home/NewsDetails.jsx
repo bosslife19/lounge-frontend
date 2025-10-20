@@ -18,6 +18,7 @@ import axiosClient from "../../../axiosClient";
 import Avatars from "../../components/header/Avatar";
 import { FaCog, FaImage } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
+import { userAvatar } from "../setting/posts/Posts";
 
 const dropdownOptions = [
   // {
@@ -44,7 +45,7 @@ const NewsDetails = () => {
   const { id } = useParams();
   // console.log(id);
   const navigate = useNavigate();
-  const profile = cardData.find((item) => item.id === Number(id));
+  // const profile = cardData.find((item) => item.id === Number(id));
 
   const [moreNews, setMoreNews] = useState([]);
 
@@ -64,9 +65,7 @@ const NewsDetails = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  if (!profile) {
-    return <Text>Profile not found</Text>;
-  }
+
 
   return (
     <Box w={"100%"}>
@@ -153,6 +152,10 @@ const NewsDetails = () => {
                 fontFamily="LatoRegular"
                 fontSize={{ base: 14, md: 16 }}
                 color={"#1C1C1CB2/70"}
+                  whiteSpace="pre-line"
+              textAlign="left"
+              letterSpacing="0.1px"
+              wordBreak="break-word"
               >
                 {update?.content}
               </Text>
@@ -166,7 +169,7 @@ const NewsDetails = () => {
             >
               <Stack position={"relative"}>
                 <Image
-                  src={profile.subimage}
+                  src={userAvatar}
                   alt="Update"
                   boxSize="30px"
                   rounded={20}
@@ -288,7 +291,7 @@ const NewsDetails = () => {
                     >
                       <Stack position={"relative"}>
                         <Image
-                          src={profile.subimage}
+                          src={userAvatar}
                           alt="Update"
                           boxSize="24px"
                           rounded={50}

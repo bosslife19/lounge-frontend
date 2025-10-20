@@ -4,6 +4,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { cardData } from "../../../hooks/useData";
   import btns from "../../../assets/btn.svg"
 import { useEffect } from "react";
+import { userAvatar } from "../../../user/features/setting/posts/Posts";
  
 const OrganizationProfileDetails = () => {
   const { id } = useParams();
@@ -14,10 +15,7 @@ const OrganizationProfileDetails = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  if (!profile) {
-    return <Text>Profile not found</Text>;
-  }
-
+ 
   
   return (
    <Flex bg={'#FAFAFA'} flexDirection={{base:'column',md:'row'}} alignItems={'flex-start'} justifyContent={'space-between'}>
@@ -34,7 +32,7 @@ const OrganizationProfileDetails = () => {
       {/* Profile Info */}
       <Stack bg={'#fff'} p={4} borderRadius={10} spacing={4} mb={4}>
          <Image
-        src={profile.eImage}
+        src={userAvatar}
         alt={profile.title}
         w="100%"
         h={{ base: "200px", md: "300px" }}
