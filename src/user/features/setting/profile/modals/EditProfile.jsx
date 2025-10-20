@@ -37,7 +37,7 @@ import getCroppedImg from "../../../../../lib/getCroppedImage";
 import { AuthContext } from "../../../../../context/AuthContext";
 import SearchableDropdown from "../../../../../components/Layout/SearchableDropDown";
 
-export const EditProfile = ({ isOpen, onClose }) => {
+export const EditProfile = ({ isOpen, onClose, setRefresh }) => {
   const { userDetails, setUserDetails } = useContext(AuthContext);
  const [imageSrc, setImageSrc] = useState(null);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
@@ -233,7 +233,8 @@ export const EditProfile = ({ isOpen, onClose }) => {
 
     const res = await makeRequest("/edit-profile", profileData);
 
-    setUserDetails(res.response.user);
+    // setUserDetails(res.response.user);
+    setRefresh(prev=>!prev);
 
     if (res.error) {
       return;

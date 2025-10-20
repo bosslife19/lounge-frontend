@@ -37,6 +37,7 @@ export const LeftSectionProfile = () => {
   const fileInputRef = useRef(null);
   const [profileImage, setProfileImage] = useState();
   const { makeRequest } = useRequest();
+  const [refresh, setRefresh] = useState(false)
   const [user, setUser] = useState(null);
   const [orgOpen, setOrgOpen] = useState(false)
   useEffect(() => {
@@ -101,7 +102,7 @@ export const LeftSectionProfile = () => {
       setUserDetails(res.data.user);
     };
     getUser();
-  }, []);
+  }, [refresh]);
 
   const handleCardClick = () => {
     setIsOpen(true);
@@ -379,8 +380,8 @@ export const LeftSectionProfile = () => {
           </Stack>
         </Box>
       </Box>
-      <EditProfile isOpen={isOpen} onClose={handleClose} />
-      <EditOrganization isOpen={orgOpen} onClose={handleOrgClose}/>
+      <EditProfile isOpen={isOpen} onClose={handleClose} setRefresh={setRefresh} />
+      <EditOrganization isOpen={orgOpen} onClose={handleOrgClose} setRefresh={setRefresh}/>
     </Box>
   );
 };

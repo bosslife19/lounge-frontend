@@ -20,7 +20,7 @@ import { useRequest } from "../../../../../hooks/useRequest";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-function EditOrganization({ isOpen, onClose }) {
+function EditOrganization({ isOpen, onClose, setRefresh }) {
     const {userDetails, setUserDetails} = useContext(AuthContext);
     const organizationDescRef = useRef('');
     const organizationNameRef = useRef("");
@@ -130,12 +130,13 @@ function EditOrganization({ isOpen, onClose }) {
         }
         const res = await makeRequest("/edit-organization", orgData);
        
-        setUserDetails(res.response.user);
+        // setUserDetails(res.response.user);
     
         if (res.error) {
           return;
         }
         toast.success("Organization Edited Successfully");
+       setRefresh(prev=>!prev)
         onClose(); // notify parent component
     }
   return (
