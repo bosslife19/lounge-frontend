@@ -35,7 +35,9 @@ function EditOrganization({ isOpen, onClose }) {
     // const [cropType, setCropType] = useState('profile'); // "profile" or "logo"
     const [zoom, setZoom] = useState(1);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
+    
     const [showCropper, setShowCropper] = useState(false);
+   
     
     const logoInputRef = useRef(null);
     const handleLogoClick = () => {
@@ -127,7 +129,7 @@ function EditOrganization({ isOpen, onClose }) {
 
         }
         const res = await makeRequest("/edit-organization", orgData);
-
+       
         setUserDetails(res.response.user);
     
         if (res.error) {

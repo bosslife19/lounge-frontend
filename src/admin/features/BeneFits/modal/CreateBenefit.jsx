@@ -14,9 +14,13 @@ import {
   Field,
   InputGroup,
   createListCollection,
+  Spinner,
 } from "@chakra-ui/react";
 import { FaBriefcase } from "react-icons/fa";
 import { Dropdown } from "../../../components/select/Dropdown";
+import { useRef } from "react";
+import { toast } from "react-toastify";
+import { useRequest } from "../../../../hooks/useRequest";
 
 const frameworks = createListCollection({
   items: [
@@ -26,7 +30,20 @@ const frameworks = createListCollection({
     { label: "Svelte", value: "svelte" },
   ],
 });
-export const CreateBenefits = ({ isOpen, onClose }) => {
+export const CreateBenefits = ({ isOpen, onClose, setBenefits }) => {
+  const title = useRef('');
+  const company = useRef('');
+  const points = useRef(0)
+const {loading, makeRequest} = useRequest()
+  const handleCreate = async()=>{
+    if(!title.current.value || !company.current.value || !points.current.value) return toast.error("All fields are required");
+    const res = await makeRequest('/benefit', {title: title.current.value, company: company.current.value, points:points.current.value});
+    if(res.error) return;
+    setBenefits(prev=>[res.response.benefit, ...prev]);
+    toast.success('Benefit Created successfully')
+    onClose();
+
+  }
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
       <Portal>
@@ -47,11 +64,17 @@ export const CreateBenefits = ({ isOpen, onClose }) => {
               <Text fontSize={{ base: "10px", md: "14px" }}>Title</Text>
               <Input
                 fontSize={{ base: "10px", md: "14px" }}
-                placeholder="Surname"
+                placeholder="Benefit name/title"
                 type="text"
+                ref={title}
               />
               <Text fontSize={{ base: "11px", md: "14px" }}>Partner</Text>
-              <Dropdown frameworks={frameworks} icon />
+              <Input
+                fontSize={{ base: "10px", md: "14px" }}
+                placeholder="Name of company users can claim benefit from"
+                type="text"
+                ref={company}
+              />
 
               <Field.Root>
                 <Field.Label
@@ -60,13 +83,14 @@ export const CreateBenefits = ({ isOpen, onClose }) => {
                   fontFamily="InterMedium"
                   color={"#101928"}
                 >
-                  Point (EUR)
+                  Points Required
                 </Field.Label>
-                <InputGroup startElement={<FaBriefcase />}>
+                <InputGroup>
                   <Input
                     fontSize={{ base: "10px", md: "14px" }}
                     type="number"
                     py={{ base: 2, md: 6 }}
+                    ref={points}
                   />
                 </InputGroup>
               </Field.Root>
@@ -85,7 +109,7 @@ export const CreateBenefits = ({ isOpen, onClose }) => {
                   Cancel
                 </Button>
                 <Button
-                  //   onClick={onFinish}
+                   onClick={handleCreate}
                   py={{ base: 2, md: 6 }}
                   flex={1}
                   // w={{ base: "100%" }}
@@ -94,7 +118,9 @@ export const CreateBenefits = ({ isOpen, onClose }) => {
                   bg={"#2B362F"}
                   color="white"
                 >
-                  Save Changes
+                 {
+                  loading?<Spinner/>:'Save Changes'
+                 }
                 </Button>
               </HStack>
             </Stack>

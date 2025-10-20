@@ -57,7 +57,7 @@ export const Links = ({ articles }) => {
                   fontSize={{ base: 10, md: 12 }}
                   fontFamily="InterRegular"
                 >
-                  The Lounge Team
+                {card.title}
                 </Text>
                 <a href={card.url} target="_blank" rel="noopener noreferrer">
                   <Text
@@ -70,6 +70,8 @@ export const Links = ({ articles }) => {
                     {card.url}
                   </Text>
                 </a>
+
+
               </Stack>
             </HStack>
           </Box>

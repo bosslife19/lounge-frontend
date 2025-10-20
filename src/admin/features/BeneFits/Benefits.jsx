@@ -16,17 +16,51 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cardData } from "../../../hooks/useData";
 import coins from "../../../assets/coingold.png";
 import { BiDotsVerticalRounded, BiPencil, BiTrash } from "react-icons/bi";
 import { FiPlusCircle } from "react-icons/fi";
 import { CreateBenefits } from "./modal/CreateBenefit";
 import { EditBenefits } from "./modal/EditBenefits";
-
+import axiosClient from "../../../axiosClient";
+import ConfirmDeleteModal from "../../../components/ConfirmDelete";
+import { toast } from "react-toastify";
+import { SoapDispenserDroplet } from "lucide-react";
 export const BenefitsPoints = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [benefits, setBenefits] = useState([])
+  const [benefitId, setBenefitId] = useState(0)
+  const [benefitTitle, setBenefitTitle] = useState('');
+  const [benefitPoints, setBenefitPoints] = useState('');
+  const [benefitCompany, setBenefitCompany] = useState('');
+const [refresh, setRefresh] = useState(false)
+const [confirmOpen, setConfirmOpen] = useState(false)
+const [loading, setLoading] = useState(false)
+      const handleConfirm = async (benefitId) => {
+     
+      
+        try {
+          setLoading(true);
+          
+          await axiosClient.delete(`/benefit/${benefitId}`);
+          // Remove the deleted post from the state
+          setBenefits(benefits.filter((benefit) => benefit.id !== benefitId));
+          setLoading(false)
+          toast.success("Benefit deleted successfully");
+          setConfirmOpen(false);
+        } catch (error) {
+          console.error("Error deleting benefit:", error);
+          setLoading(false)
+          alert("Failed to delete the benefit. Please try again.");
+        }
+      
+    }
+    const handleDeletePost = async (postId) => {
+    setBenefitId(postId)
+    setConfirmOpen(true);
 
+  };
   const handleCardClick = () => {
     setIsOpen(true);
   };
@@ -34,6 +68,15 @@ export const BenefitsPoints = () => {
   const handleClose = () => {
     setIsOpen(false);
   };
+
+  useEffect(()=>{
+    const getBenefits = async ()=>{
+      const res = await axiosClient.get('/benefits');
+
+      setBenefits(res.data.benefits)
+    }
+    getBenefits()
+  }, [refresh])
 
   const frameworks = createListCollection({
     items: [
@@ -80,7 +123,7 @@ export const BenefitsPoints = () => {
         </HStack>
       </Button>
       <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} spacing={6} gap={5}>
-        {cardData.map((card, idx) => (
+        {benefits?.map((card, idx) => (
           <Card.Root
             key={idx}
             bg={"#fff"}
@@ -107,7 +150,13 @@ export const BenefitsPoints = () => {
                     <Menu.Content>
                       <Menu.Item
                         fontSize={{ base: "10px", md: "14px" }}
-                        onClick={() => handleAction()}
+                        onClick={() => {
+                          setBenefitId(card.id)
+                          setBenefitTitle(card.title)
+                          setBenefitCompany(card.company)
+                          setBenefitPoints(card.points_required)
+                          handleAction()
+                        }}
                         value="new-txt"
                       >
                         <BiPencil />
@@ -116,6 +165,7 @@ export const BenefitsPoints = () => {
                       <Menu.Item
                         fontSize={{ base: "10px", md: "14px" }}
                         value="new-file"
+                        onClick={()=>handleDeletePost(card.id)}
                       >
                         <BiTrash />
                         Delete
@@ -129,7 +179,7 @@ export const BenefitsPoints = () => {
                 fontSize={{ base: "12px", md: "14px" }}
                 fontFamily="InterRegular"
               >
-                Manuel Neuer
+                {card.title}
               </Text>
 
               <Card.Title
@@ -139,7 +189,7 @@ export const BenefitsPoints = () => {
                 fontSize={{ base: "10px", md: "14px" }}
                 fontFamily="InterBold"
               >
-                {card.title}
+                {card.company}
               </Card.Title>
               <HStack
                 bg={"#BFBFBF"}
@@ -151,17 +201,27 @@ export const BenefitsPoints = () => {
               >
                 <Image src={coins} w={5} h={5} />
                 <Text fontSize={{ base: "10px", md: "14px" }} color={"#fff"}>
-                  300
+                  {card.points_required}
                 </Text>
               </HStack>
             </Card.Body>
           </Card.Root>
         ))}
+        {
+          benefits.length <=0 && <Text>No Benefits Yet</Text>
+        }
       </SimpleGrid>
 
-      <CreateBenefits isOpen={isOpen} onClose={handleClose} />
+      <CreateBenefits isOpen={isOpen} onClose={handleClose} setBenefits={setBenefits} />
 
-      <EditBenefits isOpen={isOpened} onClose={handleClosed} />
+      <EditBenefits isOpen={isOpened} onClose={handleClosed} 
+      setBenefits={setBenefits} benefitId={benefitId} benefitTitle={benefitTitle}
+      benefitPoints={benefitPoints}
+      benefitCompany={benefitCompany}
+      setRefresh={setRefresh}
+      
+      />
+      <ConfirmDeleteModal onClose={()=>setConfirmOpen(false)} onConfirm={()=>handleConfirm(benefitId)} isOpen={confirmOpen} loading={loading}/>
     </Box>
   );
 };

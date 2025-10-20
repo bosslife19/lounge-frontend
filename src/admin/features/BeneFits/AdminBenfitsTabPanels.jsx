@@ -14,22 +14,22 @@ export const AdminBenfitsTabPanels = () => {
         {/* Tabs */}
         <Tabs.List whiteSpace={"nowrap"}>
           <Tabs.Trigger
-            _selected={{ color: "#2B362F" }}
-            fontSize={{ base: "10px", md: 13 }}
-            color={"#999999"}
-            value="Benefits"
+            // _selected={{ color: "#2B362F" }}
+            // fontSize={{ base: "10px", md: 13 }}
+            // color={"#999999"}
+            // value="Benefits"
           >
-            Benefits
+            {/* Benefits */}
           </Tabs.Trigger>
 
-          <Tabs.Trigger
+          {/* <Tabs.Trigger
             _selected={{ color: "#2B362F" }}
             color={"#999999"}
             fontSize={{ base: "10px", md: 13 }}
             value="Organization"
           >
             Bonus Points
-          </Tabs.Trigger>
+          </Tabs.Trigger> */}
         </Tabs.List>
       </Flex>
 
@@ -37,9 +37,9 @@ export const AdminBenfitsTabPanels = () => {
       <Tabs.Content value="Benefits">
         <BenefitsPoints />
       </Tabs.Content>
-      <Tabs.Content value="Organization">
+      {/* <Tabs.Content value="Organization">
         <BonusPoints />
-      </Tabs.Content>
+      </Tabs.Content> */}
     </Tabs.Root>
   );
 };

@@ -21,10 +21,10 @@ import { toast } from "react-toastify";
 export const CreateLink = ({ isOpen, onClose, setLinks}) => {
   const {loading, makeRequest} = useRequest();
   const linkRef = useRef()
-
+  const titleRef= useRef('');
   const handleLinkPost = async ()=>{
-    if(!linkRef.current.value) return toast.error("Link url is required");
-    const res = await makeRequest('/link', {url:linkRef.current.value});
+    if(!linkRef.current.value ||!titleRef.current.value) return toast.error("All fields are required");
+    const res = await makeRequest('/link', {url:linkRef.current.value, title: titleRef.current.value});
     if(res.error) return;
     toast.success("Link posted successfully");
     setLinks(prev=>[res.response.link, ...prev]);
@@ -51,6 +51,26 @@ export const CreateLink = ({ isOpen, onClose, setLinks}) => {
               </Heading>
               {/* <Text fontSize={{ base: "10px", md: "12px" }}>Title</Text>
               <Input fontSize={{ base: "10px", md: "12px" }} type="text" /> */}
+              <Field.Root style={{marginTop:10}}>
+                <Field.Label
+                  fontWeight={"400"}
+                  fontSize={{ base: "10px", md: 14 }}
+                  fontFamily="InterMedium"
+                  color={"#101928"}
+                >
+                   Link Title/Description
+                </Field.Label>
+                <InputGroup>
+                  <Input
+                    py={{ base: 2, md: 6 }}
+                    fontSize={{ base: "10px", md: "12px" }}
+                    placeholder=""
+                    type="text"
+                    ref={titleRef}
+                  />
+                </InputGroup>
+              </Field.Root>
+
               <Field.Root>
                 <Field.Label
                   fontWeight={"400"}

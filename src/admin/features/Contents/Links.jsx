@@ -81,7 +81,7 @@ export const AdminLinks = ({ articles, setArticles }) => {
                     fontSize={{ base: "9px", md: 12 }}
                     fontFamily="InterRegular"
                   >
-                    The Lounge Team
+                    {card.title}
                   </Text>
                   <Text
                     fontFamily="InterRegular"
