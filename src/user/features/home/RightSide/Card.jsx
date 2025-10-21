@@ -45,40 +45,41 @@ export function Card() {
       setCurrentNotification(notifications[0]);
     }
   }, [notifications]);
-useEffect(() => {
-  if (!userDetails?.id) return;
+  useEffect(() => {
+    if (!userDetails?.id) return;
 
-  // 1. Fetch existing notifications
-  const fetchNotifications = async () => {
-    const { data, error } = await supabase
-      .from("notifications")
-      .select("*")
-      .eq("type", "mentor_matching")
-      .eq("user_id", userDetails.id)
-      .order("created_at", { ascending: false });
+    // 1. Fetch existing notifications
+    const fetchNotifications = async () => {
+      const { data, error } = await supabase
+        .from("notifications")
+        .select("*")
+        .eq("type", "mentor_matching")
+        .eq("user_id", userDetails.id)
+        .order("created_at", { ascending: false });
 
-    if (!error) setNotifications(data);
-  };
+      if (!error) setNotifications(data);
+    };
 
-  fetchNotifications();
+    fetchNotifications();
 
-  // 2. Subscribe to real-time notifications (v1 style)
-  const subscription = supabase
-    .from(`notifications:user_id=eq.${userDetails.id},type=eq.mentor_matching`)
-    .on("INSERT", (payload) => {
-      // console.log("New notification:", payload.new);
-      setNotifications((prev) => [payload.new, ...prev]);
-      setRealTime(true);
-      setCurrentNotification(payload.new);
-    })
-    .subscribe();
+    // 2. Subscribe to real-time notifications (v1 style)
+    const subscription = supabase
+      .from(
+        `notifications:user_id=eq.${userDetails.id},type=eq.mentor_matching`
+      )
+      .on("INSERT", (payload) => {
+        // console.log("New notification:", payload.new);
+        setNotifications((prev) => [payload.new, ...prev]);
+        setRealTime(true);
+        setCurrentNotification(payload.new);
+      })
+      .subscribe();
 
-  // 3. Cleanup subscription
-  return () => {
-    supabase.removeSubscription(subscription);
-  };
-}, [userDetails?.id]);
-
+    // 3. Cleanup subscription
+    return () => {
+      supabase.removeSubscription(subscription);
+    };
+  }, [userDetails?.id]);
 
   return (
     <>
@@ -198,7 +199,7 @@ useEffect(() => {
             justifyContent={"center"}
             px={{ base: 3, md: 5 }}
             w={"100%"}
-            pt={4}
+            py={4}
           >
             <Button
               fontSize={{ base: 8, md: 13 }}

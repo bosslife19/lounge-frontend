@@ -3,23 +3,23 @@ import { LeftSectionProfile } from "./Leftsection";
 import { RightSectionProfile } from "./RightSection";
 // import { CoffeeRouletteIntro } from "./CoffeeRouletteIntro";
 import { useState, useEffect } from "react";
-import { CoffeeRouletteIntro } from "../coffeModal/CoffeModal";
+// import { CoffeeRouletteIntro } from "../coffeModal/CoffeCard";
 
 export const SettingsProfile = () => {
-  const [showIntro, setShowIntro] = useState(false);
+  // const [showIntro, setShowIntro] = useState(false);
 
-  useEffect(() => {
-    // Check if modal has already been shown
-    const hasSeenIntro = localStorage.getItem("coffeeRouletteIntroSeen");
-    if (!hasSeenIntro) {
-      setShowIntro(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Check if modal has already been shown
+  //   const hasSeenIntro = localStorage.getItem("coffeeRouletteIntroSeen");
+  //   if (!hasSeenIntro) {
+  //     setShowIntro(true);
+  //   }
+  // }, []);
 
-  const handleCloseIntro = () => {
-    setShowIntro(false);
-    localStorage.setItem("coffeeRouletteIntroSeen", "true");
-  };
+  // const handleCloseIntro = () => {
+  //   setShowIntro(false);
+  //   localStorage.setItem("coffeeRouletteIntroSeen", "true");
+  // };
 
   return (
     <Box height={"100%"}>
@@ -35,7 +35,7 @@ export const SettingsProfile = () => {
       </HStack>
 
       {/* Coffee Roulette Popup */}
-      <CoffeeRouletteIntro isOpen={showIntro} onClose={handleCloseIntro} />
+      {/* <CoffeeRouletteIntro isOpen={showIntro} onClose={handleCloseIntro} /> */}
     </Box>
   );
 };

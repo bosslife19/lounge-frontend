@@ -139,7 +139,7 @@ export function Banner() {
         pt={{ base: 0, md: 5 }}
         w={{ base: "100%", md: "100%" }}
         h={{ base: "40vh", md: "28vh" }}
-        overflow={"hidden"}
+        // overflow={"hidden"}
       >
         {slide.type === "event" ? (
           <>
@@ -238,8 +238,8 @@ export function Banner() {
               lineHeight="1.6"
               // maxW="90%"
             >
-              {slide.body.length > 320
-                ? `${slide.body.slice(0, 320)}...`
+              {slide.body.length > 120
+                ? `${slide.body.slice(0, 120)}...`
                 : slide.body}
               {/* {slide.body} */}
             </Text>
@@ -248,7 +248,7 @@ export function Banner() {
       </VStack>
 
       {/* Image Section for both Events and Quotes */}
-      {/* <Box textAlign="center" position="relative">
+      <Box textAlign="center" position="relative">
         <Image
           src={slide.type === "event" ? slide.event_image : slide.image}
           alt={slide.title}
@@ -258,7 +258,7 @@ export function Banner() {
           objectFit="cover"
           shadow="lg"
         />
-      </Box> */}
+      </Box>
 
       {/* Navigation Arrows */}
       <HStack

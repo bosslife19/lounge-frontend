@@ -16,6 +16,7 @@ import { useState } from "react";
 import { UpdatePasword } from "./modals/updatePassword";
 import { NotificationSwitch } from "../../../components/switchPage/NotificationSwitch";
 import { FaCoffee } from "react-icons/fa";
+import CoffeeRouletteCard from "../coffeModal/CoffeCard";
 
 export const RightSectionProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,7 +47,7 @@ export const RightSectionProfile = () => {
   return (
     <Box mb={"auto"} w={"100%"}>
       {/* profile name */}
-      <Box
+      {/* <Box
         shadow={"xs"}
         bg={"#fff"}
         rounded={10}
@@ -68,17 +69,7 @@ export const RightSectionProfile = () => {
                   Coffee Roulette Participation
                 </Text>
 
-                {/* Simple ? with hover explanation */}
-                {/* <Text
-                  as="span"
-                  fontWeight="bold"
-                  cursor="pointer"
-                  color="gray.500"
-                  fontSize={{ base: "10px", md: "sm" }}
-                  title="Coffee Roulette is an opt-in feature that pairs a mentor with a non-mentor once a week for a 15-minute virtual coffee chat. It helps build connections, share knowledge, and strengthen community bonds."
-                >
-                  ?
-                </Text> */}
+                
               </Flex>
 
               <Text
@@ -99,7 +90,12 @@ export const RightSectionProfile = () => {
 
           <SwitchPage coffee={true} />
         </Flex>
-      </Box>
+
+        <AnimatePresence>
+          <CoffeeRouletteDetails isOpen={showMore} />
+        </AnimatePresence>
+      </Box> */}
+      <CoffeeRouletteCard />
 
       <Box
         shadow={"xs"}

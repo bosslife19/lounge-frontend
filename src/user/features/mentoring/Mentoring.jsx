@@ -65,7 +65,7 @@ const Mentoring = () => {
   const [search, setSearch] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
   const { makeRequest, loading } = useRequest();
-const [requestedId, setRequestedId] = useState(0)
+  const [requestedId, setRequestedId] = useState(0);
   const handleClose = () => {
     setIsOpen(false);
     setSelectedCard(null);
@@ -90,11 +90,11 @@ const [requestedId, setRequestedId] = useState(0)
     }
 
     toast.success("Session Requested successfully");
-    setRefresh(prev=>!prev);
+    setRefresh((prev) => !prev);
   };
-const [refresh, setRefresh] = useState(false)
-  useEffect(()=>{
-    const checkRequestedSessions = async()=>{
+  const [refresh, setRefresh] = useState(false);
+  useEffect(() => {
+    const checkRequestedSessions = async () => {
       const res = await axiosClient.get("/get-requested-sessions");
       const requestedMentorIds = res.data.sessions.map(
         (session) => session.mentor_id
@@ -103,7 +103,7 @@ const [refresh, setRefresh] = useState(false)
       setRequestedMentorIds(requestedMentorIds);
     };
     checkRequestedSessions();
-  },[refresh])
+  }, [refresh]);
 
   useEffect(() => {
     const getAlllistings = async () => {
@@ -142,7 +142,7 @@ const [refresh, setRefresh] = useState(false)
     }
   }, [search, listings]);
   return (
-    <Box>
+    <Box px={5}>
       <Box
         ml={"auto"}
         w={"100%"}
@@ -164,7 +164,7 @@ const [refresh, setRefresh] = useState(false)
       <Heading
         fontSize={{ base: "13px", md: "24px" }}
         pb={{ base: 0, md: 2 }}
-        px={4}
+        // px={4}
         style={{
           position: "relative",
         }}
@@ -204,12 +204,16 @@ const [refresh, setRefresh] = useState(false)
         />
       </Flex>
 
+      {/* 
       <SimpleGrid
-        columns={{ base: 1, md: 2, xl: 3 }}
-        spacing={{ base: 5, md: 8 }} // space between grid items
-        gap={{ base: 5, md: 8 }} // consistent gap for all breakpoints
-        py={4}
-        pr={{ base: 0, md: 5 }}
+      columns={{ base: 1, md: 2, xl: 3 }}
+        spacingX={{ base: 6, md: 10 }} // horizontal gap
+        spacingY={{ base: 8, md: 12 }} // vertical gap */}
+      <Flex
+        flexWrap={"wrap"}
+        py={6}
+        gap={{ base: 10, xl: 10 }}
+        px={{ base: 2, md: 4 }}
       >
         {filteredResults.length > 0 ? (
           filteredResults.map((card, idx) => (
@@ -218,7 +222,7 @@ const [refresh, setRefresh] = useState(false)
               bg={"#fff"}
               shadowColor={"#080F340F"}
               shadow={"sm"}
-              w={{ base: "100%", md: "331px" }}
+              w={{ base: "100%", lg: "320px" }}
               // h={{ base: "100%", md: "340px" }}
               rounded={20}
               border={"1px solid #fff"}
@@ -301,13 +305,15 @@ const [refresh, setRefresh] = useState(false)
                   h={{ base: "30px", md: "43px" }}
                   disabled={requestedMentorIds.includes(card.user.id)}
                   onClick={() => {
-                    setRequestedId(card.id)
-                    handleRequestSession(card.user.id)
+                    setRequestedId(card.id);
+                    handleRequestSession(card.user.id);
                   }}
                 >
-                 {
-                  requestedMentorIds.includes(card.user.id) ? 'Session Requested' : loading &&card.id==requestedId?'Processing':'Request Session'
-                 }
+                  {requestedMentorIds.includes(card.user.id)
+                    ? "Session Requested"
+                    : loading && card.id == requestedId
+                    ? "Processing"
+                    : "Request Session"}
                 </Button>
               </Card.Footer>
             </Card.Root>
@@ -317,7 +323,7 @@ const [refresh, setRefresh] = useState(false)
             No Listings yet
           </Text>
         )}
-      </SimpleGrid>
+      </Flex>
 
       {/* Modal */}
       {selectedCard && (
