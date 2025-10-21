@@ -88,8 +88,8 @@ const SettingsTab = () => {
             value="listings"
             asChild
           >
-            <Link unstyled href="#listings">
-              Listings
+            <Link unstyled href="#mentoship">
+              Mentorship
             </Link>
           </Tabs.Trigger>
           <Tabs.Trigger fontSize={{ base: 10, md: 14 }} value="help" asChild>
@@ -106,7 +106,7 @@ const SettingsTab = () => {
           {/* posts */}
           <SettingsPosts />
         </Tabs.Content>
-        <Tabs.Content value="listings">
+        <Tabs.Content value="mentoship">
           {/* listing */}
           <SettingsListing />
         </Tabs.Content>

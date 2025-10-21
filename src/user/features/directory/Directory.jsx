@@ -490,10 +490,10 @@ const Directory = () => {
               gap={4}
               color="#7C7C7C"
             >
-              <a href={selected?.linkedin_url}>
+              <a href={selected?.linkedin_url} target="_blank">
                 <Image src={linkedin} boxSize={{ base: 3, md: 5 }} />
               </a>
-              <a href={selected?.facebook_url}>
+              <a href={selected?.facebook_url} target="_blank">
                 <Image src={facebk} boxSize={{ base: 3, md: 5 }} />
               </a>
 
