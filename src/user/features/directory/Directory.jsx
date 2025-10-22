@@ -160,7 +160,7 @@ const Directory = () => {
         {/* LEFT SIDE LIST */}
         <Box
           w={{ base: "100%", md: "65%" }}
-          py={{ base: 3, xl: "1%" }}
+          py={{ base: 3, xl: 0 }}
           px={4}
           // pr={{ base: 2, md: 4 }}
         >
@@ -438,7 +438,7 @@ const Directory = () => {
               color="#7C7C7C"
             >
               <Text fontFamily="InterRegular" fontSize={{ base: 10, md: 12 }}>
-                {selected?.bio} 
+                {selected?.bio}
               </Text>
               {/* <Text fontFamily="InterRegular" fontSize={14} color={"#202020"}>
                 {selected?.bio}
