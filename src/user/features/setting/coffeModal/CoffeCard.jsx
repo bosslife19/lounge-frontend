@@ -59,7 +59,7 @@ const CoffeeRouletteCard = () => {
               alignSelf="flex-start"
               mt={1}
             >
-              {showMore ? "Hide details" : "More about coffee"}
+              {showMore ? "Hide details" : "More about Coffee Roulette"}
             </Button>
           </Stack>
         </HStack>

@@ -211,7 +211,7 @@ export const EditOrganization = ({ isOpen, onClose, onFinish }) => {
                   bg={"#2B362F"}
                   color="white"
                 >
-                  Edit Organization
+                  Update Organization
                 </Button>
               </HStack>
             </Fieldset.Root>

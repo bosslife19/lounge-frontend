@@ -133,7 +133,7 @@ export const RightSectionProfile = () => {
                 gap={2}
                 py={1}
               >
-                We will Approve your mentorship status
+                We will approve your mentorship status
               </Text>
             </Stack>
           </HStack>

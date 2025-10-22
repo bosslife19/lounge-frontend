@@ -268,7 +268,7 @@ export const EditProfile = ({ isOpen, onClose, setRefresh }) => {
                   fontFamily="InterBold"
                   color={"#1A1A21"}
                 >
-                  Edit Profile
+                  Update Profile
                 </Fieldset.Legend>
               </Stack>
               <Stack mx={"auto"} position={"relative"}>
@@ -866,7 +866,7 @@ export const EditProfile = ({ isOpen, onClose, setRefresh }) => {
                   rounded={5}
                   bg={"#2B362F"}
                 >
-                  {loading ? <Spinner /> : "Edit Profile"}
+                  {loading ? <Spinner /> : "Update Profile"}
                 </Button>
               </HStack>
             </Fieldset.Root>

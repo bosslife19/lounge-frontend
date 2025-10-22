@@ -309,7 +309,7 @@ function EditOrganization({ isOpen, onClose, setRefresh }) {
                   rounded={5}
                   bg={"#2B362F"}
                 >
-                  {loading ? <Spinner /> : "Edit Organization"}
+                  {loading ? <Spinner /> : "Update Organization"}
                 </Button>
               </HStack>
             </Fieldset.Root>
