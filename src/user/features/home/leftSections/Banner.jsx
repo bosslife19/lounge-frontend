@@ -247,18 +247,20 @@ export function Banner() {
         )}
       </VStack>
 
-      {/* Image Section for both Events and Quotes */}
-      <Box textAlign="center" position="relative">
-        <Image
-          src={slide.type === "event" ? slide.event_image : slide.image}
-          alt={slide.title}
-          w={{ base: "310px", md: "290px" }}
-          h={{ base: "150px", md: "180px" }}
-          borderRadius="xl"
-          objectFit="cover"
-          shadow="lg"
-        />
-      </Box>
+      {/* Image Section — only show for events */}
+      {slide.type === "event" && (
+        <Box textAlign="center" position="relative">
+          <Image
+            src={slide.event_image}
+            alt={slide.title}
+            w={{ base: "310px", md: "290px" }}
+            h={{ base: "150px", md: "180px" }}
+            borderRadius="xl"
+            objectFit="cover"
+            shadow="lg"
+          />
+        </Box>
+      )}
 
       {/* Navigation Arrows */}
       <HStack
