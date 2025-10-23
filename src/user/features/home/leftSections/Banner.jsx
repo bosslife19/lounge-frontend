@@ -138,7 +138,7 @@ export function Banner() {
         mt={{ base: 5, lg: -4 }}
         pt={{ base: 0, md: 5 }}
         w={{ base: "100%", md: "100%" }}
-        h={{ base: "40vh", md: "28vh" }}
+        h={{ base: "40vh", md: "35vh" }}
         // overflow={"hidden"}
       >
         {slide.type === "event" ? (
@@ -249,7 +249,7 @@ export function Banner() {
 
       {/* Image Section — only show for events */}
       {slide.type === "event" && (
-        <Box textAlign="center" position="relative">
+        <Box textAlign="center" position="relative" mb={{ base: "auto" }}>
           <Image
             src={slide.event_image}
             alt={slide.title}
