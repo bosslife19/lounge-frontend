@@ -129,7 +129,7 @@ const ArticleDetails = () => {
             <Text
               fontFamily="LatoRegular"
               fontSize={{ base: "13px", md: "16px" }}
-              color="#1C1C1C"
+              color="#111"
               // lineHeight="taller"
               whiteSpace="pre-line"
               textAlign="left"
