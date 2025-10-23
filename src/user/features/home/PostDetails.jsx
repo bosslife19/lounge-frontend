@@ -186,7 +186,7 @@ const PostDetails = () => {
             <Text
               fontFamily="LatoRegular"
               fontSize={{ base: 14, md: 16 }}
-              color={"#1C1C1CB2"}
+              color={"#111"}
               my={2}
               whiteSpace={'pre-line'}
                textAlign="left"
