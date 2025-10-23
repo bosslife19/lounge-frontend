@@ -151,7 +151,7 @@ const NewsDetails = () => {
               <Text
                 fontFamily="LatoRegular"
                 fontSize={{ base: 14, md: 16 }}
-                color={"#1C1C1CB2/70"}
+                color={"#111"}
                   whiteSpace="pre-line"
               textAlign="left"
               letterSpacing="0.1px"
