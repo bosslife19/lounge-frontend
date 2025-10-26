@@ -18,7 +18,7 @@ export const AdminCommunity = () => {
     getPosts();
   }, []);
   return (
-    <Box>
+    <>
       <HStack justifyContent={"space-between"}>
         {/* <Heading
           fontSize={{ base: "13px", md: "24px" }}
@@ -70,6 +70,6 @@ export const AdminCommunity = () => {
           setPosts={setAdminPosts}
         />
       )}
-    </Box>
+    </>
   );
 };
