@@ -111,15 +111,16 @@ export default function EventsAdmin() {
   };
 
   return (
-    <Box h="100vh" bg={"transparent"}>
+    <Box bg={"transparent"}>
       {/* Left Sidebar */}
       <Button
-        ml={"auto"}
+        ml={6}
         colorScheme="blue"
-        fontSize={{ base: "12px", md: 15 }}
+        fontSize={{ base: "10px", md: 15 }}
         w={{ base: "auto" }}
+        px={3}
+        py={0}
         onClick={handleCardClick}
-        style={{ marginLeft: 10 }}
       >
         + Create New Event
       </Button>
@@ -142,7 +143,7 @@ export default function EventsAdmin() {
             >
               <Card.Root
                 maxW={"100%"}
-                mt={5}
+                mt={{ base: 3, md: 5 }}
                 border="1px solid"
                 borderColor="gray.200"
                 rounded="xl"
@@ -160,7 +161,11 @@ export default function EventsAdmin() {
 
                 <Card.Body>
                   <Stack spacing={3}>
-                    <Heading fontSize={{ base: "10px", md: 14 }} size="md">
+                    <Heading
+                      mt={{ base: -3, md: 0 }}
+                      fontSize={{ base: "10px", md: 14 }}
+                      size="md"
+                    >
                       {event.title}
                     </Heading>
                     <Text
@@ -180,6 +185,7 @@ export default function EventsAdmin() {
                       color={"#919191"}
                       size={{ base: "10", md: "sm" }}
                       bg={"transparent"}
+                      mb={{ base: -3, md: 0 }}
                     >
                       <Text fontSize={{ base: "10px", md: 14 }}>
                         Edit Event

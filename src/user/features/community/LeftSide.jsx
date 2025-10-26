@@ -165,7 +165,7 @@ export const LeftSide = ({ posts, setPosts }) => {
                       <Image
                         src={card.user?.profile_picture || userImage}
                         alt="Update"
-                        boxSize={{ base: "40px", md: "50px" }}
+                        boxSize={{ base: "35px", md: "50px" }}
                         rounded={50}
                       />
                     </Link>
@@ -228,14 +228,13 @@ export const LeftSide = ({ posts, setPosts }) => {
             {/* Post Image */}
             {card.post_image && (
               <AspectRatio ratio={3 / 2} w="100%">
-<Image
-                src={card.post_image}
-                // boxSize={"100%"}
-                // h={{ base: 150, md: 372 }}
-                fit="cover"
-              />
+                <Image
+                  src={card.post_image}
+                  // boxSize={"100%"}
+                  // h={{ base: 150, md: 372 }}
+                  fit="cover"
+                />
               </AspectRatio>
-              
             )}
 
             {/* Comments and actions */}
@@ -248,7 +247,9 @@ export const LeftSide = ({ posts, setPosts }) => {
             >
               {/* Likes Preview */}
 
-              <div
+              <Box
+                gap={2}
+                pl={1}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -278,23 +279,29 @@ export const LeftSide = ({ posts, setPosts }) => {
                 {/* If more than 4 likes, show "+x" */}
                 {likes.filter((like) => like.post_id === card.id).length >
                   4 && (
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: "#707070",
-                      marginLeft: "4px",
-                    }}
+                  <Text
+                    fontSize={{ base: "10px", md: "10px" }}
+                    ml={"4px"}
+                    color={"#707070"}
+                    // style={{
+                    //   fontSize: "10px",
+                    //   color: "#707070",
+                    //   marginLeft: "4px",
+                    // }}
                   >
                     +
                     {likes.filter((like) => like.post_id === card.id).length -
                       3}
-                  </span>
+                  </Text>
                 )}
-              </div>
+              </Box>
 
-              <p style={{ position: "relative", left: "3%" }}>
+              <Text
+                fontSize={{ base: "11px", md: "15px" }}
+                style={{ position: "relative", left: "3%" }}
+              >
                 {state.likesCount}
-              </p>
+              </Text>
 
               <Button
                 color={"#212121"}
@@ -419,7 +426,9 @@ export const LeftSide = ({ posts, setPosts }) => {
             <Card.Footer
               borderTop={"1px solid #E9E5DF"}
               mt={1}
+              mb={{ base: -2, md: 0 }}
               pt={{ base: 2, md: 6 }}
+              ml={{ base: -3, md: 0 }}
             >
               <Avatar.Root
                 // ml={-2}

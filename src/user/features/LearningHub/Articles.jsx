@@ -60,23 +60,26 @@ export const Articles = ({ articles, setArticles }) => {
               p={2}
               // w={341}
               mt={{ base: -3, md: 0 }}
+              h={{ base: "200px", xl: "200px" }}
+              display={"flex"}
+              flexDirection={{ base: "column" }}
               bg="#fff"
               border="1px solid #080F340F"
               className="rounded-2xl relative"
               onClick={() => handleCardClick(card)}
             >
-               <AspectRatio ratio={4 / 1} w="100%">
-               <Image
-                // roundedTop={12}
-                src={card.image}
-                alt={card.title}
-                // h={{ base: "80px", md: "110px" }}
-                className="object-cover"
-              />
-              </AspectRatio>
+              <>
+                <AspectRatio ratio={4 / 1} w="100%">
+                  <Image
+                    // roundedTop={12}
+                    src={card.image}
+                    alt={card.title}
+                    // h={{ base: "80px", md: "110px" }}
+                    className="object-cover"
+                  />
+                </AspectRatio>
 
-
-              {/* <button className="absolute cursor-pointer top-5 right-6">
+                {/* <button className="absolute cursor-pointer top-5 right-6">
                 <Image
                   src={btns}
                   alt="btn"
@@ -85,17 +88,20 @@ export const Articles = ({ articles, setArticles }) => {
                 />
               </button> */}
 
-              <Box pt={2} px={2}>
-                <Text
-                  fontSize={{ base: "10px", md: 14 }}
-                  fontFamily={"InterMedium"}
-                  className="font-semibold"
-                  color={"#202020"}
-                >
-                  {card.title}
-                </Text>
-              </Box>
-
+                <Box pt={2} px={2}>
+                  <Text
+                    fontSize={{ base: "10px", md: 14 }}
+                    fontFamily={"InterMedium"}
+                    className="font-semibold"
+                    color={"#202020"}
+                  >
+                    {card.title.length > 85
+                      ? `${card.title.slice(0, 85)}...`
+                      : card.title}
+                    {/* {card.title} */}
+                  </Text>
+                </Box>
+              </>
               <HStack
                 pt={4}
                 pb={2}
@@ -103,6 +109,7 @@ export const Articles = ({ articles, setArticles }) => {
                 align="center"
                 justifyContent="space-between"
                 px={2}
+                mt={"auto"}
               >
                 <HStack>
                   <Stack position="relative">

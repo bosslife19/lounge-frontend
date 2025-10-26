@@ -50,6 +50,7 @@ export const Links = ({ articles }) => {
                 alt="Speaker"
                 boxSize={{ base: "24px", md: "40px" }}
                 rounded="full"
+                display={{ base: "none", md: "block" }}
               />
               <Stack spacing={0}>
                 <Text
@@ -57,7 +58,7 @@ export const Links = ({ articles }) => {
                   fontSize={{ base: 10, md: 12 }}
                   fontFamily="InterRegular"
                 >
-                {card.title}
+                  {card.title}
                 </Text>
                 <a href={card.url} target="_blank" rel="noopener noreferrer">
                   <Text
@@ -70,8 +71,6 @@ export const Links = ({ articles }) => {
                     {card.url}
                   </Text>
                 </a>
-
-
               </Stack>
             </HStack>
           </Box>

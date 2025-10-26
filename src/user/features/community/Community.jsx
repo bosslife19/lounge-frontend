@@ -3,7 +3,7 @@ import { LeftSide } from "./LeftSide";
 import { RightSide } from "./RightSide";
 import { useEffect, useState } from "react";
 import axiosClient from "../../../axiosClient";
-import { IoIosAdd } from "react-icons/io";
+import { IoIosAdd, IoIosAddCircle } from "react-icons/io";
 import { CreateCommunityModal } from "./modal/RightsideModal";
 import Avatar from "../../components/header/Avatar";
 import { HiOutlineLogout } from "react-icons/hi";
@@ -82,13 +82,19 @@ const Community = () => {
         </Heading>
         <Button
           display={{ base: "flex", md: "none" }} // only visible on mobile
-          bg={"#2b362f"}
+          bg={"#fff"}
           p={1}
+          color={"#2b362f"}
+          border={"1px solid #2b362f"}
+          // flex={1}
+          gap={2}
+          alignItems={"center"}
+          justifyContent={"flex-start"}
           onClick={() => setIsOpen(true)} // 👈 this opens the modal
           size={"10"}
           mr={5}
         >
-          <IoIosAdd size={10} />
+          <IoIosAddCircle size={10} />
           <Text fontFamily={"nunitoSemiBold"} fontSize={"8px"}>
             Create Post
           </Text>

@@ -9,6 +9,7 @@ import {
   Portal,
   Text,
   createListCollection,
+  Button,
 } from "@chakra-ui/react";
 import { LuCircleAlert, LuFolder, LuSquareCheck, LuUser } from "react-icons/lu";
 import { TabPanel } from "./TabPanel";
@@ -96,7 +97,7 @@ const TopTabs = () => {
     }
   }, [search, articles]);
   return (
-    <Box>
+    <Box pb={3}>
       <Box
         ml={"auto"}
         w={"100%"}
@@ -188,20 +189,24 @@ const TopTabs = () => {
               Information
             </Tabs.Trigger>
             <div style={{ position: "relative", display: "inline-block" }}>
-              <button
+              <Button
+                h={{ base: "30px", md: "43px" }} // reduce height
+                px={{ base: 2, md: 4 }} // smaller horizontal padding
+                fontSize={{ base: "10px", md: "14px" }} // slightly larger but compact
+                rounded={"8px"}
                 onClick={() => setOpen(!open)}
                 style={{
                   backgroundColor: "#EBEBEB",
                   color: "#9E9E9E",
                   border: "none",
-                  borderRadius: "8px",
-                  padding: "8px 16px",
+                  // borderRadius: "8px",
+                  // padding: "8px 16px",
                   display: "flex",
                   alignItems: "center",
                   gap: "8px",
-                  fontSize: "14px",
+                  // fontSize: "14px",
                   cursor: "pointer",
-                  height: "43px",
+                  // height: "43px",
                   transition: "all 0.2s ease-in-out",
                 }}
                 onMouseEnter={(e) =>
@@ -213,7 +218,7 @@ const TopTabs = () => {
               >
                 <MdStars />
                 Program
-              </button>
+              </Button>
               {open && (
                 <Portal>
                   <div
@@ -258,7 +263,7 @@ const TopTabs = () => {
               bg={"#EBEBEB"}
               w={"auto"}
               h={{ base: "30px", md: "43px" }}
-              px={{ base: 2, md: 4 }}
+              px={{ base: 4, md: 4 }}
               fontSize={{ base: "10px", md: "14px" }}
               rounded={"8px"}
               display="flex"

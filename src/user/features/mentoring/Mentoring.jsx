@@ -142,7 +142,7 @@ const Mentoring = () => {
     }
   }, [search, listings]);
   return (
-    <Box px={5}>
+    <Box px={{ base: 4, md: 5 }}>
       <Box
         ml={"auto"}
         w={"100%"}
@@ -211,8 +211,8 @@ const Mentoring = () => {
         spacingY={{ base: 8, md: 12 }} // vertical gap */}
       <Flex
         flexWrap={"wrap"}
-        py={6}
-        gap={{ base: 10, xl: 10 }}
+        py={{ base: 4, md: 6 }}
+        gap={{ base: 5, md: 10 }}
         px={{ base: 2, md: 4 }}
       >
         {filteredResults.length > 0 ? (

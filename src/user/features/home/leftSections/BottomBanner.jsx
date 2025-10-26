@@ -6,10 +6,11 @@ import {
   Image,
   Stack,
   Text,
+  HStack,
 } from "@chakra-ui/react";
 import notify2 from "../../../../assets/coin.png";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRequest } from "../../../../hooks/useRequest";
 import { toast } from "react-toastify";
 import axiosClient from "../../../../axiosClient";
@@ -36,6 +37,7 @@ export const BottomBanner = () => {
   const [current, setCurrent] = useState(0);
   const { loading, makeRequest } = useRequest();
   const [slides, setSlides] = useState(staticSlides);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const getBenefits = async () => {
@@ -51,7 +53,6 @@ export const BottomBanner = () => {
           coins: b.points_required ?? 0,
         }));
 
-        // Merge and maintain consistent structure
         setSlides([...staticSlides, ...formattedBenefits]);
       } catch (error) {
         console.error(error);
@@ -74,6 +75,41 @@ export const BottomBanner = () => {
     toast.success("Claim request made successfully");
   };
 
+  // ✅ Simple mobile swipe logic (no library)
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    let startX = 0;
+    let endX = 0;
+
+    const handleTouchStart = (e) => {
+      startX = e.touches[0].clientX;
+    };
+
+    const handleTouchMove = (e) => {
+      endX = e.touches[0].clientX;
+    };
+
+    const handleTouchEnd = () => {
+      const diff = startX - endX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) handleNext();
+        else handlePrev();
+      }
+    };
+
+    el.addEventListener("touchstart", handleTouchStart);
+    el.addEventListener("touchmove", handleTouchMove);
+    el.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      el.removeEventListener("touchstart", handleTouchStart);
+      el.removeEventListener("touchmove", handleTouchMove);
+      el.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [slides]);
+
   if (slides.length === 0) return null;
 
   const currentSlide = slides[current];
@@ -86,7 +122,9 @@ export const BottomBanner = () => {
       py={{ base: 4, md: 6 }}
       shadow="md"
     >
+      {/* ======= Desktop View (unchanged) ======= */}
       <Flex
+        display={{ base: "none", md: "flex" }}
         gap={4}
         justifyContent="space-between"
         alignItems="center"
@@ -98,7 +136,7 @@ export const BottomBanner = () => {
           border="1px solid #9E9E9E"
           rounded="full"
           aria-label="Prev"
-          size={{ base: "sm", md: "md" }}
+          size="md"
           onClick={handlePrev}
           _hover={{ bg: "#e0e0e0" }}
         >
@@ -108,55 +146,47 @@ export const BottomBanner = () => {
         {/* Slide Content */}
         <Stack
           flex="1"
-          align={{ base: "center", md: "flex-start" }}
-          spacing={{ base: 2, md: 3 }}
-          textAlign={{ base: "center", md: "left" }}
-          maxW={{ base: "100%", md: "80%" }}
+          align="flex-start"
+          spacing={3}
+          textAlign="left"
+          maxW="80%"
         >
-          <Text
-            fontSize={{ base: "14px", md: "18px" }}
-            fontFamily="nunitoSemiBold"
-            color="#fff"
-          >
+          <Text fontSize="18px" fontFamily="nunitoSemiBold" color="#fff">
             {currentSlide.title}
           </Text>
 
           <Text
             fontFamily="InterBold"
             color="#fff"
-            fontSize={{ base: "13px", md: "24px" }}
-            lineHeight={{ base: "20px", md: "32px" }}
+            fontSize="24px"
+            lineHeight="32px"
           >
             {currentSlide.description}
           </Text>
 
-          <Flex align="center" gap={2} mt={{ base: 1, md: 2 }}>
+          <Flex align="center" gap={2} mt={2}>
             <Button
-              fontSize={{ base: 10, md: 16 }}
+              fontSize={16}
               rounded="full"
               bg="#512726"
               p={2}
-              minW={{ base: 60, md: 100 }}
+              minW={100}
               justifyContent="center"
               gap={2}
               color="white"
               _hover={{ bg: "#693130" }}
             >
-              <Image
-                src={notify2}
-                alt="Coins"
-                boxSize={{ base: "14px", md: "22px" }}
-              />
+              <Image src={notify2} alt="Coins" boxSize="22px" />
               {currentSlide.coins}
             </Button>
 
             <Button
-              fontSize={{ base: 10, md: 14 }}
+              fontSize={14}
               rounded="full"
               colorScheme="whiteAlpha"
               bg="white"
               color="#512726"
-              px={{ base: 3, md: 6 }}
+              px={6}
               _hover={{ bg: "#f3f3f3" }}
               onClick={() =>
                 handleClaim(currentSlide.title, currentSlide.coins)
@@ -173,13 +203,87 @@ export const BottomBanner = () => {
           bg="#F4F4F4"
           border="1px solid #9E9E9E"
           rounded="full"
-          size={{ base: "sm", md: "md" }}
+          size="md"
           onClick={handleNext}
           _hover={{ bg: "#e0e0e0" }}
         >
           <IoIosArrowForward color="#000" />
         </IconButton>
       </Flex>
+
+      {/* ======= Mobile View (swipe + dots) ======= */}
+      <Box
+        ref={containerRef}
+        display={{ base: "flex", md: "none" }}
+        flexDirection="column"
+        alignItems="center"
+        textAlign="center"
+        userSelect="none"
+      >
+        <Text fontSize="14px" fontFamily="nunitoSemiBold" color="#fff" mb={1}>
+          {currentSlide.title}
+        </Text>
+
+        <Text
+          fontFamily="InterBold"
+          color="#fff"
+          fontSize="13px"
+          lineHeight="20px"
+          px={3}
+        >
+          {currentSlide.description}
+        </Text>
+
+        <Flex
+          flexDirection={{ base: "column", md: "row" }}
+          align="center"
+          gap={2}
+          mt={3}
+        >
+          <Button
+            fontSize={10}
+            rounded="full"
+            bg="#512726"
+            p={2}
+            minW={60}
+            justifyContent="center"
+            gap={2}
+            color="white"
+            _hover={{ bg: "#693130" }}
+          >
+            <Image src={notify2} alt="Coins" boxSize="14px" />
+            {currentSlide.coins}
+          </Button>
+
+          <Button
+            fontSize={10}
+            rounded="full"
+            colorScheme="whiteAlpha"
+            bg="white"
+            minW={{ base: 60, md: "auto" }}
+            color="#512726"
+            px={3}
+            _hover={{ bg: "#f3f3f3" }}
+            onClick={() => handleClaim(currentSlide.title, currentSlide.coins)}
+          >
+            {loading ? "Processing..." : "Claim Now"}
+          </Button>
+        </Flex>
+
+        {/* Dots */}
+        <HStack justify="center" mt={3} spacing={1}>
+          {slides.map((_, idx) => (
+            <Box
+              key={idx}
+              w={current === idx ? "6px" : "6px"}
+              h="6px"
+              rounded="full"
+              bg={current === idx ? "white" : "whiteAlpha.500"}
+              transition="all 0.2s"
+            />
+          ))}
+        </HStack>
+      </Box>
     </Box>
   );
 };

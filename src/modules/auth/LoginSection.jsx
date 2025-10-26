@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthContext";
 import axiosClient from "../../axiosClient";
 // import Notfyimage from "../../assets/btn.png";
-// import Notfyimage from "../../assets/userImage.jpg";
+import logos from "../../assets/logos.png";
 import Notfyimage from "../../assets/lougelogos.png";
 
 function Login() {
@@ -93,7 +93,7 @@ function Login() {
 
   return (
     <Flex
-      h={{ base: "100vh", lg: "100%" }}
+      h={{ base: "100%" }}
       w="full"
       fontFamily="Poppins"
       overflow="hidden"
@@ -233,12 +233,19 @@ function Login() {
       {/* Right Side */}
       <Flex
         flex="1"
+        pt={{ base: 10, md: 0 }}
         bg="white"
         px={{ base: 6, md: 12 }}
-        justify="center"
-        align="center"
+        justify={{ base: "flex-start", md: "center" }}
+        align={{ base: "flex-start", md: "center" }}
       >
         <Fieldset.Root w={"100%"} size="lg" maxW={{ base: "100%", lg: "lg" }}>
+          <Image
+            w={"160px"}
+            src={logos}
+            mb={2}
+            display={{ base: "block", md: "none" }}
+          />
           <Stack>
             <Fieldset.Legend
               fontFamily={"inter"}

@@ -46,8 +46,6 @@ const ProtectedAdminRoute = ({ children }) => {
   if (loading) return <Loader />;
 
   if (userDetails?.role === "user") return <Navigate to="/dashboard" replace />;
-  if (userDetails?.role === "organization")
-    return <Navigate to="/organization/dashboard" replace />;
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
 

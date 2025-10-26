@@ -37,9 +37,9 @@ export const LeftSectionProfile = () => {
   const fileInputRef = useRef(null);
   const [profileImage, setProfileImage] = useState();
   const { makeRequest } = useRequest();
-  const [refresh, setRefresh] = useState(false)
+  const [refresh, setRefresh] = useState(false);
   const [user, setUser] = useState(null);
-  const [orgOpen, setOrgOpen] = useState(false)
+  const [orgOpen, setOrgOpen] = useState(false);
   useEffect(() => {
     const getMentors = async () => {
       const res = await axiosClient.get("/my-mentors");
@@ -107,9 +107,9 @@ export const LeftSectionProfile = () => {
   const handleCardClick = () => {
     setIsOpen(true);
   };
-  const handleOrgClose = ()=>{
-    setOrgOpen(false)
-  }
+  const handleOrgClose = () => {
+    setOrgOpen(false);
+  };
   const handleClose = () => {
     setIsOpen(false);
   };
@@ -149,7 +149,7 @@ export const LeftSectionProfile = () => {
                 boxSize={{ base: "40px", md: "72px" }}
                 rounded={50}
               />
-             
+
               <input
                 type="file"
                 accept="image/*"
@@ -218,16 +218,13 @@ export const LeftSectionProfile = () => {
         <Flex alignItems={"center"} justifyContent={"space-between"}>
           <HStack>
             <Stack position={"relative"}>
-             
-                <Image
-                  src={
-                    userDetails.organization?.logo || user?.organization?.logo
-                  }
-                  alt="Update"
-                  boxSize={{ base: "40px", md: "72px" }}
-                  objectFit={"cover"}
-                  rounded={50}
-                />
+              <Image
+                src={userDetails.organization?.logo || user?.organization?.logo}
+                alt="Update"
+                boxSize={{ base: "40px", md: "72px" }}
+                objectFit={"cover"}
+                rounded={50}
+              />
 
               {/* <Image
                 src={tick}
@@ -275,25 +272,30 @@ export const LeftSectionProfile = () => {
               </Text>
             </Stack>
           </HStack>
-                   <Button
+          <Button
             bg={"transparent"}
             color={"#475367"}
             size={{ base: "xs" }}
             // onClick={() => handleCardClick()}
-            onClick={()=>setOrgOpen(true)}
+            onClick={() => setOrgOpen(true)}
           >
             <LuPencil />
           </Button>
-          
-
         </Flex>
-        <Box shadow={"xl"} mt={4} rounded={20} pb={4} bg={"#fff"} px={7}>
+        <Box
+          shadow={"xl"}
+          mt={{ base: 2, md: 4 }}
+          rounded={{ base: 8, md: 20 }}
+          pb={4}
+          bg={"#fff"}
+          px={{ base: 4, md: 7 }}
+        >
           <Heading
             display={"flex"}
-            pt={5}
+            pt={{ base: 2, md: 5 }}
             pb={2}
             color={"#3B3B3B"}
-            fontSize={{ base: "14px", md: "16px" }}
+            fontSize={{ base: "12px", md: "16px" }}
             justifyContent={"space-between"}
           >
             About Company
@@ -313,14 +315,24 @@ export const LeftSectionProfile = () => {
               Experience in representing and advocating for UX the and users.
             </List.Item>
           </List.Root> */}
-          <Text>
+          <Text
+            mt={{ base: -2, md: 0 }}
+            fontSize={{ base: "12px", md: "16px" }}
+          >
             {userDetails.organization?.description ||
               user?.organization?.description}
           </Text>
         </Box>
 
         {/*company members*/}
-        <Box shadow={"xl"} mt={4} rounded={20} pb={4} bg={"#fff"} px={7}>
+        <Box
+          shadow={"xl"}
+          mt={4}
+          rounded={20}
+          pb={4}
+          bg={"#fff"}
+          px={{ base: 4, md: 7 }}
+        >
           <Heading pt={5} pb={2} textAlign={"center"}>
             {/* Company Members */}
             Mentors
@@ -380,8 +392,16 @@ export const LeftSectionProfile = () => {
           </Stack>
         </Box>
       </Box>
-      <EditProfile isOpen={isOpen} onClose={handleClose} setRefresh={setRefresh} />
-      <EditOrganization isOpen={orgOpen} onClose={handleOrgClose} setRefresh={setRefresh}/>
+      <EditProfile
+        isOpen={isOpen}
+        onClose={handleClose}
+        setRefresh={setRefresh}
+      />
+      <EditOrganization
+        isOpen={orgOpen}
+        onClose={handleOrgClose}
+        setRefresh={setRefresh}
+      />
     </Box>
   );
 };

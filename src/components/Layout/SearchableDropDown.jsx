@@ -1,29 +1,27 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const SearchableDropdown = ({ options, placeholder = "Select...", onSelect }) => {
+const SearchableDropdown = ({
+  options,
+  placeholder = "Select...",
+  onSelect,
+}) => {
   const [search, setSearch] = useState("");
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [showDropdown, setShowDropdown] = useState(false);
   const wrapperRef = useRef(null);
-  
 
   // Filter options when search changes
-  
+
   useEffect(() => {
     setFilteredOptions(
-      options.filter((opt) =>
-        opt.toLowerCase().includes(search.toLowerCase())
-      )
+      options.filter((opt) => opt.toLowerCase().includes(search.toLowerCase()))
     );
   }, [search, options]);
 
   // Close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target)
-      ) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setShowDropdown(false);
       }
     };
@@ -38,9 +36,15 @@ const SearchableDropdown = ({ options, placeholder = "Select...", onSelect }) =>
         type="text"
         value={search}
         placeholder={placeholder}
-        className="w-full border border-gray-300 rounded-md p-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full border border-gray-300 rounded-md p-6 focus:outline-none   focus:ring-2 focus:ring-blue-500"
         onFocus={() => setShowDropdown(true)}
-        style={{ padding: '10px', fontFamily: 'InterRegular', border: '1px solid #ccc', borderRadius: '4px' }}
+        style={{
+          padding: "10px",
+          fontFamily: "InterRegular",
+          border: "1px solid #ccc",
+          fontSize: "11px",
+          borderRadius: "4px",
+        }}
         onChange={(e) => setSearch(e.target.value)}
       />
 
@@ -56,7 +60,7 @@ const SearchableDropdown = ({ options, placeholder = "Select...", onSelect }) =>
                 setShowDropdown(false);
               }}
               className="px-3 py-5 cursor-pointer hover:bg-gray-100"
-              style={{paddingTop:15, paddingBottom:15, paddingLeft:5}}
+              style={{ paddingTop: 15, paddingBottom: 15, paddingLeft: 5 }}
             >
               {opt}
             </li>

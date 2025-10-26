@@ -34,6 +34,8 @@ export const AdminCommunity = () => {
           onClick={() => setIsOpen(true)} // 👈 this opens the modal
           size={"10"}
           mr={5}
+          mb={4}
+          ml={{ base: 6, md: 0 }}
         >
           <IoIosAdd size={10} />
           <Text fontFamily={"nunitoSemiBold"} fontSize={"8px"}>
@@ -54,7 +56,7 @@ export const AdminCommunity = () => {
           display={{ base: "none", md: "block" }}
           w={{ base: "100%", md: "60%", lg: "50%" }}
           mb={"auto"}
-          pb={10}
+          pb={{ base: 3, md: 10 }}
         >
           <AdminRightSide posts={adminPosts} setPosts={setAdminPosts} />
         </Box>

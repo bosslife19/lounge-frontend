@@ -10,6 +10,7 @@ import {
   Input,
   Textarea,
   Spinner,
+  Box,
 } from "@chakra-ui/react";
 import { CgAttachment } from "react-icons/cg";
 import { CiImageOn } from "react-icons/ci";
@@ -32,8 +33,6 @@ export const EditArticle = ({ isOpen, onClose, setArticles, article }) => {
   const linkRef = useRef("");
 
   const handlePost = async () => {
-
-
     let image;
     if (postImage) {
       const formData = new FormData();
@@ -67,17 +66,17 @@ export const EditArticle = ({ isOpen, onClose, setArticles, article }) => {
     if (response.error) return;
 
     toast.success("Content Edited successfully");
-setArticles((prev) =>
-  prev.map((item) =>
-    item.id === response.response.article.id ? response.response.article : item
-  )
-);
+    setArticles((prev) =>
+      prev.map((item) =>
+        item.id === response.response.article.id
+          ? response.response.article
+          : item
+      )
+    );
     setIsLoading(false);
-    
 
     // reset form
-    
-    
+
     onClose();
   };
 
@@ -113,7 +112,11 @@ setArticles((prev) =>
               <Text fontSize={{ base: "10px", md: 14 }} fontWeight="semibold">
                 Type
               </Text>
-              <div style={{ margin: "20px 0" }}>
+              <Box
+                my={{ base: "5px", md: "20px" }}
+
+                // style={{ margin: "20px 0" }}
+              >
                 <Text
                   fontSize={{ base: "10px", md: 14 }}
                   style={{
@@ -175,10 +178,17 @@ setArticles((prev) =>
                   />
                   News / Update
                 </Text>
-              </div>
+              </Box>
 
               <Text fontSize={{ base: "12px", md: 14 }}>Title</Text>
-              <Input type="text" ref={titleRef} defaultValue={article?.title}/>
+              <Input
+                fontSize={{ base: "10px", md: 12 }}
+                type="text"
+                ref={titleRef}
+                // maxLines={4}
+                // whiteSpace={"normal"}
+                defaultValue={article?.title}
+              />
 
               <Textarea
                 border={"1px solid #D3D4D7"}
@@ -192,7 +202,7 @@ setArticles((prev) =>
                 defaultValue={article?.content}
               />
 
-              <HStack>
+              <HStack py={2}>
                 <Button
                   variant="outline"
                   fontSize={{ base: "10px", md: 14 }}

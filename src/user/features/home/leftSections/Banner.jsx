@@ -133,30 +133,52 @@ export function Banner() {
       <VStack
         gap={{ base: 2, lg: 4 }}
         zIndex={10}
-        align={{ base: "center", md: "flex-start" }}
+        align={{ base: "flex-start" }}
         spacing={4}
         mt={{ base: 5, lg: -4 }}
         pt={{ base: 0, md: 5 }}
         w={{ base: "100%", md: "100%" }}
-        h={{ base: "40vh", md: "35vh" }}
+        h={{ base: "63vw", md: "35vh" }}
+
         // overflow={"hidden"}
       >
         {slide.type === "event" ? (
-          <>
+          <Box w={"100%"} mt={{ base: -5, md: 0 }} mb={{ base: "auto" }}>
             <Text
               fontWeight="light"
               fontSize={{ base: "10px", md: "12px" }}
               textTransform="uppercase"
               color={"#FFFFFF/90"}
+              mt={{ base: -1, md: 0 }}
+              mb={{ base: 2, md: 0 }}
             >
               UPCOMING EVENTS
             </Text>
-
+            <Box
+              w={"100%"}
+              display={{ base: "block", md: "none" }}
+              textAlign="center"
+              mx={"auto"}
+              justifyContent={"center"}
+            >
+              <Image
+                src={slide.event_image}
+                mx={"auto"}
+                alt={slide.title}
+                w={{ base: "230px", md: "290px" }}
+                h={{ base: "110px", md: "180px" }}
+                borderRadius="xl"
+                // boxSize={"80%"}
+                objectFit="cover"
+                shadow="lg"
+              />
+            </Box>
             <Heading
               fontFamily="LatoBold"
               fontSize={{ base: "16px", md: "24px" }}
-              textAlign={{ base: "center", md: "left" }}
+              textAlign={{ base: "left" }}
               fontWeight="600"
+              mt={2}
             >
               {slide.title.length > 25
                 ? `${slide.title.slice(0, 25)}...`
@@ -164,23 +186,24 @@ export function Banner() {
             </Heading>
 
             <Flex
-              flexDirection={{ base: "column", md: "row" }}
+              mb={{ base: 3, md: 0 }}
+              flexDirection={{ base: "row" }}
               gap={3}
               alignItems="center"
             >
               <Text
                 fontFamily="InterRegular"
                 color="#fff/80"
-                fontSize={{ base: "10px", md: "12px" }}
+                fontSize={{ base: "8px", md: "12px" }}
               >
                 {formatEventDate(slide.event_date)}
               </Text>
               <Flex gap={2} alignItems="center">
-                <LuClock3 />
+                <LuClock3 size={12} />
                 <Text
                   fontFamily="InterRegular"
                   color="#fff/80"
-                  fontSize={{ base: "10px", md: "12px" }}
+                  fontSize={{ base: "8px", md: "12px" }}
                 >
                   {slide.start_time} - {slide.end_time}
                 </Text>
@@ -205,7 +228,7 @@ export function Banner() {
               </Text>
               <AiFillPlayCircle />
             </Button>
-          </>
+          </Box>
         ) : (
           //  Quote Slide
           <>
@@ -238,8 +261,8 @@ export function Banner() {
               lineHeight="1.6"
               // maxW="90%"
             >
-              {slide.body.length > 120
-                ? `${slide.body.slice(0, 120)}...`
+              {slide.body.length > 220
+                ? `${slide.body.slice(0, 220)}...`
                 : slide.body}
               {/* {slide.body} */}
             </Text>
@@ -249,7 +272,12 @@ export function Banner() {
 
       {/* Image Section — only show for events */}
       {slide.type === "event" && (
-        <Box textAlign="center" position="relative" mb={{ base: "auto" }}>
+        <Box
+          display={{ base: "none", md: "block" }}
+          textAlign="center"
+          position="relative"
+          mb={{ base: "auto" }}
+        >
           <Image
             src={slide.event_image}
             alt={slide.title}

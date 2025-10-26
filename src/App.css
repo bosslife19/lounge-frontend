@@ -204,3 +204,18 @@
 .custom-checkbox-label:hover {
   border-color: #888;
 }
+
+@media (max-width: 768px) {
+  .dot {
+    transition: transform 0.3s ease;
+  }
+
+  .dot:hover {
+    transform: scale(1.2);
+  }
+
+  /* Add a smooth swipe feel */
+  .chakra-box {
+    touch-action: pan-y;
+  }
+}

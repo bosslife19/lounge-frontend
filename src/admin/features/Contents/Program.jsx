@@ -8,6 +8,7 @@ import {
   Image,
   Stack,
   Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useRef } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -29,7 +30,7 @@ import { CreateSpeakerHighlight } from "./Modal/CreateSpeakerHighlight";
 
 export const AdminProgram = () => {
   // ---------- News Data (will come from backend) ----------
-const [currentContent, setCurrentContent] = useState(null)
+  const [currentContent, setCurrentContent] = useState(null);
   const [newsData, setNewsData] = useState([
     {
       id: 1,
@@ -100,7 +101,6 @@ const [currentContent, setCurrentContent] = useState(null)
   const [speakerIndex, setSpeakerIndex] = useState(0);
   const itemsPerSlide = 3; // show 3 speakers at once
 
-
   // Reset sessions/speakers when news changes
   useEffect(() => {
     setSessionIndex(0);
@@ -122,17 +122,17 @@ const [currentContent, setCurrentContent] = useState(null)
   const handleNewsNext = () =>
     setNewsIndex((prev) => (prev >= newsData.length - 1 ? 0 : prev + 1));
 
- const handleSpeakerNext = () => {
-  if (speakerIndex + itemsPerSlide < currentSpeakers.length) {
-    setSpeakerIndex((prev) => prev + itemsPerSlide);
-  }
-};
+  const handleSpeakerNext = () => {
+    if (speakerIndex + itemsPerSlide < currentSpeakers.length) {
+      setSpeakerIndex((prev) => prev + itemsPerSlide);
+    }
+  };
 
-const handleSpeakerPrev = () => {
-  if (speakerIndex - itemsPerSlide >= 0) {
-    setSpeakerIndex((prev) => prev - itemsPerSlide);
-  }
-};
+  const handleSpeakerPrev = () => {
+    if (speakerIndex - itemsPerSlide >= 0) {
+      setSpeakerIndex((prev) => prev - itemsPerSlide);
+    }
+  };
 
   const handleSessionPrev = () =>
     setSessionIndex((prev) =>
@@ -151,6 +151,9 @@ const handleSpeakerPrev = () => {
     };
     getPrograms();
   }, [refresh]);
+
+  const [isExpanded, setIsExpanded] = useState(false);
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <Box h={"100%"} mb={"3%"} px={5}>
@@ -237,7 +240,7 @@ const handleSpeakerPrev = () => {
             size={{ base: "10", md: "sm" }}
             onClick={() => {
               setIsOpened(true);
-              setCurrentContent(currentNews)
+              setCurrentContent(currentNews);
             }}
           >
             <RiPencilLine />
@@ -298,89 +301,83 @@ const handleSpeakerPrev = () => {
       </Flex>
 
       <MotionFlex overflow="hidden" my={{ base: 3, md: 5 }}>
-  {currentSpeakers.length > 0 ? (
-    <Flex
-      gap={4}
-      w="100%"
-      justifyContent="space-between"
-      flexWrap="wrap"
-    >
-      {currentSpeakers
-        .slice(speakerIndex, speakerIndex + itemsPerSlide)
-        .map((speaker, idx) => (
-          <Box
-            key={`${speaker.id}-${idx}`}
-            flex={{ base: "1 1 100%", md: "1 1 calc(33.333% - 1rem)" }}
-            bg="white"
-            p={5}
-            border="1px solid #080F340F"
-            rounded={{ base: 8, md: 20 }}
-            position="relative"
-            boxShadow="sm"
-          >
-            {/* Header with Image and Name */}
-            <HStack>
-              <Image
-                src={speaker?.speaker_image}
-                alt="Speaker"
-                boxSize={{ base: "25px", md: "40px" }}
-                rounded="full"
-                objectFit="cover"
-              />
-              <Stack spacing={0}>
-                <Text
-                  color="#202020"
-                  fontSize={{ base: "10px", md: 12 }}
-                  fontFamily="InterMedium"
+        {currentSpeakers.length > 0 ? (
+          <Flex gap={4} w="100%" justifyContent="space-between" flexWrap="wrap">
+            {currentSpeakers
+              .slice(speakerIndex, speakerIndex + itemsPerSlide)
+              .map((speaker, idx) => (
+                <Box
+                  key={`${speaker.id}-${idx}`}
+                  flex={{ base: "1 1 100%", md: "1 1 calc(33.333% - 1rem)" }}
+                  bg="white"
+                  p={5}
+                  border="1px solid #080F340F"
+                  rounded={{ base: 8, md: 20 }}
+                  position="relative"
+                  boxShadow="sm"
                 >
-                  {speaker?.speaker_name}
-                </Text>
-                <Text
-                  color="#808291"
-                  mt={-1}
-                  fontSize={{ base: "9px", md: 11 }}
-                >
-                  {formattedDate(speaker?.created_at)}
-                </Text>
-              </Stack>
-            </HStack>
+                  {/* Header with Image and Name */}
+                  <HStack>
+                    <Image
+                      src={speaker?.speaker_image}
+                      alt="Speaker"
+                      boxSize={{ base: "25px", md: "40px" }}
+                      rounded="full"
+                      objectFit="cover"
+                    />
+                    <Stack spacing={0}>
+                      <Text
+                        color="#202020"
+                        fontSize={{ base: "10px", md: 12 }}
+                        fontFamily="InterMedium"
+                      >
+                        {speaker?.speaker_name}
+                      </Text>
+                      <Text
+                        color="#808291"
+                        mt={-1}
+                        fontSize={{ base: "9px", md: 11 }}
+                      >
+                        {formattedDate(speaker?.created_at)}
+                      </Text>
+                    </Stack>
+                  </HStack>
 
-            {/* Highlight */}
-            <Text
-              mt={3}
-              fontFamily="InterRegular"
-              fontWeight="normal"
-              fontSize={{ base: "11px", md: 14 }}
-              color="#333333E5"
-              noOfLines={4} // prevents overflow
-            >
-              {speaker?.highlight}
-            </Text>
+                  {/* Highlight */}
+                  <Text
+                    mt={3}
+                    fontFamily="InterRegular"
+                    fontWeight="normal"
+                    fontSize={{ base: "11px", md: 14 }}
+                    color="#333333E5"
+                    noOfLines={4} // prevents overflow
+                  >
+                    {speaker?.highlight}
+                  </Text>
 
-            {/* Edit button */}
-            <Button
-              position="absolute"
-              top={0}
-              right={0}
-              bg="transparent"
-              color="#212121"
-              onClick={() => {
-                setIsOpen(true);
-                setCurrentContent(speaker);
-              }}
-            >
-              <RiPencilLine />
-            </Button>
-          </Box>
-        ))}
-    </Flex>
-  ) : (
-    <Text textAlign="center" w="100%">
-      No Speaker Highlights yet
-    </Text>
-  )}
-</MotionFlex>
-
+                  {/* Edit button */}
+                  <Button
+                    position="absolute"
+                    top={0}
+                    right={0}
+                    bg="transparent"
+                    color="#212121"
+                    onClick={() => {
+                      setIsOpen(true);
+                      setCurrentContent(speaker);
+                    }}
+                  >
+                    <RiPencilLine />
+                  </Button>
+                </Box>
+              ))}
+          </Flex>
+        ) : (
+          <Text textAlign="center" w="100%">
+            No Speaker Highlights yet
+          </Text>
+        )}
+      </MotionFlex>
 
       {/* ---------- Session Slider ---------- */}
       <Flex alignItems={"center"} justifyContent={"space-between"}>
@@ -446,21 +443,52 @@ const handleSpeakerPrev = () => {
                 color={"#212121"}
                 right={0}
                 onClick={() => {
-                  setIsOpenin(true)
-                  setCurrentContent(currentSessions[sessionIndex])
+                  setIsOpenin(true);
+                  setCurrentContent(currentSessions[sessionIndex]);
                 }}
               >
                 <RiPencilLine color={"#fff"} />
               </Button>
             </Stack>
-            <Box bg="white" p={5} borderBottom={"2px solid #E8E8E8"}>
+            <Box
+              bg="white"
+              p={{ base: 3, md: 5 }}
+              borderBottom="2px solid #E8E8E8"
+            >
               <Text
                 fontFamily="LatoRegular"
                 fontSize={{ base: "11px", md: 16 }}
-                color={"#10192899"}
+                color="#10192899"
+                whiteSpace="pre-wrap"
+                wordBreak="break-word"
               >
-                {currentSessions[sessionIndex]?.description}
+                {isMobile
+                  ? isExpanded
+                    ? currentSessions[sessionIndex]?.description
+                    : (currentSessions[sessionIndex]?.description || "")
+                        .length > 150
+                    ? (currentSessions[sessionIndex]?.description || "").slice(
+                        0,
+                        150
+                      ) + "..."
+                    : currentSessions[sessionIndex]?.description
+                  : currentSessions[sessionIndex]?.description}
               </Text>
+
+              {isMobile &&
+                currentSessions[sessionIndex]?.description?.length > 150 && (
+                  <Button
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    variant="link"
+                    color="#000"
+                    fontSize={{ base: "10px", md: 14 }}
+                    mt={1}
+                    fontWeight="medium"
+                    _hover={{ textDecoration: "underline" }}
+                  >
+                    {isExpanded ? "Show less" : "Read more"}
+                  </Button>
+                )}
             </Box>
             <Flex
               flexDirection={{ base: "column", md: "row" }}
@@ -546,10 +574,29 @@ const handleSpeakerPrev = () => {
       </Flex>
 
       {/* ---------- Modals ---------- */}
-      <EditProgram isOpen={isOpened} onClose={() => setIsOpened(false)} currentContent={currentContent} setRefresh={setRefresh}/>
-      <EditSpeakerHeader isOpen={isOpens} onClose={() => setIsOpens(false)} currentContent={currentContent}/>
-      <EditSpeakerHighlight isOpen={isOpen} onClose={() => setIsOpen(false)} currentContent={currentContent} setRefresh={setRefresh}/>
-      <EditSession isOpen={isOpenin} onClose={() => setIsOpenin(false)} currentContent={currentContent} setRefresh={setRefresh}/>
+      <EditProgram
+        isOpen={isOpened}
+        onClose={() => setIsOpened(false)}
+        currentContent={currentContent}
+        setRefresh={setRefresh}
+      />
+      <EditSpeakerHeader
+        isOpen={isOpens}
+        onClose={() => setIsOpens(false)}
+        currentContent={currentContent}
+      />
+      <EditSpeakerHighlight
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        currentContent={currentContent}
+        setRefresh={setRefresh}
+      />
+      <EditSession
+        isOpen={isOpenin}
+        onClose={() => setIsOpenin(false)}
+        currentContent={currentContent}
+        setRefresh={setRefresh}
+      />
       <CreateProgram
         onClose={closeModal}
         open={open}

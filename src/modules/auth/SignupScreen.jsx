@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 import { useRequest } from "../../hooks/useRequest";
 import { AuthContext } from "../../context/AuthContext";
 import axiosClient from "../../axiosClient";
+import logos from "../../assets/logos.png";
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -104,7 +105,7 @@ function SignUp() {
 
   return (
     <Flex
-      minH={{ base: "100vh", lg: "100%" }}
+      minH={{ base: "100%" }}
       w="full"
       fontFamily="Poppins"
       overflow="hidden"
@@ -240,14 +241,22 @@ function SignUp() {
           </Box>
         </Box>
       </Flex>
+
       <Flex
         flex="1"
         bg="white"
         px={{ base: 6, md: 12 }}
         justify="center"
         align="center"
+        pt={{ base: 10, md: 0 }}
       >
         <Fieldset.Root w={"100%"} size="lg" maxW={{ base: "100%", lg: "lg" }}>
+          <Image
+            w={"160px"}
+            src={logos}
+            mb={2}
+            display={{ base: "block", md: "none" }}
+          />
           <Stack>
             <Fieldset.Legend
               fontFamily={"inter"}

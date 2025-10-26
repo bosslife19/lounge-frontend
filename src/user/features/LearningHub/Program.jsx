@@ -8,6 +8,7 @@ import {
   Image,
   Stack,
   Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -73,8 +74,11 @@ export const Program = () => {
       prev >= currentSessions.length - 1 ? 0 : prev + 1
     );
 
+  const [isExpanded, setIsExpanded] = useState(false);
+  const isMobile = useBreakpointValue({ base: true, md: false }); // 👈 detect mobile
+
   return (
-    <Box h="100%" mb="10%" px={{ base: 1, md: 5 }}>
+    <Box h="100%" mb="10%" px={{ base: 5 }}>
       {/* ---------- Back Button ---------- */}
       <Heading
         fontSize={{ base: "13px", md: "24px" }}
@@ -91,7 +95,7 @@ export const Program = () => {
           bg="white"
           border="1px solid #9E9E9E"
           _hover={{ bg: "whiteAlpha.500" }}
-          size="sm"
+          size={{ base: "xs", md: "sm" }}
           onClick={(e) => {
             e.stopPropagation();
             navigate(-1);
@@ -177,7 +181,7 @@ export const Program = () => {
             </HStack>
           </Flex>
 
-          <Flex overflow="hidden" my={{ base: 3, md: 5 }}>
+          <Flex pb={4} overflow="hidden" my={{ base: 3, md: 5 }}>
             {currentSpeakers.length > 0 ? (
               <Flex
                 gap={4}
@@ -190,7 +194,10 @@ export const Program = () => {
                   .map((speaker, idx) => (
                     <Box
                       key={`${speaker.id}-${idx}`}
-                      flex={{ base: "1 1 100%", md: "1 1 calc(33.333% - 1rem)" }}
+                      flex={{
+                        base: "1 1 100%",
+                        md: "1 1 calc(33.333% - 1rem)",
+                      }}
                       bg="white"
                       p={5}
                       border="1px solid #080F340F"
@@ -318,9 +325,35 @@ export const Program = () => {
                   fontFamily="LatoRegular"
                   fontSize={{ base: "11px", md: 16 }}
                   color="#10192899"
+                  whiteSpace="pre-wrap"
+                  wordBreak="break-word"
                 >
-                  {currentSessions[sessionIndex]?.description}
+                  {isMobile
+                    ? isExpanded
+                      ? currentSessions[sessionIndex]?.description
+                      : (currentSessions[sessionIndex]?.description || "")
+                          .length > 150
+                      ? (
+                          currentSessions[sessionIndex]?.description || ""
+                        ).slice(0, 150) + "..."
+                      : currentSessions[sessionIndex]?.description
+                    : currentSessions[sessionIndex]?.description}
                 </Text>
+
+                {isMobile &&
+                  currentSessions[sessionIndex]?.description?.length > 150 && (
+                    <Button
+                      onClick={() => setIsExpanded(!isExpanded)}
+                      variant="link"
+                      color="#000"
+                      fontSize={{ base: "10px", md: 14 }}
+                      mt={1}
+                      fontWeight="medium"
+                      _hover={{ textDecoration: "underline" }}
+                    >
+                      {isExpanded ? "Show less" : "Read more"}
+                    </Button>
+                  )}
               </Box>
 
               <Flex bg="white" pt={3} pl={4}>
@@ -381,9 +414,7 @@ export const Program = () => {
                       mt={{ base: -2, md: -1 }}
                       fontSize={{ base: "9px", md: 11 }}
                     >
-                      {formattedDate(
-                        currentSessions[sessionIndex]?.created_at
-                      )}
+                      {formattedDate(currentSessions[sessionIndex]?.created_at)}
                     </Text>
                   </Stack>
                 </HStack>

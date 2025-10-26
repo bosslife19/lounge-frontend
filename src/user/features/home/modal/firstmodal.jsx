@@ -19,7 +19,7 @@ export const FirstModal = ({ isOpen, onClose, onStartCreating }) => {
         <Dialog.Backdrop />
         <Dialog.Positioner px={5}>
           <Dialog.Content
-            rounded={30}
+            rounded={{ base: 10, md: 30 }}
             bg="#FAFAFA"
             p={4}
             maxW={{ base: "sm", md: "50%" }}
@@ -30,9 +30,10 @@ export const FirstModal = ({ isOpen, onClose, onStartCreating }) => {
                 <Text
                   fontWeight={"400"}
                   pt={{ base: 5, md: 10 }}
-                  fontSize={{ base: 20, md: 40 }}
+                  fontSize={{ base: 20, md: 30, lg: 40 }}
                   fontFamily="LatoRegular"
                   color={"#2B362F"}
+                  // lineHeight={"50px"}
                 >
                   CREATE PROFILE
                 </Text>
@@ -46,6 +47,7 @@ export const FirstModal = ({ isOpen, onClose, onStartCreating }) => {
                   maxW={{ base: "100%", md: 450 }}
                   lineHeight={1.5}
                   textAlign={"center"}
+                  mb={{ base: 3, md: 0 }}
                 >
                   Create your profile in just 5 minutes and start enjoying our
                   professional platform.
@@ -55,8 +57,8 @@ export const FirstModal = ({ isOpen, onClose, onStartCreating }) => {
               <Button
                 mx={"auto"}
                 onClick={onStartCreating}
-                p={7}
-                fontSize={{ base: 17, md: 20 }}
+                p={{ base: 5, md: 7 }}
+                fontSize={{ base: 15, md: 20 }}
                 rounded={10}
                 bg={"#2B362F"}
               >

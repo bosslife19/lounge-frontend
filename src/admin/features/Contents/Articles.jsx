@@ -28,35 +28,30 @@ export const AdminArticles = ({ articles, setArticles }) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
-  const [confirmOpen, setConfirmOpen] = useState(false)
-  const [activePostId, setActivePostId] = useState()
-  const[loading, setLoading] = useState(false)
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [activePostId, setActivePostId] = useState();
+  const [loading, setLoading] = useState(false);
 
   const handleDelete = (id) => {
-  
-    setActivePostId(id)
+    setActivePostId(id);
     setConfirmOpen(true);
   };
 
-      const handleConfirm = async (postId) => {
-     
-      
-        try {
-          setLoading(true);
-          await axiosClient.delete(`/articles/${postId}`);
-          // Remove the deleted post from the state
-          setArticles(articles.filter((post) => post.id !== postId));
-          setLoading(false)
-          toast.success("Article deleted successfully");
-          setConfirmOpen(false);
-        } catch (error) {
-          console.error("Error deleting post:", error);
-          setLoading(false)
-          toast.error("Failed to delete the post. Please try again.");
-        }
-      
-    };
-  
+  const handleConfirm = async (postId) => {
+    try {
+      setLoading(true);
+      await axiosClient.delete(`/articles/${postId}`);
+      // Remove the deleted post from the state
+      setArticles(articles.filter((post) => post.id !== postId));
+      setLoading(false);
+      toast.success("Article deleted successfully");
+      setConfirmOpen(false);
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      setLoading(false);
+      toast.error("Failed to delete the post. Please try again.");
+    }
+  };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -74,11 +69,10 @@ export const AdminArticles = ({ articles, setArticles }) => {
   };
 
   const handleClosed = () => {
-    
     setIsOpened(false);
   };
   return (
-    <Box px={4} py={6}>
+    <Box px={4} py={{ base: 2, md: 6 }}>
       <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={6} gap={7}>
         {articles?.map((card, idx) => (
           <Box
@@ -89,16 +83,16 @@ export const AdminArticles = ({ articles, setArticles }) => {
             border="1px solid #080F340F"
             className="rounded-2xl relative"
           >
-             <AspectRatio ratio={4 / 1} w="100%">
-             <Image
-              // roundedTop={10}
-              src={card.image}
-              alt={card.title}
-              // h={{ base: "70px", md: "100px" }}
-              className="object-cover"
-            />
-              </AspectRatio>
-            
+            <AspectRatio ratio={4 / 1} w="100%">
+              <Image
+                // roundedTop={10}
+                src={card.image}
+                alt={card.title}
+                // h={{ base: "70px", md: "100px" }}
+                className="object-cover"
+              />
+            </AspectRatio>
+
             <Menu.Root>
               <Menu.Trigger position={"absolute"} right={5} top={5} asChild>
                 <Button p={0} rounded={30} bg={"#55555580"} size="sm">
@@ -119,7 +113,7 @@ export const AdminArticles = ({ articles, setArticles }) => {
                     <Menu.Item
                       fontSize={{ base: "10px", md: "13px" }}
                       value="new-file"
-                      onClick={()=>handleDelete(card.id)}
+                      onClick={() => handleDelete(card.id)}
                     >
                       <BiTrash />
                       Delete
@@ -183,8 +177,18 @@ export const AdminArticles = ({ articles, setArticles }) => {
         />
       )}
 
-      <EditArticle isOpen={isOpened} onClose={handleClosed} article={selectedCard} setArticles={setArticles}/>
-       <ConfirmDeleteModal onClose={()=>setConfirmOpen(false)} onConfirm={()=>handleConfirm(activePostId)} isOpen={confirmOpen} loading={loading}/>
+      <EditArticle
+        isOpen={isOpened}
+        onClose={handleClosed}
+        article={selectedCard}
+        setArticles={setArticles}
+      />
+      <ConfirmDeleteModal
+        onClose={() => setConfirmOpen(false)}
+        onConfirm={() => handleConfirm(activePostId)}
+        isOpen={confirmOpen}
+        loading={loading}
+      />
     </Box>
   );
 };

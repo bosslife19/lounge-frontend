@@ -15,14 +15,17 @@ export const FinishProfile = ({ isOpen, onClose }) => {
         <Dialog.Backdrop />
         <Dialog.Positioner px={5}>
           <Dialog.Content
-            rounded={30}
+            rounded={{ base: 10, md: 30 }}
             bg="#FAFAFA"
             p={4}
             maxW={{ base: "sm", md: "50%" }}
           >
-            <Fieldset.Root size={{ base: "sm", md: "lg" }} p={7}>
+            <Fieldset.Root
+              size={{ base: "sm", md: "lg" }}
+              p={{ base: 2, lg: 7 }}
+            >
               <Fieldset.Content alignItems={"center"} justifyContent={"center"}>
-                <Image src={avatar} w={{ base: 100, md: 200 }} />
+                <Image src={avatar} w={{ base: 100, lg: 200 }} />
                 <Text
                   fontWeight={"400"}
                   pt={{ base: 5, md: 10 }}
@@ -36,7 +39,8 @@ export const FinishProfile = ({ isOpen, onClose }) => {
                 <Text
                   fontWeight={"400"}
                   pt={5}
-                  fontSize={{ base: 12, md: 18 }}
+                  mb={{ base: "15px", lg: "0px" }}
+                  fontSize={{ base: "12px", lg: 18 }}
                   fontFamily="LatoRegular"
                   color={"#A4A9AE"}
                   maxW={{ base: "100%", md: 450 }}
@@ -49,7 +53,7 @@ export const FinishProfile = ({ isOpen, onClose }) => {
               </Fieldset.Content>
               {/* Button */}
               <Button
-                mx={"auto"}
+                mx={{ base: "0px", lg: "auto" }}
                 onClick={onClose}
                 p={7}
                 fontSize={{ base: 17, md: 18 }}

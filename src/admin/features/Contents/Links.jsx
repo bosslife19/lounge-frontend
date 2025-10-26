@@ -24,14 +24,14 @@ export const AdminLinks = ({ articles, setArticles }) => {
   };
   const [links, setLinks] = useState([]);
 
-  useEffect(()=>{
-    const getLinks = async ()=>{
-      const res = await axiosClient.get('/links');
-     
-      setLinks(res.data.links)
-    }
-    getLinks()
-  },[])
+  useEffect(() => {
+    const getLinks = async () => {
+      const res = await axiosClient.get("/links");
+
+      setLinks(res.data.links);
+    };
+    getLinks();
+  }, []);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -43,18 +43,21 @@ export const AdminLinks = ({ articles, setArticles }) => {
     setIsOpen(false);
   };
   return (
-    <Box mb={"10%"} px={{ base: 5, md: 5 }} py={{ base: 0, md: 5 }}>
-       <Button
-              ml={"auto"}
-              colorScheme="blue"
-              w={{ base: "auto" }}
-              onClick={() => setIsOpen(true)}
-              fontSize={{ base: "10px", md: "14px" }}
-              style={{ marginLeft: 10 }}
-              mt={{ base: -3, md: 0 }}
-            >
-              + Post New Link
-            </Button>
+    <Box mb={"10%"} px={{ base: 5, md: 5 }} py={{ base: 2, md: 5 }}>
+      <Button
+        ml={"auto"}
+        colorScheme="blue"
+        w={{ base: "auto" }}
+        onClick={() => setIsOpen(true)}
+        fontSize={{ base: "10px", md: "14px" }}
+        style={{ marginLeft: 10 }}
+        mt={{ base: -3, md: 0 }}
+        mb={2}
+        py={0}
+        px={{ base: 2, md: 5 }}
+      >
+        + Post New Link
+      </Button>
       {links.length > 0 ? (
         links.map((card, idx) => (
           <HStack>
@@ -94,7 +97,6 @@ export const AdminLinks = ({ articles, setArticles }) => {
                     whiteSpace="normal" // allows wrapping
                   >
                     {card.url}
-                    
                   </Text>
                 </Stack>
               </HStack>

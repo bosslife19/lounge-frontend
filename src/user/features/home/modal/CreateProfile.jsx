@@ -45,59 +45,54 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [showCropper, setShowCropper] = useState(false);
 
-
-
   const handleCropComplete = async () => {
-  try {
-    const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
-    if (!croppedImage) throw new Error("Cropping failed");
+    try {
+      const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
+      if (!croppedImage) throw new Error("Cropping failed");
 
-    setShowCropper(false);
-    setImageSrc(null);
+      setShowCropper(false);
+      setImageSrc(null);
 
-    // Show local preview first
-    if (cropType === "profile") {
-      setProfileImage(croppedImage);
-      setPreview(croppedImage);
-    } else if (cropType === "logo") {
-      setOrganizationLogo(croppedImage);
-      setOrganizationLogoPreview(croppedImage);
+      // Show local preview first
+      if (cropType === "profile") {
+        setProfileImage(croppedImage);
+        setPreview(croppedImage);
+      } else if (cropType === "logo") {
+        setOrganizationLogo(croppedImage);
+        setOrganizationLogoPreview(croppedImage);
+      }
+
+      // ✅ Upload to Cloudinary
+      const formData = new FormData();
+      formData.append("file", croppedImage);
+      formData.append("upload_preset", "lounge-platform");
+
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
+        formData
+      );
+
+      const imageUrl = res.data.secure_url;
+
+      if (cropType === "profile") {
+        setProfileImage(imageUrl);
+
+        // Notify backend of profile image update
+        const resp = await makeRequest("/profile/upload", {
+          profilePic: imageUrl,
+        });
+
+        if (resp.error) return;
+        setUserDetails(resp.response.user);
+        toast.success(resp.response.message);
+      } else if (cropType === "logo") {
+        setOrganizationLogo(imageUrl);
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error("Error cropping or uploading image. Please try again.");
     }
-
-    // ✅ Upload to Cloudinary
-    const formData = new FormData();
-    formData.append("file", croppedImage);
-    formData.append("upload_preset", "lounge-platform");
-
-    const res = await axios.post(
-      "https://api.cloudinary.com/v1_1/wokodavid/image/upload",
-      formData
-    );
-
-    const imageUrl = res.data.secure_url;
-
-    if (cropType === "profile") {
-      setProfileImage(imageUrl);
-
-      // Notify backend of profile image update
-      const resp = await makeRequest("/profile/upload", {
-        profilePic: imageUrl,
-      });
-
-      if (resp.error) return;
-      setUserDetails(resp.response.user);
-      toast.success(resp.response.message);
-    } else if (cropType === "logo") {
-      setOrganizationLogo(imageUrl);
-
-
-    }
-  } catch (e) {
-    console.error(e);
-    toast.error("Error cropping or uploading image. Please try again.");
-  }
-};
-
+  };
 
   const { makeRequest, loading } = useRequest();
   const fileInputRef = useRef(null);
@@ -203,9 +198,6 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
         setCropType(type);
       });
       reader.readAsDataURL(file);
-
-      
-     
     }
   };
 
@@ -228,7 +220,6 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
         !organizationDescRef.current.value ||
         !organizationEmailRef.current.value ||
         !organizationLocationRef.current.value ||
-         
         !organizationNameRef.current.value
       )
         return toast.error("All fields are required to create an organization");
@@ -266,7 +257,6 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
 
     const res = await makeRequest("/profile", profileData);
 
-
     setUserDetails(res.response.user);
 
     if (res.error) {
@@ -278,211 +268,205 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
 
   return (
     <>
-    <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open}>
-      <Portal>
-        <Dialog.Backdrop />
-        <Dialog.Positioner px={5}>
-          <Dialog.Content
-            rounded={30}
-            bg="#FAFAFA"
-            p={4}
-            maxW={{ base: "sm", md: "xl" }}
-          >
-            <Fieldset.Root size={{ base: "sm", md: "lg" }}>
-              <Stack>
-                <Fieldset.Legend
-                  fontWeight={"400"}
-                  fontSize={{ base: "11px", md: 20 }}
-                  fontFamily="InterBold"
-                  color={"#1A1A21"}
+      <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open}>
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner px={5}>
+            <Dialog.Content
+              rounded={{ base: 10, md: 30 }}
+              bg="#FAFAFA"
+              p={4}
+              maxW={{ base: "sm", md: "xl" }}
+            >
+              <Fieldset.Root size={{ base: "sm", md: "lg" }}>
+                <Stack>
+                  <Fieldset.Legend
+                    fontWeight={"400"}
+                    fontSize={{ base: "11px", md: 20 }}
+                    fontFamily="InterBold"
+                    color={"#1A1A21"}
+                  >
+                    Create Profile
+                  </Fieldset.Legend>
+                </Stack>
+                <Stack
+                  justifyContent={"center"}
+                  alignItems={{ base: "flex-start", md: "center" }}
+                  width={"100%"}
+                  mx={"auto"}
+                  position={"relative"}
                 >
-                  Create Profile
-                </Fieldset.Legend>
-              </Stack>
-              <Stack
-                justifyContent={"center"}
-                alignItems={{ base: "flex-start", md: "center" }}
-                width={"100%"}
-                mx={"auto"}
-                position={"relative"}
-              >
-                <Image
-                  src={preview || userDetails?.profile_picture || logo} // fallback to default image
-                  alt="Profile Image"
-                  boxSize={{ base: "30px", md: "100px" }}
-                  borderRadius="full"
-                  objectFit="cover"
-                  cursor="pointer"
-                  onClick={handleImageClick}
-                />
+                  <Image
+                    src={preview || userDetails?.profile_picture || logo} // fallback to default image
+                    alt="Profile Image"
+                    boxSize={{ base: "30px", md: "100px" }}
+                    borderRadius="full"
+                    objectFit="cover"
+                    cursor="pointer"
+                    onClick={handleImageClick}
+                  />
 
-                <input
-                  type="file"
-                  accept="image/*"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  onChange={(e)=>handleFileChange(e, cropType)}
-                />
-              </Stack>
-              <Fieldset.Content>
-                <HStack flexDirection={{ base: "column", md: "row" }}>
-                  {/* title */}
-                  <Field.Root>
-                    <Field.Label
-                      fontWeight={"400"}
-                      fontSize={{ base: "10px", md: 14 }}
-                      fontFamily="InterMedium"
-                      color={"#101928"}
-                    >
-                      <HStack spacing={1} align="center">
-                        <Text>First Name</Text>
-                        *
-                        {/* Yellow star icon */}
-                      </HStack>
-                    </Field.Label>
-                    <InputGroup startElement={<CiUser size={12} />}>
-                      <Input
-                        fontSize={{ base: "8px", md: 12 }}
-                        py={{ base: 1, md: 6 }}
-                        placeholder="First Name"
-                        ref={firstNameRef}
-                      />
-                    </InputGroup>
-                  </Field.Root>
-
-                  {/* Name */}
-                  <Field.Root>
-                    <Field.Label
-                      fontWeight={"400"}
-                      fontSize={{ base: "10px", md: 14 }}
-                      fontFamily="InterMedium"
-                      color={"#101928"}
-                    >
-                      <HStack spacing={1} align="center">
-                        <Text>Last Name</Text>
-                        {/* <FaStar color="#FFD700" size={8} />{" "} */}
-                        *
-                        {/* Yellow star icon */}
-                      </HStack>
-                    </Field.Label>
-                    <InputGroup startElement={<CiUser />}>
-                      <Input
-                        fontSize={{ base: "8px", md: 12 }}
-                        py={{ base: 1, md: 6 }}
-                        placeholder="Last Name"
-                        ref={lastNameRef}
-                      />
-                    </InputGroup>
-                  </Field.Root>
-                </HStack>
-
-                <HStack flexDirection={{ base: "column", md: "row" }} gap={2}>
-                  {/* Gender */}
-                  <Field.Root w={{ base: "100%", md: 200 }}>
-                    <Field.Label
-                      fontWeight={"400"}
-                      fontSize={{ base: "10px", md: 14 }}
-                      fontFamily="InterMedium"
-                      color={"#101928"}
-                    >
-                      Gender
-                    </Field.Label>
-                    <NativeSelect.Root>
-                      {/* Icon on the left */}
-                      <Box
-                        position="absolute"
-                        left="3"
-                        top="50%"
-                        transform="translateY(-50%)"
-                        color="gray.500"
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    onChange={(e) => handleFileChange(e, cropType)}
+                  />
+                </Stack>
+                <Fieldset.Content>
+                  <HStack flexDirection={{ base: "column", md: "row" }}>
+                    {/* title */}
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: "10px", md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
                       >
-                        <CiUser />
-                      </Box>
+                        <HStack spacing={1} align="center">
+                          <Text>First Name</Text>*{/* Yellow star icon */}
+                        </HStack>
+                      </Field.Label>
+                      <InputGroup startElement={<CiUser size={12} />}>
+                        <Input
+                          fontSize={{ base: "8px", md: 12 }}
+                          py={{ base: 1, md: 6 }}
+                          placeholder="First Name"
+                          ref={firstNameRef}
+                        />
+                      </InputGroup>
+                    </Field.Root>
 
-                      <NativeSelect.Field
-                        fontSize={{ base: "8px", md: 12 }}
-                        name="country"
-                        pl="10"
+                    {/* Name */}
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: "10px", md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
                       >
-                        <For each={["Male", "Female", "others"]}>
-                          {(item) => (
-                            <option key={item} value={item} ref={genderRef}>
-                              {item}
-                            </option>
-                          )}
-                        </For>
-                      </NativeSelect.Field>
-                      <NativeSelect.Indicator />
-                    </NativeSelect.Root>
-                  </Field.Root>
+                        <HStack spacing={1} align="center">
+                          <Text>Last Name</Text>
+                          {/* <FaStar color="#FFD700" size={8} />{" "} */}*
+                          {/* Yellow star icon */}
+                        </HStack>
+                      </Field.Label>
+                      <InputGroup startElement={<CiUser />}>
+                        <Input
+                          fontSize={{ base: "8px", md: 12 }}
+                          py={{ base: 1, md: 6 }}
+                          placeholder="Last Name"
+                          ref={lastNameRef}
+                        />
+                      </InputGroup>
+                    </Field.Root>
+                  </HStack>
 
-                  {/* Pronouns */}
-                  <Field.Root w={{ base: "100%", md: 250 }}>
-                    <Field.Label
-                      fontWeight={"400"}
-                      fontSize={{ base: "10px", md: 14 }}
-                      fontFamily="InterMedium"
-                      color={"#101928"}
-                    >
-                      <HStack spacing={1} align="center">
-                        <Text> Pronouns</Text>
-                        {/* <FaStar color="#FFD700" size={8} />{" "} */}
-                        *
-                        {/* Yellow star icon */}
-                      </HStack>
-                    </Field.Label>
-                    <NativeSelect.Root>
-                      {/* Icon on the left */}
-                      <Box
-                        position="absolute"
-                        left="3"
-                        top="50%"
-                        transform="translateY(-50%)"
-                        color="gray.500"
+                  <HStack flexDirection={{ base: "column", md: "row" }} gap={2}>
+                    {/* Gender */}
+                    <Field.Root w={{ base: "100%", md: 200 }}>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: "10px", md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
                       >
-                        <CiUser />
-                      </Box>
+                        Gender
+                      </Field.Label>
+                      <NativeSelect.Root>
+                        {/* Icon on the left */}
+                        <Box
+                          position="absolute"
+                          left="3"
+                          top="50%"
+                          transform="translateY(-50%)"
+                          color="gray.500"
+                        >
+                          <CiUser />
+                        </Box>
 
-                      <NativeSelect.Field
-                        fontSize={{ base: "8px", md: 12 }}
-                        name="country"
-                        pl="10"
+                        <NativeSelect.Field
+                          fontSize={{ base: "8px", md: 12 }}
+                          name="country"
+                          pl="10"
+                        >
+                          <For each={["Male", "Female", "others"]}>
+                            {(item) => (
+                              <option key={item} value={item} ref={genderRef}>
+                                {item}
+                              </option>
+                            )}
+                          </For>
+                        </NativeSelect.Field>
+                        <NativeSelect.Indicator />
+                      </NativeSelect.Root>
+                    </Field.Root>
+
+                    {/* Pronouns */}
+                    <Field.Root w={{ base: "100%", md: 250 }}>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: "10px", md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
                       >
-                        <For each={["He/Him", "She/Her", "others"]}>
-                          {(item) => (
-                            <option key={item} value={item} ref={pronounsRef}>
-                              {item}
-                            </option>
-                          )}
-                        </For>
-                      </NativeSelect.Field>
-                      <NativeSelect.Indicator />
-                    </NativeSelect.Root>
-                  </Field.Root>
+                        <HStack spacing={1} align="center">
+                          <Text> Pronouns</Text>
+                          {/* <FaStar color="#FFD700" size={8} />{" "} */}*
+                          {/* Yellow star icon */}
+                        </HStack>
+                      </Field.Label>
+                      <NativeSelect.Root>
+                        {/* Icon on the left */}
+                        <Box
+                          position="absolute"
+                          left="3"
+                          top="50%"
+                          transform="translateY(-50%)"
+                          color="gray.500"
+                        >
+                          <CiUser />
+                        </Box>
 
-                  {/* Roots */}
-                  <Field.Root>
-                    <Field.Label
-                      fontWeight={"400"}
-                      fontSize={{ base: "10px", md: 14 }}
-                      fontFamily="InterMedium"
-                      color={"#101928"}
-                    >
-                      <HStack spacing={1} align="center">
-                        <Text> Roots</Text>
-                          *
-                        {/* Yellow star icon */}
-                      </HStack>
-                    </Field.Label>
-                    <InputGroup startElement={<CiUser />}>
-                      <Input
-                        fontSize={{ base: "8px", md: 12 }}
-                        py={{ base: 1, md: 6 }}
-                        placeholder="Enter your roots (e.g. African, American, Asian)"
-                        ref={rootsRef}
-                      />
-                    </InputGroup>
-                    {/* <NativeSelect.Root>
+                        <NativeSelect.Field
+                          fontSize={{ base: "8px", md: 12 }}
+                          name="country"
+                          pl="10"
+                        >
+                          <For each={["He/Him", "She/Her", "others"]}>
+                            {(item) => (
+                              <option key={item} value={item} ref={pronounsRef}>
+                                {item}
+                              </option>
+                            )}
+                          </For>
+                        </NativeSelect.Field>
+                        <NativeSelect.Indicator />
+                      </NativeSelect.Root>
+                    </Field.Root>
+
+                    {/* Roots */}
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: "10px", md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
+                      >
+                        <HStack spacing={1} align="center">
+                          <Text> Roots</Text>*{/* Yellow star icon */}
+                        </HStack>
+                      </Field.Label>
+                      <InputGroup startElement={<CiUser />}>
+                        <Input
+                          fontSize={{ base: "8px", md: 12 }}
+                          py={{ base: 1, md: 6 }}
+                          placeholder="Enter your roots (e.g. African, American, Asian)"
+                          ref={rootsRef}
+                        />
+                      </InputGroup>
+                      {/* <NativeSelect.Root>
                        <Box
                         position="absolute"
                         left="3"
@@ -508,35 +492,10 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       </NativeSelect.Field>
                       <NativeSelect.Indicator />
                     </NativeSelect.Root> */}
-                  </Field.Root>
-                </HStack>
+                    </Field.Root>
+                  </HStack>
 
-                {/* Email */}
-                <Field.Root>
-                  <Field.Label
-                    fontWeight={"400"}
-                    fontSize={{ base: "10px", md: 14 }}
-                    fontFamily="InterMedium"
-                    color={"#101928"}
-                  >
-                    <HStack spacing={1} align="center">
-                      <Text>Email</Text>
-                        *
-                      {/* Yellow star icon */}
-                    </HStack>
-                  </Field.Label>
-                  <InputGroup startElement={<MdEmail />}>
-                    <Input
-                      fontSize={{ base: "8px", md: 12 }}
-                      py={{ base: 1, md: 6 }}
-                      placeholder="johnmercy03@gmail.com"
-                      ref={emailRef}
-                    />
-                  </InputGroup>
-                </Field.Root>
-
-                <HStack pt={2} flexDirection={{ base: "column", md: "row" }}>
-                  {/* Phone Number */}
+                  {/* Email */}
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
@@ -545,146 +504,162 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       color={"#101928"}
                     >
                       <HStack spacing={1} align="center">
-                        <Text> Phone Number</Text>
-                          *
-                        {/* Yellow star icon */}
+                        <Text>Email</Text>*{/* Yellow star icon */}
                       </HStack>
                     </Field.Label>
-                    <InputGroup startElement={<ImPhoneHangUp />}>
+                    <InputGroup startElement={<MdEmail />}>
                       <Input
                         fontSize={{ base: "8px", md: 12 }}
                         py={{ base: 1, md: 6 }}
-                        placeholder="phoneNumber"
-                        ref={phoneRef}
+                        placeholder="johnmercy03@gmail.com"
+                        ref={emailRef}
                       />
                     </InputGroup>
                   </Field.Root>
 
-                  {/* Fb */}
-                  <Field.Root>
-                    <Field.Label
-                      fontWeight={"400"}
-                      fontSize={{ base: "10px", md: 14 }}
-                      fontFamily="InterMedium"
-                      color={"#101928"}
-                    >
-                      <HStack spacing={1} align="center">
-                        <Text> Facebook</Text>
-
-                        {/* Yellow star icon */}
-                      </HStack>
-                    </Field.Label>
-                    <InputGroup startElement={<FaFacebook color="#1877F2" />}>
-                      <Input
-                        fontSize={{ base: "8px", md: 12 }}
-                        py={{ base: 1, md: 6 }}
-                        placeholder=" johnmercy"
-                        ref={facebookRef}
-                      />
-                    </InputGroup>
-                  </Field.Root>
-
-                  {/* Linkedin */}
-                  <Field.Root>
-                    <Field.Label
-                      fontWeight={"400"}
-                      fontSize={{ base: "10px", md: 14 }}
-                      fontFamily="InterMedium"
-                      color={"#101928"}
-                    >
-                      <HStack spacing={1} align="center">
-                        <Text> LinkedIn</Text>
-
-                        {/* Yellow star icon */}
-                      </HStack>
-                    </Field.Label>
-                    <InputGroup startElement={<BsLinkedin color="#0A66C2" />}>
-                      <Input
-                        fontSize={{ base: "8px", md: 12 }}
-                        py={{ base: 1, md: 6 }}
-                        placeholder=""
-                        ref={linkedinRef}
-                      />
-                    </InputGroup>
-                  </Field.Root>
-                </HStack>
-
-                <HStack>
-                  {/* Profession  */}
-                  <Field.Root>
-                    <Field.Label
-                      fontWeight={"400"}
-                      fontSize={{ base: "10px", md: 14 }}
-                      fontFamily="InterMedium"
-                      color={"#101928"}
-                    >
-                      <HStack spacing={1} align="center">
-                        <Text> Profession</Text>
-                        *
-                          {" "}
-                        {/* Yellow star icon */}
-                      </HStack>
-                    </Field.Label>
-                    <InputGroup startElement={<FaBriefcase />}>
-                      <Input
-                        fontSize={{ base: "8px", md: 12 }}
-                        py={{ base: 1, md: 6 }}
-                        placeholder="Financial Analyst"
-                        ref={professionRef}
-                      />
-                    </InputGroup>
-                  </Field.Root>
-
-                  {/* expert */}
-                  <Field.Root>
-                    <Field.Label
-                      fontWeight={"400"}
-                      fontSize={{ base: "10px", md: 14 }}
-                      fontFamily="InterMedium"
-                      color={"#101928"}
-                    >
-                      <HStack spacing={1} align="center">
-                        <Text> Category</Text>
-                        *
-                        {/* Yellow star icon */}
-                      </HStack>
-                    </Field.Label>
-                    <NativeSelect.Root>
-                      {/* Icon on the left */}
-                      <Box
-                        position="absolute"
-                        left="3"
-                        top="50%"
-                        transform="translateY(-50%)"
-                        color="gray.500"
-                      >
-                        <FaBriefcase />
-                      </Box>
-
-                      <NativeSelect.Field
+                  <HStack pt={2} flexDirection={{ base: "column", md: "row" }}>
+                    {/* Phone Number */}
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
                         fontSize={{ base: "10px", md: 14 }}
-                        name="country"
-                        pl="10"
+                        fontFamily="InterMedium"
+                        color={"#101928"}
                       >
-                        <For
-                          each={[
-                            "Founder",
-                            "Professional",
-                            "Expert",
-                            "Entrepreneur",
-                          ]}
+                        <HStack spacing={1} align="center">
+                          <Text> Phone Number</Text>*{/* Yellow star icon */}
+                        </HStack>
+                      </Field.Label>
+                      <InputGroup startElement={<ImPhoneHangUp />}>
+                        <Input
+                          fontSize={{ base: "8px", md: 12 }}
+                          py={{ base: 1, md: 6 }}
+                          placeholder="phoneNumber"
+                          ref={phoneRef}
+                        />
+                      </InputGroup>
+                    </Field.Root>
+
+                    {/* Fb */}
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: "10px", md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
+                      >
+                        <HStack spacing={1} align="center">
+                          <Text> Facebook</Text>
+
+                          {/* Yellow star icon */}
+                        </HStack>
+                      </Field.Label>
+                      <InputGroup startElement={<FaFacebook color="#1877F2" />}>
+                        <Input
+                          fontSize={{ base: "8px", md: 12 }}
+                          py={{ base: 1, md: 6 }}
+                          placeholder=" johnmercy"
+                          ref={facebookRef}
+                        />
+                      </InputGroup>
+                    </Field.Root>
+
+                    {/* Linkedin */}
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: "10px", md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
+                      >
+                        <HStack spacing={1} align="center">
+                          <Text> LinkedIn</Text>
+
+                          {/* Yellow star icon */}
+                        </HStack>
+                      </Field.Label>
+                      <InputGroup startElement={<BsLinkedin color="#0A66C2" />}>
+                        <Input
+                          fontSize={{ base: "8px", md: 12 }}
+                          py={{ base: 1, md: 6 }}
+                          placeholder=""
+                          ref={linkedinRef}
+                        />
+                      </InputGroup>
+                    </Field.Root>
+                  </HStack>
+
+                  <HStack>
+                    {/* Profession  */}
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: "10px", md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
+                      >
+                        <HStack spacing={1} align="center">
+                          <Text> Profession</Text>* {/* Yellow star icon */}
+                        </HStack>
+                      </Field.Label>
+                      <InputGroup startElement={<FaBriefcase />}>
+                        <Input
+                          fontSize={{ base: "8px", md: 12 }}
+                          py={{ base: 1, md: 6 }}
+                          placeholder="Financial Analyst"
+                          ref={professionRef}
+                        />
+                      </InputGroup>
+                    </Field.Root>
+
+                    {/* expert */}
+                    <Field.Root>
+                      <Field.Label
+                        fontWeight={"400"}
+                        fontSize={{ base: "10px", md: 14 }}
+                        fontFamily="InterMedium"
+                        color={"#101928"}
+                      >
+                        <HStack spacing={1} align="center">
+                          <Text> Category</Text>*{/* Yellow star icon */}
+                        </HStack>
+                      </Field.Label>
+                      <NativeSelect.Root>
+                        {/* Icon on the left */}
+                        <Box
+                          position="absolute"
+                          left="3"
+                          top="50%"
+                          transform="translateY(-50%)"
+                          color="gray.500"
                         >
-                          {(item) => (
-                            <option key={item} value={item} ref={categoryRef}>
-                              {item}
-                            </option>
-                          )}
-                        </For>
-                      </NativeSelect.Field>
-                      <NativeSelect.Indicator />
-                    </NativeSelect.Root>
-                  </Field.Root>
-                  {/* <Field.Root >
+                          <FaBriefcase />
+                        </Box>
+
+                        <NativeSelect.Field
+                          fontSize={{ base: "10px", md: 14 }}
+                          name="country"
+                          pl="10"
+                        >
+                          <For
+                            each={[
+                              "Founder",
+                              "Professional",
+                              "Expert",
+                              "Entrepreneur",
+                            ]}
+                          >
+                            {(item) => (
+                              <option key={item} value={item} ref={categoryRef}>
+                                {item}
+                              </option>
+                            )}
+                          </For>
+                        </NativeSelect.Field>
+                        <NativeSelect.Indicator />
+                      </NativeSelect.Root>
+                    </Field.Root>
+                    {/* <Field.Root >
       <Field.Label
        fontWeight={'400'}
        fontSize={{base:12,md:14}}
@@ -692,7 +667,7 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
        color={'#101928'}>Expert</Field.Label>
       <NativeSelect.Root>
          {/* Icon on the left */}
-                  {/* <Box position="absolute" left="3" top="50%" transform="translateY(-50%)" color="gray.500">
+                    {/* <Box position="absolute" left="3" top="50%" transform="translateY(-50%)" color="gray.500">
           <FaBriefcase />
          </Box>
 
@@ -708,91 +683,56 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
           <NativeSelect.Indicator />
           </NativeSelect.Root>
          </Field.Root>  */}
-                </HStack>
+                  </HStack>
 
-                {/* Experience */}
-                <Field.Root>
-                  <Field.Label
-                    pt={2}
-                    fontWeight={"400"}
-                    fontSize={{ base: "10px", md: 14 }}
-                    fontFamily="InterMedium"
-                    color={"#101928"}
-                  >
-                    <HStack spacing={1} align="center">
-                      <Text> Experience Level (Years)</Text>
-                      *{" "}
-                      {/* Yellow star icon */}
-                    </HStack>
-                  </Field.Label>
-                  <InputGroup startElement={<FaBriefcase />}>
-                    <Input
-                      fontSize={{ base: "8px", md: 12 }}
-                      py={{ base: 1, md: 6 }}
-                      placeholder="5"
-                      type="number"
-                      ref={experienceRef}
-                    />
-                  </InputGroup>
-                </Field.Root>
+                  {/* Experience */}
+                  <Field.Root>
+                    <Field.Label
+                      pt={2}
+                      fontWeight={"400"}
+                      fontSize={{ base: "10px", md: 14 }}
+                      fontFamily="InterMedium"
+                      color={"#101928"}
+                    >
+                      <HStack spacing={1} align="center">
+                        <Text> Experience Level (Years)</Text>*{" "}
+                        {/* Yellow star icon */}
+                      </HStack>
+                    </Field.Label>
+                    <InputGroup startElement={<FaBriefcase />}>
+                      <Input
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
+                        placeholder="5"
+                        type="number"
+                        ref={experienceRef}
+                      />
+                    </InputGroup>
+                  </Field.Root>
 
-                {/* location */}
-                <Field.Root>
-                  <Field.Label
-                    pt={2}
-                    fontWeight={"400"}
-                    fontSize={{ base: "10px", md: 14 }}
-                    fontFamily="InterMedium"
-                    color={"#101928"}
-                  >
-                    <HStack spacing={1} align="center">
-                      <Text> City</Text>
-*{" "}
-                      {/* Yellow star icon */}
-                    </HStack>{" "}
-                  </Field.Label>
-                  <InputGroup startElement={<IoLocationOutline />}>
-                    <Input
-                      fontSize={{ base: "8px", md: 12 }}
-                      py={{ base: 1, md: 6 }}
-                      placeholder="City"
-                      ref={locationRef}
-                    />
-                  </InputGroup>
-                </Field.Root>
+                  {/* location */}
+                  <Field.Root>
+                    <Field.Label
+                      pt={2}
+                      fontWeight={"400"}
+                      fontSize={{ base: "10px", md: 14 }}
+                      fontFamily="InterMedium"
+                      color={"#101928"}
+                    >
+                      <HStack spacing={1} align="center">
+                        <Text> City</Text>* {/* Yellow star icon */}
+                      </HStack>{" "}
+                    </Field.Label>
+                    <InputGroup startElement={<IoLocationOutline />}>
+                      <Input
+                        fontSize={{ base: "8px", md: 12 }}
+                        py={{ base: 1, md: 6 }}
+                        placeholder="City"
+                        ref={locationRef}
+                      />
+                    </InputGroup>
+                  </Field.Root>
 
-                <Field.Root>
-                  <Field.Label
-                    fontWeight={"400"}
-                    fontSize={{ base: "10px", md: 14 }}
-                    fontFamily="InterMedium"
-                    color={"#101928"}
-                  >
-                    <HStack spacing={1} align="center">
-                      <Text> About Me</Text>
-                          *
-                      {/* Yellow star icon */}
-                    </HStack>{" "}
-                  </Field.Label>
-                  <Textarea
-                    resize="none"
-                    h={200}
-                    fontSize={{ base: "8px", md: 12 }}
-                    placeholder="Type here"
-                    ref={bioRef}
-                  />
-                  <Text
-                    fontWeight={"400"}
-                    fontSize={{ base: "10px", md: 14 }}
-                    fontFamily="InterRegular"
-                    color={"#667185"}
-                  >
-                    Tell us About Yourself
-                  </Text>
-                </Field.Root>
-
-                {/* Organization */}
-                <HStack gap={5}>
                   <Field.Root>
                     <Field.Label
                       fontWeight={"400"}
@@ -800,50 +740,33 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                       fontFamily="InterMedium"
                       color={"#101928"}
                     >
-                      Organization
+                      <HStack spacing={1} align="center">
+                        <Text> About Me</Text>*{/* Yellow star icon */}
+                      </HStack>{" "}
                     </Field.Label>
-
-                    {/* <Input
-                          fontSize={{ base: "8px", md: 12 }}
-                        py={{ base: 1, md: 6 }}
-                        fontFamily="InterRegular"
-                        placeholder="Living Springs Finance LTD"
-                      /> */}
-                    <SearchableDropdown
-                      options={organizationOptions}
-                      placeholder="Search organizations..."
-                      onSelect={(value) => setOrganization(value)}
+                    <Textarea
+                      resize="none"
+                      h={200}
+                      fontSize={{ base: "8px", md: 12 }}
+                      placeholder="Type here"
+                      ref={bioRef}
                     />
-
                     <Text
                       fontWeight={"400"}
                       fontSize={{ base: "10px", md: 14 }}
                       fontFamily="InterRegular"
                       color={"#667185"}
                     >
-                      Select Your Organisation
+                      Tell us About Yourself
                     </Text>
                   </Field.Root>
 
-                  {/* create button */}
-                  <Button
-                    fontSize={{ base: "8px", md: 12 }}
-                    py={{ base: 1, md: 6 }}
-                    color={"#333333CC"}
-                    bg={"#DFDFDF"}
-                    onClick={() => {
-                      setCreateOrg(true);
-                      setOrganizationShow(true);
-                    }}
+                  {/* Organization */}
+                  <HStack
+                    // w={"100%"}
+                    flexDirection={{ base: "column", md: "row" }}
+                    gap={5}
                   >
-                    <GoPlusCircle color="#1D1B20" />
-                    Create Organization
-                  </Button>
-                </HStack>
-
-                {/* Bio */}
-                {organizationShow && (
-                  <>
                     <Field.Root>
                       <Field.Label
                         fontWeight={"400"}
@@ -851,219 +774,268 @@ export const CreateProfile = ({ isOpen, onClose, onFinish }) => {
                         fontFamily="InterMedium"
                         color={"#101928"}
                       >
-                        <HStack spacing={1} align="center">
-                          <Text> Organization Name</Text>
-                          *
-                          {/* Yellow star icon */}
-                        </HStack>
+                        Organization
                       </Field.Label>
 
-                      <Input
-                        fontSize={{ base: "8px", md: 12 }}
+                      {/* <Input
+                          fontSize={{ base: "8px", md: 12 }}
                         py={{ base: 1, md: 6 }}
-                        placeholder=""
-                        ref={organizationNameRef}
+                        fontFamily="InterRegular"
+                        placeholder="Living Springs Finance LTD"
+                      /> */}
+                      <SearchableDropdown
+                        options={organizationOptions}
+                        placeholder="Search organizations..."
+                        onSelect={(value) => setOrganization(value)}
                       />
-                    </Field.Root>
 
-                    <Field.Root>
-                      <Field.Label
-                        fontWeight={"400"}
-                        fontSize={{ base: "10px", md: 14 }}
-                        fontFamily="InterMedium"
-                        color={"#101928"}
-                      >
-                        <HStack spacing={1} align="center">
-                          <Text> Description</Text>
-                          *
-                          {/* Yellow star icon */}
-                        </HStack>
-                      </Field.Label>
-
-                      <Textarea
-                        resize="none"
-                        h={200}
-                        fontSize={{ base: "8px", md: 12 }}
-                        placeholder="Type here"
-                        ref={organizationDescRef}
-                      />
-                    </Field.Root>
-                    <Stack position={"relative"}>
                       <Text
                         fontWeight={"400"}
                         fontSize={{ base: "10px", md: 14 }}
-                        fontFamily="InterMedium"
-                        color={"#101928"}
+                        fontFamily="InterRegular"
+                        color={"#667185"}
                       >
-                        <HStack spacing={1} align="center">
-                          <Text> Organization Logo</Text>
-                              
-                          {/* Yellow star icon */}
-                        </HStack>
+                        Select Your Organisation
                       </Text>
-                      <Image
-                        src={organizationLogoPreview || temporalLogo} // fallback to default image
-                        alt="logo"
-                        boxSize={{ base: "10px", md: "40px" }}
-                        borderRadius="full"
-                        objectFit="cover"
-                        cursor="pointer"
-                        onClick={handleLogoClick}
-                      />
-
-                      <input
-                        type="file"
-                        accept="image/*"
-                        ref={logoInputRef}
-                        style={{ display: "none" }}
-                        onChange={(e)=>handleLogoChange(e, cropType)}
-                      />
-                    </Stack>
-
-                    <Field.Root>
-                      <Field.Label
-                        fontWeight={"400"}
-                        fontSize={{ base: "10px", md: 14 }}
-                        fontFamily="InterMedium"
-                        color={"#101928"}
-                      >
-                        <HStack spacing={1} align="center">
-                          <Text> Organization Location</Text>
-                            *
-                          {/* Yellow star icon */}
-                        </HStack>
-                      </Field.Label>
-
-                      <Input
-                        fontSize={{ base: "8px", md: 12 }}
-                        py={{ base: 1, md: 6 }}
-                        placeholder=""
-                        ref={organizationLocationRef}
-                      />
                     </Field.Root>
-                    <Field.Root>
-                      <Field.Label
-                        fontWeight={"400"}
-                        fontSize={{ base: "10px", md: 14 }}
-                        fontFamily="InterMedium"
-                        color={"#101928"}
-                      >
-                        <HStack spacing={1} align="center">
-                          <Text> Organization Email</Text>
-                              *
-                          {/* Yellow star icon */}
-                        </HStack>
-                      </Field.Label>
 
-                      <Input
-                        fontSize={{ base: "8px", md: 12 }}
-                        py={{ base: 1, md: 6 }}
-                        placeholder=""
-                        ref={organizationEmailRef}
-                      />
-                    </Field.Root>
-                    <Field.Root>
-                      <Field.Label
-                        fontWeight={"400"}
-                        fontSize={{ base: "10px", md: 14 }}
-                        fontFamily="InterMedium"
-                        color={"#101928"}
-                      >
-                        <HStack spacing={1} align="center">
-                          <Text> Organization Website</Text>
-                            
-                          {/* Yellow star icon */}
-                        </HStack>{" "}
-                      </Field.Label>
+                    {/* create button */}
+                    <Button
+                      fontSize={{ base: "8px", md: 12 }}
+                      py={{ base: 1, md: 6 }}
+                      color={"#333333CC"}
+                      w={{ base: "100%", md: "auto" }}
+                      bg={"#DFDFDF"}
+                      // rounded={{ base: "5px", md: "20px" }}
+                      mb={{ base: "16px", md: 0 }}
+                      onClick={() => {
+                        setCreateOrg(true);
+                        setOrganizationShow(true);
+                      }}
+                    >
+                      <GoPlusCircle color="#1D1B20" />
+                      Create Organization
+                    </Button>
+                  </HStack>
 
-                      <Input
-                        fontSize={{ base: "8px", md: 12 }}
-                        py={{ base: 1, md: 6 }}
-                        placeholder=""
-                        ref={organizationWebsiteRef}
-                      />
-                    </Field.Root>
-                  </>
-                )}
-              </Fieldset.Content>
+                  {/* Bio */}
+                  {organizationShow && (
+                    <>
+                      <Field.Root>
+                        <Field.Label
+                          fontWeight={"400"}
+                          fontSize={{ base: "10px", md: 14 }}
+                          fontFamily="InterMedium"
+                          color={"#101928"}
+                        >
+                          <HStack spacing={1} align="center">
+                            <Text> Organization Name</Text>*
+                            {/* Yellow star icon */}
+                          </HStack>
+                        </Field.Label>
 
-              {/* Button */}
-              <HStack>
-                <Button
-                  onClick={handleCreateProfile}
-                  fontSize={{ base: "8px", md: 12 }}
-                  py={{ base: 1, md: 6 }}
-                  w={{ base: "100%" }}
-                  rounded={5}
-                  bg={"#2B362F"}
+                        <Input
+                          fontSize={{ base: "8px", md: 12 }}
+                          py={{ base: 1, md: 6 }}
+                          placeholder=""
+                          ref={organizationNameRef}
+                        />
+                      </Field.Root>
+
+                      <Field.Root>
+                        <Field.Label
+                          fontWeight={"400"}
+                          fontSize={{ base: "10px", md: 14 }}
+                          fontFamily="InterMedium"
+                          color={"#101928"}
+                        >
+                          <HStack spacing={1} align="center">
+                            <Text> Description</Text>*{/* Yellow star icon */}
+                          </HStack>
+                        </Field.Label>
+
+                        <Textarea
+                          resize="none"
+                          h={200}
+                          fontSize={{ base: "8px", md: 12 }}
+                          placeholder="Type here"
+                          ref={organizationDescRef}
+                        />
+                      </Field.Root>
+                      <Stack position={"relative"}>
+                        <Text
+                          fontWeight={"400"}
+                          fontSize={{ base: "10px", md: 14 }}
+                          fontFamily="InterMedium"
+                          color={"#101928"}
+                        >
+                          <HStack spacing={1} align="center">
+                            <Text> Organization Logo</Text>
+
+                            {/* Yellow star icon */}
+                          </HStack>
+                        </Text>
+                        <Image
+                          src={organizationLogoPreview || temporalLogo} // fallback to default image
+                          alt="logo"
+                          boxSize={{ base: "10px", md: "40px" }}
+                          borderRadius="full"
+                          objectFit="cover"
+                          cursor="pointer"
+                          onClick={handleLogoClick}
+                        />
+
+                        <input
+                          type="file"
+                          accept="image/*"
+                          ref={logoInputRef}
+                          style={{ display: "none" }}
+                          onChange={(e) => handleLogoChange(e, cropType)}
+                        />
+                      </Stack>
+
+                      <Field.Root>
+                        <Field.Label
+                          fontWeight={"400"}
+                          fontSize={{ base: "10px", md: 14 }}
+                          fontFamily="InterMedium"
+                          color={"#101928"}
+                        >
+                          <HStack spacing={1} align="center">
+                            <Text> Organization Location</Text>*
+                            {/* Yellow star icon */}
+                          </HStack>
+                        </Field.Label>
+
+                        <Input
+                          fontSize={{ base: "8px", md: 12 }}
+                          py={{ base: 1, md: 6 }}
+                          placeholder=""
+                          ref={organizationLocationRef}
+                        />
+                      </Field.Root>
+                      <Field.Root>
+                        <Field.Label
+                          fontWeight={"400"}
+                          fontSize={{ base: "10px", md: 14 }}
+                          fontFamily="InterMedium"
+                          color={"#101928"}
+                        >
+                          <HStack spacing={1} align="center">
+                            <Text> Organization Email</Text>*
+                            {/* Yellow star icon */}
+                          </HStack>
+                        </Field.Label>
+
+                        <Input
+                          fontSize={{ base: "8px", md: 12 }}
+                          py={{ base: 1, md: 6 }}
+                          placeholder=""
+                          ref={organizationEmailRef}
+                        />
+                      </Field.Root>
+                      <Field.Root>
+                        <Field.Label
+                          fontWeight={"400"}
+                          fontSize={{ base: "10px", md: 14 }}
+                          fontFamily="InterMedium"
+                          color={"#101928"}
+                        >
+                          <HStack spacing={1} align="center">
+                            <Text> Organization Website</Text>
+
+                            {/* Yellow star icon */}
+                          </HStack>{" "}
+                        </Field.Label>
+
+                        <Input
+                          fontSize={{ base: "8px", md: 12 }}
+                          py={{ base: 1, md: 6 }}
+                          placeholder=""
+                          ref={organizationWebsiteRef}
+                        />
+                      </Field.Root>
+                    </>
+                  )}
+                </Fieldset.Content>
+
+                {/* Button */}
+                <HStack>
+                  <Button
+                    onClick={handleCreateProfile}
+                    fontSize={{ base: "8px", md: 12 }}
+                    py={{ base: 1, md: 6 }}
+                    w={{ base: "100%" }}
+                    rounded={5}
+                    bg={"#2B362F"}
+                  >
+                    {loading ? <Spinner /> : "Create Profile"}
+                  </Button>
+                </HStack>
+              </Fieldset.Root>
+              {showCropper && (
+                <div
+                  style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100vw",
+                    height: "100vh",
+                    background: "rgba(0,0,0,0.75)",
+                    zIndex: 10000,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  {loading ? <Spinner /> : "Create Profile"}
-                </Button>
-              </HStack>
-            </Fieldset.Root>
-             {showCropper && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            background: "rgba(0,0,0,0.75)",
-            zIndex: 10000,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              position: "relative",
-              width: "90%",
-              maxWidth: "400px",
-              height: "400px",
-              background: "#333",
-            }}
-          >
-            <Cropper
-              image={imageSrc}
-              crop={crop}
-              zoom={zoom}
-              aspect={cropType === "profile" ? 1 : 1}
-              cropShape='round'
-              onCropChange={setCrop}
-              onCropComplete={(_, croppedPixels) =>
-                setCroppedAreaPixels(croppedPixels)
-              }
-              onZoomChange={setZoom}
-            />
-          </div>
+                  <div
+                    style={{
+                      position: "relative",
+                      width: "90%",
+                      maxWidth: "400px",
+                      height: "400px",
+                      background: "#333",
+                    }}
+                  >
+                    <Cropper
+                      image={imageSrc}
+                      crop={crop}
+                      zoom={zoom}
+                      aspect={cropType === "profile" ? 1 : 1}
+                      cropShape="round"
+                      onCropChange={setCrop}
+                      onCropComplete={(_, croppedPixels) =>
+                        setCroppedAreaPixels(croppedPixels)
+                      }
+                      onZoomChange={setZoom}
+                    />
+                  </div>
 
-          <div
-            style={{
-              marginTop: 20,
-              display: "flex",
-              gap: 10,
-            }}
-          >
-            <Button onClick={() => setShowCropper(false)}>Cancel</Button>
-            <Button colorScheme="blue" onClick={handleCropComplete} style={{cursor:'pointer'}}>
-              Crop & Save
-            </Button>
-          </div>
-        </div>
-      )}
-          </Dialog.Content>
-
-        </Dialog.Positioner>
-       
-      </Portal>
-    </Dialog.Root>
-
-        
+                  <div
+                    style={{
+                      marginTop: 20,
+                      display: "flex",
+                      gap: 10,
+                    }}
+                  >
+                    <Button onClick={() => setShowCropper(false)}>
+                      Cancel
+                    </Button>
+                    <Button
+                      colorScheme="blue"
+                      onClick={handleCropComplete}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Crop & Save
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </>
-    
-
   );
 };

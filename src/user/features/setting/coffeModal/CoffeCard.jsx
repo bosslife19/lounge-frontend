@@ -19,8 +19,11 @@ const CoffeeRouletteCard = () => {
       mb={5}
       border="1px solid #EDEDF2"
     >
-      <Flex alignItems="center" justifyContent="space-between">
-        <HStack>
+      <Flex
+        alignItems={{ base: "flex-start", md: "center" }}
+        justifyContent="space-between"
+      >
+        <HStack alignItems={{ base: "flex-start", md: "center" }}>
           <FaCoffee />
           <Stack spacing={0}>
             <Flex align="center" gap={2}>
@@ -51,7 +54,11 @@ const CoffeeRouletteCard = () => {
             <Button
               onClick={() => setShowMore(!showMore)}
               variant="link"
-              fontSize="sm"
+              fontSize={{ base: "9px", md: 14 }}
+              // w={"200px"}
+              p={0}
+              mb={{ base: -2, md: 0 }}
+              mr={"auto"}
               color="#2B362F"
               fontWeight="medium"
               textDecoration="underline"
@@ -81,11 +88,15 @@ const CoffeeRouletteCard = () => {
               <Stack align="flex-start" spacing={3}>
                 <HStack>
                   <Icon as={Coffee} color="#6B4F4F" boxSize={5} />
-                  <Text fontWeight="600" fontSize="md" color="#2B362F">
+                  <Text
+                    fontWeight="600"
+                    fontSize={{ base: "13px", md: 16 }}
+                    color="#2B362F"
+                  >
                     Coffee Roulette ☕
                   </Text>
                 </HStack>
-                <Text fontSize="sm" color="#475467">
+                <Text fontSize={{ base: "9px", md: 14 }} color="#475467">
                   Meet a new community member every week and share a 15-minute
                   coffee chat!
                 </Text>
@@ -94,11 +105,18 @@ const CoffeeRouletteCard = () => {
                 <Stack mt={2} spacing={1}>
                   <HStack spacing={2}>
                     <Icon as={Users} color="#2B362F" boxSize={4} />
-                    <Text fontWeight="semibold" fontSize="sm">
+                    <Text
+                      fontWeight="semibold"
+                      fontSize={{ base: "9px", md: 14 }}
+                    >
                       Coffee Roulette Participation
                     </Text>
                   </HStack>
-                  <Text fontSize="sm" color="#475467" pl={6}>
+                  <Text
+                    fontSize={{ base: "9px", md: 14 }}
+                    color="#475467"
+                    pl={6}
+                  >
                     You’re currently not registered for the weekly Coffee
                     Roulette.
                   </Text>
@@ -108,7 +126,10 @@ const CoffeeRouletteCard = () => {
                 <Stack mt={3} spacing={3}>
                   <HStack spacing={2}>
                     <Icon as={CalendarCheck} color="#2B362F" boxSize={4} />
-                    <Text fontWeight="semibold" fontSize="sm">
+                    <Text
+                      fontWeight="semibold"
+                      fontSize={{ base: "9px", md: 14 }}
+                    >
                       How does it work?
                     </Text>
                   </HStack>
@@ -117,10 +138,16 @@ const CoffeeRouletteCard = () => {
                     <HStack align="start" spacing={2}>
                       <Icon as={Users} color="#6B4F4F" boxSize={5} />
                       <Box>
-                        <Text fontWeight="medium" fontSize="sm">
+                        <Text
+                          fontWeight="medium"
+                          fontSize={{ base: "9px", md: 14 }}
+                        >
                           Weekly Matches
                         </Text>
-                        <Text fontSize="sm" color="#475467">
+                        <Text
+                          fontSize={{ base: "9px", md: 14 }}
+                          color="#475467"
+                        >
                           Every Monday, you’re paired with another participant
                           for a friendly chat.
                         </Text>
@@ -130,10 +157,16 @@ const CoffeeRouletteCard = () => {
                     <HStack align="start" spacing={2}>
                       <Icon as={Clock} color="#6B4F4F" boxSize={5} />
                       <Box>
-                        <Text fontWeight="medium" fontSize="sm">
+                        <Text
+                          fontWeight="medium"
+                          fontSize={{ base: "9px", md: 14 }}
+                        >
                           15-Minute Conversations
                         </Text>
-                        <Text fontSize="sm" color="#475467">
+                        <Text
+                          fontSize={{ base: "9px", md: 14 }}
+                          color="#475467"
+                        >
                           Set up a quick virtual coffee call to connect and
                           share ideas.
                         </Text>
@@ -143,10 +176,16 @@ const CoffeeRouletteCard = () => {
                     <HStack align="start" spacing={2}>
                       <Icon as={Award} color="#6B4F4F" boxSize={5} />
                       <Box>
-                        <Text fontWeight="medium" fontSize="sm">
+                        <Text
+                          fontWeight="medium"
+                          fontSize={{ base: "9px", md: 14 }}
+                        >
                           Earn Community Points
                         </Text>
-                        <Text fontSize="sm" color="#475467">
+                        <Text
+                          fontSize={{ base: "9px", md: 14 }}
+                          color="#475467"
+                        >
                           Confirm your meeting and both participants earn a
                           community point.
                         </Text>

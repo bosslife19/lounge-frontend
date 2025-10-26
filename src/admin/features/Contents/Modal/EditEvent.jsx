@@ -130,6 +130,7 @@ export const EditEvent = ({ isOpen, onClose, eventId }) => {
                 <Input
                   ref={linkRef}
                   type="text"
+                  fontSize={{ base: "10px", md: 14 }}
                   placeholder="Paste link to event (zoom,google meet, microsoft teams, etc.)"
                 />
               </Field.Root>

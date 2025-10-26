@@ -90,7 +90,7 @@ export const AdminRightSide = ({ setPosts }) => {
   ];
 
   return (
-    <Stack mb={"auto"}>
+    <Stack mb={{ base: 0, md: "auto" }}>
       <Card.Root
         bg={"#fff"}
         shadowColor={"#080F340F"}

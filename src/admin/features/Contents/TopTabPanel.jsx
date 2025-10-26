@@ -51,20 +51,27 @@ export const AdminContent = () => {
       >
         <Tabs.List
           display="flex"
-          flexWrap="wrap"
-          gap={2}
+          flexWrap={{ base: "nowrap", md: "wrap" }}
+          overflowX={{ base: "auto", md: "visible" }}
+          whiteSpace={{ base: "nowrap", md: "normal" }}
+          gap={{ base: 3, md: 2 }}
           mx={5}
           p="13px"
           bg="#FDFDFD"
           border="none"
-          rounded={30}
+          rounded={{ base: 10, md: 30 }}
+          sx={{
+            "::-webkit-scrollbar": { display: "none" }, // Hide scrollbar on mobile
+            scrollBehavior: "smooth",
+          }}
         >
           <Tabs.Trigger
             value="articles"
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
-            fontSize={{ base: "10px", md: 14 }}
-            rounded={30}
+            fontSize={{ base: "11px", md: 14 }}
+            flexShrink={0}
+            rounded={{ base: 8, md: 30 }}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
           >
@@ -76,8 +83,9 @@ export const AdminContent = () => {
             value="projects"
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
-            fontSize={{ base: "10px", md: 14 }}
-            rounded={30}
+            fontSize={{ base: "11px", md: 14 }}
+            flexShrink={0}
+            rounded={{ base: 8, md: 30 }}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
           >
@@ -89,8 +97,9 @@ export const AdminContent = () => {
             value="tasks"
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
-            fontSize={{ base: "10px", md: 14 }}
-            rounded={30}
+            fontSize={{ base: "11px", md: 14 }}
+            flexShrink={0}
+            rounded={{ base: 8, md: 30 }}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
           >
@@ -102,20 +111,23 @@ export const AdminContent = () => {
             value="events"
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
-            fontSize={{ base: "10px", md: 14 }}
-            rounded={30}
+            fontSize={{ base: "11px", md: 14 }}
+            flexShrink={0}
+            rounded={{ base: 8, md: 30 }}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
           >
             <RiCalendarEventFill />
             Events
           </Tabs.Trigger>
+
           <Tabs.Trigger
             value="videos"
             color="#9E9E9E"
             p={{ base: 2, md: 6 }}
-            fontSize={{ base: "10px", md: 14 }}
-            rounded={30}
+            fontSize={{ base: "11px", md: 14 }}
+            flexShrink={0}
+            rounded={{ base: 8, md: 30 }}
             border="1px solid #EBEBEE"
             _selected={{ border: "1px solid #2B362F", color: "#2B362F" }}
           >
@@ -123,36 +135,21 @@ export const AdminContent = () => {
             Videos
           </Tabs.Trigger>
 
+          {/* Create Button */}
           <Button
             bg="transparent"
             border="1px solid #E4E4E4"
             p={{ base: 2, md: 6 }}
             color="#212121"
             size={{ base: "10", md: "sm" }}
+            flexShrink={0}
             rounded={{ base: 8, md: 30 }}
-            fontSize={{ base: "10px", md: 14 }}
+            fontSize={{ base: "11px", md: 14 }}
             onClick={handleAction}
           >
             <CiCirclePlus />
             Create
           </Button>
-
-          {/* <Box ml="auto">
-            <Button
-              bg="transparent"
-              border="1px solid #E4E4E4"
-              p={{ base: 2, md: 5 }}
-              size={{ base: "10", md: "sm" }}
-              rounded={{ base: 8, md: 30 }}
-              fontSize={{ base: "10px", md: 14 }}
-              color="#212121"
-            >
-              <FaRegCalendar size={10} />
-              This Month
-            </Button>
-          </Box> */}
-
-          {/* <Tabs.Indicator rounded="lg" /> */}
         </Tabs.List>
 
         <Tabs.Content value="articles">

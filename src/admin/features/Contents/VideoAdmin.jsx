@@ -28,7 +28,7 @@ const localizer = momentLocalizer(moment);
 export default function VideoAdmin() {
   const [videos, setVideos] = useState([]);
   const [eventId, setEventId] = useState(0);
-  const [refresh, setRefresh] = useState(false)
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     const getVideos = async () => {
@@ -57,11 +57,11 @@ export default function VideoAdmin() {
   const handleClose = () => {
     setIsOpen(false);
   };
-  const [videoData, setVideoData] = useState(null)
+  const [videoData, setVideoData] = useState(null);
 
   const handleCardClicked = (title, link, id) => {
     // setEventId(id);
-    setVideoData({title, link, videoId:id})
+    setVideoData({ title, link, videoId: id });
     setIsOpened(true);
   };
 
@@ -70,15 +70,15 @@ export default function VideoAdmin() {
   };
 
   return (
-    <Box h="100vh" bg={"transparent"}>
+    <Box pb={2} bg={"transparent"}>
       {/* Left Sidebar */}
       <Button
-        ml={"auto"}
+        ml={5}
         colorScheme="blue"
         w={{ base: "auto" }}
-        fontSize={{ base: "12px", md: 18 }}
+        fontSize={{ base: "10px", md: 18 }}
         onClick={handleCardClick}
-        style={{ marginLeft: 10 }}
+        px={{ base: 2, md: 2 }}
       >
         + Upload New Video
       </Button>
@@ -101,7 +101,7 @@ export default function VideoAdmin() {
             >
               <Card.Root
                 maxW={"100%"}
-                mt={5}
+                mt={{ base: 5, md: 5 }}
                 border="1px solid"
                 borderColor="gray.200"
                 rounded="xl"
@@ -109,19 +109,20 @@ export default function VideoAdmin() {
                 overflow="hidden"
                 _hover={{ shadow: "lg" }}
               >
-                 <AspectRatio ratio={3/2} w="100%">
-                   <Image
-                  src={video.thumbnail}
-                  alt="Video Thumbnail"
-                  objectFit="cover"
-                  // w="100%"
-                  // h={{ base: "100px", md: "180px" }}
-                />
+                <AspectRatio ratio={3 / 2} w="100%">
+                  <Image
+                    src={video.thumbnail}
+                    alt="Video Thumbnail"
+                    objectFit="cover"
+                    // w="100%"
+                    // h={{ base: "100px", md: "180px" }}
+                  />
+                </AspectRatio>
 
-                              </AspectRatio>
-              
-
-                <Card.Body mt={{ base: "-10px", md: "0" }}>
+                <Card.Body
+                  mx={{ base: -2, md: 0 }}
+                  mt={{ base: "-10px", md: "0" }}
+                >
                   <Stack spacing={3}>
                     <Heading size="md" fontSize={{ base: "12px", md: 14 }}>
                       {video.title}
@@ -135,7 +136,13 @@ export default function VideoAdmin() {
                     </Text>
                     {/* <Text color="gray.500">{video.start_time} - {video.end_time}</Text> */}
                     <Button
-                      onClick={() => handleCardClicked(video.title, video.video_link, video.id)}
+                      onClick={() =>
+                        handleCardClicked(
+                          video.title,
+                          video.video_link,
+                          video.id
+                        )
+                      }
                       justifyContent={"space-between"}
                       flexDirection={"row"}
                       color={"#919191"}
@@ -178,7 +185,7 @@ export default function VideoAdmin() {
         setVideos={setVideos}
       />
       <EditVideo
-       isOpen={isOpened}
+        isOpen={isOpened}
         onClose={handleCloseed}
         setVideos={setVideos}
         setRefresh={setRefresh}

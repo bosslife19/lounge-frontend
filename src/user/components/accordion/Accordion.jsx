@@ -17,10 +17,11 @@ export const Accordions = () => {
           <Accordion.ItemTrigger>
             <Span
               flex="1"
-              py={2}
+              py={{ base: -4, md: 2 }}
               fontFamily="InterBold"
               fontSize={{ base: "11px", md: 18 }}
               fontWeight={"semibold"}
+              lineHeight={"24px"}
               color={"#333333"}
             >
               {item.title}
@@ -34,7 +35,7 @@ export const Accordions = () => {
               fontSize={{ base: "9px", md: 14 }}
               color={"#333333CC"}
               py={{ base: 1, md: 3 }}
-              whiteSpace={'pre-line'}
+              whiteSpace={"pre-line"}
             >
               {item.text}
             </Accordion.ItemBody>
@@ -47,9 +48,9 @@ export const Accordions = () => {
 
 const items = [
   {
-    value:"a",
-  title: "How do I become a mentor?",
-  text: `Go to your dashboard and toggle on the "Become a Mentor" button in the right panel.
+    value: "a",
+    title: "How do I become a mentor?",
+    text: `Go to your dashboard and toggle on the "Become a Mentor" button in the right panel.
 
 To qualify, you should have at least 3 years of experience in a specific field.
 
@@ -62,8 +63,8 @@ Once your request is reviewed and approved by an admin, you can:
 • Click "Create new listing"
 
 You can then define your mentoring topics, set availability, and decide whether sessions are free or paid.
-Once published, others can discover and request your offer.`
-},
+Once published, others can discover and request your offer.`,
+  },
 
   {
     value: "b",
@@ -111,14 +112,14 @@ LinkedIn Premium access
 
 `,
   },
-    {
+  {
     value: "f",
     title: "Can everyone see what I post?",
     text: `Yes. All platform members can view public posts.
  Please post responsibly and respectfully — your contributions represent you.
 `,
   },
-      {
+  {
     value: "g",
     title: "How can I share my own learning content on the Learning Hub?",
     text: ` Currently, only the admin team can upload content to the Learning Hub.

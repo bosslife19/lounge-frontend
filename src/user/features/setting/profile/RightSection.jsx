@@ -109,7 +109,7 @@ export const RightSectionProfile = () => {
         <Flex
           my={{ base: -2, md: 0 }}
           ml={{ base: -3, md: 0 }}
-          alignItems={"center"}
+          alignItems={"flex-start"}
           justifyContent={"space-between"}
         >
           <HStack>

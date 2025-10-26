@@ -27,42 +27,42 @@ const Avatar = ({ options = [] }) => {
 
   const [toaster, setToaster] = useState(null);
 
-   useEffect(() => {
-   if (!userDetails?.id) return;
- 
-   // 1. Fetch existing notifications
-   const fetchNotifications = async () => {
-     const { data, error } = await supabase
-       .from("notifications")
-       .select("*")
-       .eq("user_id", userDetails.id)
-       .order("created_at", { ascending: false });
- 
-     if (!error) setNotifications(data);
-   };
- 
-   fetchNotifications();
- 
-   // 2. Subscribe to new notifications (v1 syntax)
-   const subscription = supabase
-     .from("notifications:user_id=eq." + userDetails.id) // use RLS filter here
-     .on("INSERT", (payload) => {
-       if (payload.new.type === "user_notification") {
-         setToaster(payload.new);
- 
-         setTimeout(() => setToaster(null), 5000);
-       }
-       setNotifications((prev) => [payload.new, ...prev]);
-     })
-     .subscribe(()=>{
-      //  console.log('Subscribed to notifications channel');
-     });
- 
-   // 3. Cleanup
-   return () => {
-     supabase.removeSubscription(subscription);
-   };
- }, [userDetails?.id]);
+  useEffect(() => {
+    if (!userDetails?.id) return;
+
+    // 1. Fetch existing notifications
+    const fetchNotifications = async () => {
+      const { data, error } = await supabase
+        .from("notifications")
+        .select("*")
+        .eq("user_id", userDetails.id)
+        .order("created_at", { ascending: false });
+
+      if (!error) setNotifications(data);
+    };
+
+    fetchNotifications();
+
+    // 2. Subscribe to new notifications (v1 syntax)
+    const subscription = supabase
+      .from("notifications:user_id=eq." + userDetails.id) // use RLS filter here
+      .on("INSERT", (payload) => {
+        if (payload.new.type === "user_notification") {
+          setToaster(payload.new);
+
+          setTimeout(() => setToaster(null), 5000);
+        }
+        setNotifications((prev) => [payload.new, ...prev]);
+      })
+      .subscribe(() => {
+        //  console.log('Subscribed to notifications channel');
+      });
+
+    // 3. Cleanup
+    return () => {
+      supabase.removeSubscription(subscription);
+    };
+  }, [userDetails?.id]);
 
   const toggleBar = () => {
     setOpen(!open);
@@ -333,7 +333,7 @@ const Avatar = ({ options = [] }) => {
               flexDirection: "column",
             }}
           >
-             <div
+            <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -342,9 +342,12 @@ const Avatar = ({ options = [] }) => {
                 borderBottom: "1px solid #e5e7eb",
               }}
             >
-              <h2 style={{ fontSize: "18px", fontWeight: 600 }}>
+              <Text
+                fontWeight={{ base: "13px", md: "18px" }}
+                style={{ fontWeight: 600 }}
+              >
                 Notifications
-              </h2>
+              </Text>
               <Button
                 size="icon"
                 variant="ghost"
@@ -360,7 +363,6 @@ const Avatar = ({ options = [] }) => {
               </Button>
             </div>
 
-          
             <div
               style={{
                 flex: 1,
@@ -390,12 +392,18 @@ const Avatar = ({ options = [] }) => {
                       (e.currentTarget.style.backgroundColor = "#f9fafb")
                     }
                   >
-                    <p style={{ fontWeight: 500, color: "#1f2937" }}>
+                    <Text
+                      fontSize={{ base: "13px", md: "16px" }}
+                      style={{ fontWeight: 500, color: "#1f2937" }}
+                    >
                       {n.title}
-                    </p>
-                    <p style={{ fontSize: "14px", color: "#6b7280" }}>
+                    </Text>
+                    <Text
+                      fontSize={{ base: "11px", md: "13px" }}
+                      style={{ color: "#6b7280" }}
+                    >
                       {n.message}
-                    </p>
+                    </Text>
                     {n.type === "mentor_matching" ? (
                       <div
                         style={{
@@ -405,7 +413,8 @@ const Avatar = ({ options = [] }) => {
                         }}
                       >
                         <Button
-                          size="sm"
+                          size={{ base: "xs", md: "sm" }}
+                          fontSize={{ base: "12px", md: "14px" }}
                           onClick={() =>
                             handleAccept(n.match_id, n.id, n.is_meeting)
                           }
@@ -421,7 +430,8 @@ const Avatar = ({ options = [] }) => {
                           Accept
                         </Button>
                         <Button
-                          size="sm"
+                          size={{ base: "xs", md: "sm" }}
+                          fontSize={{ base: "12px", md: "14px" }}
                           onClick={() =>
                             handleReject(n.match_id, n.id, n.is_meeting)
                           }
@@ -439,7 +449,8 @@ const Avatar = ({ options = [] }) => {
                       </div>
                     ) : (
                       <Button
-                        size="sm"
+                        size={{ base: "xs", md: "sm" }}
+                        fontSize={{ base: "12px", md: "14px" }}
                         onClick={() => handleRemove(n.id)}
                         style={{
                           backgroundColor: "#f3f4f6", // light gray background

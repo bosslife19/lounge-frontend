@@ -8,6 +8,7 @@ import {
   Button,
   Flex,
   AspectRatio,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { IoIosArrowBack } from "react-icons/io";
 import { cardData } from "../../../hooks/useData";
@@ -46,6 +47,8 @@ const NewsDetails = () => {
   // console.log(id);
   const navigate = useNavigate();
   // const profile = cardData.find((item) => item.id === Number(id));
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const [moreNews, setMoreNews] = useState([]);
 
@@ -64,8 +67,6 @@ const NewsDetails = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
-
-
 
   return (
     <Box w={"100%"}>
@@ -151,15 +152,38 @@ const NewsDetails = () => {
               <Text
                 fontFamily="LatoRegular"
                 fontSize={{ base: 14, md: 16 }}
-                color={"#111"}
-                  whiteSpace="pre-line"
-              textAlign="left"
-              letterSpacing="0.1px"
-              wordBreak="break-word"
+                color="#111"
+                whiteSpace="pre-line"
+                textAlign="left"
+                letterSpacing="0.1px"
+                wordBreak="break-word"
               >
-                {update?.content}
+                {isMobile
+                  ? isExpanded
+                    ? update?.content
+                    : (update?.content || "").length > 150
+                    ? (update?.content || "").slice(0, 150) + "..."
+                    : update?.content
+                  : update?.content}
               </Text>
+
+              {isMobile && update?.content?.length > 150 && (
+                <Button
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  variant="link"
+                  color="#000"
+                  fontSize={{ base: "12px", md: 14 }}
+                  mt={1}
+                  fontWeight="medium"
+                  _hover={{ textDecoration: "underline" }}
+                  alignSelf="flex-start"
+                  p={0}
+                >
+                  {isExpanded ? "Show less" : "Read more"}
+                </Button>
+              )}
             </Stack>
+
             <HStack
               // px={6}
               pt={4}
