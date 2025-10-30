@@ -222,6 +222,7 @@ export function Banner() {
               shadow="md"
               fontSize={{ base: "12", md: "12" }}
               fontFamily="InterMedium"
+              mt={3}
             >
               <Text fontSize={{ base: "10px", md: "12px" }} fontWeight={"400"}>
                 Join Now

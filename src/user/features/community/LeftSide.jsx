@@ -270,7 +270,7 @@ export const LeftSide = ({ posts, setPosts }) => {
                           width: "20px",
                           height: "20px",
                           borderRadius: "50%",
-                          marginLeft: "-5px",
+                          marginLeft: "-11px",
                           border: "2px solid white",
                         }}
                       />
