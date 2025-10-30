@@ -646,7 +646,7 @@ const Directory = () => {
       >
         {/* LEFT LIST */}
         <Box pb={{ base: 10, md: 10 }} w={{ base: "100%", md: "65%" }} px={4}>
-           {/* <Stack
+          {/* <Stack
             // mb={3}
             px={2}
             w={{ base: "100%", md: 600 }}
@@ -657,14 +657,13 @@ const Directory = () => {
           ></Stack> */}
           <Stack
             px={2}
-            w={{ base: "100%", lg: 600 }}
-            flexWrap={"wrap"}
+            w={{ base: "100%", xl: 600 }}
+            flexWrap={{ base: "wrap", xl: "nowrap" }}
             flexDirection={{ base: "column", lg: "row" }}
             alignItems={"center"}
             gap={{ base: 4 }}
             pb={4}
           >
-            
             <InputGroup startElement={<BiSearch size={10} />}>
               <Input
                 py={{ base: "10px", md: 25 }}

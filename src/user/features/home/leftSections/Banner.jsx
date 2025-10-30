@@ -143,7 +143,13 @@ export function Banner() {
         // overflow={"hidden"}
       >
         {slide.type === "event" ? (
-          <Box w={"100%"} mt={{ base: -5, md: 0 }} mb={{ base: "auto" }}>
+          <Box
+            w={"100%"}
+            // display={{ base: "flex" }}
+            flexDirection={{ base: "column" }}
+            mt={{ base: -5, md: 0 }}
+            mb={{ base: "auto" }}
+          >
             <Text
               fontWeight="light"
               fontSize={{ base: "10px", md: "12px" }}
@@ -178,7 +184,8 @@ export function Banner() {
               fontSize={{ base: "16px", md: "24px" }}
               textAlign={{ base: "left" }}
               fontWeight="600"
-              mt={2}
+              // mt={2}
+              mt={{ base: 1, md: 5 }}
             >
               {slide.title.length > 25
                 ? `${slide.title.slice(0, 25)}...`
@@ -186,7 +193,8 @@ export function Banner() {
             </Heading>
 
             <Flex
-              mb={{ base: 3, md: 0 }}
+              mb={{ base: 2, md: 0 }}
+              mt={{ base: 1, md: 4 }}
               flexDirection={{ base: "row" }}
               gap={3}
               alignItems="center"
@@ -222,7 +230,8 @@ export function Banner() {
               shadow="md"
               fontSize={{ base: "12", md: "12" }}
               fontFamily="InterMedium"
-              mt={3}
+              // mt={3}
+              mt={{ base: 2, md: 6 }}
             >
               <Text fontSize={{ base: "10px", md: "12px" }} fontWeight={"400"}>
                 Join Now
