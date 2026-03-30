@@ -249,10 +249,29 @@ export const EditList = ({ isOpen, onClose, card, setListings }) => {
                 >
                   Calendly Link
                 </Span>
-                <InputGroup startElement={<CiCalendar />}>
+                <InputGroup
+                  startElement={
+                    <Box
+                      as="button"
+                      type="button"
+                      cursor="pointer"
+                      title="Open Calendly link"
+                      onClick={() => {
+                        const url = calendlyRef.current?.value;
+                        if (url) {
+                          const fullUrl = url.startsWith("http")
+                            ? url
+                            : `https://${url}`;
+                          window.open(fullUrl, "_blank", "noreferrer");
+                        }
+                      }}
+                    >
+                      <CiCalendar />
+                    </Box>
+                  }
+                >
                   <Input
                     fontSize={{ base: "9px", md: 12 }}
-                    // placeholder={card?.calendly}
                     defaultValue={card?.calendly}
                     outline={"none"}
                     ref={calendlyRef}

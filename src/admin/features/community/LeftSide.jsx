@@ -21,6 +21,7 @@ import bulb from "../../../assets/fluent-color_lightbulb-filament-20.png";
 import { GrMicrophone, GrSend } from "react-icons/gr";
 import { CiImageOn } from "react-icons/ci";
 import { userAvatar } from "../../../user/features/setting/posts/Posts";
+import userImage from "../../../assets/userImage.jpg";
 import { formatTime } from "../../../lib/formatTime";
 import { useContext, useEffect, useState } from "react";
 import { useRequest } from "../../../hooks/useRequest";
@@ -37,6 +38,10 @@ export const AdminLeftSide = ({ posts, setPosts }) => {
   const { userDetails } = useContext(AuthContext);
   const [refresh, setRefresh] = useState(false);
   const [comment, setComment] = useState("");
+  // BUG-10: Per-post comment state so typing in one box doesn't affect others
+  const [comments, setComments] = useState({});
+  const [likes, setLikes] = useState([]);
+  const [likesState, setLikesState] = useState({});
   const [loading, setLoading] = useState(false);
   const [activePostId, setActivePostId] = useState(0);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -59,26 +64,50 @@ export const AdminLeftSide = ({ posts, setPosts }) => {
   useEffect(() => {
     const getPosts = async () => {
       const res = await axiosClient.get("/get-all-posts");
-
       setPosts(res.data.posts);
     };
     getPosts();
   }, [refresh]);
 
+  useEffect(() => {
+    const getLikes = async () => {
+      const res = await axiosClient.get("/likes");
+      setLikes(res.data.likes);
+    };
+    getLikes();
+  }, []);
+
+  const likePost = async (postId) => {
+    const state = likesState[postId] || {
+      likesCount: posts.find((p) => p.id === postId)?.likes?.length || 0,
+      liked: likes.some(
+        (l) => l.user_id === userDetails.id && l.post_id === postId
+      ),
+    };
+    setLikesState((prev) => ({
+      ...prev,
+      [postId]: {
+        likesCount: state.liked ? state.likesCount - 1 : state.likesCount + 1,
+        liked: !state.liked,
+      },
+    }));
+    await makeRequest("/like-post", { userId: userDetails.id, postId });
+    const likesRes = await axiosClient.get("/likes");
+    setLikes(likesRes.data.likes);
+  };
+
   const handleComment = async (id) => {
-    if (!comment) {
-      return;
-    }
+    const commentText = comments[id] || "";
+    if (!commentText.trim()) return;
 
     const res = await makeRequest("/comment", {
       post_id: id,
-      body: comment,
+      body: commentText,
     });
     if (res.error) return;
 
+    setComments((prev) => ({ ...prev, [id]: "" }));
     setRefresh((prev) => !prev);
-    setComment("");
-    // toast.success("Comment added successfully");
   };
 
   const actions = [
@@ -87,7 +116,7 @@ export const AdminLeftSide = ({ posts, setPosts }) => {
     { id: 3, image: bulb },
   ];
   const { makeRequest } = useRequest();
-  const [openComments, setOpenComments] = useState({}); // track which posts are expanded
+  const [openComments, setOpenComments] = useState({});
   const handleDeletePost = async (postId) => {
     setActivePostId(postId);
     setConfirmOpen(true);
@@ -199,7 +228,7 @@ export const AdminLeftSide = ({ posts, setPosts }) => {
               fontSize={{ base: 10, md: 15 }}
               style={{ position: "relative", left: "3%" }}
             >
-              {card.likes?.length}
+              {(likesState[card.id]?.likesCount ?? card.likes?.length) || 0}
             </Text>
 
             <Button
@@ -210,7 +239,21 @@ export const AdminLeftSide = ({ posts, setPosts }) => {
               onClick={() => likePost(card.id)}
               size={{ base: "xs", md: "sm" }}
             >
-              <AiOutlineLike />
+              <AiOutlineLike
+                color={
+                  (
+                    likesState[card.id] !== undefined
+                      ? likesState[card.id].liked
+                      : likes.some(
+                          (l) =>
+                            l.user_id === userDetails.id &&
+                            l.post_id === card.id
+                        )
+                  )
+                    ? "blue"
+                    : "black"
+                }
+              />
             </Button>
             <Button
               onClick={() => toggleComments(card.id)}
@@ -312,8 +355,13 @@ export const AdminLeftSide = ({ posts, setPosts }) => {
                   minH={{ base: "15px", md: "10px" }}
                   bg={"#F6F6F6"}
                   textWrap={"stable"}
-                  onChange={(e) => setComment(e.target.value)}
-                  value={comment}
+                  onChange={(e) =>
+                    setComments((prev) => ({
+                      ...prev,
+                      [card.id]: e.target.value,
+                    }))
+                  }
+                  value={comments[card.id] || ""}
                   outline={"none"}
                   // pt={{ base: "10px", md: 23 }}
                   pr={{ base: "40px", md: "50px" }}

@@ -888,12 +888,28 @@ const UserDetails = ({ selected }) => (
         mt={{ base: -5, md: 0 }}
       >
         {selected?.linkedin_url && (
-          <a href={selected.linkedin_url} target="_blank">
+          <a
+            href={
+              selected.linkedin_url.startsWith("http")
+                ? selected.linkedin_url
+                : `https://${selected.linkedin_url}`
+            }
+            target="_blank"
+            rel="noreferrer"
+          >
             <Image src={linkedin} boxSize={{ base: 3, md: 5 }} />
           </a>
         )}
         {selected?.facebook_url && (
-          <a href={selected.facebook_url} target="_blank">
+          <a
+            href={
+              selected.facebook_url.startsWith("http")
+                ? selected.facebook_url
+                : `https://${selected.facebook_url}`
+            }
+            target="_blank"
+            rel="noreferrer"
+          >
             <Image src={facebk} boxSize={{ base: 3, md: 5 }} />
           </a>
         )}

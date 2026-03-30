@@ -32,13 +32,13 @@ import { Link } from "react-router-dom";
 export const LeftSide = ({ posts, setPosts }) => {
   const { userDetails } = useContext(AuthContext);
   const [refresh, setRefresh] = useState(false);
-  const [comment, setComment] = useState("");
+  // BUG-10: Use per-post comment state so typing in one box doesn't affect others
+  const [comments, setComments] = useState({}); // { [postId]: commentText }
   const { makeRequest } = useRequest();
   const [openComments, setOpenComments] = useState({}); // track which posts are expanded
   // const [likedPosts, setLikedPosts] = useState([])
   const [likes, setLikes] = useState([]);
   const trucateText = useTruncate();
-  const [liked, setLiked] = useState(false);
   const [likesState, setLikesState] = useState({});
   const [openLikes, setOpenLikes] = useState({});
   const toggleLikes = (postId) => {
@@ -69,9 +69,9 @@ export const LeftSide = ({ posts, setPosts }) => {
       return;
     }
     if (res.error) return;
-    if (res.response.status) {
-      setLiked((prev) => !prev);
-    }
+    // Refresh likes from server to keep like avatars and state accurate
+    const likesRes = await axiosClient.get("/likes");
+    setLikes(likesRes.data.likes);
   };
 
   useEffect(() => {
@@ -91,7 +91,6 @@ export const LeftSide = ({ posts, setPosts }) => {
     getLikes();
   }, []);
 
-  const commentRef = useRef();
   function timeAgo(timestamp) {
     const now = new Date();
     const past = new Date(timestamp);
@@ -118,19 +117,20 @@ export const LeftSide = ({ posts, setPosts }) => {
   }
 
   const handleComment = async (id) => {
-    if (!comment) {
+    const commentText = comments[id] || "";
+    if (!commentText.trim()) {
       return;
     }
 
     const res = await makeRequest("/comment", {
       post_id: id,
-      body: comment,
+      body: commentText,
     });
     if (res.error) return;
 
+    // Clear only the comment for this specific post
+    setComments((prev) => ({ ...prev, [id]: "" }));
     setRefresh((prev) => !prev);
-    setComment("");
-    // toast.success("Comment added successfully");
   };
   const actions = [
     { id: 1, image: like },
@@ -469,8 +469,13 @@ export const LeftSide = ({ posts, setPosts }) => {
                     minH={{ base: "9px", md: "10px" }}
                     bg={"#F6F6F6"}
                     textWrap={"stable"}
-                    onChange={(e) => setComment(e.target.value)}
-                    value={comment}
+                    onChange={(e) =>
+                      setComments((prev) => ({
+                        ...prev,
+                        [card.id]: e.target.value,
+                      }))
+                    }
+                    value={comments[card.id] || ""}
                     outline={"none"}
                     // pt={{ base: "10px", md: 23 }}
                     pr={{ base: "40px", md: "50px" }}
