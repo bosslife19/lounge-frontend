@@ -823,6 +823,30 @@ const Directory = () => {
   );
 };
 
+// BUG-08: Build a proper social URL regardless of how the value was stored
+// Handles: full URLs, linkedin.com/in/user, bare usernames, etc.
+const buildSocialUrl = (value, platform) => {
+  if (!value) return "#";
+  const v = value.trim();
+  // Already a full URL
+  if (v.startsWith("http://") || v.startsWith("https://")) return v;
+  // Contains the domain already (e.g. "linkedin.com/in/user" or "www.linkedin.com/in/user")
+  if (v.includes("linkedin.com") || v.includes("facebook.com")) {
+    return `https://${v}`;
+  }
+  // Bare username or partial path — build canonical URL
+  if (platform === "linkedin") {
+    // Strip any leading slash or "in/" prefix the user may have typed
+    const username = v.replace(/^\/?in\//, "").replace(/^\//, "");
+    return `https://www.linkedin.com/in/${username}`;
+  }
+  if (platform === "facebook") {
+    const username = v.replace(/^\//, "");
+    return `https://www.facebook.com/${username}`;
+  }
+  return `https://${v}`;
+};
+
 // Extracted detail card (for reuse)
 const UserDetails = ({ selected }) => (
   <Stack spacing={4}>
@@ -889,11 +913,7 @@ const UserDetails = ({ selected }) => (
       >
         {selected?.linkedin_url && (
           <a
-            href={
-              selected.linkedin_url.startsWith("http")
-                ? selected.linkedin_url
-                : `https://${selected.linkedin_url}`
-            }
+            href={buildSocialUrl(selected.linkedin_url, "linkedin")}
             target="_blank"
             rel="noreferrer"
           >
@@ -902,11 +922,7 @@ const UserDetails = ({ selected }) => (
         )}
         {selected?.facebook_url && (
           <a
-            href={
-              selected.facebook_url.startsWith("http")
-                ? selected.facebook_url
-                : `https://${selected.facebook_url}`
-            }
+            href={buildSocialUrl(selected.facebook_url, "facebook")}
             target="_blank"
             rel="noreferrer"
           >

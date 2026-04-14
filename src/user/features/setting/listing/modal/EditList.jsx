@@ -249,34 +249,43 @@ export const EditList = ({ isOpen, onClose, card, setListings }) => {
                 >
                   Calendly Link
                 </Span>
-                <InputGroup
-                  startElement={
-                    <Box
-                      as="button"
-                      type="button"
-                      cursor="pointer"
-                      title="Open Calendly link"
-                      onClick={() => {
-                        const url = calendlyRef.current?.value;
-                        if (url) {
-                          const fullUrl = url.startsWith("http")
-                            ? url
-                            : `https://${url}`;
-                          window.open(fullUrl, "_blank", "noreferrer");
-                        }
-                      }}
-                    >
-                      <CiCalendar />
-                    </Box>
-                  }
-                >
+                {/* BUG-09: Render input and open-button as siblings so the icon is always clickable */}
+                <HStack gap={2} align="center">
                   <Input
                     fontSize={{ base: "9px", md: 12 }}
                     defaultValue={card?.calendly}
                     outline={"none"}
                     ref={calendlyRef}
+                    flex={1}
                   />
-                </InputGroup>
+                  <Box
+                    as="button"
+                    type="button"
+                    cursor="pointer"
+                    title="Open Calendly link in browser"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    p={2}
+                    borderRadius={6}
+                    border="1px solid #D0D5DD"
+                    bg="#fff"
+                    _hover={{ bg: "#f0f0f0" }}
+                    onClick={() => {
+                      const url = calendlyRef.current?.value;
+                      if (url && url.trim()) {
+                        const fullUrl = url.trim().startsWith("http")
+                          ? url.trim()
+                          : `https://${url.trim()}`;
+                        window.open(fullUrl, "_blank", "noopener,noreferrer");
+                      } else {
+                        toast.error("Please enter a Calendly link first");
+                      }
+                    }}
+                  >
+                    <CiCalendar size={18} />
+                  </Box>
+                </HStack>
                 <Text
                   fontWeight={"400"}
                   fontSize={{ base: "9px", md: 14 }}
