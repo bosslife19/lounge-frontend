@@ -53,6 +53,27 @@ export const CreateListOverlay = ({ isOpen, onClose, setListings }) => {
     ) {
       return toast.error("One or more required fields not filled");
     }
+    const calendlyUrl = calendlyRef.current.value.trim();
+      if (calendlyUrl) {
+        try {
+          // Check if it's a valid URL format
+          const urlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+          const hasProtocol = calendlyUrl.startsWith('http://') || calendlyUrl.startsWith('https://');
+          const testUrl = hasProtocol ? calendlyUrl : `https://${calendlyUrl}`;
+          
+          if (!urlPattern.test(calendlyUrl) && !urlPattern.test(testUrl)) {
+            toast.error("Please enter a valid URL for Calendly link");
+            return;
+          }
+          
+          // Additional check: try to construct a URL object
+          new URL(testUrl);
+        } catch (error) {
+          toast.error("Please enter a valid URL for Calendly link");
+          return;
+        }
+      }
+    
     const res = await makeRequest("/create-listing", {
       title: titleRef.current.value,
       description: descriptionRef.current.value,

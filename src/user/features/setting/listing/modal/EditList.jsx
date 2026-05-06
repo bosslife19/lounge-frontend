@@ -44,26 +44,46 @@ export const EditList = ({ isOpen, onClose, card, setListings }) => {
 
  
 
-  const handleEditListing = async () => {
+const handleEditListing = async () => {
+  
+  const calendlyUrl = calendlyRef.current.value.trim();
+  if (calendlyUrl) {
+    try {
+      // Check if it's a valid URL format
+      const urlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+      const hasProtocol = calendlyUrl.startsWith('http://') || calendlyUrl.startsWith('https://');
+      const testUrl = hasProtocol ? calendlyUrl : `https://${calendlyUrl}`;
+      
+      if (!urlPattern.test(calendlyUrl) && !urlPattern.test(testUrl)) {
+        toast.error("Please enter a valid URL for Calendly link");
+        return;
+      }
+      
+      // Additional check: try to construct a URL object
+      new URL(testUrl);
+    } catch (error) {
+      toast.error("Please enter a valid URL for Calendly link");
+      return;
+    }
+  }
 
-    const res = await makeRequest("/edit-listing", {
-      title: titleRef.current.value,
-      description: descriptionRef.current.value,
-      price: value,
-      calendly: calendlyRef.current.value,
-      preparatoryNote: prepRef.current.value,
-      isFree,
-      accessEmail: emailRef.current.value,
-      listingId: card?.id,
-    });
-    if (res.error) return;
-    toast.success("Listing Edited Successfully");
-    
+  const res = await makeRequest("/edit-listing", {
+    title: titleRef.current.value,
+    description: descriptionRef.current.value,
+    price: value,
+    calendly: calendlyRef.current.value,
+    preparatoryNote: prepRef.current.value,
+    isFree,
+    accessEmail: emailRef.current.value,
+    listingId: card?.id,
+  });
+  if (res.error) return;
+  toast.success("Listing Edited Successfully");
+  
   setListings(res.response.listings);
-
-    
-    onClose();
-  };
+  
+  onClose();
+};
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
